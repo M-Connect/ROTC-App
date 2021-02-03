@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'registrationPage.dart';
-import 'signInPage.dart';
+import 'app/registration_page/registrationPage.dart';
+import 'app/sign_in/signInPage.dart';
 
-class LandingPage extends StatelessWidget {
+class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

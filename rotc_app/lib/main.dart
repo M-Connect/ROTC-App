@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'landingPage.dart';
+import 'package:rotc_app/welcomePage.dart';
+
 
 void main() {
   runApp(MConnect());
@@ -13,7 +14,7 @@ class MConnect extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LandingPage(),
+      home: WelcomePage(),
     );
   }
 }
