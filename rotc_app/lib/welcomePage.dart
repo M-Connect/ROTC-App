@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:rotc_app2/sign_in/signInPage.dart';
 import 'app/registration_page/registrationPage.dart';
-import 'app/sign_in/signInPage.dart';
 
+// Author: Kyle Serruys
+// created major button interfaces and initial routing with Material Page Route
+// Co-Author: Christine Thomas
+// changed routing code to use Routes used in main.dart
+// changed by using Navigator.pushName(context, 'route')
 class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('M-Connect'),
+          centerTitle: true,
         ),
         body: Container(
           padding: EdgeInsets.all(25.0),
@@ -20,10 +26,7 @@ class WelcomePage extends StatelessWidget {
                 child: ElevatedButton(
                   child: Text('Sign In'),
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => SignInPage()
-                        )
+                    Navigator.pushNamed(context, '/signIn'
                     );
                   },
                 ),
@@ -32,10 +35,7 @@ class WelcomePage extends StatelessWidget {
                 child: ElevatedButton(
                   child: Text('Register'),
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => RegistrationPage()
-                        )
+                    Navigator.pushNamed(context, '/register'
                     );
                   },
                 ),
