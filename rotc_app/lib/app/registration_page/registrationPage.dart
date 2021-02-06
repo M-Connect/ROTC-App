@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Author: Christine Thomas
@@ -11,7 +12,6 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class RegistrationPage extends StatelessWidget {
-
   CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
 
   TextEditingController fName = TextEditingController();
@@ -21,8 +21,13 @@ class RegistrationPage extends StatelessWidget {
   TextEditingController password = TextEditingController();
 
   Future<void> userRegistration() {
-    return cadets.add({'firstName': fName.text, 'lastName': lName.text,
-      'nickName': nName.text, 'email': email.text, 'password': password.text,});
+    return cadets.add({
+      'firstName': fName.text,
+      'lastName': lName.text,
+      'nickName': nName.text,
+      'email': email.text,
+      'password': password.text,
+    });
   }
 
   // variables
@@ -167,7 +172,11 @@ class RegistrationPage extends StatelessWidget {
                     child: ElevatedButton(
                       child: Text('Register'),
                       onPressed: () async {
-                       await userRegistration();
+                        await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: email.text, password: password.text);
+
+                        await userRegistration();
                         Navigator.pushNamed(context, '/');
                       },
                     ),
