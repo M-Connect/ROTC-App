@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rotc_app2/sign_in/signInPage.dart';
-import 'app/registration_page/registrationPage.dart';
 
 // Author: Kyle Serruys
 // created major button interfaces and initial routing with Material Page Route
