@@ -44,11 +44,12 @@ class SignInPage extends StatelessWidget {
                     border: OutlineInputBorder(),
                     hintText: 'Password',
                   ),
+                  obscureText: true,
                   onSaved: (String value) {},
                 ),
                 Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         child: ElevatedButton(
