@@ -1,9 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
 import 'package:rotc_app/welcomePage.dart';
 import 'app/registration_page/registrationPage.dart';
 import 'app/sign_in/signInPage.dart';
 import 'home.dart';
+
+import 'app/registration_page/registrationPage.dart';
+import 'app/sign_in/signInPage.dart';
+import 'welcomePage.dart';
+
 
 // Author: Kyle Serruys
 // created main and MConnect class
@@ -23,6 +29,7 @@ class MConnect extends StatelessWidget {
       title: 'M-Connect',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        primaryColorLight: Colors.cyan[300],
         primaryColor: Colors.blue[900],
         accentColor: Colors.amber[200],
       ),
