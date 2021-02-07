@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 // TextFormFields to be modularized
 // validation needs to be fixed
 class RegistrationPage extends StatelessWidget {
-  
   // variables
   static final SizedBox spaceBetweenFields = SizedBox(height: 20.0);
   //static final invalidCharacters = RegExp(r'^[0-9_\=@,\.;:]+$');
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,13 @@ class RegistrationPage extends StatelessWidget {
               TextFormField(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Simon',
+                  hintText: 'John',
                 ),
                 onSaved: (String value) {},
                 validator: (String value) {
-                  return value.contains('_') ? 'Letters and hyphens only.' : null;
+                  return value.contains('_')
+                      ? 'Letters and hyphens only.'
+                      : null;
                 },
               ),
               spaceBetweenFields,
@@ -55,11 +57,13 @@ class RegistrationPage extends StatelessWidget {
                   TextFormField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Riley',
+                      hintText: 'Doe',
                     ),
                     onSaved: (String value) {},
                     validator: (String value) {
-                      return value.contains('_') ? 'Letters and hyphens only.' : null;
+                      return value.contains('_')
+                          ? 'Letters and hyphens only.'
+                          : null;
                     },
                   ),
                 ],
@@ -78,11 +82,13 @@ class RegistrationPage extends StatelessWidget {
                   TextFormField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: '\"Ghost\"',
+                      hintText: '\"The Deer\"',
                     ),
                     onSaved: (String value) {},
                     validator: (String value) {
-                     return value.contains('_') ? 'Only type in letters and numbers.' : null;
+                      return value.contains('_')
+                          ? 'Only type in letters and numbers.'
+                          : null;
                     },
                   ),
                 ],
@@ -101,11 +107,13 @@ class RegistrationPage extends StatelessWidget {
                   TextFormField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: '2ndltriley@sas.com',
+                      hintText: 'johndoe@rotc.com',
                     ),
                     onSaved: (String value) {},
                     validator: (String value) {
-                      return value.contains('@') ? null : 'Invalid email type, must contain @ symbol.';
+                      return value.contains('@')
+                          ? null
+                          : 'Invalid email type, must contain @ symbol.';
                     },
                   ),
                 ],
@@ -127,9 +135,45 @@ class RegistrationPage extends StatelessWidget {
                     ),
                     obscureText: true,
                     onSaved: (String value) {},
-                    /*validator: (String value) {
-                      return value.contains('_') ? 'Do not use the _ char.' : null;
-                    },*/
+                    validator: (String value) {
+                      return value.isEmpty ? 'Field cannot be blank.' : null;
+                    },
+                  ),
+                ],
+              ),
+              spaceBetweenFields,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
+                    child: Text(
+                      'Confirm Password *',
+                    ),
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                    obscureText: true,
+                    onSaved: (String value) {},
+                    validator: (String value) {
+                      return value.isEmpty ? 'Field cannot be blank.' : null;
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(250.0, 15.0, 0.0, 30.0),
+                    child: SizedBox(
+                      width: 100.0,
+                      height: 45.0,
+                      child: RaisedButton(
+                        color: Colors.blue,
+                        textColor: Colors.white,
+                        onPressed: () {},
+                        child: Text('Submit'),
+                      ),
+                    ),
                   ),
                 ],
               ),
