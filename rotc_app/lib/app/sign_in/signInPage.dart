@@ -65,14 +65,15 @@ class SignInPage extends StatelessWidget {
                               .signInWithEmailAndPassword(
                                   email: email.text, password: password.text);
                           if (user != null) {
-                            Navigator.pushNamed(context, '/home');
+                            ///sending to cadreHomePage just to test the page -Christine
+                            Navigator.pushNamed(context, '/cadreHome');
                           }
                         },
                       ),
                     ),
                   ],
                 ),
-                Column(
+                /*Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -81,15 +82,15 @@ class SignInPage extends StatelessWidget {
                           child: Text('Sign In'),
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                /*
+                                *//*
                                     Entry point to homepage / must connect to inputs
                                     builder: (context) => ()
-                                   */
+                                   *//*
                                 ));
                           },
                         ),
                       ),
-                    ]),
+                    ]),*/
               ],
             ),
           ],
