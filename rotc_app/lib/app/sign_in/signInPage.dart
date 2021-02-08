@@ -65,7 +65,7 @@ class SignInPage extends StatelessWidget {
                         ),
                       ),
 
-                      //forgot password button - MRU
+                      //added forgot password button - MRU
                       SizedBox(height: 1.0),
                       Column(
                         children: [
@@ -87,3 +87,4 @@ class SignInPage extends StatelessWidget {
     );
   }
 }
+
