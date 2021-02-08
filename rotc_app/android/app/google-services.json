@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "99105941087",
+    "project_id": "mconnect-bc130",
+    "storage_bucket": "mconnect-bc130.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99105941087:android:2eeaf9940bd5a0e204ddea",
+        "android_client_info": {
+          "package_name": "com.example.rotc_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "99105941087-baorre9r41fkudgglgbtaj42vrbpgsii.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rotc_app",
+            "certificate_hash": "261e00f1e6f7c9d8ca5bd784906b47324726b0a4"
+          }
+        },
+        {
+          "client_id": "99105941087-v6clikibmpoogm7huaeteqp5v8l1ostl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDz6MNbow6Nt8m2R1ePPeCb20QKMU_vVAM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "99105941087-v6clikibmpoogm7huaeteqp5v8l1ostl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "99105941087-0in9bebpe9fsp77i0ckimsho1aq8umh8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rotcApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
