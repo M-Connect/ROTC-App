@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class RegistrationPage extends StatelessWidget {
-
   CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
 
   TextEditingController fName = TextEditingController();
@@ -31,11 +30,9 @@ class RegistrationPage extends StatelessWidget {
     });
   }
 
-
   // variables
   static final SizedBox spaceBetweenFields = SizedBox(height: 20.0);
   //static final invalidCharacters = RegExp(r'^[0-9_\=@,\.;:]+$');
-
 
   @override
   Widget build(BuildContext context) {
@@ -194,30 +191,20 @@ class RegistrationPage extends StatelessWidget {
                       return value.isEmpty ? 'Field cannot be blank.' : null;
                     },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(250.0, 15.0, 0.0, 30.0),
-                    child: SizedBox(
-                      width: 100.0,
-                      height: 45.0,
-                      child: RaisedButton(
-                        color: Colors.blue,
-                        textColor: Colors.white,
-                        onPressed: () {},
-                        child: Text('Submit'),
-                      ),
-                    ),
-                  ),
                   Container(
-                    child: ElevatedButton(
-                      child: Text('Register'),
-                      onPressed: () async {
-                        await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                                email: email.text, password: password.text);
-
-                        await userRegistration();
-                        Navigator.pushNamed(context, '/');
-                      },
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
+                      child: ElevatedButton(
+                        child: Text('Register'),
+                        onPressed: () async {
+                          await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                                  email: email.text, password: password.text);
+                          await userRegistration();
+                          Navigator.pushNamed(context, '/');
+                        },
+                      ),
                     ),
                   ),
                 ],
