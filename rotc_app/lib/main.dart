@@ -39,6 +39,7 @@ class MConnect extends StatelessWidget {
         '/register': (context) => RegistrationPage(),
         '/home':(context) => Home(),
         '/cadreHome':(context) => CadreHome(),
+        '/cadetHome':(context) => CadetHome(),
       },
     );
   }
