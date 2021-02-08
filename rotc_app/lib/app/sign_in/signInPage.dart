@@ -30,9 +30,7 @@ class SignInPage extends StatelessWidget {
               child: Text('Username / Email: '),
             ),
             TextFormField(
-
               controller: email,
-
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Username / Email',
@@ -48,10 +46,7 @@ class SignInPage extends StatelessWidget {
                   child: Text('Password: '),
                 ),
                 TextFormField(
-
                   controller: password,
-
-
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Password',
@@ -59,7 +54,6 @@ class SignInPage extends StatelessWidget {
                   onSaved: (String value) {},
                 ),
                 Column(
-
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -78,7 +72,7 @@ class SignInPage extends StatelessWidget {
                     ),
                   ],
                 ),
-
+                Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -86,20 +80,16 @@ class SignInPage extends StatelessWidget {
                         child: ElevatedButton(
                           child: Text('Sign In'),
                           onPressed: () {
-                            Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  /*
+                            Navigator.of(context).push(MaterialPageRoute(
+                                /*
                                     Entry point to homepage / must connect to inputs
                                     builder: (context) => ()
                                    */
-                                )
-                            );
+                                ));
                           },
                         ),
                       ),
-                    ]
-                )
-
+                    ]),
               ],
             ),
           ],
