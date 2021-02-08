@@ -4,6 +4,7 @@ import 'package:rotc_app/welcomePage.dart';
 import 'app/registration_page/registrationPage.dart';
 import 'app/sign_in/signInPage.dart';
 import 'cadreHome.dart';
+import 'cadetHome.dart';
 import 'home.dart';
 import 'welcomePage.dart';
 
