@@ -55,19 +55,30 @@ class SignInPage extends StatelessWidget {
                         child: ElevatedButton(
                           child: Text('Sign In'),
                           onPressed: () {
-                            Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  /*
+                            Navigator.of(context).push(MaterialPageRoute(
+                                /*
                                     Entry point to homepage / must connect to inputs
                                     builder: (context) => ()
                                    */
-                                )
-                            );
+                                ));
                           },
                         ),
                       ),
-                    ]
-                )
+
+                      //forgot password button - MRU
+                      SizedBox(height: 1.0),
+                      Column(
+                        children: [
+                          TextButton(
+                            child: Text(
+                              "forgot password",
+                              style: TextStyle(color: Colors.blueAccent),
+                            ),
+                            onPressed: () {},
+                          )
+                        ],
+                      ),
+                    ])
               ],
             ),
           ],
