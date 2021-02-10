@@ -86,7 +86,7 @@ class SignInPage extends StatelessWidget {
                                     .signInWithEmailAndPassword(
                                         email: email.text,
                                         password: password.text);
-                                Navigator.pushNamed(context, '/cadreHome');
+                                Navigator.pushNamed(context, '/landingPage');
                               } catch (e) {
                                alertDialog(context);
                               }
