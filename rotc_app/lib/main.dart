@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:rotc_app/welcomePage.dart';
+import 'app/cadetView/cadetHome.dart';
 import 'app/cadreView/cadreHome.dart';
 import 'app/landing_page/landingPage.dart';
 import 'app/passwords/ForgotPassword.dart';
@@ -39,7 +40,7 @@ class MConnect extends StatelessWidget {
         '/signIn': (context) => SignInPage(),
         '/register': (context) => RegistrationPage(),
         '/cadreHome':(context) => CadreHome(),
-        '/cadetHome':(context) => CadreHome(),
+        '/cadetHome':(context) => CadetHome(),
          '/forgotPassword': (context) => ForgotPassword(),
         '/landingPage' : (context) => LandingPage(),
       },
