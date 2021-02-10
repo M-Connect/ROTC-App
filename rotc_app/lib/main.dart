@@ -5,6 +5,10 @@ import 'app/cadreView/cadreHome.dart';
 import 'app/passwords/ForgotPassword.dart';
 import 'app/registration_page/registrationPage.dart';
 import 'app/sign_in/signInPage.dart';
+import 'cadreHome.dart';
+import 'cadetHome.dart';
+import 'home.dart';
+
 import 'welcomePage.dart';
 
 /*
@@ -38,7 +42,11 @@ class MConnect extends StatelessWidget {
         '/signIn': (context) => SignInPage(),
         '/register': (context) => RegistrationPage(),
         '/cadreHome':(context) => CadreHome(),
+
+        '/cadetHome':(context) => CadetHome(),
+
          '/forgotPassword': (context) => ForgotPassword(),
+
       },
     );
   }
