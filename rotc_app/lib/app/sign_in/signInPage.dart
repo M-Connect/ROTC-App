@@ -100,17 +100,18 @@ class SignInPage extends StatelessWidget {
                                   decoration: TextDecoration.underline,
                                 ),
                               ),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/forgotPassword');
+                              },
                             ),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/forgotPassword');
-                            },
-                          )
-                        ],
-                      ),
-                    ])
-              ],
-            ),
-          ],
+
+
+                          ],
+                        ),
+                      ])
+                ],
+              ),
+            ]),
         ),
       ),
     );
