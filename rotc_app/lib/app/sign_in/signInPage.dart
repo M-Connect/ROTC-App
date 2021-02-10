@@ -80,10 +80,16 @@ class SignInPage extends StatelessWidget {
                           child: ElevatedButton(
                             child: Text('Sign In'),
                             onPressed: () async {
-                              UserCredential user = await FirebaseAuth.instance
-                                  .signInWithEmailAndPassword(
-                                      email: email.text,
-                                      password: password.text);
+                              try {
+                                UserCredential user = await FirebaseAuth
+                                    .instance
+                                    .signInWithEmailAndPassword(
+                                        email: email.text,
+                                        password: password.text);
+                                Navigator.pushNamed(context, '/cadreHome');
+                              } catch (e) {
+                               alertDialog(context);
+                              }
                             },
                           ),
                         ),
@@ -113,4 +119,26 @@ class SignInPage extends StatelessWidget {
       ),
     );
   }
+}
+
+alertDialog(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pushNamed(context, '/signIn');
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("Invalid login, please re-enter your email and password."),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
