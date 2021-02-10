@@ -27,11 +27,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c64f85d-594a-46dd-8d29-eb037e16b2d1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Default_Changelist2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Default_Changelist2/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rotc_app/lib/app/cadreView/cadetHome.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rotc_app/lib/app/passwords/ConfirmEmail.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rotc_app/lib/app/passwords/ForgotPassword.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rotc_app/lib/app/registration_page/registrationPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/app/registration_page/registrationPage.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rotc_app/lib/app/sign_in/signInPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/app/sign_in/signInPage.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rotc_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotc_app/lib/cadreHome.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/app/cadetView/cadreHome.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotc_app/lib/home.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotc_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rotc_app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -108,7 +113,21 @@
       <option name="project" value="LOCAL" />
       <updated>1612812685079</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added more validation">
+      <created>1612989841528</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1612989841529</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added more validation">
+      <created>1612989994419</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1612989994419</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -139,7 +158,8 @@
     <MESSAGE value="Adding the Database Functions to signInPage.dart and registrationPage.dart" />
     <MESSAGE value="Configured our sign in page to sign in with proper credentials" />
     <MESSAGE value="Removed extra sign in button from the sign in page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed extra sign in button from the sign in page" />
+    <MESSAGE value="Added more validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added more validation" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1912" y="166" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1612478983599">
@@ -150,44 +170,48 @@
       <screen x="1680" y="25" width="1920" height="1055" />
     </state>
     <state x="2185" y="301" key="#com.intellij.ide.util.TreeFileChooserDialog/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612478960729" />
-    <state width="1253" height="196" key="GridCell.Tab.0.bottom" timestamp="1612901567693">
+    <state width="1398" height="225" key="GridCell.Tab.0.bottom" timestamp="1612989842609">
       <screen x="0" y="25" width="1440" height="794" />
     </state>
     <state width="799" height="196" key="GridCell.Tab.0.bottom/0.25.1440.791/1440.25.1280.695@1440.25.1280.695" timestamp="1612901421325" />
-    <state width="1253" height="196" key="GridCell.Tab.0.bottom/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612901567693" />
+    <state width="1398" height="80" key="GridCell.Tab.0.bottom/0.25.1440.791@0.25.1440.791" timestamp="1612981930703" />
+    <state width="1398" height="225" key="GridCell.Tab.0.bottom/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612989842609" />
     <state width="1009" height="200" key="GridCell.Tab.0.bottom/0.25.1440.794@0.25.1440.794" timestamp="1612543315659" />
     <state width="688" height="196" key="GridCell.Tab.0.bottom/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817049" />
     <state width="1351" height="201" key="GridCell.Tab.0.bottom/0.25.1440.797@0.25.1440.797" timestamp="1612543953185" />
     <state width="1413" height="220" key="GridCell.Tab.0.bottom/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612645066408" />
     <state width="1413" height="220" key="GridCell.Tab.0.bottom/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278701" />
     <state width="1439" height="252" key="GridCell.Tab.0.bottom/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612479398274" />
-    <state width="1253" height="196" key="GridCell.Tab.0.center" timestamp="1612901567691">
+    <state width="1398" height="225" key="GridCell.Tab.0.center" timestamp="1612989842608">
       <screen x="0" y="25" width="1440" height="794" />
     </state>
     <state width="799" height="196" key="GridCell.Tab.0.center/0.25.1440.791/1440.25.1280.695@1440.25.1280.695" timestamp="1612901421324" />
-    <state width="1253" height="196" key="GridCell.Tab.0.center/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612901567691" />
+    <state width="1398" height="80" key="GridCell.Tab.0.center/0.25.1440.791@0.25.1440.791" timestamp="1612981930703" />
+    <state width="1398" height="225" key="GridCell.Tab.0.center/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612989842608" />
     <state width="1009" height="200" key="GridCell.Tab.0.center/0.25.1440.794@0.25.1440.794" timestamp="1612543315658" />
     <state width="688" height="196" key="GridCell.Tab.0.center/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817030" />
     <state width="1351" height="201" key="GridCell.Tab.0.center/0.25.1440.797@0.25.1440.797" timestamp="1612543953184" />
     <state width="1413" height="220" key="GridCell.Tab.0.center/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612645066407" />
     <state width="1413" height="220" key="GridCell.Tab.0.center/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278700" />
     <state width="1439" height="252" key="GridCell.Tab.0.center/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612479398273" />
-    <state width="1253" height="196" key="GridCell.Tab.0.left" timestamp="1612901567688">
+    <state width="1398" height="225" key="GridCell.Tab.0.left" timestamp="1612989842606">
       <screen x="0" y="25" width="1440" height="794" />
     </state>
     <state width="799" height="196" key="GridCell.Tab.0.left/0.25.1440.791/1440.25.1280.695@1440.25.1280.695" timestamp="1612901421323" />
-    <state width="1253" height="196" key="GridCell.Tab.0.left/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612901567688" />
+    <state width="1398" height="80" key="GridCell.Tab.0.left/0.25.1440.791@0.25.1440.791" timestamp="1612981930702" />
+    <state width="1398" height="225" key="GridCell.Tab.0.left/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612989842606" />
     <state width="1009" height="200" key="GridCell.Tab.0.left/0.25.1440.794@0.25.1440.794" timestamp="1612543315657" />
     <state width="688" height="196" key="GridCell.Tab.0.left/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817025" />
     <state width="1351" height="201" key="GridCell.Tab.0.left/0.25.1440.797@0.25.1440.797" timestamp="1612543953184" />
     <state width="1413" height="220" key="GridCell.Tab.0.left/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612645066406" />
     <state width="1413" height="220" key="GridCell.Tab.0.left/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278699" />
     <state width="1439" height="252" key="GridCell.Tab.0.left/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612479398270" />
-    <state width="1253" height="196" key="GridCell.Tab.0.right" timestamp="1612901567692">
+    <state width="1398" height="225" key="GridCell.Tab.0.right" timestamp="1612989842608">
       <screen x="0" y="25" width="1440" height="794" />
     </state>
     <state width="799" height="196" key="GridCell.Tab.0.right/0.25.1440.791/1440.25.1280.695@1440.25.1280.695" timestamp="1612901421324" />
-    <state width="1253" height="196" key="GridCell.Tab.0.right/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612901567692" />
+    <state width="1398" height="80" key="GridCell.Tab.0.right/0.25.1440.791@0.25.1440.791" timestamp="1612981930703" />
+    <state width="1398" height="225" key="GridCell.Tab.0.right/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612989842608" />
     <state width="1009" height="200" key="GridCell.Tab.0.right/0.25.1440.794@0.25.1440.794" timestamp="1612543315658" />
     <state width="688" height="196" key="GridCell.Tab.0.right/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817042" />
     <state width="1351" height="201" key="GridCell.Tab.0.right/0.25.1440.797@0.25.1440.797" timestamp="1612543953185" />

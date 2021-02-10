@@ -136,9 +136,7 @@ packages:
     source: sdk
     version: "0.0.0"
   form_field_validator:
-  
     dependency: "direct main"
-
     description:
       name: form_field_validator
       url: "https://pub.dartlang.org"
