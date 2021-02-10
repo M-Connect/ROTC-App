@@ -29,12 +29,16 @@ class CadetHome extends StatefulWidget
 class _CadetHome extends State<CadetHome>
 {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text('Dashboard Page', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-    Text('Peer Review Form Page', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-    Text('Messenger Page', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-    Text('Profile Page', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-  ];
+  List<Widget> tabThrough() {
+    List<Widget> _widgetOptions = <Widget>[
+      //Call for each widget here when creating full pages
+      Text('Dashboard Page', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      Text('Peer Review Form Page', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      Text('Messenger Page', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      Text('Profile Page', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+    ];
+    return _widgetOptions;
+  }
 
   void _onItemTapped(int index)
   {
@@ -54,7 +58,7 @@ class _CadetHome extends State<CadetHome>
           backgroundColor: Colors.lightBlueAccent[200],
       ),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: tabThrough().elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>
@@ -88,6 +92,22 @@ class _CadetHome extends State<CadetHome>
       ),
     );
   }
+
+  //Custom each of the pages here and call above
+  /*
+  Widget dashboard(){
+
+  }
+  Widget peerReview(){
+
+  }
+  Widget message(){
+
+  }
+  Widget profile(){
+
+  }
+   */
 }
 
 
