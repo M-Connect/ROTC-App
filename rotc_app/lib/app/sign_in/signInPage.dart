@@ -131,9 +131,7 @@ alertDialog(BuildContext context) {
   AlertDialog alert = AlertDialog(
     title: Text("Error"),
     content: Text("Invalid login, please re-enter your email and password."),
-    actions: [
-      button,
-    ],
+    actions: [button,],
   );
   showDialog(
     context: context,
