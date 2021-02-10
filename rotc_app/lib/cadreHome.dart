@@ -10,11 +10,11 @@ import 'package:flutter/rendering.dart';
 class CadreHome extends StatefulWidget {
   CadreHome({Key key}) : super(key: key);
   @override
-  CadreHomeState createState() => CadreHomeState();
+  _CadreHomeState createState() => _CadreHomeState();
 }
 
 /// This is the private state class that extends the State of CadreHome.
-class CadreHomeState extends State<CadreHome> {
+class _CadreHomeState extends State<CadreHome> {
   int _tabOption = 0;
 
   List<Widget> tabThrough() {
