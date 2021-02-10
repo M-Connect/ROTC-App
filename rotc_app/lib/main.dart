@@ -1,10 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:rotc_app/welcomePage.dart';
+import 'app/passwords/ForgotPassword.dart';
 import 'app/registration_page/registrationPage.dart';
 import 'app/sign_in/signInPage.dart';
-import 'cadreHome.dart';
-import 'home.dart';
+import 'app/cadetView/cadreHome.dart';
 import 'welcomePage.dart';
 
 /*
@@ -37,8 +37,8 @@ class MConnect extends StatelessWidget {
         '/': (context) => WelcomePage(),
         '/signIn': (context) => SignInPage(),
         '/register': (context) => RegistrationPage(),
-        '/home':(context) => Home(),
         '/cadreHome':(context) => CadreHome(),
+         '/forgotPassword': (context) => ForgotPassword(),
       },
     );
   }
