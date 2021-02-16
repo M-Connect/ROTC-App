@@ -6,21 +6,20 @@ import 'package:flutter/material.dart';
   TODO: Modularize and Separate + add more content to tabs.
  */
 
-class CadreHome extends StatefulWidget {
-  CadreHome({Key key}) : super(key: key);
+class HomeView extends StatefulWidget {
+  HomeView({Key key}) : super(key: key);
   @override
   _CadreHomeState createState() => _CadreHomeState();
 }
 
+bool isCadre = true;
+
 /// This is the private state class that extends the State of CadreHome.
-class _CadreHomeState extends State<CadreHome> {
+class _CadreHomeState extends State<HomeView> {
   int _tabOption = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
     dashboard(),
-    peerReviewForm(),
-    messages(),
-    profile()
   ];
 
   void _chosenTab(int index) {
@@ -69,30 +68,6 @@ class _CadreHomeState extends State<CadreHome> {
 
 Widget dashboard() {
   const TextStyle tabTextStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  return Scaffold(
-    body: SingleChildScrollView(
-      child: Container(
-          child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(
-              'On Your Radar',
-              style: tabTextStyle,
-            ),
-          ),
-          Column(
-            children: [],
-          ),
-        ],
-      )),
-    ),
-  );
-}
-
-Widget peerReviewForm() {
-  const TextStyle tabTextStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   return Scaffold(
     body: SingleChildScrollView(
@@ -102,55 +77,7 @@ Widget peerReviewForm() {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
-                  'Peer Review Forms',
-                  style: tabTextStyle,
-                ),
-              ),
-              Column(
-                children: [],
-              ),
-            ],
-          )),
-    ),
-  );
-}
-
-Widget messages() {
-  const TextStyle tabTextStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  return Scaffold(
-    body: SingleChildScrollView(
-      child: Container(
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  'Messages',
-                  style: tabTextStyle,
-                ),
-              ),
-              Column(
-                children: [],
-              ),
-            ],
-          )),
-    ),
-  );
-}
-
-Widget profile() {
-  const TextStyle tabTextStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  return Scaffold(
-    body: SingleChildScrollView(
-      child: Container(
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  'Profile',
+                  'On Your Radar',
                   style: tabTextStyle,
                 ),
               ),

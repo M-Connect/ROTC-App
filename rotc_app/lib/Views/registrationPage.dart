@@ -14,7 +14,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 */
 
 // ignore: must_be_immutable
-class RegistrationPage extends StatelessWidget {
+class RegistrationView extends StatelessWidget {
   CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
 
   TextEditingController fName = TextEditingController();
@@ -85,10 +85,13 @@ class RegistrationPage extends StatelessWidget {
                   onSaved: (String value) {},
                   validator:
                   MultiValidator([
-                  RequiredValidator(errorText: "First name is required."),
-                    PatternValidator(r'([a-zA-Z])', errorText: 'First name can only contain letters.'),
-
+                    RequiredValidator(errorText: "First name is required."),
+                    PatternValidator(r'([a-zA-Z])',
+                        errorText: 'First name can only contain letters.'),
                   ]),
+
+
+
                 ),
                 spaceBetweenFields,
                 Column(

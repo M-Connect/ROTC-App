@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ConfirmEmail extends StatelessWidget {
+class ConfirmEmailView extends StatelessWidget {
   final String message;
 
-  const ConfirmEmail({Key key, this.message}) : super(key: key);
+  const ConfirmEmailView({Key key, this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

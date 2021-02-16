@@ -1,12 +1,24 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:rotc_app/welcomePage.dart';
-import 'app/passwords/ForgotPassword.dart';
-import 'app/registration_page/registrationPage.dart';
-import 'app/sign_in/signInPage.dart';
-import 'app/cadetView/cadreHome.dart';
-import 'welcomePage.dart';
-
+import 'package:rotc_app/app/peerReview/lllab2FT/debrief.dart';
+import 'package:rotc_app/app/peerReview/lllab2FT/execution.dart';
+import 'package:rotc_app/app/peerReview/peerReviewRequest.dart';
+import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
+import 'Views/passwords/ForgotPassword.dart';
+import 'Views/registrationPage.dart';
+import 'Views/signInPage.dart';
+import 'Views/welcomePage.dart';
+import 'app/home.dart';
+import 'app/peerReview/lllab2FT/communication.dart';
+import 'app/peerReview/lllab2FT/leadership.dart';
+import 'app/peerReview/lllab2FT/peerReviewLLAB2FT.dart';
+import 'app/peerReview/lllab2FT/planning.dart';
+import 'app/peerReview/lllab2FT/execution.dart';
+import 'app/peerReview/lllab2FT/debrief.dart';
+import 'app/peerReview/peerReview.dart';
+import 'app/peerReview/peerReviewCommissioning.dart';
+import 'app/peerReview/peerReviewFLXFlight.dart';
+import 'app/peerReview/peerReviewLanding.dart';
 /*
   Author: Kyle Serruys
   created main and MConnect class.
@@ -14,6 +26,7 @@ import 'welcomePage.dart';
   created routes and added more Theme colors.
  */
 
+final GlobalKey<NavigatorState> navigation = new GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -26,6 +39,7 @@ class MConnect extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'M-Connect',
+      navigatorKey: navigation,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColorLight: Colors.cyan[300],
@@ -34,11 +48,23 @@ class MConnect extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => WelcomePage(),
-        '/signIn': (context) => SignInPage(),
-        '/register': (context) => RegistrationPage(),
-        '/cadreHome':(context) => CadreHome(),
-         '/forgotPassword': (context) => ForgotPassword(),
+        '/': (context) => WelcomeView(),
+        '/signIn': (context) => SignInView(),
+        '/register': (context) => RegistrationView(),
+        '/home':(context) => HomeView(),
+        '/forgotPassword': (context) => ForgotPasswordView(),
+        '/peerReviewLanding': (context) => PeerReviewLanding(),
+        '/peerReview': (context) => PeerReview(),
+        '/peerReviewRequest': (context) => PeerReviewRequest(),
+        '/peerReviewStats': (context) => PeerReviewStats(),
+        '/peerReviewLLAB2FT': (context)=> PeerReviewLLAB2FT(),
+        '/peerReviewFLXFlight': (context) => PeerReviewFLXFlight(),
+        '/peerReviewCommissioning': (context) => PeerReviewCommissioning(),
+        '/planning':(context) => Planning(),
+        '/communications':(context) => Communication(),
+        '/execution': (context) => Execution(),
+        '/leadership': (context) => Leadership(),
+        '/debrief': (context) => Debrief(),
       },
     );
   }
