@@ -1,0 +1,259 @@
+Index: rotc_app/lib/app/sign_in/signInPage.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import 'package:cloud_firestore/cloud_firestore.dart';\nimport 'package:firebase_auth/firebase_auth.dart';\nimport 'package:flutter/material.dart';\nimport 'package:form_field_validator/form_field_validator.dart';\n\n/*\nSawyer Kisha\n02/02/2021\n1.0 - Prototype 01\nUi for the sign in page\n\nCo-Author:  Kyle Serruys\nAdded Validation for the email and password properties\n*/\n\nclass SignInPage extends StatelessWidget {\n  CollectionReference cadres = FirebaseFirestore.instance.collection('cadres');\n  CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');\n\n  TextEditingController email = TextEditingController();\n  TextEditingController password = TextEditingController();\n\n  @override\n  Widget build(BuildContext context) {\n    return Scaffold(\n      appBar: AppBar(\n        title: Text('Sign-In'),\n      ),\n      body: Container(\n        padding: EdgeInsets.all(25.0),\n        child: Form(\n          // ignore: deprecated_member_use\n          autovalidate: true,\n          child: Column(\n            mainAxisAlignment: MainAxisAlignment.start,\n            crossAxisAlignment: CrossAxisAlignment.start,\n            children: [\n              Padding(\n                padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),\n                child: Text('Username / Email: '),\n              ),\n              TextFormField(\n                controller: email,\n                decoration: const InputDecoration(\n                  border: OutlineInputBorder(),\n                  hintText: 'Username / Email',\n                ),\n                onSaved: (String value) {},\n                validator: MultiValidator([\n                  RequiredValidator(errorText: \"Required\"),\n                  EmailValidator(errorText: \"Not a valid email\"),\n                ]),\n              ),\n              Column(\n                mainAxisAlignment: MainAxisAlignment.start,\n                crossAxisAlignment: CrossAxisAlignment.start,\n                children: [\n                  Padding(\n                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),\n                    child: Text('Password: '),\n                  ),\n                  TextFormField(\n                    controller: password,\n                    decoration: const InputDecoration(\n                      border: OutlineInputBorder(),\n                      hintText: 'Password',\n                    ),\n                    obscureText: true,\n                    onSaved: (String value) {},\n                    validator: MultiValidator([\n                      MinLengthValidator(5,\n                          errorText: \"Password must be at least 5 characters.\"),\n                    ]),\n                  ),\n                  Column(\n                      mainAxisAlignment: MainAxisAlignment.center,\n                      crossAxisAlignment: CrossAxisAlignment.start,\n                      children: [\n                        Container(\n                          child: ElevatedButton(\n                            child: Text('Sign In'),\n                            onPressed: () async {\n                              UserCredential user = await FirebaseAuth.instance\n                                  .signInWithEmailAndPassword(\n                                      email: email.text,\n                                      password: password.text);\n                            },\n                          ),\n                        ),\n\n                        //added forgot password button - MRU\n                        SizedBox(height: 1.0),\n                        Column(\n                          children: [\n                            TextButton(\n                              child: Text(\n                                \"Forgot Password?\",\n                                style: TextStyle(\n                                  color: Colors.blueAccent,\n                                  decoration: TextDecoration.underline,\n                                ),\n                              ),\n                              onPressed: () {},\n                            )\n                          ],\n                        ),\n                      ])\n                ],\n              ),\n            ],\n          ),\n        ),\n      ),\n    );\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- rotc_app/lib/app/sign_in/signInPage.dart	(revision ab52eb26120e1c2577a7975694dff90635bb0602)
++++ rotc_app/lib/app/sign_in/signInPage.dart	(date 1612976115000)
+@@ -76,14 +76,33 @@
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
++
+                         Container(
+                           child: ElevatedButton(
+                             child: Text('Sign In'),
+                             onPressed: () async {
+-                              UserCredential user = await FirebaseAuth.instance
++                              UserCredential userCred = await FirebaseAuth.instance
+                                   .signInWithEmailAndPassword(
+                                       email: email.text,
+                                       password: password.text);
++
++                              var user = userCred.user;
++                           var testUser;
++
++                           FirebaseFirestore.instance.collection('cadres').get().then((user)
++                           {testUser.documents.forEach((e){
++                             var val = e.data['email'];});});
++
++                               // .listen((user)
++                                  {
++                                Navigator.pushNamed(context, '/cadreHome');
++
++                                //Navigator.pushNamed(context, '/');
++
++                                //});
++                              }
++
++
+                             },
+                           ),
+                         ),
+Index: rotc_app/lib/home.dart
+===================================================================
+--- rotc_app/lib/home.dart	(revision ab52eb26120e1c2577a7975694dff90635bb0602)
++++ rotc_app/lib/home.dart	(revision ab52eb26120e1c2577a7975694dff90635bb0602)
+@@ -1,12 +0,0 @@
+-import 'package:flutter/material.dart';
+-
+-class Home extends StatelessWidget {
+-  @override
+-  Widget build(BuildContext context) {
+-    return Scaffold(
+-      appBar: AppBar(
+-      title: Text('Home'),
+-    ),
+-    );
+-  }
+-}
+Index: rotc_app/lib/main.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import 'package:firebase_core/firebase_core.dart';\nimport 'package:flutter/material.dart';\nimport 'package:rotc_app/welcomePage.dart';\nimport 'app/registration_page/registrationPage.dart';\nimport 'app/sign_in/signInPage.dart';\nimport 'cadreHome.dart';\nimport 'home.dart';\nimport 'welcomePage.dart';\n\n/*\n  Author: Kyle Serruys\n  created main and MConnect class.\n  Co-Author: Christine Thomas\n  created routes and added more Theme colors.\n */\n\nFuture<void> main() async {\n  WidgetsFlutterBinding.ensureInitialized();\n  await Firebase.initializeApp();\n  runApp(MConnect());\n}\n\nclass MConnect extends StatelessWidget {\n  @override\n  Widget build(BuildContext context) {\n    return MaterialApp(\n      debugShowCheckedModeBanner: false,\n      title: 'M-Connect',\n      theme: ThemeData(\n        primarySwatch: Colors.blue,\n        primaryColorLight: Colors.cyan[300],\n        primaryColor: Colors.blue[900],\n        accentColor: Colors.amber[200],\n      ),\n      initialRoute: '/',\n      routes: {\n        '/': (context) => WelcomePage(),\n        '/signIn': (context) => SignInPage(),\n        '/register': (context) => RegistrationPage(),\n        '/home':(context) => Home(),\n        '/cadreHome':(context) => CadreHome(),\n      },\n    );\n  }\n}\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- rotc_app/lib/main.dart	(revision ab52eb26120e1c2577a7975694dff90635bb0602)
++++ rotc_app/lib/main.dart	(date 1612936123000)
+@@ -4,7 +4,6 @@
+ import 'app/registration_page/registrationPage.dart';
+ import 'app/sign_in/signInPage.dart';
+ import 'cadreHome.dart';
+-import 'home.dart';
+ import 'welcomePage.dart';
+ 
+ /*
+@@ -37,7 +36,6 @@
+         '/': (context) => WelcomePage(),
+         '/signIn': (context) => SignInPage(),
+         '/register': (context) => RegistrationPage(),
+-        '/home':(context) => Home(),
+         '/cadreHome':(context) => CadreHome(),
+       },
+     );
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"BranchesTreeState\">\n    <expand>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"LOCAL_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"GROUP_NODE:origin\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n    </expand>\n    <select>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"GROUP_NODE:origin\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"BRANCH:origin/kyle_WIP\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n    </select>\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"3c64f85d-594a-46dd-8d29-eb037e16b2d1\" name=\"Default Changelist\" comment=\"\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/rotc_app/lib/app/registration_page/registrationPage.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/rotc_app/lib/app/registration_page/registrationPage.dart\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/rotc_app/lib/app/sign_in/signInPage.dart\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/rotc_app/lib/app/sign_in/signInPage.dart\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/rotc_app/pubspec.lock\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/rotc_app/pubspec.lock\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/rotc_app/pubspec.yaml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/rotc_app/pubspec.yaml\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Dart File\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"ProjectId\" id=\"1o2JnS7fag6oXxoQK9OyRAlLMmf\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n    <property name=\"Git.Branch.Popup.ShowAllRemotes\" value=\"true\" />\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"android.sdk.path\" value=\"$USER_HOME$/Library/Android/sdk\" />\n    <property name=\"dart.analysis.tool.window.visible\" value=\"false\" />\n    <property name=\"io.flutter.reload.alreadyRun\" value=\"true\" />\n    <property name=\"settings.editor.selected.configurable\" value=\"preferences.pluginManager\" />\n    <property name=\"show.migrate.to.gradle.popup\" value=\"false\" />\n  </component>\n  <component name=\"RecentsManager\">\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/rotc_app/android/app\" />\n      <recent name=\"$PROJECT_DIR$/rotc_app/lib\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"main.dart\" type=\"FlutterRunConfigurationType\" factoryName=\"Flutter\">\n      <option name=\"filePath\" value=\"$PROJECT_DIR$/rotc_app/lib/main.dart\" />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"SvnConfiguration\">\n    <configuration />\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"3c64f85d-594a-46dd-8d29-eb037e16b2d1\" name=\"Default Changelist\" comment=\"\" />\n      <created>1612478918576</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1612478918576</updated>\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Adding the Database Functions to signInPage.dart and registrationPage.dart\">\n      <created>1612584501834</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1612584501835</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Configured our sign in page to sign in with proper credentials\">\n      <created>1612644689209</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1612644689210</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Removed extra sign in button from the sign in page\">\n      <created>1612812685079</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1612812685079</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"4\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State>\n              <option name=\"FILTERS\">\n                <map>\n                  <entry key=\"branch\">\n                    <value>\n                      <list>\n                        <option value=\"origin/kyle_WIP\" />\n                      </list>\n                    </value>\n                  </entry>\n                </map>\n              </option>\n            </State>\n          </value>\n        </entry>\n      </map>\n    </option>\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Adding the Database Functions to signInPage.dart and registrationPage.dart\" />\n    <MESSAGE value=\"Configured our sign in page to sign in with proper credentials\" />\n    <MESSAGE value=\"Removed extra sign in button from the sign in page\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Removed extra sign in button from the sign in page\" />\n  </component>\n  <component name=\"WindowStateProjectService\">\n    <state x=\"1912\" y=\"166\" key=\"#com.intellij.execution.impl.EditConfigurationsDialog\" timestamp=\"1612478983599\">\n      <screen x=\"1680\" y=\"25\" width=\"1920\" height=\"1055\" />\n    </state>\n    <state x=\"1912\" y=\"166\" key=\"#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612478983599\" />\n    <state x=\"2185\" y=\"301\" key=\"#com.intellij.ide.util.TreeFileChooserDialog\" timestamp=\"1612478960729\">\n      <screen x=\"1680\" y=\"25\" width=\"1920\" height=\"1055\" />\n    </state>\n    <state x=\"2185\" y=\"301\" key=\"#com.intellij.ide.util.TreeFileChooserDialog/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612478960729\" />\n    <state width=\"1253\" height=\"196\" key=\"GridCell.Tab.0.bottom\" timestamp=\"1612901567693\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"794\" />\n    </state>\n    <state width=\"799\" height=\"196\" key=\"GridCell.Tab.0.bottom/0.25.1440.791/1440.25.1280.695@1440.25.1280.695\" timestamp=\"1612901421325\" />\n    <state width=\"1253\" height=\"196\" key=\"GridCell.Tab.0.bottom/0.25.1440.794/1440.25.1280.695@0.25.1440.794\" timestamp=\"1612901567693\" />\n    <state width=\"1009\" height=\"200\" key=\"GridCell.Tab.0.bottom/0.25.1440.794@0.25.1440.794\" timestamp=\"1612543315659\" />\n    <state width=\"688\" height=\"196\" key=\"GridCell.Tab.0.bottom/0.25.1440.797/1440.25.1280.695@0.25.1440.797\" timestamp=\"1612812817049\" />\n    <state width=\"1351\" height=\"201\" key=\"GridCell.Tab.0.bottom/0.25.1440.797@0.25.1440.797\" timestamp=\"1612543953185\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.bottom/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612645066408\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.bottom/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612714278701\" />\n    <state width=\"1439\" height=\"252\" key=\"GridCell.Tab.0.bottom/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612479398274\" />\n    <state width=\"1253\" height=\"196\" key=\"GridCell.Tab.0.center\" timestamp=\"1612901567691\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"794\" />\n    </state>\n    <state width=\"799\" height=\"196\" key=\"GridCell.Tab.0.center/0.25.1440.791/1440.25.1280.695@1440.25.1280.695\" timestamp=\"1612901421324\" />\n    <state width=\"1253\" height=\"196\" key=\"GridCell.Tab.0.center/0.25.1440.794/1440.25.1280.695@0.25.1440.794\" timestamp=\"1612901567691\" />\n    <state width=\"1009\" height=\"200\" key=\"GridCell.Tab.0.center/0.25.1440.794@0.25.1440.794\" timestamp=\"1612543315658\" />\n    <state width=\"688\" height=\"196\" key=\"GridCell.Tab.0.center/0.25.1440.797/1440.25.1280.695@0.25.1440.797\" timestamp=\"1612812817030\" />\n    <state width=\"1351\" height=\"201\" key=\"GridCell.Tab.0.center/0.25.1440.797@0.25.1440.797\" timestamp=\"1612543953184\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.center/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612645066407\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.center/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612714278700\" />\n    <state width=\"1439\" height=\"252\" key=\"GridCell.Tab.0.center/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612479398273\" />\n    <state width=\"1253\" height=\"196\" key=\"GridCell.Tab.0.left\" timestamp=\"1612901567688\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"794\" />\n    </state>\n    <state width=\"799\" height=\"196\" key=\"GridCell.Tab.0.left/0.25.1440.791/1440.25.1280.695@1440.25.1280.695\" timestamp=\"1612901421323\" />\n    <state width=\"1253\" height=\"196\" key=\"GridCell.Tab.0.left/0.25.1440.794/1440.25.1280.695@0.25.1440.794\" timestamp=\"1612901567688\" />\n    <state width=\"1009\" height=\"200\" key=\"GridCell.Tab.0.left/0.25.1440.794@0.25.1440.794\" timestamp=\"1612543315657\" />\n    <state width=\"688\" height=\"196\" key=\"GridCell.Tab.0.left/0.25.1440.797/1440.25.1280.695@0.25.1440.797\" timestamp=\"1612812817025\" />\n    <state width=\"1351\" height=\"201\" key=\"GridCell.Tab.0.left/0.25.1440.797@0.25.1440.797\" timestamp=\"1612543953184\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.left/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612645066406\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.left/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612714278699\" />\n    <state width=\"1439\" height=\"252\" key=\"GridCell.Tab.0.left/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612479398270\" />\n    <state width=\"1253\" height=\"196\" key=\"GridCell.Tab.0.right\" timestamp=\"1612901567692\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"794\" />\n    </state>\n    <state width=\"799\" height=\"196\" key=\"GridCell.Tab.0.right/0.25.1440.791/1440.25.1280.695@1440.25.1280.695\" timestamp=\"1612901421324\" />\n    <state width=\"1253\" height=\"196\" key=\"GridCell.Tab.0.right/0.25.1440.794/1440.25.1280.695@0.25.1440.794\" timestamp=\"1612901567692\" />\n    <state width=\"1009\" height=\"200\" key=\"GridCell.Tab.0.right/0.25.1440.794@0.25.1440.794\" timestamp=\"1612543315658\" />\n    <state width=\"688\" height=\"196\" key=\"GridCell.Tab.0.right/0.25.1440.797/1440.25.1280.695@0.25.1440.797\" timestamp=\"1612812817042\" />\n    <state width=\"1351\" height=\"201\" key=\"GridCell.Tab.0.right/0.25.1440.797@0.25.1440.797\" timestamp=\"1612543953185\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.right/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612645066408\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.right/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612714278700\" />\n    <state width=\"1439\" height=\"252\" key=\"GridCell.Tab.0.right/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612479398274\" />\n    <state x=\"202\" y=\"94\" key=\"SettingsEditor\" timestamp=\"1612813908240\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"797\" />\n    </state>\n    <state x=\"202\" y=\"94\" key=\"SettingsEditor/0.25.1440.797/1440.25.1280.695@0.25.1440.797\" timestamp=\"1612813908240\" />\n    <state x=\"1949\" y=\"143\" key=\"SettingsEditor/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612478980159\" />\n    <state x=\"2613\" y=\"424\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2\" timestamp=\"1612498870041\">\n      <screen x=\"1680\" y=\"25\" width=\"1920\" height=\"1055\" />\n    </state>\n    <state x=\"2613\" y=\"424\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612498870041\" />\n    <state x=\"2193\" y=\"182\" width=\"894\" height=\"900\" key=\"search.everywhere.popup\" timestamp=\"1612572827458\">\n      <screen x=\"1680\" y=\"25\" width=\"1920\" height=\"1055\" />\n    </state>\n    <state x=\"385\" y=\"143\" width=\"670\" height=\"676\" key=\"search.everywhere.popup/0.25.1440.794@0.25.1440.794\" timestamp=\"1612542098623\" />\n    <state x=\"385\" y=\"144\" width=\"670\" height=\"681\" key=\"search.everywhere.popup/0.25.1440.799@0.25.1440.799\" timestamp=\"1612547690652\" />\n    <state x=\"2193\" y=\"182\" width=\"894\" height=\"900\" key=\"search.everywhere.popup/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612572827458\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/workspace.xml	(revision ab52eb26120e1c2577a7975694dff90635bb0602)
++++ .idea/workspace.xml	(date 1612979640000)
+@@ -27,12 +27,12 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="3c64f85d-594a-46dd-8d29-eb037e16b2d1" name="Default Changelist" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/rotc_app/lib/app/registration_page/registrationPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/app/registration_page/registrationPage.dart" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/rotc_app/lib/app/sign_in/signInPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/app/sign_in/signInPage.dart" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/rotc_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/pubspec.lock" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/rotc_app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/pubspec.yaml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/rotc_app/lib/common_widgets/buttonWidgets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/common_widgets/buttonWidgets.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/rotc_app/lib/home.dart" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/rotc_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/main.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/rotc_app/lib/services/auth.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/services/auth.dart" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -108,7 +108,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1612812685079</updated>
+     </task>
+-    <option name="localTasksCounter" value="4" />
++    <task id="LOCAL-00004" summary="Added Validation">
++      <created>1612932740943</created>
++      <option name="number" value="00004" />
++      <option name="presentableId" value="LOCAL-00004" />
++      <option name="project" value="LOCAL" />
++      <updated>1612932740943</updated>
++    </task>
++    <option name="localTasksCounter" value="5" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -139,7 +146,8 @@
+     <MESSAGE value="Adding the Database Functions to signInPage.dart and registrationPage.dart" />
+     <MESSAGE value="Configured our sign in page to sign in with proper credentials" />
+     <MESSAGE value="Removed extra sign in button from the sign in page" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Removed extra sign in button from the sign in page" />
++    <MESSAGE value="Added Validation" />
++    <option name="LAST_COMMIT_MESSAGE" value="Added Validation" />
+   </component>
+   <component name="WindowStateProjectService">
+     <state x="1912" y="166" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1612478983599">
+@@ -150,47 +158,63 @@
+       <screen x="1680" y="25" width="1920" height="1055" />
+     </state>
+     <state x="2185" y="301" key="#com.intellij.ide.util.TreeFileChooserDialog/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612478960729" />
+-    <state width="1253" height="196" key="GridCell.Tab.0.bottom" timestamp="1612901567693">
++    <state x="515" y="163" key="AndroidProcessChooserDialog" timestamp="1612973441011">
+       <screen x="0" y="25" width="1440" height="794" />
++    </state>
++    <state x="515" y="163" key="AndroidProcessChooserDialog/0.25.1440.794@0.25.1440.794" timestamp="1612973441011" />
++    <state width="1398" height="312" key="GridCell.Tab.0.bottom" timestamp="1612976115973">
++      <screen x="0" y="25" width="1440" height="791" />
+     </state>
+     <state width="799" height="196" key="GridCell.Tab.0.bottom/0.25.1440.791/1440.25.1280.695@1440.25.1280.695" timestamp="1612901421325" />
++    <state width="1398" height="312" key="GridCell.Tab.0.bottom/0.25.1440.791@0.25.1440.791" timestamp="1612976115973" />
+     <state width="1253" height="196" key="GridCell.Tab.0.bottom/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612901567693" />
+     <state width="1009" height="200" key="GridCell.Tab.0.bottom/0.25.1440.794@0.25.1440.794" timestamp="1612543315659" />
+     <state width="688" height="196" key="GridCell.Tab.0.bottom/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817049" />
+     <state width="1351" height="201" key="GridCell.Tab.0.bottom/0.25.1440.797@0.25.1440.797" timestamp="1612543953185" />
++    <state width="1355" height="225" key="GridCell.Tab.0.bottom/0.25.1440.875/1440.25.1280.619@0.25.1440.875" timestamp="1612938889862" />
++    <state width="1355" height="226" key="GridCell.Tab.0.bottom/0.25.1440.875/1440.25.1280.621@0.25.1440.875" timestamp="1612932744324" />
+     <state width="1413" height="220" key="GridCell.Tab.0.bottom/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612645066408" />
+     <state width="1413" height="220" key="GridCell.Tab.0.bottom/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278701" />
+     <state width="1439" height="252" key="GridCell.Tab.0.bottom/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612479398274" />
+-    <state width="1253" height="196" key="GridCell.Tab.0.center" timestamp="1612901567691">
+-      <screen x="0" y="25" width="1440" height="794" />
++    <state width="1398" height="312" key="GridCell.Tab.0.center" timestamp="1612976115972">
++      <screen x="0" y="25" width="1440" height="791" />
+     </state>
+     <state width="799" height="196" key="GridCell.Tab.0.center/0.25.1440.791/1440.25.1280.695@1440.25.1280.695" timestamp="1612901421324" />
++    <state width="1398" height="312" key="GridCell.Tab.0.center/0.25.1440.791@0.25.1440.791" timestamp="1612976115972" />
+     <state width="1253" height="196" key="GridCell.Tab.0.center/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612901567691" />
+     <state width="1009" height="200" key="GridCell.Tab.0.center/0.25.1440.794@0.25.1440.794" timestamp="1612543315658" />
+     <state width="688" height="196" key="GridCell.Tab.0.center/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817030" />
+     <state width="1351" height="201" key="GridCell.Tab.0.center/0.25.1440.797@0.25.1440.797" timestamp="1612543953184" />
++    <state width="1355" height="225" key="GridCell.Tab.0.center/0.25.1440.875/1440.25.1280.619@0.25.1440.875" timestamp="1612938889862" />
++    <state width="1355" height="226" key="GridCell.Tab.0.center/0.25.1440.875/1440.25.1280.621@0.25.1440.875" timestamp="1612932744323" />
+     <state width="1413" height="220" key="GridCell.Tab.0.center/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612645066407" />
+     <state width="1413" height="220" key="GridCell.Tab.0.center/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278700" />
+     <state width="1439" height="252" key="GridCell.Tab.0.center/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612479398273" />
+-    <state width="1253" height="196" key="GridCell.Tab.0.left" timestamp="1612901567688">
+-      <screen x="0" y="25" width="1440" height="794" />
++    <state width="1398" height="312" key="GridCell.Tab.0.left" timestamp="1612976115971">
++      <screen x="0" y="25" width="1440" height="791" />
+     </state>
+     <state width="799" height="196" key="GridCell.Tab.0.left/0.25.1440.791/1440.25.1280.695@1440.25.1280.695" timestamp="1612901421323" />
++    <state width="1398" height="312" key="GridCell.Tab.0.left/0.25.1440.791@0.25.1440.791" timestamp="1612976115971" />
+     <state width="1253" height="196" key="GridCell.Tab.0.left/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612901567688" />
+     <state width="1009" height="200" key="GridCell.Tab.0.left/0.25.1440.794@0.25.1440.794" timestamp="1612543315657" />
+     <state width="688" height="196" key="GridCell.Tab.0.left/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817025" />
+     <state width="1351" height="201" key="GridCell.Tab.0.left/0.25.1440.797@0.25.1440.797" timestamp="1612543953184" />
++    <state width="1355" height="225" key="GridCell.Tab.0.left/0.25.1440.875/1440.25.1280.619@0.25.1440.875" timestamp="1612938889862" />
++    <state width="1355" height="226" key="GridCell.Tab.0.left/0.25.1440.875/1440.25.1280.621@0.25.1440.875" timestamp="1612932744322" />
+     <state width="1413" height="220" key="GridCell.Tab.0.left/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612645066406" />
+     <state width="1413" height="220" key="GridCell.Tab.0.left/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278699" />
+     <state width="1439" height="252" key="GridCell.Tab.0.left/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612479398270" />
+-    <state width="1253" height="196" key="GridCell.Tab.0.right" timestamp="1612901567692">
+-      <screen x="0" y="25" width="1440" height="794" />
++    <state width="1398" height="312" key="GridCell.Tab.0.right" timestamp="1612976115972">
++      <screen x="0" y="25" width="1440" height="791" />
+     </state>
+     <state width="799" height="196" key="GridCell.Tab.0.right/0.25.1440.791/1440.25.1280.695@1440.25.1280.695" timestamp="1612901421324" />
++    <state width="1398" height="312" key="GridCell.Tab.0.right/0.25.1440.791@0.25.1440.791" timestamp="1612976115972" />
+     <state width="1253" height="196" key="GridCell.Tab.0.right/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612901567692" />
+     <state width="1009" height="200" key="GridCell.Tab.0.right/0.25.1440.794@0.25.1440.794" timestamp="1612543315658" />
+     <state width="688" height="196" key="GridCell.Tab.0.right/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817042" />
+     <state width="1351" height="201" key="GridCell.Tab.0.right/0.25.1440.797@0.25.1440.797" timestamp="1612543953185" />
++    <state width="1355" height="225" key="GridCell.Tab.0.right/0.25.1440.875/1440.25.1280.619@0.25.1440.875" timestamp="1612938889862" />
++    <state width="1355" height="226" key="GridCell.Tab.0.right/0.25.1440.875/1440.25.1280.621@0.25.1440.875" timestamp="1612932744323" />
+     <state width="1413" height="220" key="GridCell.Tab.0.right/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612645066408" />
+     <state width="1413" height="220" key="GridCell.Tab.0.right/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278700" />
+     <state width="1439" height="252" key="GridCell.Tab.0.right/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612479398274" />
+Index: rotc_app/lib/common_widgets/buttonWidgets.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- rotc_app/lib/common_widgets/buttonWidgets.dart	(revision ab52eb26120e1c2577a7975694dff90635bb0602)
++++ rotc_app/lib/common_widgets/buttonWidgets.dart	(date 1612936016000)
+@@ -1,0 +1,14 @@
++import 'package:flutter/material.dart';
++
++class ButtonWidgets extends StatelessWidget {
++  @override
++  Widget build(BuildContext context) {
++
++      return ElevatedButton(
++        child: Text('Sign In'),
++        onPressed: () async {
++
++          },
++      );
++  }
++}
+Index: rotc_app/lib/services/auth.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import 'package:firebase_auth/firebase_auth.dart';\nimport 'package:flutter/material.dart';\n\nclass Auth {\n  final FirebaseAuth auth = FirebaseAuth.instance;\n\n  \n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- rotc_app/lib/services/auth.dart	(revision ab52eb26120e1c2577a7975694dff90635bb0602)
++++ rotc_app/lib/services/auth.dart	(date 1612973269000)
+@@ -4,6 +4,17 @@
+ class Auth {
+   final FirebaseAuth auth = FirebaseAuth.instance;
+ 
+-  
++  //TODO:  Move User Registration To This Section
++
++  //TODO:  Move User Sign To This Section
++@override
++  Future<User> signIn(String email, String password) async {
++  final UserCredential User = await auth.signInWithEmailAndPassword(email: email, password: password);
++
++}
++  //TODO:  Move User Sign Out To This Section
++
++
++
+ }
+ 

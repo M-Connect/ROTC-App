@@ -1,0 +1,892 @@
+Index: rotc_app/pubspec.yaml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>name: rotc_app\ndescription: ROTC to connect all cadets\n\n# The following line prevents the package from being accidentally published to\n# pub.dev using `pub publish`. This is preferred for private packages.\npublish_to: 'none' # Remove this line if you wish to publish to pub.dev\n\n# The following defines the version and build number for your application.\n# A version number is three numbers separated by dots, like 1.2.43\n# followed by an optional build number separated by a +.\n# Both the version and the builder number may be overridden in flutter\n# build by specifying --build-name and --build-number, respectively.\n# In Android, build-name is used as versionName while build-number used as versionCode.\n# Read more about Android versioning at https://developer.android.com/studio/publish/versioning\n# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.\n# Read more about iOS versioning at\n# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html\nversion: 1.0.0+1\n\nenvironment:\n  sdk: \">=2.7.0 <3.0.0\"\n\ndependencies:\n  flutter:\n    sdk: flutter\n\n\n  # The following adds the Cupertino Icons font to your application.\n  # Use with the CupertinoIcons class for iOS style icons.\n  cupertino_icons: ^1.0.0\n  firebase_auth: 0.20.0+1\n  firebase_core: 0.7.0\n  cloud_firestore: 0.16.0\n\ndev_dependencies:\n  flutter_test:\n    sdk: flutter\n\n# For information on the generic Dart part of this file, see the\n# following page: https://dart.dev/tools/pub/pubspec\n\n# The following section is specific to Flutter.\nflutter:\n\n  # The following line ensures that the Material Icons font is\n  # included with your application, so that you can use the icons in\n  # the material Icons class.\n  uses-material-design: true\n\n  # To add assets to your application, add an assets section, like this:\n  # assets:\n  #   - images/a_dot_burr.jpeg\n  #   - images/a_dot_ham.jpeg\n\n  # An image asset can refer to one or more resolution-specific \"variants\", see\n  # https://flutter.dev/assets-and-images/#resolution-aware.\n\n  # For details regarding adding assets from package dependencies, see\n  # https://flutter.dev/assets-and-images/#from-packages\n\n  # To add custom fonts to your application, add a fonts section here,\n  # in this \"flutter\" section. Each entry in this list should have a\n  # \"family\" key with the font family name, and a \"fonts\" key with a\n  # list giving the asset and other descriptors for the font. For\n  # example:\n  # fonts:\n  #   - family: Schyler\n  #     fonts:\n  #       - asset: fonts/Schyler-Regular.ttf\n  #       - asset: fonts/Schyler-Italic.ttf\n  #         style: italic\n  #   - family: Trajan Pro\n  #     fonts:\n  #       - asset: fonts/TrajanPro.ttf\n  #       - asset: fonts/TrajanPro_Bold.ttf\n  #         weight: 700\n  #\n  # For details regarding fonts from package dependencies,\n  # see https://flutter.dev/custom-fonts/#from-packages\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- rotc_app/pubspec.yaml	(revision 3fe588deb0c8a287293085269ccb00bea33929b5)
++++ rotc_app/pubspec.yaml	(date 1612821050000)
+@@ -31,6 +31,7 @@
+   firebase_auth: 0.20.0+1
+   firebase_core: 0.7.0
+   cloud_firestore: 0.16.0
++  shared_preferences: 0.5.12+4
+ 
+ dev_dependencies:
+   flutter_test:
+Index: rotc_app/lib/app/sign_in/signInPage.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import 'package:flutter/material.dart';\n\n/*\nSawyer Kisha\n02/02/2021\n1.0 - Prototype 01\nUi for the sign in page\n*/\n\nclass SignInPage extends StatelessWidget {\n  @override\n  Widget build(BuildContext context) {\n    return Scaffold(\n      appBar: AppBar(\n        title: Text('Sign-In'),\n      ),\n      body: Container(\n        padding: EdgeInsets.all(25.0),\n        child: Column(\n          mainAxisAlignment: MainAxisAlignment.start,\n          crossAxisAlignment: CrossAxisAlignment.start,\n          children: [\n            Padding(\n              padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),\n              child: Text('Username / Email: '),\n            ),\n            TextFormField(\n              decoration: const InputDecoration(\n                border: OutlineInputBorder(),\n                hintText: 'Username / Email',\n              ),\n              onSaved: (String value) {},\n            ),\n            Column(\n              mainAxisAlignment: MainAxisAlignment.start,\n              crossAxisAlignment: CrossAxisAlignment.start,\n              children: [\n                Padding(\n                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),\n                  child: Text('Password: '),\n                ),\n                TextFormField(\n                  decoration: const InputDecoration(\n                    border: OutlineInputBorder(),\n                    hintText: 'Password',\n                  ),\n                  obscureText: true,\n                  onSaved: (String value) {},\n                ),\n                Column(\n                    mainAxisAlignment: MainAxisAlignment.center,\n                    crossAxisAlignment: CrossAxisAlignment.start,\n                    children: [\n                      Container(\n                        child: ElevatedButton(\n                          child: Text('Sign In'),\n                          onPressed: () {\n                            Navigator.of(context).push(MaterialPageRoute(\n                                /*\n                                    Entry point to homepage / must connect to inputs\n                                    builder: (context) => ()\n                                   */\n                                ));\n                          },\n                        ),\n                      ),\n\n                      //added forgot password button - MRU\n                      SizedBox(height: 1.0),\n                      Column(\n                        children: [\n                          TextButton(\n                            child: Text(\n                              \"forgot password\",\n                              style: TextStyle(color: Colors.blueAccent),\n                            ),\n                            onPressed: () {},\n                          )\n                        ],\n                      ),\n                    ])\n              ],\n            ),\n          ],\n        ),\n      ),\n    );\n  }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- rotc_app/lib/app/sign_in/signInPage.dart	(revision 3fe588deb0c8a287293085269ccb00bea33929b5)
++++ rotc_app/lib/app/sign_in/signInPage.dart	(date 1612901406000)
+@@ -1,3 +1,6 @@
++import 'package:cloud_firestore/cloud_firestore.dart';
++import 'package:firebase_auth/firebase_auth.dart';
++import 'package:firebase_core/firebase_core.dart';
+ import 'package:flutter/material.dart';
+ 
+ /*
+@@ -7,7 +10,13 @@
+ Ui for the sign in page
+ */
+ 
++// ignore: must_be_immutable
+ class SignInPage extends StatelessWidget {
++  CollectionReference cadres = FirebaseFirestore.instance.collection('cadres');
++
++  TextEditingController email = TextEditingController();
++  TextEditingController password = TextEditingController();
++
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+@@ -25,6 +34,7 @@
+               child: Text('Username / Email: '),
+             ),
+             TextFormField(
++              controller: email,
+               decoration: const InputDecoration(
+                 border: OutlineInputBorder(),
+                 hintText: 'Username / Email',
+@@ -40,6 +50,7 @@
+                   child: Text('Password: '),
+                 ),
+                 TextFormField(
++                  controller: password,
+                   decoration: const InputDecoration(
+                     border: OutlineInputBorder(),
+                     hintText: 'Password',
+@@ -53,16 +64,18 @@
+                     children: [
+                       Container(
+                         child: ElevatedButton(
+-                          child: Text('Sign In'),
+-                          onPressed: () {
+-                            Navigator.of(context).push(MaterialPageRoute(
+-                                /*
+-                                    Entry point to homepage / must connect to inputs
+-                                    builder: (context) => ()
+-                                   */
+-                                ));
+-                          },
+-                        ),
++                            child: Text('Sign In'),
++                            onPressed: () async {
++                              UserCredential user = await FirebaseAuth.instance
++                                  .signInWithEmailAndPassword(
++                                      email: email.text,
++                                      password: password.text);
++
++
++
++                                ///sending to cadreHomePage just to test the page -Christine
++
++                            },),
+                       ),
+ 
+                       //added forgot password button - MRU
+@@ -87,4 +100,3 @@
+     );
+   }
+ }
+-
+Index: rotc_app/ios/Podfile.lock
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>PODS:\n  - abseil/algorithm (0.20200225.0):\n    - abseil/algorithm/algorithm (= 0.20200225.0)\n    - abseil/algorithm/container (= 0.20200225.0)\n  - abseil/algorithm/algorithm (0.20200225.0):\n    - abseil/base/config\n  - abseil/algorithm/container (0.20200225.0):\n    - abseil/algorithm/algorithm\n    - abseil/base/core_headers\n    - abseil/meta/type_traits\n  - abseil/base (0.20200225.0):\n    - abseil/base/atomic_hook (= 0.20200225.0)\n    - abseil/base/base (= 0.20200225.0)\n    - abseil/base/base_internal (= 0.20200225.0)\n    - abseil/base/bits (= 0.20200225.0)\n    - abseil/base/config (= 0.20200225.0)\n    - abseil/base/core_headers (= 0.20200225.0)\n    - abseil/base/dynamic_annotations (= 0.20200225.0)\n    - abseil/base/endian (= 0.20200225.0)\n    - abseil/base/errno_saver (= 0.20200225.0)\n    - abseil/base/exponential_biased (= 0.20200225.0)\n    - abseil/base/log_severity (= 0.20200225.0)\n    - abseil/base/malloc_internal (= 0.20200225.0)\n    - abseil/base/periodic_sampler (= 0.20200225.0)\n    - abseil/base/pretty_function (= 0.20200225.0)\n    - abseil/base/raw_logging_internal (= 0.20200225.0)\n    - abseil/base/spinlock_wait (= 0.20200225.0)\n    - abseil/base/throw_delegate (= 0.20200225.0)\n  - abseil/base/atomic_hook (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/core_headers\n  - abseil/base/base (0.20200225.0):\n    - abseil/base/atomic_hook\n    - abseil/base/base_internal\n    - abseil/base/config\n    - abseil/base/core_headers\n    - abseil/base/dynamic_annotations\n    - abseil/base/log_severity\n    - abseil/base/raw_logging_internal\n    - abseil/base/spinlock_wait\n    - abseil/meta/type_traits\n  - abseil/base/base_internal (0.20200225.0):\n    - abseil/base/config\n    - abseil/meta/type_traits\n  - abseil/base/bits (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/core_headers\n  - abseil/base/config (0.20200225.0)\n  - abseil/base/core_headers (0.20200225.0):\n    - abseil/base/config\n  - abseil/base/dynamic_annotations (0.20200225.0)\n  - abseil/base/endian (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/core_headers\n  - abseil/base/errno_saver (0.20200225.0):\n    - abseil/base/config\n  - abseil/base/exponential_biased (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/core_headers\n  - abseil/base/log_severity (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/core_headers\n  - abseil/base/malloc_internal (0.20200225.0):\n    - abseil/base/base\n    - abseil/base/base_internal\n    - abseil/base/config\n    - abseil/base/core_headers\n    - abseil/base/dynamic_annotations\n    - abseil/base/raw_logging_internal\n  - abseil/base/periodic_sampler (0.20200225.0):\n    - abseil/base/core_headers\n    - abseil/base/exponential_biased\n  - abseil/base/pretty_function (0.20200225.0)\n  - abseil/base/raw_logging_internal (0.20200225.0):\n    - abseil/base/atomic_hook\n    - abseil/base/config\n    - abseil/base/core_headers\n    - abseil/base/log_severity\n  - abseil/base/spinlock_wait (0.20200225.0):\n    - abseil/base/base_internal\n    - abseil/base/core_headers\n    - abseil/base/errno_saver\n  - abseil/base/throw_delegate (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/raw_logging_internal\n  - abseil/container/compressed_tuple (0.20200225.0):\n    - abseil/utility/utility\n  - abseil/container/inlined_vector (0.20200225.0):\n    - abseil/algorithm/algorithm\n    - abseil/base/core_headers\n    - abseil/base/throw_delegate\n    - abseil/container/inlined_vector_internal\n    - abseil/memory/memory\n  - abseil/container/inlined_vector_internal (0.20200225.0):\n    - abseil/base/core_headers\n    - abseil/container/compressed_tuple\n    - abseil/memory/memory\n    - abseil/meta/type_traits\n    - abseil/types/span\n  - abseil/memory (0.20200225.0):\n    - abseil/memory/memory (= 0.20200225.0)\n  - abseil/memory/memory (0.20200225.0):\n    - abseil/base/core_headers\n    - abseil/meta/type_traits\n  - abseil/meta (0.20200225.0):\n    - abseil/meta/type_traits (= 0.20200225.0)\n  - abseil/meta/type_traits (0.20200225.0):\n    - abseil/base/config\n  - abseil/numeric/int128 (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/core_headers\n  - abseil/strings/internal (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/core_headers\n    - abseil/base/endian\n    - abseil/base/raw_logging_internal\n    - abseil/meta/type_traits\n  - abseil/strings/str_format (0.20200225.0):\n    - abseil/strings/str_format_internal\n  - abseil/strings/str_format_internal (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/core_headers\n    - abseil/meta/type_traits\n    - abseil/numeric/int128\n    - abseil/strings/strings\n    - abseil/types/span\n  - abseil/strings/strings (0.20200225.0):\n    - abseil/base/base\n    - abseil/base/bits\n    - abseil/base/config\n    - abseil/base/core_headers\n    - abseil/base/endian\n    - abseil/base/raw_logging_internal\n    - abseil/base/throw_delegate\n    - abseil/memory/memory\n    - abseil/meta/type_traits\n    - abseil/numeric/int128\n    - abseil/strings/internal\n  - abseil/time (0.20200225.0):\n    - abseil/time/internal (= 0.20200225.0)\n    - abseil/time/time (= 0.20200225.0)\n  - abseil/time/internal (0.20200225.0):\n    - abseil/time/internal/cctz (= 0.20200225.0)\n  - abseil/time/internal/cctz (0.20200225.0):\n    - abseil/time/internal/cctz/civil_time (= 0.20200225.0)\n    - abseil/time/internal/cctz/time_zone (= 0.20200225.0)\n  - abseil/time/internal/cctz/civil_time (0.20200225.0):\n    - abseil/base/config\n  - abseil/time/internal/cctz/time_zone (0.20200225.0):\n    - abseil/base/config\n    - abseil/time/internal/cctz/civil_time\n  - abseil/time/time (0.20200225.0):\n    - abseil/base/base\n    - abseil/base/core_headers\n    - abseil/base/raw_logging_internal\n    - abseil/numeric/int128\n    - abseil/strings/strings\n    - abseil/time/internal/cctz/civil_time\n    - abseil/time/internal/cctz/time_zone\n  - abseil/types (0.20200225.0):\n    - abseil/types/any (= 0.20200225.0)\n    - abseil/types/bad_any_cast (= 0.20200225.0)\n    - abseil/types/bad_any_cast_impl (= 0.20200225.0)\n    - abseil/types/bad_optional_access (= 0.20200225.0)\n    - abseil/types/bad_variant_access (= 0.20200225.0)\n    - abseil/types/compare (= 0.20200225.0)\n    - abseil/types/optional (= 0.20200225.0)\n    - abseil/types/span (= 0.20200225.0)\n    - abseil/types/variant (= 0.20200225.0)\n  - abseil/types/any (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/core_headers\n    - abseil/meta/type_traits\n    - abseil/types/bad_any_cast\n    - abseil/utility/utility\n  - abseil/types/bad_any_cast (0.20200225.0):\n    - abseil/base/config\n    - abseil/types/bad_any_cast_impl\n  - abseil/types/bad_any_cast_impl (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/raw_logging_internal\n  - abseil/types/bad_optional_access (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/raw_logging_internal\n  - abseil/types/bad_variant_access (0.20200225.0):\n    - abseil/base/config\n    - abseil/base/raw_logging_internal\n  - abseil/types/compare (0.20200225.0):\n    - abseil/base/core_headers\n    - abseil/meta/type_traits\n  - abseil/types/optional (0.20200225.0):\n    - abseil/base/base_internal\n    - abseil/base/config\n    - abseil/base/core_headers\n    - abseil/memory/memory\n    - abseil/meta/type_traits\n    - abseil/types/bad_optional_access\n    - abseil/utility/utility\n  - abseil/types/span (0.20200225.0):\n    - abseil/algorithm/algorithm\n    - abseil/base/core_headers\n    - abseil/base/throw_delegate\n    - abseil/meta/type_traits\n  - abseil/types/variant (0.20200225.0):\n    - abseil/base/base_internal\n    - abseil/base/config\n    - abseil/base/core_headers\n    - abseil/meta/type_traits\n    - abseil/types/bad_variant_access\n    - abseil/utility/utility\n  - abseil/utility/utility (0.20200225.0):\n    - abseil/base/base_internal\n    - abseil/base/config\n    - abseil/meta/type_traits\n  - BoringSSL-GRPC (0.0.7):\n    - BoringSSL-GRPC/Implementation (= 0.0.7)\n    - BoringSSL-GRPC/Interface (= 0.0.7)\n  - BoringSSL-GRPC/Implementation (0.0.7):\n    - BoringSSL-GRPC/Interface (= 0.0.7)\n  - BoringSSL-GRPC/Interface (0.0.7)\n  - cloud_firestore (0.16.0):\n    - Firebase/Firestore (= 7.3.0)\n    - firebase_core\n    - Flutter\n  - Firebase/Auth (7.3.0):\n    - Firebase/CoreOnly\n    - FirebaseAuth (~> 7.3.0)\n  - Firebase/CoreOnly (7.3.0):\n    - FirebaseCore (= 7.3.0)\n  - Firebase/Firestore (7.3.0):\n    - Firebase/CoreOnly\n    - FirebaseFirestore (~> 7.3.0)\n  - firebase_auth (0.20.0-1):\n    - Firebase/Auth (= 7.3.0)\n    - firebase_core\n    - Flutter\n  - firebase_core (0.7.0):\n    - Firebase/CoreOnly (= 7.3.0)\n    - Flutter\n  - FirebaseAuth (7.3.0):\n    - FirebaseCore (~> 7.0)\n    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)\n    - GoogleUtilities/Environment (~> 7.0)\n    - GTMSessionFetcher/Core (~> 1.4)\n  - FirebaseCore (7.3.0):\n    - FirebaseCoreDiagnostics (~> 7.0)\n    - GoogleUtilities/Environment (~> 7.0)\n    - GoogleUtilities/Logger (~> 7.0)\n  - FirebaseCoreDiagnostics (7.3.0):\n    - GoogleDataTransport (~> 8.0)\n    - GoogleUtilities/Environment (~> 7.0)\n    - GoogleUtilities/Logger (~> 7.0)\n    - nanopb (~> 2.30906.0)\n  - FirebaseFirestore (7.3.0):\n    - abseil/algorithm (= 0.20200225.0)\n    - abseil/base (= 0.20200225.0)\n    - abseil/memory (= 0.20200225.0)\n    - abseil/meta (= 0.20200225.0)\n    - abseil/strings/strings (= 0.20200225.0)\n    - abseil/time (= 0.20200225.0)\n    - abseil/types (= 0.20200225.0)\n    - FirebaseCore (~> 7.0)\n    - \"gRPC-C++ (~> 1.28.0)\"\n    - leveldb-library (~> 1.22)\n    - nanopb (~> 2.30906.0)\n  - Flutter (1.0.0)\n  - GoogleDataTransport (8.1.0):\n    - nanopb (~> 2.30906.0)\n  - GoogleUtilities/AppDelegateSwizzler (7.2.2):\n    - GoogleUtilities/Environment\n    - GoogleUtilities/Logger\n    - GoogleUtilities/Network\n  - GoogleUtilities/Environment (7.2.2):\n    - PromisesObjC (~> 1.2)\n  - GoogleUtilities/Logger (7.2.2):\n    - GoogleUtilities/Environment\n  - GoogleUtilities/Network (7.2.2):\n    - GoogleUtilities/Logger\n    - \"GoogleUtilities/NSData+zlib\"\n    - GoogleUtilities/Reachability\n  - \"GoogleUtilities/NSData+zlib (7.2.2)\"\n  - GoogleUtilities/Reachability (7.2.2):\n    - GoogleUtilities/Logger\n  - \"gRPC-C++ (1.28.2)\":\n    - \"gRPC-C++/Implementation (= 1.28.2)\"\n    - \"gRPC-C++/Interface (= 1.28.2)\"\n  - \"gRPC-C++/Implementation (1.28.2)\":\n    - abseil/container/inlined_vector (= 0.20200225.0)\n    - abseil/memory/memory (= 0.20200225.0)\n    - abseil/strings/str_format (= 0.20200225.0)\n    - abseil/strings/strings (= 0.20200225.0)\n    - abseil/types/optional (= 0.20200225.0)\n    - \"gRPC-C++/Interface (= 1.28.2)\"\n    - gRPC-Core (= 1.28.2)\n  - \"gRPC-C++/Interface (1.28.2)\"\n  - gRPC-Core (1.28.2):\n    - gRPC-Core/Implementation (= 1.28.2)\n    - gRPC-Core/Interface (= 1.28.2)\n  - gRPC-Core/Implementation (1.28.2):\n    - abseil/container/inlined_vector (= 0.20200225.0)\n    - abseil/memory/memory (= 0.20200225.0)\n    - abseil/strings/str_format (= 0.20200225.0)\n    - abseil/strings/strings (= 0.20200225.0)\n    - abseil/types/optional (= 0.20200225.0)\n    - BoringSSL-GRPC (= 0.0.7)\n    - gRPC-Core/Interface (= 1.28.2)\n  - gRPC-Core/Interface (1.28.2)\n  - GTMSessionFetcher/Core (1.5.0)\n  - leveldb-library (1.22)\n  - nanopb (2.30906.0):\n    - nanopb/decode (= 2.30906.0)\n    - nanopb/encode (= 2.30906.0)\n  - nanopb/decode (2.30906.0)\n  - nanopb/encode (2.30906.0)\n  - PromisesObjC (1.2.12)\n\nDEPENDENCIES:\n  - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)\n  - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)\n  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)\n  - Flutter (from `Flutter`)\n\nSPEC REPOS:\n  trunk:\n    - abseil\n    - BoringSSL-GRPC\n    - Firebase\n    - FirebaseAuth\n    - FirebaseCore\n    - FirebaseCoreDiagnostics\n    - FirebaseFirestore\n    - GoogleDataTransport\n    - GoogleUtilities\n    - \"gRPC-C++\"\n    - gRPC-Core\n    - GTMSessionFetcher\n    - leveldb-library\n    - nanopb\n    - PromisesObjC\n\nEXTERNAL SOURCES:\n  cloud_firestore:\n    :path: \".symlinks/plugins/cloud_firestore/ios\"\n  firebase_auth:\n    :path: \".symlinks/plugins/firebase_auth/ios\"\n  firebase_core:\n    :path: \".symlinks/plugins/firebase_core/ios\"\n  Flutter:\n    :path: Flutter\n\nSPEC CHECKSUMS:\n  abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f\n  BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879\n  cloud_firestore: 433cf1aece50c727965355ae00e8dbeeceae66b1\n  Firebase: 26223c695fe322633274198cb19dca8cb7e54416\n  firebase_auth: b55e5136528dced982022ee073ed4b48f15c055c\n  firebase_core: 91b27774a52f41f8b58484a75edf71197ac01c59\n  FirebaseAuth: c224a0cf1afa0949bd5c7bfcf154b4f5ce8ddef2\n  FirebaseCore: 4d3c72622ce0e2106aaa07bb4b2935ba2c370972\n  FirebaseCoreDiagnostics: d50e11039e5984d92c8a512be2395f13df747350\n  FirebaseFirestore: 1906bf163afdb7c432d2e3b5c40ceb9dd2df5820\n  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec\n  GoogleDataTransport: 116c84c4bdeb76be2a7a46de51244368f9794eab\n  GoogleUtilities: 31c5b01f978a70c6cff2afc6272b3f1921614b43\n  \"gRPC-C++\": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2\n  gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5\n  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52\n  leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7\n  nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53\n  PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97\n\nPODFILE CHECKSUM: 3dffd8c48b531d21ec0ec153c22dc8e3a6223bc9\n\nCOCOAPODS: 1.10.1\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- rotc_app/ios/Podfile.lock	(revision 3fe588deb0c8a287293085269ccb00bea33929b5)
++++ rotc_app/ios/Podfile.lock	(date 1612844193000)
+@@ -313,12 +313,15 @@
+   - nanopb/decode (2.30906.0)
+   - nanopb/encode (2.30906.0)
+   - PromisesObjC (1.2.12)
++  - shared_preferences (0.0.1):
++    - Flutter
+ 
+ DEPENDENCIES:
+   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
+   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+   - Flutter (from `Flutter`)
++  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+ 
+ SPEC REPOS:
+   trunk:
+@@ -347,6 +350,8 @@
+     :path: ".symlinks/plugins/firebase_core/ios"
+   Flutter:
+     :path: Flutter
++  shared_preferences:
++    :path: ".symlinks/plugins/shared_preferences/ios"
+ 
+ SPEC CHECKSUMS:
+   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
+@@ -368,6 +373,7 @@
+   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
+   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
+   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
++  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+ 
+ PODFILE CHECKSUM: 3dffd8c48b531d21ec0ec153c22dc8e3a6223bc9
+ 
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n\n  <component name=\"BranchesTreeState\">\n    <expand>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"LOCAL_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"GROUP_NODE:origin\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n    </expand>\n    <select>\n      <path>\n        <item name=\"ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"REMOTE_ROOT\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"GROUP_NODE:origin\" type=\"e8cecc67:BranchNodeDescriptor\" />\n        <item name=\"BRANCH:origin/kyle_WIP\" type=\"e8cecc67:BranchNodeDescriptor\" />\n      </path>\n    </select>\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"3c64f85d-594a-46dd-8d29-eb037e16b2d1\" name=\"Default Changelist\" comment=\"\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/rotc_app/android/app/build.gradle\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/rotc_app/android/app/build.gradle\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/rotc_app/android/google-services.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/rotc_app/android/app/google-services.json\" afterDir=\"false\" />\n\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Dart File\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"ProjectId\" id=\"1o2JnS7fag6oXxoQK9OyRAlLMmf\" />\n\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n\n    <property name=\"Git.Branch.Popup.ShowAllRemotes\" value=\"true\" />\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"android.sdk.path\" value=\"$USER_HOME$/Library/Android/sdk\" />\n    <property name=\"dart.analysis.tool.window.visible\" value=\"false\" />\n    <property name=\"io.flutter.reload.alreadyRun\" value=\"true\" />\n    <property name=\"settings.editor.selected.configurable\" value=\"preferences.pluginManager\" />\n    <property name=\"show.migrate.to.gradle.popup\" value=\"false\" />\n  </component>\n  <component name=\"RecentsManager\">\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/rotc_app/android/app\" />\n      <recent name=\"$PROJECT_DIR$/rotc_app/lib\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"main.dart\" type=\"FlutterRunConfigurationType\" factoryName=\"Flutter\">\n      <option name=\"filePath\" value=\"$PROJECT_DIR$/rotc_app/lib/main.dart\" />\n      <method v=\"2\" />\n    </configuration>\n\n  </component>\n  <component name=\"SvnConfiguration\">\n    <configuration />\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n\n      <changelist id=\"3c64f85d-594a-46dd-8d29-eb037e16b2d1\" name=\"Default Changelist\" comment=\"\" />\n      <created>1612478918576</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1612478918576</updated>\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Adding the Database Functions to signInPage.dart and registrationPage.dart\">\n      <created>1612584501834</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1612584501835</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Configured our sign in page to sign in with proper credentials\">\n      <created>1612644689209</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1612644689210</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Removed extra sign in button from the sign in page\">\n      <created>1612812685079</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1612812685079</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"4\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State>\n              <option name=\"FILTERS\">\n                <map>\n                  <entry key=\"branch\">\n                    <value>\n                      <list>\n                        <option value=\"origin/kyle_WIP\" />\n                      </list>\n                    </value>\n                  </entry>\n                </map>\n              </option>\n            </State>\n          </value>\n        </entry>\n      </map>\n    </option>\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Adding the Database Functions to signInPage.dart and registrationPage.dart\" />\n    <MESSAGE value=\"Configured our sign in page to sign in with proper credentials\" />\n    <MESSAGE value=\"Removed extra sign in button from the sign in page\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Removed extra sign in button from the sign in page\" />\n  </component>\n  <component name=\"WindowStateProjectService\">\n    <state x=\"1912\" y=\"166\" key=\"#com.intellij.execution.impl.EditConfigurationsDialog\" timestamp=\"1612478983599\">\n      <screen x=\"1680\" y=\"25\" width=\"1920\" height=\"1055\" />\n    </state>\n    <state x=\"1912\" y=\"166\" key=\"#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612478983599\" />\n    <state x=\"2185\" y=\"301\" key=\"#com.intellij.ide.util.TreeFileChooserDialog\" timestamp=\"1612478960729\">\n      <screen x=\"1680\" y=\"25\" width=\"1920\" height=\"1055\" />\n    </state>\n    <state x=\"2185\" y=\"301\" key=\"#com.intellij.ide.util.TreeFileChooserDialog/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612478960729\" />\n    <state width=\"688\" height=\"196\" key=\"GridCell.Tab.0.bottom\" timestamp=\"1612812817049\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"797\" />\n    </state>\n    <state width=\"1009\" height=\"200\" key=\"GridCell.Tab.0.bottom/0.25.1440.794@0.25.1440.794\" timestamp=\"1612543315659\" />\n    <state width=\"688\" height=\"196\" key=\"GridCell.Tab.0.bottom/0.25.1440.797/1440.25.1280.695@0.25.1440.797\" timestamp=\"1612812817049\" />\n    <state width=\"1351\" height=\"201\" key=\"GridCell.Tab.0.bottom/0.25.1440.797@0.25.1440.797\" timestamp=\"1612543953185\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.bottom/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612645066408\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.bottom/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612714278701\" />\n    <state width=\"1439\" height=\"252\" key=\"GridCell.Tab.0.bottom/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612479398274\" />\n    <state width=\"688\" height=\"196\" key=\"GridCell.Tab.0.center\" timestamp=\"1612812817030\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"797\" />\n    </state>\n    <state width=\"1009\" height=\"200\" key=\"GridCell.Tab.0.center/0.25.1440.794@0.25.1440.794\" timestamp=\"1612543315658\" />\n    <state width=\"688\" height=\"196\" key=\"GridCell.Tab.0.center/0.25.1440.797/1440.25.1280.695@0.25.1440.797\" timestamp=\"1612812817030\" />\n    <state width=\"1351\" height=\"201\" key=\"GridCell.Tab.0.center/0.25.1440.797@0.25.1440.797\" timestamp=\"1612543953184\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.center/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612645066407\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.center/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612714278700\" />\n    <state width=\"1439\" height=\"252\" key=\"GridCell.Tab.0.center/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612479398273\" />\n    <state width=\"688\" height=\"196\" key=\"GridCell.Tab.0.left\" timestamp=\"1612812817025\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"797\" />\n    </state>\n    <state width=\"1009\" height=\"200\" key=\"GridCell.Tab.0.left/0.25.1440.794@0.25.1440.794\" timestamp=\"1612543315657\" />\n    <state width=\"688\" height=\"196\" key=\"GridCell.Tab.0.left/0.25.1440.797/1440.25.1280.695@0.25.1440.797\" timestamp=\"1612812817025\" />\n    <state width=\"1351\" height=\"201\" key=\"GridCell.Tab.0.left/0.25.1440.797@0.25.1440.797\" timestamp=\"1612543953184\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.left/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612645066406\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.left/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612714278699\" />\n    <state width=\"1439\" height=\"252\" key=\"GridCell.Tab.0.left/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612479398270\" />\n    <state width=\"688\" height=\"196\" key=\"GridCell.Tab.0.right\" timestamp=\"1612812817042\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"797\" />\n    </state>\n    <state width=\"1009\" height=\"200\" key=\"GridCell.Tab.0.right/0.25.1440.794@0.25.1440.794\" timestamp=\"1612543315658\" />\n    <state width=\"688\" height=\"196\" key=\"GridCell.Tab.0.right/0.25.1440.797/1440.25.1280.695@0.25.1440.797\" timestamp=\"1612812817042\" />\n    <state width=\"1351\" height=\"201\" key=\"GridCell.Tab.0.right/0.25.1440.797@0.25.1440.797\" timestamp=\"1612543953185\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.right/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612645066408\" />\n    <state width=\"1413\" height=\"220\" key=\"GridCell.Tab.0.right/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612714278700\" />\n    <state width=\"1439\" height=\"252\" key=\"GridCell.Tab.0.right/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612479398274\" />\n    <state x=\"202\" y=\"94\" key=\"SettingsEditor\" timestamp=\"1612813908240\">\n      <screen x=\"0\" y=\"25\" width=\"1440\" height=\"797\" />\n    </state>\n    <state x=\"202\" y=\"94\" key=\"SettingsEditor/0.25.1440.797/1440.25.1280.695@0.25.1440.797\" timestamp=\"1612813908240\" />\n    <state x=\"1949\" y=\"143\" key=\"SettingsEditor/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612478980159\" />\n    <state x=\"2613\" y=\"424\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2\" timestamp=\"1612498870041\">\n      <screen x=\"1680\" y=\"25\" width=\"1920\" height=\"1055\" />\n    </state>\n    <state x=\"2613\" y=\"424\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612498870041\" />\n    <state x=\"2193\" y=\"182\" width=\"894\" height=\"900\" key=\"search.everywhere.popup\" timestamp=\"1612572827458\">\n      <screen x=\"1680\" y=\"25\" width=\"1920\" height=\"1055\" />\n    </state>\n    <state x=\"385\" y=\"143\" width=\"670\" height=\"676\" key=\"search.everywhere.popup/0.25.1440.794@0.25.1440.794\" timestamp=\"1612542098623\" />\n    <state x=\"385\" y=\"144\" width=\"670\" height=\"681\" key=\"search.everywhere.popup/0.25.1440.799@0.25.1440.799\" timestamp=\"1612547690652\" />\n    <state x=\"2193\" y=\"182\" width=\"894\" height=\"900\" key=\"search.everywhere.popup/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055\" timestamp=\"1612572827458\" />\n\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/workspace.xml	(revision 3fe588deb0c8a287293085269ccb00bea33929b5)
++++ .idea/workspace.xml	(date 1612896549000)
+@@ -1,6 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+-
+   <component name="BranchesTreeState">
+     <expand>
+       <path>
+@@ -28,17 +27,20 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="3c64f85d-594a-46dd-8d29-eb037e16b2d1" name="Default Changelist" comment="">
++      <change afterPath="$PROJECT_DIR$/rotc_app/lib/services/database.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/ROTC-App.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ROTC-App.iml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/rotc_app/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/android/app/build.gradle" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/rotc_app/android/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/android/app/google-services.json" afterDir="false" />
+-
++      <change beforePath="$PROJECT_DIR$/rotc_app/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/ios/Podfile.lock" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/rotc_app/lib/app/sign_in/signInPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/app/sign_in/signInPage.dart" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/rotc_app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/pubspec.lock" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/rotc_app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/pubspec.yaml" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
+   </component>
+-
+   <component name="FileTemplateManagerImpl">
+     <option name="RECENT_TEMPLATES">
+       <list>
+@@ -50,13 +52,11 @@
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+   <component name="ProjectId" id="1o2JnS7fag6oXxoQK9OyRAlLMmf" />
+-
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+   <component name="PropertiesComponent">
+-
+     <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+@@ -77,14 +77,12 @@
+       <option name="filePath" value="$PROJECT_DIR$/rotc_app/lib/main.dart" />
+       <method v="2" />
+     </configuration>
+-
+   </component>
+   <component name="SvnConfiguration">
+     <configuration />
+   </component>
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+-
+       <changelist id="3c64f85d-594a-46dd-8d29-eb037e16b2d1" name="Default Changelist" comment="" />
+       <created>1612478918576</created>
+       <option name="number" value="Default" />
+@@ -150,46 +148,66 @@
+       <screen x="1680" y="25" width="1920" height="1055" />
+     </state>
+     <state x="1912" y="166" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612478983599" />
++    <state x="439" y="251" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1612849449367">
++      <screen x="0" y="25" width="1440" height="875" />
++    </state>
++    <state x="439" y="251" key="#com.intellij.fileTypes.FileTypeChooser/0.25.1440.875/1440.25.1280.626@0.25.1440.875" timestamp="1612849449367" />
+     <state x="2185" y="301" key="#com.intellij.ide.util.TreeFileChooserDialog" timestamp="1612478960729">
+       <screen x="1680" y="25" width="1920" height="1055" />
+     </state>
+     <state x="2185" y="301" key="#com.intellij.ide.util.TreeFileChooserDialog/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612478960729" />
+-    <state width="688" height="196" key="GridCell.Tab.0.bottom" timestamp="1612812817049">
+-      <screen x="0" y="25" width="1440" height="797" />
++    <state width="1375" height="196" key="GridCell.Tab.0.bottom" timestamp="1612896223344">
++      <screen x="0" y="25" width="1440" height="791" />
+     </state>
++    <state width="1375" height="196" key="GridCell.Tab.0.bottom/0.25.1440.791@0.25.1440.791" timestamp="1612896223344" />
++    <state width="1378" height="196" key="GridCell.Tab.0.bottom/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612822298746" />
+     <state width="1009" height="200" key="GridCell.Tab.0.bottom/0.25.1440.794@0.25.1440.794" timestamp="1612543315659" />
+-    <state width="688" height="196" key="GridCell.Tab.0.bottom/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817049" />
++    <state width="1378" height="196" key="GridCell.Tab.0.bottom/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612821050086" />
+     <state width="1351" height="201" key="GridCell.Tab.0.bottom/0.25.1440.797@0.25.1440.797" timestamp="1612543953185" />
++    <state width="1375" height="213" key="GridCell.Tab.0.bottom/0.25.1440.875/1440.25.1280.626@0.25.1440.875" timestamp="1612849595811" />
+     <state width="1413" height="220" key="GridCell.Tab.0.bottom/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612645066408" />
+     <state width="1413" height="220" key="GridCell.Tab.0.bottom/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278701" />
+     <state width="1439" height="252" key="GridCell.Tab.0.bottom/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612479398274" />
+-    <state width="688" height="196" key="GridCell.Tab.0.center" timestamp="1612812817030">
+-      <screen x="0" y="25" width="1440" height="797" />
++    <state width="1375" height="196" key="GridCell.Tab.0.center" timestamp="1612896223342">
++      <screen x="0" y="25" width="1440" height="791" />
+     </state>
++    <state width="1375" height="196" key="GridCell.Tab.0.center/0.25.1440.791@0.25.1440.791" timestamp="1612896223342" />
++    <state width="1378" height="196" key="GridCell.Tab.0.center/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612822298745" />
+     <state width="1009" height="200" key="GridCell.Tab.0.center/0.25.1440.794@0.25.1440.794" timestamp="1612543315658" />
+-    <state width="688" height="196" key="GridCell.Tab.0.center/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817030" />
++    <state width="1378" height="196" key="GridCell.Tab.0.center/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612821050084" />
+     <state width="1351" height="201" key="GridCell.Tab.0.center/0.25.1440.797@0.25.1440.797" timestamp="1612543953184" />
++    <state width="1375" height="213" key="GridCell.Tab.0.center/0.25.1440.875/1440.25.1280.626@0.25.1440.875" timestamp="1612849595811" />
+     <state width="1413" height="220" key="GridCell.Tab.0.center/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612645066407" />
+     <state width="1413" height="220" key="GridCell.Tab.0.center/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278700" />
+     <state width="1439" height="252" key="GridCell.Tab.0.center/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612479398273" />
+-    <state width="688" height="196" key="GridCell.Tab.0.left" timestamp="1612812817025">
+-      <screen x="0" y="25" width="1440" height="797" />
++    <state width="1375" height="196" key="GridCell.Tab.0.left" timestamp="1612896223337">
++      <screen x="0" y="25" width="1440" height="791" />
+     </state>
++    <state width="1375" height="196" key="GridCell.Tab.0.left/0.25.1440.791@0.25.1440.791" timestamp="1612896223337" />
++    <state width="1378" height="196" key="GridCell.Tab.0.left/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612822298744" />
+     <state width="1009" height="200" key="GridCell.Tab.0.left/0.25.1440.794@0.25.1440.794" timestamp="1612543315657" />
+-    <state width="688" height="196" key="GridCell.Tab.0.left/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817025" />
++    <state width="1378" height="196" key="GridCell.Tab.0.left/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612821050082" />
+     <state width="1351" height="201" key="GridCell.Tab.0.left/0.25.1440.797@0.25.1440.797" timestamp="1612543953184" />
++    <state width="1375" height="213" key="GridCell.Tab.0.left/0.25.1440.875/1440.25.1280.626@0.25.1440.875" timestamp="1612849595811" />
+     <state width="1413" height="220" key="GridCell.Tab.0.left/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612645066406" />
+     <state width="1413" height="220" key="GridCell.Tab.0.left/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278699" />
+     <state width="1439" height="252" key="GridCell.Tab.0.left/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612479398270" />
+-    <state width="688" height="196" key="GridCell.Tab.0.right" timestamp="1612812817042">
+-      <screen x="0" y="25" width="1440" height="797" />
++    <state width="1375" height="196" key="GridCell.Tab.0.right" timestamp="1612896223343">
++      <screen x="0" y="25" width="1440" height="791" />
+     </state>
++    <state width="1375" height="196" key="GridCell.Tab.0.right/0.25.1440.791@0.25.1440.791" timestamp="1612896223343" />
++    <state width="1378" height="196" key="GridCell.Tab.0.right/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612822298745" />
+     <state width="1009" height="200" key="GridCell.Tab.0.right/0.25.1440.794@0.25.1440.794" timestamp="1612543315658" />
+-    <state width="688" height="196" key="GridCell.Tab.0.right/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817042" />
++    <state width="1378" height="196" key="GridCell.Tab.0.right/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612821050085" />
+     <state width="1351" height="201" key="GridCell.Tab.0.right/0.25.1440.797@0.25.1440.797" timestamp="1612543953185" />
++    <state width="1375" height="213" key="GridCell.Tab.0.right/0.25.1440.875/1440.25.1280.626@0.25.1440.875" timestamp="1612849595811" />
+     <state width="1413" height="220" key="GridCell.Tab.0.right/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612645066408" />
+     <state width="1413" height="220" key="GridCell.Tab.0.right/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278700" />
+     <state width="1439" height="252" key="GridCell.Tab.0.right/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612479398274" />
++    <state x="303" y="192" key="IDE.errors.dialog" timestamp="1612840552804">
++      <screen x="0" y="25" width="1440" height="875" />
++    </state>
++    <state x="303" y="192" key="IDE.errors.dialog/0.25.1440.875/1440.25.1280.626@0.25.1440.875" timestamp="1612840552804" />
+     <state x="202" y="94" key="SettingsEditor" timestamp="1612813908240">
+       <screen x="0" y="25" width="1440" height="797" />
+     </state>
+@@ -199,12 +217,12 @@
+       <screen x="1680" y="25" width="1920" height="1055" />
+     </state>
+     <state x="2613" y="424" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612498870041" />
+-    <state x="2193" y="182" width="894" height="900" key="search.everywhere.popup" timestamp="1612572827458">
+-      <screen x="1680" y="25" width="1920" height="1055" />
++    <state x="385" y="155" width="671" height="747" key="search.everywhere.popup" timestamp="1612841005435">
++      <screen x="0" y="25" width="1440" height="875" />
+     </state>
+     <state x="385" y="143" width="670" height="676" key="search.everywhere.popup/0.25.1440.794@0.25.1440.794" timestamp="1612542098623" />
+     <state x="385" y="144" width="670" height="681" key="search.everywhere.popup/0.25.1440.799@0.25.1440.799" timestamp="1612547690652" />
++    <state x="385" y="155" width="671" height="747" key="search.everywhere.popup/0.25.1440.875/1440.25.1280.626@0.25.1440.875" timestamp="1612841005435" />
+     <state x="2193" y="182" width="894" height="900" key="search.everywhere.popup/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612572827458" />
+-
+   </component>
+ </project>
+\ No newline at end of file
+Index: .idea/libraries/Dart_Packages.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><component name=\"libraryTable\">\n  <library name=\"Dart Packages\" type=\"DartPackagesLibraryType\">\n    <properties>\n      <option name=\"packageNameToDirsMap\">\n        <entry key=\"async\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.5.0-nullsafety.1/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"boolean_selector\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0-nullsafety.1/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"characters\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0-nullsafety.3/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"charcode\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.2.0-nullsafety.1/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"clock\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0-nullsafety.1/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"cloud_firestore\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.16.0/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"cloud_firestore_platform_interface\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_platform_interface-3.0.1/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"cloud_firestore_web\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-0.3.0+1/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"collection\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0-nullsafety.3/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"cupertino_icons\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.0/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"fake_async\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0-nullsafety.1/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"firebase_auth\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.20.0+1/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"firebase_auth_platform_interface\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_platform_interface-3.0.1/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"firebase_auth_web\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-0.3.2+6/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"firebase_core\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.7.0/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"firebase_core_platform_interface\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_platform_interface-3.0.1/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"firebase_core_web\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-0.2.1+3/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"flutter\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/packages/flutter/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"flutter_test\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/packages/flutter_test/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"flutter_web_plugins\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/packages/flutter_web_plugins/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"http_parser\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-3.1.4/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"intl\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.16.1/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"js\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.2/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"matcher\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.10-nullsafety.1/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"meta\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.3.0-nullsafety.3/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"path\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0-nullsafety.1/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"plugin_platform_interface\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-1.0.3/lib\" />\n            </list>\n          </value>\n        </entry>\n        <entry key=\"quiver\">\n          <value>\n            <list>\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-2.1.5/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"sky_engine\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/bin/cache/pkg/sky_engine/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"source_span\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.0-nullsafety.2/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"stack_trace\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0-nullsafety.1/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"stream_channel\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.1.0-nullsafety.1/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"string_scanner\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0-nullsafety.1/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"term_glyph\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0-nullsafety.1/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"test_api\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.19-nullsafety.2/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"typed_data\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.3.0-nullsafety.3/lib\" />\n\n            </list>\n          </value>\n        </entry>\n        <entry key=\"vector_math\">\n          <value>\n            <list>\n\n              <option value=\"/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0-nullsafety.3/lib\" />\n\n            </list>\n          </value>\n        </entry>\n      </option>\n    </properties>\n    <CLASSES>\n\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.5.0-nullsafety.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0-nullsafety.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0-nullsafety.3/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.2.0-nullsafety.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0-nullsafety.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.16.0/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_platform_interface-3.0.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-0.3.0+1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0-nullsafety.3/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.0/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0-nullsafety.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.20.0+1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_platform_interface-3.0.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-0.3.2+6/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.7.0/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_platform_interface-3.0.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-0.2.1+3/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-3.1.4/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.16.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.2/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.10-nullsafety.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.3.0-nullsafety.3/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0-nullsafety.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-1.0.3/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-2.1.5/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.0-nullsafety.2/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0-nullsafety.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.1.0-nullsafety.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0-nullsafety.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0-nullsafety.1/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.19-nullsafety.2/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.3.0-nullsafety.3/lib\" />\n      <root url=\"file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0-nullsafety.3/lib\" />\n      <root url=\"file:///Applications/flutter/bin/cache/pkg/sky_engine/lib\" />\n      <root url=\"file:///Applications/flutter/packages/flutter/lib\" />\n      <root url=\"file:///Applications/flutter/packages/flutter_test/lib\" />\n      <root url=\"file:///Applications/flutter/packages/flutter_web_plugins/lib\" />\n\n    </CLASSES>\n    <JAVADOC />\n    <SOURCES />\n  </library>\n</component>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/libraries/Dart_Packages.xml	(revision 3fe588deb0c8a287293085269ccb00bea33929b5)
++++ .idea/libraries/Dart_Packages.xml	(date 1612821073000)
+@@ -5,43 +5,34 @@
+         <entry key="async">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.5.0-nullsafety.1/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="boolean_selector">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0-nullsafety.1/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="characters">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0-nullsafety.3/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="charcode">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.2.0-nullsafety.1/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="clock">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/clock-1.1.0-nullsafety.1/lib" />
+             </list>
+           </value>
+@@ -64,36 +55,44 @@
+           <value>
+             <list>
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-0.3.0+1/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="collection">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0-nullsafety.3/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="cupertino_icons">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.0/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="fake_async">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0-nullsafety.1/lib" />
+             </list>
+           </value>
+         </entry>
++        <entry key="ffi">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/ffi-0.1.3/lib" />
++            </list>
++          </value>
++        </entry>
++        <entry key="file">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/file-5.2.1/lib" />
++            </list>
++          </value>
++        </entry>
+         <entry key="firebase_auth">
+           <value>
+             <list>
+@@ -133,16 +132,13 @@
+           <value>
+             <list>
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-0.2.1+3/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="flutter">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/packages/flutter/lib" />
+-
+             </list>
+           </value>
+         </entry>
+@@ -178,7 +174,6 @@
+           <value>
+             <list>
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.2/lib" />
+-
+             </list>
+           </value>
+         </entry>
+@@ -186,27 +181,51 @@
+           <value>
+             <list>
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.10-nullsafety.1/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="meta">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.3.0-nullsafety.3/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="path">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0-nullsafety.1/lib" />
+             </list>
+           </value>
+         </entry>
++        <entry key="path_provider_linux">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-0.0.1+2/lib" />
++            </list>
++          </value>
++        </entry>
++        <entry key="path_provider_platform_interface">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_platform_interface-1.0.4/lib" />
++            </list>
++          </value>
++        </entry>
++        <entry key="path_provider_windows">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-0.0.4+3/lib" />
++            </list>
++          </value>
++        </entry>
++        <entry key="platform">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/platform-2.2.1/lib" />
++            </list>
++          </value>
++        </entry>
+         <entry key="plugin_platform_interface">
+           <value>
+             <list>
+@@ -214,99 +233,142 @@
+             </list>
+           </value>
+         </entry>
++        <entry key="process">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/process-3.0.13/lib" />
++            </list>
++          </value>
++        </entry>
+         <entry key="quiver">
+           <value>
+             <list>
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-2.1.5/lib" />
+-
++            </list>
++          </value>
++        </entry>
++        <entry key="shared_preferences">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.5.12+4/lib" />
++            </list>
++          </value>
++        </entry>
++        <entry key="shared_preferences_linux">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_linux-0.0.2+4/lib" />
++            </list>
++          </value>
++        </entry>
++        <entry key="shared_preferences_macos">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_macos-0.0.1+11/lib" />
++            </list>
++          </value>
++        </entry>
++        <entry key="shared_preferences_platform_interface">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_platform_interface-1.0.4/lib" />
++            </list>
++          </value>
++        </entry>
++        <entry key="shared_preferences_web">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_web-0.1.2+7/lib" />
++            </list>
++          </value>
++        </entry>
++        <entry key="shared_preferences_windows">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_windows-0.0.2+3/lib" />
+             </list>
+           </value>
+         </entry>
+         <entry key="sky_engine">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/bin/cache/pkg/sky_engine/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="source_span">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.0-nullsafety.2/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="stack_trace">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0-nullsafety.1/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="stream_channel">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.1.0-nullsafety.1/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="string_scanner">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0-nullsafety.1/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="term_glyph">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/term_glyph-1.2.0-nullsafety.1/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="test_api">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.19-nullsafety.2/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="typed_data">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.3.0-nullsafety.3/lib" />
+-
+             </list>
+           </value>
+         </entry>
+         <entry key="vector_math">
+           <value>
+             <list>
+-
+               <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0-nullsafety.3/lib" />
+-
++            </list>
++          </value>
++        </entry>
++        <entry key="win32">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/win32-1.7.4+1/lib" />
++            </list>
++          </value>
++        </entry>
++        <entry key="xdg_directories">
++          <value>
++            <list>
++              <option value="/Applications/flutter/.pub-cache/hosted/pub.dartlang.org/xdg_directories-0.1.2/lib" />
+             </list>
+           </value>
+         </entry>
+       </option>
+     </properties>
+     <CLASSES>
+-
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.5.0-nullsafety.1/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0-nullsafety.1/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.1.0-nullsafety.3/lib" />
+@@ -318,6 +380,8 @@
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.15.0-nullsafety.3/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.0/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0-nullsafety.1/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/ffi-0.1.3/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/file-5.2.1/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.20.0+1/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_platform_interface-3.0.1/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-0.3.2+6/lib" />
+@@ -330,8 +394,19 @@
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.10-nullsafety.1/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.3.0-nullsafety.3/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0-nullsafety.1/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-0.0.1+2/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_platform_interface-1.0.4/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-0.0.4+3/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/platform-2.2.1/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-1.0.3/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/process-3.0.13/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-2.1.5/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.5.12+4/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_linux-0.0.2+4/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_macos-0.0.1+11/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_platform_interface-1.0.4/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_web-0.1.2+7/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_windows-0.0.2+3/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.0-nullsafety.2/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0-nullsafety.1/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.1.0-nullsafety.1/lib" />
+@@ -340,11 +415,12 @@
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/test_api-0.2.19-nullsafety.2/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.3.0-nullsafety.3/lib" />
+       <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.0-nullsafety.3/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/win32-1.7.4+1/lib" />
++      <root url="file:///Applications/flutter/.pub-cache/hosted/pub.dartlang.org/xdg_directories-0.1.2/lib" />
+       <root url="file:///Applications/flutter/bin/cache/pkg/sky_engine/lib" />
+       <root url="file:///Applications/flutter/packages/flutter/lib" />
+       <root url="file:///Applications/flutter/packages/flutter_test/lib" />
+       <root url="file:///Applications/flutter/packages/flutter_web_plugins/lib" />
+-
+     </CLASSES>
+     <JAVADOC />
+     <SOURCES />
+Index: .idea/ROTC-App.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<module type=\"JAVA_MODULE\" version=\"4\">\n\n  <component name=\"NewModuleRootManager\" inherit-compiler-output=\"true\">\n    <exclude-output />\n    <content url=\"file://$MODULE_DIR$\">\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/.dart_tool\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/.pub\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/build\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/cloud_firestore/.dart_tool\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/cloud_firestore/.pub\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/cloud_firestore/build\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/cloud_firestore/example/.dart_tool\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/cloud_firestore/example/.pub\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/cloud_firestore/example/build\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_auth/.dart_tool\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_auth/.pub\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_auth/build\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_auth/example/.dart_tool\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_auth/example/.pub\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_auth/example/build\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_core/.dart_tool\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_core/.pub\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_core/build\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_core/example/.dart_tool\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_core/example/.pub\" />\n      <excludeFolder url=\"file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_core/example/build\" />\n    </content>\n    <orderEntry type=\"inheritedJdk\" />\n  \n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\n    <orderEntry type=\"library\" name=\"Dart SDK\" level=\"project\" />\n    <orderEntry type=\"library\" name=\"Dart Packages\" level=\"project\" />\n  </component>\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/ROTC-App.iml	(revision 3fe588deb0c8a287293085269ccb00bea33929b5)
++++ .idea/ROTC-App.iml	(date 1612879194000)
+@@ -1,6 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <module type="JAVA_MODULE" version="4">
+-
+   <component name="NewModuleRootManager" inherit-compiler-output="true">
+     <exclude-output />
+     <content url="file://$MODULE_DIR$">
+@@ -25,9 +24,14 @@
+       <excludeFolder url="file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_core/example/.dart_tool" />
+       <excludeFolder url="file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_core/example/.pub" />
+       <excludeFolder url="file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/firebase_core/example/build" />
++      <excludeFolder url="file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/shared_preferences/.dart_tool" />
++      <excludeFolder url="file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/shared_preferences/.pub" />
++      <excludeFolder url="file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/shared_preferences/build" />
++      <excludeFolder url="file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/shared_preferences/example/.dart_tool" />
++      <excludeFolder url="file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/shared_preferences/example/.pub" />
++      <excludeFolder url="file://$MODULE_DIR$/rotc_app/ios/.symlinks/plugins/shared_preferences/example/build" />
+     </content>
+     <orderEntry type="inheritedJdk" />
+-  
+     <orderEntry type="sourceFolder" forTests="false" />
+     <orderEntry type="library" name="Dart SDK" level="project" />
+     <orderEntry type="library" name="Dart Packages" level="project" />
+Index: rotc_app/lib/services/database.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- rotc_app/lib/services/database.dart	(date 1612895061000)
++++ rotc_app/lib/services/database.dart	(date 1612895061000)
+@@ -0,0 +1,6 @@
++class Database{
++
++
++
++
++}
+\ No newline at end of file
+Index: rotc_app/pubspec.lock
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># Generated by pub\n# See https://dart.dev/tools/pub/glossary#lockfile\npackages:\n  async:\n    dependency: transitive\n    description:\n      name: async\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"2.5.0-nullsafety.1\"\n  boolean_selector:\n    dependency: transitive\n    description:\n      name: boolean_selector\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"2.1.0-nullsafety.1\"\n  characters:\n    dependency: transitive\n    description:\n      name: characters\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.1.0-nullsafety.3\"\n  charcode:\n    dependency: transitive\n    description:\n      name: charcode\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.2.0-nullsafety.1\"\n  clock:\n    dependency: transitive\n    description:\n      name: clock\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.1.0-nullsafety.1\"\n  cloud_firestore:\n    dependency: \"direct main\"\n    description:\n      name: cloud_firestore\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"0.16.0\"\n  cloud_firestore_platform_interface:\n    dependency: transitive\n    description:\n      name: cloud_firestore_platform_interface\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"3.0.1\"\n  cloud_firestore_web:\n    dependency: transitive\n    description:\n      name: cloud_firestore_web\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"0.3.0+1\"\n  collection:\n    dependency: transitive\n    description:\n      name: collection\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.15.0-nullsafety.3\"\n  cupertino_icons:\n    dependency: \"direct main\"\n    description:\n      name: cupertino_icons\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.0.0\"\n  fake_async:\n    dependency: transitive\n    description:\n      name: fake_async\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.2.0-nullsafety.1\"\n  firebase_auth:\n    dependency: \"direct main\"\n    description:\n      name: firebase_auth\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"0.20.0+1\"\n  firebase_auth_platform_interface:\n    dependency: transitive\n    description:\n      name: firebase_auth_platform_interface\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"3.0.1\"\n  firebase_auth_web:\n    dependency: transitive\n    description:\n      name: firebase_auth_web\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"0.3.2+6\"\n  firebase_core:\n    dependency: \"direct main\"\n    description:\n      name: firebase_core\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"0.7.0\"\n  firebase_core_platform_interface:\n    dependency: transitive\n    description:\n      name: firebase_core_platform_interface\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"3.0.1\"\n  firebase_core_web:\n    dependency: transitive\n    description:\n      name: firebase_core_web\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"0.2.1+3\"\n  flutter:\n    dependency: \"direct main\"\n    description: flutter\n    source: sdk\n    version: \"0.0.0\"\n  flutter_test:\n    dependency: \"direct dev\"\n    description: flutter\n    source: sdk\n    version: \"0.0.0\"\n  flutter_web_plugins:\n    dependency: transitive\n    description: flutter\n    source: sdk\n    version: \"0.0.0\"\n  http_parser:\n    dependency: transitive\n    description:\n      name: http_parser\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"3.1.4\"\n  intl:\n    dependency: transitive\n    description:\n      name: intl\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"0.16.1\"\n  js:\n    dependency: transitive\n    description:\n      name: js\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"0.6.2\"\n  matcher:\n    dependency: transitive\n    description:\n      name: matcher\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"0.12.10-nullsafety.1\"\n  meta:\n    dependency: transitive\n    description:\n      name: meta\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.3.0-nullsafety.3\"\n  path:\n    dependency: transitive\n    description:\n      name: path\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.8.0-nullsafety.1\"\n  plugin_platform_interface:\n    dependency: transitive\n    description:\n      name: plugin_platform_interface\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.0.3\"\n  quiver:\n    dependency: transitive\n    description:\n      name: quiver\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"2.1.5\"\n  sky_engine:\n    dependency: transitive\n    description: flutter\n    source: sdk\n    version: \"0.0.99\"\n  source_span:\n    dependency: transitive\n    description:\n      name: source_span\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.8.0-nullsafety.2\"\n  stack_trace:\n    dependency: transitive\n    description:\n      name: stack_trace\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.10.0-nullsafety.1\"\n  stream_channel:\n    dependency: transitive\n    description:\n      name: stream_channel\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"2.1.0-nullsafety.1\"\n  string_scanner:\n    dependency: transitive\n    description:\n      name: string_scanner\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.1.0-nullsafety.1\"\n  term_glyph:\n    dependency: transitive\n    description:\n      name: term_glyph\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.2.0-nullsafety.1\"\n  test_api:\n    dependency: transitive\n    description:\n      name: test_api\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"0.2.19-nullsafety.2\"\n  typed_data:\n    dependency: transitive\n    description:\n      name: typed_data\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"1.3.0-nullsafety.3\"\n  vector_math:\n    dependency: transitive\n    description:\n      name: vector_math\n      url: \"https://pub.dartlang.org\"\n    source: hosted\n    version: \"2.1.0-nullsafety.3\"\nsdks:\n  dart: \">=2.10.0-110 <2.11.0\"\n  flutter: \">=1.12.13+hotfix.5 <2.0.0\"\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- rotc_app/pubspec.lock	(revision 3fe588deb0c8a287293085269ccb00bea33929b5)
++++ rotc_app/pubspec.lock	(date 1612821054000)
+@@ -78,6 +78,20 @@
+       url: "https://pub.dartlang.org"
+     source: hosted
+     version: "1.2.0-nullsafety.1"
++  ffi:
++    dependency: transitive
++    description:
++      name: ffi
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "0.1.3"
++  file:
++    dependency: transitive
++    description:
++      name: file
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "5.2.1"
+   firebase_auth:
+     dependency: "direct main"
+     description:
+@@ -177,6 +191,34 @@
+       url: "https://pub.dartlang.org"
+     source: hosted
+     version: "1.8.0-nullsafety.1"
++  path_provider_linux:
++    dependency: transitive
++    description:
++      name: path_provider_linux
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "0.0.1+2"
++  path_provider_platform_interface:
++    dependency: transitive
++    description:
++      name: path_provider_platform_interface
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.0.4"
++  path_provider_windows:
++    dependency: transitive
++    description:
++      name: path_provider_windows
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "0.0.4+3"
++  platform:
++    dependency: transitive
++    description:
++      name: platform
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "2.2.1"
+   plugin_platform_interface:
+     dependency: transitive
+     description:
+@@ -184,6 +226,13 @@
+       url: "https://pub.dartlang.org"
+     source: hosted
+     version: "1.0.3"
++  process:
++    dependency: transitive
++    description:
++      name: process
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "3.0.13"
+   quiver:
+     dependency: transitive
+     description:
+@@ -191,6 +240,48 @@
+       url: "https://pub.dartlang.org"
+     source: hosted
+     version: "2.1.5"
++  shared_preferences:
++    dependency: "direct main"
++    description:
++      name: shared_preferences
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "0.5.12+4"
++  shared_preferences_linux:
++    dependency: transitive
++    description:
++      name: shared_preferences_linux
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "0.0.2+4"
++  shared_preferences_macos:
++    dependency: transitive
++    description:
++      name: shared_preferences_macos
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "0.0.1+11"
++  shared_preferences_platform_interface:
++    dependency: transitive
++    description:
++      name: shared_preferences_platform_interface
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.0.4"
++  shared_preferences_web:
++    dependency: transitive
++    description:
++      name: shared_preferences_web
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "0.1.2+7"
++  shared_preferences_windows:
++    dependency: transitive
++    description:
++      name: shared_preferences_windows
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "0.0.2+3"
+   sky_engine:
+     dependency: transitive
+     description: flutter
+@@ -252,6 +343,20 @@
+       url: "https://pub.dartlang.org"
+     source: hosted
+     version: "2.1.0-nullsafety.3"
++  win32:
++    dependency: transitive
++    description:
++      name: win32
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "1.7.4+1"
++  xdg_directories:
++    dependency: transitive
++    description:
++      name: xdg_directories
++      url: "https://pub.dartlang.org"
++    source: hosted
++    version: "0.1.2"
+ sdks:
+   dart: ">=2.10.0-110 <2.11.0"
+   flutter: ">=1.12.13+hotfix.5 <2.0.0"
