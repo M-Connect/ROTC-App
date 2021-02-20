@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../main.dart';
-
+import '../peerReviewLanding.dart';
 /*
  Author: Kyle Serruys
   This class is the Planning page of our peer review
@@ -33,9 +33,7 @@ class Planning extends StatelessWidget {
           actions: <Widget>[
       new IconButton(
       icon: new Icon(Icons.logout),
-      onPressed: () {
-
-      },
+      onPressed: signOut,
     ),
     ],
       ),

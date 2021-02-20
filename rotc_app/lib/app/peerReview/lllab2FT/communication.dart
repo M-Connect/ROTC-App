@@ -6,17 +6,63 @@ import '../../../main.dart';
  Author: Kyle Serruys
   This class is the Communication page of our peer review
  */
-class Communication extends StatelessWidget {
+
+
+class Communication extends StatefulWidget {
+  Communication() : super();
+
+  @override
+  CommunicationState createState() => CommunicationState();
+}
+class CommunicationState extends State<Communication> {
   TextEditingController chainOfCommand = TextEditingController();
   TextEditingController situationalAwareness = TextEditingController();
 
+  CollectionReference communicationScores = FirebaseFirestore.instance
+      .collection('communicationScores');
+
   CollectionReference communication =
-      FirebaseFirestore.instance.collection('communication');
+  FirebaseFirestore.instance.collection('communication');
+
 
   Future<void> peerReviewCommunications() {
     return communication.add({
       'chainOfCommand': chainOfCommand.text,
       'situationalAwareness': situationalAwareness.text,
+    });
+  }
+
+  peerReviewCommunicationScores() {
+    return communicationScores.add({
+      'useOfChainOfCommandScore': groupValueA,
+      'teamSituationalAwarenessScore': groupValueB,
+    });
+  }
+
+  int groupValueA;
+  int groupValueB;
+
+  void buttonChangeA(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueA = 20;
+      } else if (button == 10) {
+        groupValueA = 10;
+      } else if (button == 0) {
+        groupValueA = 0;
+      }
+    });
+  }
+
+  void buttonChangeB(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueB = 20;
+      } else if (button == 10) {
+        groupValueB = 10;
+      } else if (button == 0) {
+        groupValueB = 0;
+      }
     });
   }
 
@@ -54,11 +100,20 @@ class Communication extends StatelessWidget {
               ButtonBar(
                 alignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Radio(value: 20, groupValue: null, onChanged: null),
+                  Radio(value: 20,
+                    activeColor: Colors.black87,
+                    groupValue: groupValueA,
+                    onChanged: (int a) => buttonChangeA(a),),
                   Text('(O) 20 pt'),
-                  Radio(value: 10, groupValue: null, onChanged: null),
+                  Radio(value: 10,
+                    activeColor: Colors.black87,
+                    groupValue: groupValueA,
+                    onChanged: (int a) => buttonChangeA(a),),
                   Text('(S) 10 pt'),
-                  Radio(value: 0, groupValue: null, onChanged: null),
+                  Radio(value: 0,
+                    activeColor: Colors.black87,
+                    groupValue: groupValueA,
+                    onChanged: (int a) => buttonChangeA(a),),
                   Text('(U) 0 pt'),
                 ],
               ),
@@ -81,11 +136,20 @@ class Communication extends StatelessWidget {
                   ButtonBar(
                     alignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Radio(value: 20, groupValue: null, onChanged: null),
+                      Radio(value: 20,
+                        activeColor: Colors.black87,
+                        groupValue: groupValueB,
+                        onChanged: (int b) => buttonChangeB(b),),
                       Text('(O) 20 pt'),
-                      Radio(value: 10, groupValue: null, onChanged: null),
+                      Radio(value: 10,
+                        activeColor: Colors.black87,
+                        groupValue: groupValueB,
+                        onChanged: (int b) => buttonChangeB(b),),
                       Text('(S) 10 pt'),
-                      Radio(value: 0, groupValue: null, onChanged: null),
+                      Radio(value: 0,
+                        activeColor: Colors.black87,
+                        groupValue: groupValueB,
+                        onChanged: (int b) => buttonChangeB(b),),
                       Text('(U) 0 pt'),
                     ],
                   ),
@@ -97,6 +161,8 @@ class Communication extends StatelessWidget {
                         child: ElevatedButton(
                           child: Text('Submit'),
                           onPressed: () async {
+
+                            await peerReviewCommunicationScores();
                             await peerReviewCommunications();
                             navigation.currentState
                                 .pushNamed('/peerReviewLLAB2FT');

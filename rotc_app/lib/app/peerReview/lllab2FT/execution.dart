@@ -1,27 +1,96 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import '../../../main.dart';
-
+import '../peerReviewLanding.dart';
 /*
  Author: Kyle Serruys
   This class is the Execution page of our peer review
  */
 
-class Execution extends StatelessWidget {
+class Execution extends StatefulWidget {
+  Execution() : super();
+
+  @override
+  ExecutionState createState() => ExecutionState();
+}
+
+class ExecutionState extends State<Execution>{
   TextEditingController timeManagement = TextEditingController();
   TextEditingController resourcesManagement = TextEditingController();
   TextEditingController flexibility = TextEditingController();
   TextEditingController missionSuccess = TextEditingController();
 
   CollectionReference execution = FirebaseFirestore.instance.collection('execution');
+  CollectionReference executionScores = FirebaseFirestore.instance.collection('/execution').doc().collection('executionScores');
 
   Future<void> peerReviewExecution() {
     return execution.add({
-      'timeManagement': timeManagement.text,
+      'teamOrganization': timeManagement.text,
       'resourcesManagement': resourcesManagement.text,
       'flexibility': flexibility.text,
       'missionSuccess': missionSuccess.text,
+    });
+  }
+
+  Future<void> peerReviewExecutionScores() {
+    return executionScores.add({
+      'teamOrganizationScore': groupValueA,
+      'resourcesManagementScore': groupValueB,
+      'flexibilityScore': groupValueC,
+      'missionSuccessScore': groupValueD,
+    });
+  }
+
+  int groupValueA;
+  int groupValueB;
+  int groupValueC;
+  int groupValueD;
+
+  void buttonChangeA(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueA = 20;
+      } else if (button == 10) {
+        groupValueA = 10;
+      } else if (button == 0) {
+        groupValueA = 0;
+      }
+    });
+  }
+
+  void buttonChangeB(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueB = 20;
+      } else if (button == 10) {
+        groupValueB = 10;
+      } else if (button == 0) {
+        groupValueB = 0;
+      }
+    });
+  }
+
+  void buttonChangeC(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueC = 20;
+      } else if (button == 10) {
+        groupValueC = 10;
+      } else if (button == 0) {
+        groupValueC = 0;
+      }
+    });
+  }
+
+  void buttonChangeD(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueD = 20;
+      } else if (button == 10) {
+        groupValueD = 10;
+      } else if (button == 0) {
+        groupValueD = 0;
+      }
     });
   }
 
@@ -32,9 +101,7 @@ class Execution extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {
-
-            },
+            onPressed: signOut,
           ),
         ],),
       body: SingleChildScrollView(
@@ -160,7 +227,7 @@ class Execution extends StatelessWidget {
                                 child: ElevatedButton(
                                   child: Text('Submit'),
                                   onPressed: () async {
-
+                                    await peerReviewExecutionScores();
                                     await peerReviewExecution();
                                     navigation.currentState
                                         .pushNamed('/peerReviewLLAB2FT');

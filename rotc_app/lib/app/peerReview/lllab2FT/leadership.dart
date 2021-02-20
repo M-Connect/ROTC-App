@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../main.dart';
-
+import '../../home.dart';
+import '../peerReviewLanding.dart';
 /*
  Author: Kyle Serruys
   This class is the Leadership page of our peer review
@@ -32,9 +33,7 @@ class Leadership extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {
-
-            },
+            onPressed: signOut,
           ),
         ],),
       body: SingleChildScrollView(

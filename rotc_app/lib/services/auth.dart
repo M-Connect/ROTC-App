@@ -11,9 +11,10 @@ class Auth {
 
 
   //TODO move logout code here
-  Future<void> logOut(BuildContext context) async {
+  Future<void> logOut() async {
     await auth.signOut();
-    Navigator.pushNamed(context, '/register');
   }
+
+
 }
 
