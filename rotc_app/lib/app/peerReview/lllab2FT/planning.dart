@@ -1,21 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../main.dart';
-
+import '../peerReviewLanding.dart';
 /*
  Author: Kyle Serruys
   This class is the Planning page of our peer review
  */
 
-class Planning extends StatelessWidget {
+class Planning extends StatefulWidget {
+  Planning() : super();
+
+  @override
+  PlanningState createState() => PlanningState();
+}
+
+class PlanningState extends State<Planning>{
   TextEditingController teamOrganization = TextEditingController();
   TextEditingController outsidePreparation = TextEditingController();
   TextEditingController missionFocus = TextEditingController();
   TextEditingController creativity = TextEditingController();
 
   CollectionReference planning = FirebaseFirestore.instance.collection('planning');
+  CollectionReference planningScores = FirebaseFirestore.instance.collection('planningScores');
 
   Future<void> peerReviewPlanning() {
     return planning.add({
@@ -23,6 +30,68 @@ class Planning extends StatelessWidget {
       'outsidePreparation': outsidePreparation.text,
       'missionFocus': missionFocus.text,
       'creativity': creativity.text,
+    });
+  }
+
+  Future<void> peerReviewPlanningScores() {
+    return planningScores.add({
+      'teamOrganizationScore': groupValueA,
+      'outsidePreparationScore': groupValueB,
+      'missionFocusScore': groupValueC,
+      'creativityScore': groupValueD,
+    });
+  }
+
+  int groupValueA;
+  int groupValueB;
+  int groupValueC;
+  int groupValueD;
+
+  void buttonChangeA(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueA = 20;
+      } else if (button == 10) {
+        groupValueA = 10;
+      } else if (button == 0) {
+        groupValueA = 0;
+      }
+    });
+  }
+
+  void buttonChangeB(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueB = 20;
+      } else if (button == 10) {
+        groupValueB = 10;
+      } else if (button == 0) {
+        groupValueB = 0;
+      }
+    });
+  }
+
+  void buttonChangeC(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueC = 20;
+      } else if (button == 10) {
+        groupValueC = 10;
+      } else if (button == 0) {
+        groupValueC = 0;
+      }
+    });
+  }
+
+  void buttonChangeD(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueD = 20;
+      } else if (button == 10) {
+        groupValueD = 10;
+      } else if (button == 0) {
+        groupValueD = 0;
+      }
     });
   }
 
@@ -34,9 +103,8 @@ class Planning extends StatelessWidget {
           actions: <Widget>[
       new IconButton(
       icon: new Icon(Icons.logout),
-      onPressed: () {
+      onPressed: signOut,
 
-      },
     ),
     ],
       ),
@@ -77,23 +145,23 @@ class Planning extends StatelessWidget {
                   children: <Widget>[
                     ListTile(
                         title: const Text('20 pt'),
-                        leading: Radio(value: 20, groupValue: null, onChanged: null)
+                        leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueA, onChanged: (int a) => buttonChangeA(a),)
                     ),
                     ListTile(
                         title: const Text('15 pt'),
-                        leading: Radio(value: 15, groupValue: null, onChanged: null)
+                        leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
                     ),
                     ListTile(
                         title: const Text('10 pt'),
-                        leading: Radio(value: 10, groupValue: null, onChanged: null)
+                        leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueA, onChanged: (int a) => buttonChangeA(a),)
                     ),
                     ListTile(
                         title: const Text('5 pt'),
-                        leading: Radio(value: 5, groupValue: null, onChanged: null)
+                        leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
                     ),
                     ListTile(
                       title: const Text('0 pt'),
-                      leading: Radio(value: 0, groupValue: null, onChanged: null),
+                      leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueA, onChanged: (int a) => buttonChangeA(a),),
                     ),
                   ],
                   ),
@@ -134,23 +202,23 @@ class Planning extends StatelessWidget {
                             children: <Widget>[
                               ListTile(
                                   title: const Text('20 pt'),
-                                  leading: Radio(value: 20, groupValue: null, onChanged: null)
+                                  leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueB, onChanged: (int b) => buttonChangeB(b),)
                               ),
                               ListTile(
                                   title: const Text('15 pt'),
-                                  leading: Radio(value: 15, groupValue: null, onChanged: null)
+                                  leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
                               ),
                               ListTile(
                                   title: const Text('10 pt'),
-                                  leading: Radio(value: 10, groupValue: null, onChanged: null)
+                                  leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueB, onChanged: (int b) => buttonChangeB(b),)
                               ),
                               ListTile(
                                   title: const Text('5 pt'),
-                                  leading: Radio(value: 5, groupValue: null, onChanged: null)
+                                  leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
                               ),
                               ListTile(
                                 title: const Text('0 pt'),
-                                leading: Radio(value: 0, groupValue: null, onChanged: null),
+                                leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueB, onChanged: (int b) => buttonChangeB(b),),
                               ),
                             ],
                           ),
@@ -191,23 +259,23 @@ class Planning extends StatelessWidget {
                                 children: <Widget>[
                                   ListTile(
                                       title: const Text('20 pt'),
-                                      leading: Radio(value: 20, groupValue: null, onChanged: null)
+                                      leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueC, onChanged: (int c) => buttonChangeC(c),)
                                   ),
                                   ListTile(
                                       title: const Text('15 pt'),
-                                      leading: Radio(value: 15, groupValue: null, onChanged: null)
+                                      leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
                                   ),
                                   ListTile(
                                       title: const Text('10 pt'),
-                                      leading: Radio(value: 10, groupValue: null, onChanged: null)
+                                      leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueC, onChanged: (int c) => buttonChangeC(c),)
                                   ),
                                   ListTile(
                                       title: const Text('5 pt'),
-                                      leading: Radio(value: 5, groupValue: null, onChanged: null)
+                                      leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
                                   ),
                                   ListTile(
                                     title: const Text('0 pt'),
-                                    leading: Radio(value: 0, groupValue: null, onChanged: null),
+                                    leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueC, onChanged: (int c) => buttonChangeC(c),),
                                   ),
                                 ],
                               ),
@@ -248,23 +316,23 @@ class Planning extends StatelessWidget {
                                     children: <Widget>[
                                       ListTile(
                                           title: const Text('20 pt'),
-                                          leading: Radio(value: 20, groupValue: null, onChanged: null)
+                                          leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueD, onChanged: (int d) => buttonChangeD(d),)
                                       ),
                                       ListTile(
                                           title: const Text('15 pt'),
-                                          leading: Radio(value: 15, groupValue: null, onChanged: null)
+                                          leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
                                       ),
                                       ListTile(
                                           title: const Text('10 pt'),
-                                          leading: Radio(value: 10, groupValue: null, onChanged: null)
+                                          leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueD, onChanged: (int d) => buttonChangeD(d),)
                                       ),
                                       ListTile(
                                           title: const Text('5 pt'),
-                                          leading: Radio(value: 5, groupValue: null, onChanged: null)
+                                          leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
                                       ),
                                       ListTile(
                                         title: const Text('0 pt'),
-                                        leading: Radio(value: 0, groupValue: null, onChanged: null),
+                                        leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueD, onChanged: (int d) => buttonChangeD(d),),
                                       ),
                                     ],
                                   ),
@@ -280,7 +348,7 @@ class Planning extends StatelessWidget {
                                 child: ElevatedButton(
                                   child: Text('Submit'),
                                   onPressed: () async {
-
+                                    await peerReviewPlanningScores();
                                     await peerReviewPlanning();
                                     navigation.currentState
                                         .pushNamed('/peerReviewLLAB2FT');

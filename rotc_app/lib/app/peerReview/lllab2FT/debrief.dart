@@ -2,18 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../main.dart';
-
+import '../peerReviewLanding.dart';
 
 /*
  Author: Kyle Serruys
   This class is the Debrief page of our peer review
  */
-class Debrief extends StatelessWidget {
+class Debrief extends StatefulWidget {
+Debrief() : super();
+
+@override
+DebriefState createState() => DebriefState();
+}
+class DebriefState extends State<Debrief> {
   TextEditingController adheresToDebriefFormat = TextEditingController();
   TextEditingController receptiveToFeedback = TextEditingController();
   TextEditingController improvementOriented = TextEditingController();
 
   CollectionReference debrief = FirebaseFirestore.instance.collection('debrief');
+  CollectionReference debriefScores = FirebaseFirestore.instance.collection('debriefScores');
 
   Future<void> peerReviewDebrief() {
     return debrief.add({
@@ -23,6 +30,51 @@ class Debrief extends StatelessWidget {
     });
   }
 
+  Future<void> peerReviewDebriefScores(){
+    return debriefScores.add({
+      'debriefFormatScore': groupValueA,
+      'feedbackScore': groupValueB,
+      'improvementOrientedScore': groupValueC,
+    });
+  }
+
+  int groupValueA;
+  int groupValueB;
+  int groupValueC;
+
+  void buttonChangeA(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueA = 20;
+      } else if (button == 10) {
+        groupValueA = 10;
+      } else if (button == 0) {
+        groupValueA = 0;
+      }
+    });
+  }
+  void buttonChangeB(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueB = 20;
+      } else if (button == 10) {
+        groupValueB = 10;
+      } else if (button == 0) {
+        groupValueB = 0;
+      }
+    });
+  }
+  void buttonChangeC(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueC = 20;
+      } else if (button == 10) {
+        groupValueC = 10;
+      } else if (button == 0) {
+        groupValueC = 0;
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +82,8 @@ class Debrief extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {
+            onPressed: signOut,
 
-            },
           ),
         ],),
       body: SingleChildScrollView(
@@ -71,23 +122,23 @@ class Debrief extends StatelessWidget {
                         children: <Widget>[
                           ListTile(
                               title: const Text('20 pt'),
-                              leading: Radio(value: 20, groupValue: null, onChanged: null)
+                              leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueA, onChanged: (int a) => buttonChangeA(a),)
                           ),
                           ListTile(
                               title: const Text('15 pt'),
-                              leading: Radio(value: 15, groupValue: null, onChanged: null)
+                              leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
                           ),
                           ListTile(
                               title: const Text('10 pt'),
-                              leading: Radio(value: 10, groupValue: null, onChanged: null)
+                              leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueA, onChanged: (int a) => buttonChangeA(a),)
                           ),
                           ListTile(
                               title: const Text('5 pt'),
-                              leading: Radio(value: 5, groupValue: null, onChanged: null)
+                              leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
                           ),
                           ListTile(
                             title: const Text('0 pt'),
-                            leading: Radio(value: 0, groupValue: null, onChanged: null),
+                            leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueA, onChanged: (int a) => buttonChangeA(a),),
                           ),
                         ],
                       ),
@@ -128,23 +179,23 @@ class Debrief extends StatelessWidget {
                             children: <Widget>[
                               ListTile(
                                   title: const Text('20 pt'),
-                                  leading: Radio(value: 20, groupValue: null, onChanged: null)
+                                  leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueB, onChanged: (int b) => buttonChangeB(b),)
                               ),
                               ListTile(
                                   title: const Text('15 pt'),
-                                  leading: Radio(value: 15, groupValue: null, onChanged: null)
+                                  leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
                               ),
                               ListTile(
                                   title: const Text('10 pt'),
-                                  leading: Radio(value: 10, groupValue: null, onChanged: null)
+                                  leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueB, onChanged: (int b) => buttonChangeB(b),)
                               ),
                               ListTile(
                                   title: const Text('5 pt'),
-                                  leading: Radio(value: 5, groupValue: null, onChanged: null)
+                                  leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
                               ),
                               ListTile(
                                 title: const Text('0 pt'),
-                                leading: Radio(value: 0, groupValue: null, onChanged: null),
+                                leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueB, onChanged: (int b) => buttonChangeB(b),),
                               ),
                             ],
                           ),
@@ -185,23 +236,23 @@ class Debrief extends StatelessWidget {
                                 children: <Widget>[
                                   ListTile(
                                       title: const Text('20 pt'),
-                                      leading: Radio(value: 20, groupValue: null, onChanged: null)
+                                      leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueC, onChanged: (int c) => buttonChangeC(c),)
                                   ),
                                   ListTile(
                                       title: const Text('15 pt'),
-                                      leading: Radio(value: 15, groupValue: null, onChanged: null)
+                                      leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
                                   ),
                                   ListTile(
                                       title: const Text('10 pt'),
-                                      leading: Radio(value: 10, groupValue: null, onChanged: null)
+                                      leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueC, onChanged: (int c) => buttonChangeC(c),)
                                   ),
                                   ListTile(
                                       title: const Text('5 pt'),
-                                      leading: Radio(value: 5, groupValue: null, onChanged: null)
+                                      leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
                                   ),
                                   ListTile(
                                     title: const Text('0 pt'),
-                                    leading: Radio(value: 0, groupValue: null, onChanged: null),
+                                    leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueC, onChanged: (int c) => buttonChangeC(c),),
                                   ),
                                 ],
                               ),
@@ -217,7 +268,7 @@ class Debrief extends StatelessWidget {
                                 child: ElevatedButton(
                                   child: Text('Submit'),
                                   onPressed: () async {
-
+                                    await peerReviewDebriefScores();
                                     await peerReviewDebrief();
                                     navigation.currentState
                                         .pushNamed('/peerReviewLLAB2FT');
