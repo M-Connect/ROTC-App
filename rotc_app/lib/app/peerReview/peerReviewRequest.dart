@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 
 /*
  Author: Sawyer Kisha
@@ -16,9 +16,8 @@ class PeerReviewRequest extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {
+            onPressed: signOut,
 
-            },
           ),
         ],
       ),
