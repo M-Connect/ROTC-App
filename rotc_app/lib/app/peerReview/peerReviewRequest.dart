@@ -57,13 +57,13 @@ class PeerReviewRequest extends StatelessWidget {
               ButtonBar(
                 alignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Radio(value: 100, groupValue: null, onChanged: null),
+                  Radio(value: 100, activeColor: Colors.black87, groupValue: null, onChanged: null),
                   Text('100'),
-                  Radio(value: 200, groupValue: null, onChanged: null),
+                  Radio(value: 200, activeColor: Colors.black87, groupValue: null, onChanged: null),
                   Text('200'),
-                  Radio(value: 300, groupValue: null, onChanged: null),
+                  Radio(value: 300, activeColor: Colors.black87, groupValue: null, onChanged: null),
                   Text('300'),
-                  Radio(value: 400, groupValue: null, onChanged: null),
+                  Radio(value: 400, activeColor: Colors.black87, groupValue: null, onChanged: null),
                   Text('400'),
                 ],
               ),
@@ -72,13 +72,13 @@ class PeerReviewRequest extends StatelessWidget {
               ButtonBar(
                   alignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                  Radio(value: 500, groupValue: null, onChanged: null),
+                  Radio(value: 500, activeColor: Colors.black87, groupValue: null, onChanged: null),
                   Text('500'),
-                  Radio(value: 600, groupValue: null, onChanged: null),
+                  Radio(value: 600, activeColor: Colors.black87, groupValue: null, onChanged: null),
                   Text('600'),
-                  Radio(value: 700, groupValue: null, onChanged: null),
+                  Radio(value: 700, activeColor: Colors.black87, groupValue: null, onChanged: null),
                   Text('700'),
-                  Radio(value: 800, groupValue: null, onChanged: null),
+                  Radio(value: 800, activeColor: Colors.black87, groupValue: null, onChanged: null),
                   Text('800'),
                  ],
               ),
@@ -87,9 +87,9 @@ class PeerReviewRequest extends StatelessWidget {
               ButtonBar(
                   alignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Radio(value: 0, groupValue: null, onChanged: null), //Temp value set to 0
+                    Radio(value: 0, activeColor: Colors.black87, groupValue: null, onChanged: null), //Temp value set to 0
                     Text('GMC'),
-                    Radio(value: 1, groupValue: null, onChanged: null), //Temp calue set to 1
+                    Radio(value: 1, activeColor: Colors.black87, groupValue: null, onChanged: null), //Temp calue set to 1
                     Text('POC'),
                   ],
               ),
@@ -123,7 +123,7 @@ class PeerReviewRequest extends StatelessWidget {
               //Peer Review for:
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, bottom:10.0),
-                child: Text('Peer Review for:'),
+                child: Text('Evaluation for:'),
               ),
               Container(
                 width: 200.0, //Box length
