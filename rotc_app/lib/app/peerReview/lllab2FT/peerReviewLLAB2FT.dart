@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../main.dart';
+import '../peerReviewLanding.dart';
 
 /*
  Author: Kyle Serruys
@@ -8,6 +9,8 @@ import '../../../main.dart';
  */
 
 class PeerReviewLLAB2FT extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,9 +19,7 @@ class PeerReviewLLAB2FT extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {
-
-            },
+            onPressed: signOut,
           ),
         ],
       ),
@@ -26,9 +27,11 @@ class PeerReviewLLAB2FT extends StatelessWidget {
         padding: EdgeInsets.all(25.0),
         color: Colors.white,
         child: Column(
+
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+
             Container(
               child: ElevatedButton(
                 child: Text('Planning'),

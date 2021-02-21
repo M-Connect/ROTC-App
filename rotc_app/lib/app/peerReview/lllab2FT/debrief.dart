@@ -2,18 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../main.dart';
-
+import '../peerReviewLanding.dart';
 
 /*
  Author: Kyle Serruys
   This class is the Debrief page of our peer review
  */
-class Debrief extends StatelessWidget {
+class Debrief extends StatefulWidget {
+Debrief() : super();
+
+@override
+DebriefState createState() => DebriefState();
+}
+class DebriefState extends State<Debrief> {
   TextEditingController adheresToDebriefFormat = TextEditingController();
   TextEditingController receptiveToFeedback = TextEditingController();
   TextEditingController improvementOriented = TextEditingController();
 
   CollectionReference debrief = FirebaseFirestore.instance.collection('debrief');
+  CollectionReference debriefScores = FirebaseFirestore.instance.collection('debriefScores');
 
   Future<void> peerReviewDebrief() {
     return debrief.add({
@@ -23,6 +30,51 @@ class Debrief extends StatelessWidget {
     });
   }
 
+  Future<void> peerReviewDebriefScores(){
+    return debriefScores.add({
+      'debriefFormatScore': groupValueA,
+      'feedbackScore': groupValueB,
+      'improvementOrientedScore': groupValueC,
+    });
+  }
+
+  int groupValueA;
+  int groupValueB;
+  int groupValueC;
+
+  void buttonChangeA(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueA = 20;
+      } else if (button == 10) {
+        groupValueA = 10;
+      } else if (button == 0) {
+        groupValueA = 0;
+      }
+    });
+  }
+  void buttonChangeB(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueB = 20;
+      } else if (button == 10) {
+        groupValueB = 10;
+      } else if (button == 0) {
+        groupValueB = 0;
+      }
+    });
+  }
+  void buttonChangeC(int button) {
+    setState(() {
+      if (button == 20) {
+        groupValueC = 20;
+      } else if (button == 10) {
+        groupValueC = 10;
+      } else if (button == 0) {
+        groupValueC = 0;
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,14 +82,15 @@ class Debrief extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {
+            onPressed: signOut,
 
-            },
           ),
         ],),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Form(
+
+          //Adheres To Debrief Format
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,25 +99,55 @@ class Debrief extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                 child: Text('Adheres to Debrief Format'),
               ),
-              TextFormField(
-                maxLines: 3,
-                controller: adheresToDebriefFormat,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+              Container(
+                child:  Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      width: 200.0,
+                      child: TextFormField(
+                        maxLines: 5,
+                        controller: adheresToDebriefFormat,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 75.0),
+                        ),
+                        onSaved: (String value) {},
+                      ),
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                              title: const Text('20 pt'),
+                              leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueA, onChanged: (int a) => buttonChangeA(a),)
+                          ),
+                          ListTile(
+                              title: const Text('15 pt'),
+                              leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
+                          ),
+                          ListTile(
+                              title: const Text('10 pt'),
+                              leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueA, onChanged: (int a) => buttonChangeA(a),)
+                          ),
+                          ListTile(
+                              title: const Text('5 pt'),
+                              leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
+                          ),
+                          ListTile(
+                            title: const Text('0 pt'),
+                            leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueA, onChanged: (int a) => buttonChangeA(a),),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                onSaved: (String value) {},
               ),
-              ButtonBar(
-                alignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Radio(value: 20, groupValue: null, onChanged: null),
-                  Text('(O) 20 pt'),
-                  Radio(value: 10, groupValue: null, onChanged: null),
-                  Text('(S) 10 pt'),
-                  Radio(value: 0, groupValue: null, onChanged: null),
-                  Text('(U) 0 pt'),
-                ],
-              ),
+
+              //Receptive to Feedback
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,53 +156,110 @@ class Debrief extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: Text('Receptive to Feedback'),
                   ),
-                  TextFormField(
-                    maxLines: 3,
-                    controller: receptiveToFeedback,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                  Container(
+                    child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          width: 200.0,
+                          child: TextFormField(
+                            maxLines: 5,
+                            controller: receptiveToFeedback,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 75.0),
+                            ),
+                            onSaved: (String value) {},
+                          ),
+                        ),
+                        SizedBox(
+                          width: 150,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ListTile(
+                                  title: const Text('20 pt'),
+                                  leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueB, onChanged: (int b) => buttonChangeB(b),)
+                              ),
+                              ListTile(
+                                  title: const Text('15 pt'),
+                                  leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
+                              ),
+                              ListTile(
+                                  title: const Text('10 pt'),
+                                  leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueB, onChanged: (int b) => buttonChangeB(b),)
+                              ),
+                              ListTile(
+                                  title: const Text('5 pt'),
+                                  leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
+                              ),
+                              ListTile(
+                                title: const Text('0 pt'),
+                                leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueB, onChanged: (int b) => buttonChangeB(b),),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    onSaved: (String value) {},
                   ),
-                  ButtonBar(
-                    alignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Radio(value: 20, groupValue: null, onChanged: null),
-                      Text('(O) 20 pt'),
-                      Radio(value: 10, groupValue: null, onChanged: null),
-                      Text('(S) 10 pt'),
-                      Radio(value: 0, groupValue: null, onChanged: null),
-                      Text('(U) 0 pt'),
-                    ],
-                  ),
+
+                  //Improvement-Oriented
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                        child: Text('Improvement Oriented'),
+                        child: Text('Improvement-Oriented'),
                       ),
-                      TextFormField(
-                        maxLines: 3,
-                        controller: improvementOriented,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
+                      Container(
+                        child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              width: 200.0,
+                              child: TextFormField(
+                                maxLines: 5,
+                                controller: improvementOriented,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  contentPadding: const EdgeInsets.symmetric(vertical: 75.0),
+                                ),
+                                onSaved: (String value) {},
+                              ),
+                            ),
+                            SizedBox(
+                              width: 150,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  ListTile(
+                                      title: const Text('20 pt'),
+                                      leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueC, onChanged: (int c) => buttonChangeC(c),)
+                                  ),
+                                  ListTile(
+                                      title: const Text('15 pt'),
+                                      leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
+                                  ),
+                                  ListTile(
+                                      title: const Text('10 pt'),
+                                      leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueC, onChanged: (int c) => buttonChangeC(c),)
+                                  ),
+                                  ListTile(
+                                      title: const Text('5 pt'),
+                                      leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
+                                  ),
+                                  ListTile(
+                                    title: const Text('0 pt'),
+                                    leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueC, onChanged: (int c) => buttonChangeC(c),),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        onSaved: (String value) {},
                       ),
-                      ButtonBar(
-                        alignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Radio(value: 20, groupValue: null, onChanged: null),
-                          Text('(O) 20 pt'),
-                          Radio(value: 10, groupValue: null, onChanged: null),
-                          Text('(S) 10 pt'),
-                          Radio(value: 0, groupValue: null, onChanged: null),
-                          Text('(U) 0 pt'),
-                        ],
-                      ),
-
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -128,25 +268,23 @@ class Debrief extends StatelessWidget {
                                 child: ElevatedButton(
                                   child: Text('Submit'),
                                   onPressed: () async {
-
+                                    await peerReviewDebriefScores();
                                     await peerReviewDebrief();
                                     navigation.currentState
                                         .pushNamed('/peerReviewLLAB2FT');
                                   },
                                 ),
                               ),
-                            ],
-                          ),
                         ],
                       ),
                     ],
                   ),
                 ],
               ),
-
+            ],
+          ),
           ),
         ),
-
     );
   }
 }

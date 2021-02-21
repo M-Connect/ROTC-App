@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 
 import '../main.dart';
 
@@ -18,6 +19,7 @@ class HomeView extends StatefulWidget {
 }
 
 bool isCadre = false;
+
 
 
 /// This is the private state class that extends the State of CadreHome.
@@ -48,9 +50,7 @@ class _CadreHomeState extends State<HomeView> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {
-
-            },
+            onPressed: signOut,
           ),
         ],
         centerTitle: true,

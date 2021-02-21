@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
+
 import '../../main.dart';
+
+
 
 class PeerReview extends StatelessWidget {
   @override
@@ -11,7 +15,7 @@ class PeerReview extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {},
+            onPressed: signOut,
           ),
         ],
       ),
