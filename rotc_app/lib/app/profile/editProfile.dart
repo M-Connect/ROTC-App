@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 /*
   Author: Christine Thomas
-  These classes make up the Cadre Control Panel Page.
-  TODO: Modularize and Separate + add more content to tabs.
+  This page will serve to edit the contents of the  User Profile Page.
+  TODO: Fix bottom navigation bar and app bar inconsistency between pages
  */
 
 class EditProfile extends StatefulWidget {
@@ -38,6 +38,17 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Edit Profile'),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_sharp),
+          onPressed: () {
+            Navigator.pushNamed(context, '/profile'); /// able to go back but bottom nav bar and app bar not consistent with home.dart -CT
+          },
+        ),
+        centerTitle: true,
+      ),
       body: Container(
         child: Column(
           children: [
