@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 
 /*
  Author: Kyle Serruys
@@ -11,6 +12,12 @@ class PeerReviewCommissioning extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Commissioning Planning Peer Review"),
+        actions: <Widget>[
+          new IconButton(
+            icon: new Icon(Icons.logout),
+            onPressed: signOut,
+          ),
+        ],
       ),
     );
   }

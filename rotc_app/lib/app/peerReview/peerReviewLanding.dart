@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../../main.dart';
+import 'package:rotc_app/services/landingPage.dart';
 
 /*
   Author: Christine Thomas
@@ -13,11 +14,28 @@ added buttons and navigation for those buttons
 
 class PeerReviewLanding extends StatefulWidget {
   PeerReviewLanding({Key key}) : super(key: key);
+
+
   @override
   _CadreHomeState createState() => _CadreHomeState();
 }
 
+
+
+Future<void> signOut()async{
+
+    await FirebaseAuth.instance.signOut();
+
+
+}
+
+
+
 bool isCadre = true;
+
+//Author:  Kyle Serruys
+//Added the singOut function to our application
+
 
 /// This is the private state class that extends the State of CadreHome.
 class _CadreHomeState extends State<PeerReviewLanding> {
@@ -46,7 +64,7 @@ class _CadreHomeState extends State<PeerReviewLanding> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {},
+            onPressed:  signOut,
           ),
         ],
         centerTitle: true,
@@ -98,7 +116,7 @@ Widget dashboard() {
             child: ElevatedButton(
               child: Text('Review Request Announcement'),
               onPressed: () {
-                navigation.currentState.pushNamed('/peerReview');
+                   navigation.currentState.pushNamed('/peerReview');
               },
             ),
           ),
