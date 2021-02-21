@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../main.dart';
-import '../../home.dart';
-import '../peerReviewLanding.dart';
+
 /*
  Author: Kyle Serruys
   This class is the Leadership page of our peer review
@@ -33,39 +32,73 @@ class Leadership extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: signOut,
+            onPressed: () {
+
+            },
           ),
         ],),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Form(
+
+          //Command Presence
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                child: Text('Confidence/Command Presence'),
+                child: Text('Command Presence'),
               ),
-              TextFormField(
-                maxLines: 3,
-                controller: commandPresence,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+              Container(
+                child:  Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      width: 200.0,
+                      child: TextFormField(
+                        maxLines: 5,
+                        controller: commandPresence,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 75.0),
+                        ),
+                        onSaved: (String value) {},
+                      ),
+                    ),
+                    SizedBox(
+                      width: 150,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                              title: const Text('20 pt'),
+                              leading: Radio(value: 20, groupValue: null, onChanged: null)
+                          ),
+                          ListTile(
+                              title: const Text('15 pt'),
+                              leading: Radio(value: 15, groupValue: null, onChanged: null)
+                          ),
+                          ListTile(
+                              title: const Text('10 pt'),
+                              leading: Radio(value: 10, groupValue: null, onChanged: null)
+                          ),
+                          ListTile(
+                              title: const Text('5 pt'),
+                              leading: Radio(value: 5, groupValue: null, onChanged: null)
+                          ),
+                          ListTile(
+                            title: const Text('0 pt'),
+                            leading: Radio(value: 0, groupValue: null, onChanged: null),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                onSaved: (String value) {},
               ),
-              ButtonBar(
-                alignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Radio(value: 20, groupValue: null, onChanged: null),
-                  Text('(O) 20 pt'),
-                  Radio(value: 10, groupValue: null, onChanged: null),
-                  Text('(S) 10 pt'),
-                  Radio(value: 0, groupValue: null, onChanged: null),
-                  Text('(U) 0 pt'),
-                ],
-              ),
+
+              //Delegation
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,25 +107,55 @@ class Leadership extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: Text('Delegation'),
                   ),
-                  TextFormField(
-                    maxLines: 3,
-                    controller: delegation,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                  Container(
+                    child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          width: 200.0,
+                          child: TextFormField(
+                            maxLines: 5,
+                            controller: delegation,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 75.0),
+                            ),
+                            onSaved: (String value) {},
+                          ),
+                        ),
+                        SizedBox(
+                          width: 150,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              ListTile(
+                                  title: const Text('20 pt'),
+                                  leading: Radio(value: 20, groupValue: null, onChanged: null)
+                              ),
+                              ListTile(
+                                  title: const Text('15 pt'),
+                                  leading: Radio(value: 15, groupValue: null, onChanged: null)
+                              ),
+                              ListTile(
+                                  title: const Text('10 pt'),
+                                  leading: Radio(value: 10, groupValue: null, onChanged: null)
+                              ),
+                              ListTile(
+                                  title: const Text('5 pt'),
+                                  leading: Radio(value: 5, groupValue: null, onChanged: null)
+                              ),
+                              ListTile(
+                                title: const Text('0 pt'),
+                                leading: Radio(value: 0, groupValue: null, onChanged: null),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    onSaved: (String value) {},
                   ),
-                  ButtonBar(
-                    alignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Radio(value: 20, groupValue: null, onChanged: null),
-                      Text('(O) 20 pt'),
-                      Radio(value: 10, groupValue: null, onChanged: null),
-                      Text('(S) 10 pt'),
-                      Radio(value: 0, groupValue: null, onChanged: null),
-                      Text('(U) 0 pt'),
-                    ],
-                  ),
+
+                  //Empowerment
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,55 +164,109 @@ class Leadership extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                         child: Text('Empowerment'),
                       ),
-                      TextFormField(
-                        maxLines: 3,
-                        controller: empowerment,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
+                      Container(
+                        child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              width: 200.0,
+                              child: TextFormField(
+                                maxLines: 5,
+                                controller: empowerment,
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  contentPadding: const EdgeInsets.symmetric(vertical: 75.0),
+                                ),
+                                onSaved: (String value) {},
+                              ),
+                            ),
+                            SizedBox(
+                              width: 150,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  ListTile(
+                                      title: const Text('20 pt'),
+                                      leading: Radio(value: 20, groupValue: null, onChanged: null)
+                                  ),
+                                  ListTile(
+                                      title: const Text('15 pt'),
+                                      leading: Radio(value: 15, groupValue: null, onChanged: null)
+                                  ),
+                                  ListTile(
+                                      title: const Text('10 pt'),
+                                      leading: Radio(value: 10, groupValue: null, onChanged: null)
+                                  ),
+                                  ListTile(
+                                      title: const Text('5 pt'),
+                                      leading: Radio(value: 5, groupValue: null, onChanged: null)
+                                  ),
+                                  ListTile(
+                                    title: const Text('0 pt'),
+                                    leading: Radio(value: 0, groupValue: null, onChanged: null),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        onSaved: (String value) {},
                       ),
-                      ButtonBar(
-                        alignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Radio(value: 20, groupValue: null, onChanged: null),
-                          Text('(O) 20 pt'),
-                          Radio(value: 10, groupValue: null, onChanged: null),
-                          Text('(S) 10 pt'),
-                          Radio(value: 0, groupValue: null, onChanged: null),
-                          Text('(U) 0 pt'),
-                        ],
-                      ),
+
+                      //Maintains Control
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding:
-                            const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: Text('Maintains Control Over Situation'),
+                            padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                            child: Text('Maintains Control'),
                           ),
-                          TextFormField(
-                            maxLines: 3,
-                            controller: maintainsControl,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
+                          Container(
+                            child:  Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  width: 200.0,
+                                  child: TextFormField(
+                                    maxLines: 5,
+                                    controller: maintainsControl,
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      contentPadding: const EdgeInsets.symmetric(vertical: 75.0),
+                                    ),
+                                    onSaved: (String value) {},
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 150,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      ListTile(
+                                          title: const Text('20 pt'),
+                                          leading: Radio(value: 20, groupValue: null, onChanged: null)
+                                      ),
+                                      ListTile(
+                                          title: const Text('15 pt'),
+                                          leading: Radio(value: 15, groupValue: null, onChanged: null)
+                                      ),
+                                      ListTile(
+                                          title: const Text('10 pt'),
+                                          leading: Radio(value: 10, groupValue: null, onChanged: null)
+                                      ),
+                                      ListTile(
+                                          title: const Text('5 pt'),
+                                          leading: Radio(value: 5, groupValue: null, onChanged: null)
+                                      ),
+                                      ListTile(
+                                        title: const Text('0 pt'),
+                                        leading: Radio(value: 0, groupValue: null, onChanged: null),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            onSaved: (String value) {},
-                          ),
-                          ButtonBar(
-                            alignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Radio(
-                                  value: 20, groupValue: null, onChanged: null),
-                              Text('(O) 20 pt'),
-                              Radio(
-                                  value: 10, groupValue: null, onChanged: null),
-                              Text('(S) 10 pt'),
-                              Radio(
-                                  value: 0, groupValue: null, onChanged: null),
-                              Text('(U) 0 pt'),
-                            ],
                           ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
