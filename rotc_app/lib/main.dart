@@ -4,6 +4,7 @@ import 'package:rotc_app/app/peerReview/lllab2FT/debrief.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/execution.dart';
 import 'package:rotc_app/app/peerReview/peerReviewRequest.dart';
 import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
+import 'package:rotc_app/app/profile/editProfile.dart';
 import 'Views/passwords/ForgotPassword.dart';
 import 'Views/registrationPage.dart';
 import 'Views/signInPage.dart';
@@ -19,6 +20,7 @@ import 'app/peerReview/peerReview.dart';
 import 'app/peerReview/peerReviewCommissioning.dart';
 import 'app/peerReview/peerReviewFLXFlight.dart';
 import 'app/peerReview/peerReviewLanding.dart';
+import 'app/profile/profile.dart';
 /*
   Author: Kyle Serruys
   created main and MConnect class.
@@ -48,11 +50,13 @@ class MConnect extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => WelcomeView(),
+        '/w': (context) => WelcomeView(),
         '/signIn': (context) => SignInView(),
         '/register': (context) => RegistrationView(),
-        '/home':(context) => HomeView(),
+        '/':(context) => HomeView(),
         '/forgotPassword': (context) => ForgotPasswordView(),
+        '/profile': (context) => Profile(),
+        '/editProfile': (context) => EditProfile(),
         '/peerReviewLanding': (context) => PeerReviewLanding(),
         '/peerReview': (context) => PeerReview(),
         '/peerReviewRequest': (context) => PeerReviewRequest(),
