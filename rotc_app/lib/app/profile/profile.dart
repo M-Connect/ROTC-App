@@ -6,162 +6,94 @@ import 'package:flutter/material.dart';
   TODO: Modularize and Separate + add more content to tabs.
  */
 
-class HomeView extends StatefulWidget {
-  HomeView({Key key}) : super(key: key);
-  @override
-  _CadreHomeState createState() => _CadreHomeState();
-}
-
-bool isCadre = true;
-
-/// This is the private state class that extends the State of CadreHome.
-class _CadreHomeState extends State<HomeView> {
-  int _tabOption = 0;
-
-  static List<Widget> _widgetOptions = <Widget>[
-    dashboard(),
-    peerReviewForm(),
-    messages(),
-    profile()
-  ];
-
-  void _chosenTab(int index) {
-    setState(() {
-      _tabOption = index;
-    });
-  }
+class Profile extends StatelessWidget {
+  final TextStyle tabTextStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  final TextStyle ranking =
+      TextStyle(fontSize: 18, fontWeight: FontWeight.normal);
+  final _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cadre Control Panel'),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_tabOption),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard_sharp),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.ballot_sharp),
-            label: 'Peer Review Forms',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.message),
-            label: 'Messages',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle_sharp),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _tabOption,
-        unselectedItemColor: Theme.of(context).primaryColorLight,
-        selectedItemColor: Theme.of(context).accentColor,
-        onTap: _chosenTab,
-      ),
-    );
-  }
-}
-
-Widget dashboard() {
-  const TextStyle tabTextStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  return Scaffold(
-    body: SingleChildScrollView(
-      child: Container(
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  'On Your Radar',
-                  style: tabTextStyle,
-                ),
-              ),
-              Column(
-                children: [],
-              ),
-            ],
-          )),
-    ),
-  );
-}
-
-Widget peerReviewForm() {
-  const TextStyle tabTextStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  return Scaffold(
-    body: SingleChildScrollView(
-      child: Container(
-        child: Row(
+      body: Container(
+        child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Cadet Peer Review Forms',
-                style: tabTextStyle,
+              padding: const EdgeInsets.only(top: 25.0, bottom: 15.0),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: CircleAvatar(
+                  backgroundColor: Colors.lightBlueAccent[200],
+                  child: Text(
+                    'JD',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.amber[200],
+                      fontSize: 50.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  radius: 75.0,
+                ),
               ),
             ),
-            Column(
-              children: [],
+            Text(
+              'Cadre Doe',
+              style: tabTextStyle,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Technical Sergeant',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            Divider(
+              thickness: 1,
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Biography',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                    ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.edit_outlined,
+                          color: Colors.amber[200],
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/editProfile');
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40.0, 0.0, 255.0, 0.0),
+                ),
+              ],
             ),
           ],
         ),
       ),
-    ),
-  );
-}
-
-Widget messages() {
-  const TextStyle tabTextStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  return Scaffold(
-    body: SingleChildScrollView(
-      child: Container(
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  'Messages',
-                  style: tabTextStyle,
-                ),
-              ),
-              Column(
-                children: [],
-              ),
-            ],
-          )),
-    ),
-  );
-}
-
-Widget profile() {
-  const TextStyle tabTextStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  return Scaffold(
-    body: SingleChildScrollView(
-      child: Container(
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  'Profile',
-                  style: tabTextStyle,
-                ),
-              ),
-              Column(
-                children: [],
-              ),
-            ],
-          )),
-    ),
-  );
+    );
+  }
 }

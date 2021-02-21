@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
+import 'package:flutter/rendering.dart';
+import 'package:rotc_app/app/profile/profile.dart';
 
 import '../main.dart';
 
@@ -21,7 +22,6 @@ class HomeView extends StatefulWidget {
 bool isCadre = false;
 
 
-
 /// This is the private state class that extends the State of CadreHome.
 class _CadreHomeState extends State<HomeView> {
   int _tabOption = 0;
@@ -30,7 +30,7 @@ class _CadreHomeState extends State<HomeView> {
     dashboard(),
     peerReviewForm(),
     messages(),
-    profile()
+    Profile(),
   ];
 
 
@@ -50,7 +50,9 @@ class _CadreHomeState extends State<HomeView> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: signOut,
+            onPressed: () {
+
+            },
           ),
         ],
         centerTitle: true,
@@ -199,27 +201,4 @@ Widget messages() {
   );
 }
 
-Widget profile() {
-  const TextStyle tabTextStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  return Scaffold(
-    body: SingleChildScrollView(
-      child: Container(
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Profile',
-                style: tabTextStyle,
-              ),
-            ),
-            Column(
-              children: [],
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
+
