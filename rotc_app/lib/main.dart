@@ -54,6 +54,7 @@ class MConnect extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Firebase Authentication',
+        navigatorKey: navigation,
         home: Authenticate(),
     initialRoute: '/',
     routes: {
