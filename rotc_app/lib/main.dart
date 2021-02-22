@@ -1,10 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:rotc_app/app/peerReview/lllab2FT/debrief.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/execution.dart';
 import 'package:rotc_app/app/peerReview/peerReviewRequest.dart';
 import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
 import 'package:rotc_app/app/profile/editProfile.dart';
+import 'package:rotc_app/services/auth.dart';
 import 'Views/passwords/ForgotPassword.dart';
 import 'Views/registrationPage.dart';
 import 'Views/signInPage.dart';
@@ -35,8 +39,61 @@ Future<void> main() async {
   runApp(MConnect());
 }
 
+
 class MConnect extends StatelessWidget {
   @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        Provider<Auth>(
+          create: (_) => Auth(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) => context.read<Auth>().authState,
+        )
+      ],
+      child: MaterialApp(
+        title: 'Firebase Authentication',
+        home: Authenticate(),
+    initialRoute: '/',
+    routes: {
+      '/welcomePage': (context) => WelcomeView(),
+      '/signIn': (context) => SignInView(),
+      '/register': (context) => RegistrationView(),
+      '/homePage': (context) => HomeView(),
+      '/forgotPassword': (context) => ForgotPasswordView(),
+      '/profile': (context) => Profile(),
+      '/editProfile': (context) => EditProfile(),
+      '/peerReviewLanding': (context) => PeerReviewLanding(),
+      '/peerReview': (context) => PeerReview(),
+      '/peerReviewRequest': (context) => PeerReviewRequest(),
+      '/peerReviewStats': (context) => PeerReviewStats(),
+      '/peerReviewLLAB2FT': (context) => PeerReviewLLAB2FT(),
+      '/peerReviewFLXFlight': (context) => PeerReviewFLXFlight(),
+      '/peerReviewCommissioning': (context) => PeerReviewCommissioning(),
+      '/planning': (context) => Planning(),
+      '/communications': (context) => Communication(),
+      '/execution': (context) => Execution(),
+      '/leadership': (context) => Leadership(),
+      '/debrief': (context) => Debrief(),
+    } ),
+    );
+  }
+}
+
+class Authenticate extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User>();
+
+    if (firebaseUser != null) {
+      return HomeView();
+    }
+    return WelcomeView();
+  }
+}
+
+/*@override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -72,5 +129,4 @@ class MConnect extends StatelessWidget {
       },
     );
   }
-}
-
+}*/
