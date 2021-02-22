@@ -72,10 +72,6 @@ class PeerReviewRequest extends StatelessWidget {
               ButtonBar(
                   alignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                  Radio(value: 500, activeColor: Colors.black87, groupValue: null, onChanged: null),
-                  Text('500'),
-                  Radio(value: 600, activeColor: Colors.black87, groupValue: null, onChanged: null),
-                  Text('600'),
                   Radio(value: 700, activeColor: Colors.black87, groupValue: null, onChanged: null),
                   Text('700'),
                   Radio(value: 800, activeColor: Colors.black87, groupValue: null, onChanged: null),
