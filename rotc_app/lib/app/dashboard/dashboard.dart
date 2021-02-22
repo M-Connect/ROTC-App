@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
+
+import '../../main.dart';
+import '../home.dart';
 
 /*
   Author: Christine Thomas
@@ -33,6 +37,13 @@ class _CadreHomeState extends State<HomeView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cadre Control Panel'),
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          new IconButton(
+            icon: new Icon(Icons.logout),
+            onPressed: signOut,
+          ),
+        ],
         centerTitle: true,
       ),
       body: Center(
