@@ -78,11 +78,17 @@ class DebriefState extends State<Debrief> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Debrief'),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            navigation.currentState.pushNamed('/peerReviewLLAB2FT');
+          },
+        ),title: Text('Debrief'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: signOut,
+            onPressed: (){},
 
           ),
         ],),
@@ -260,23 +266,36 @@ class DebriefState extends State<Debrief> {
                           ],
                         ),
                       ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Container(
-                                child: ElevatedButton(
-                                  child: Text('Submit'),
-                                  onPressed: () async {
-                                    await peerReviewDebriefScores();
-                                    await peerReviewDebrief();
-                                    navigation.currentState
-                                        .pushNamed('/peerReviewLLAB2FT');
-                                  },
-                                ),
-                              ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          ElevatedButton(
+                            child: Text('Prev'),
+                            onPressed: () async {
+                              navigation.currentState
+                                  .pushNamed('/leadership');
+                            },
+                          ),
+
+                          ElevatedButton(
+                            child: Text('Save'),
+                            onPressed: () async {
+                              await peerReviewDebriefScores();
+                              await peerReviewDebrief();
+
+                            },
+                          ),
+                          ElevatedButton(
+                            child: Text('Confirm'),
+                            onPressed: () async {
+                              await peerReviewDebriefScores();
+                              await peerReviewDebrief();
+                              navigation.currentState
+                                  .pushNamed('/confirmationPage');
+                            },
+                          ),
                         ],
-                      ),
+                      )
                     ],
                   ),
                 ],

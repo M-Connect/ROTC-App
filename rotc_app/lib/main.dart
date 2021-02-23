@@ -73,7 +73,7 @@ class MConnect extends StatelessWidget {
       '/peerReviewFLXFlight': (context) => PeerReviewFLXFlight(),
       '/peerReviewCommissioning': (context) => PeerReviewCommissioning(),
       '/planning': (context) => Planning(),
-      '/communications': (context) => Communication(),
+      '/communication': (context) => Communication(),
       '/execution': (context) => Execution(),
       '/leadership': (context) => Leadership(),
       '/debrief': (context) => Debrief(),

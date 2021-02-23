@@ -15,7 +15,7 @@ class PeerReviewFLXFlight extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: signOut,
+            onPressed: (){},
           ),
         ],
       ),

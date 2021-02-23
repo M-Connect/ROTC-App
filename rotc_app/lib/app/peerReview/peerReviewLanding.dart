@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../main.dart';
-import 'package:rotc_app/services/landingPage.dart';
 
 /*
   Author: Christine Thomas
@@ -22,16 +21,9 @@ class PeerReviewLanding extends StatefulWidget {
 
 
 
-Future<void> signOut()async{
-
-    await FirebaseAuth.instance.signOut();
 
 
-}
-
-
-
-bool isCadre = true;
+bool isCadre = false;
 
 //Author:  Kyle Serruys
 //Added the singOut function to our application
@@ -59,12 +51,11 @@ class _CadreHomeState extends State<PeerReviewLanding> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Peer Review Control Panel'),
-
         automaticallyImplyLeading: false,
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed:  signOut,
+            onPressed:  (){},
           ),
         ],
         centerTitle: true,

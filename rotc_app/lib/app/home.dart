@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:rotc_app/app/profile/profile.dart';
-
 import '../main.dart';
-import 'peerReview/peerReviewLanding.dart';
 
 /*
   Author: Christine Thomas
@@ -51,7 +49,7 @@ class _CadreHomeState extends State<HomeView> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: signOut,
+            onPressed: (){},
 
 
           ),
