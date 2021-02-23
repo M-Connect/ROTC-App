@@ -113,6 +113,8 @@ class PlanningState extends State<Planning> {
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,7 +163,9 @@ class PlanningState extends State<Planning> {
                               //  const EdgeInsets.symmetric(vertical: 75.0),
                               EdgeInsets.all(10.0),
                         ),
-                        onSaved: (String value) {},
+                        onSaved: (String value) {
+                        },
+
                       ),
                     ),
                     SizedBox(
@@ -304,7 +308,7 @@ class PlanningState extends State<Planning> {
                                   )),
                               ListTile(
                                 visualDensity:
-                                    VisualDensity(horizontal: -4, vertical: -4),
+                                VisualDensity(horizontal: -4, vertical: -4),
                                 title: const Text('0 pt'),
                                 leading: Radio(
                                   value: 0,
@@ -450,15 +454,17 @@ class PlanningState extends State<Planning> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       ListTile(
-                                          visualDensity: VisualDensity(
-                                              horizontal: -4, vertical: -4),
-                                          title: const Text('20 pt'),
-                                          leading: Radio(
-                                            value: 20,
-                                            activeColor: Colors.black87,
-                                            groupValue: groupValueD,
-                                            onChanged: (int d) => buttonChangeD(d),
-                                          ),),
+                                        visualDensity: VisualDensity(
+                                            horizontal: -4, vertical: -4),
+                                        title: const Text('20 pt'),
+                                        leading: Radio(
+                                          value: 20,
+                                          activeColor: Colors.black87,
+                                          groupValue: groupValueD,
+                                          onChanged: (int d) =>
+                                              buttonChangeD(d),
+                                        ),
+                                      ),
                                       ListTile(
                                         visualDensity: VisualDensity(
                                             horizontal: -4, vertical: -4),
@@ -467,7 +473,8 @@ class PlanningState extends State<Planning> {
                                           value: 15,
                                           activeColor: Colors.black87,
                                           groupValue: groupValueD,
-                                          onChanged: (int d) => buttonChangeD(d),
+                                          onChanged: (int d) =>
+                                              buttonChangeD(d),
                                         ),
                                       ),
                                       ListTile(
@@ -522,33 +529,34 @@ class PlanningState extends State<Planning> {
         ),
       ),
       bottomNavigationBar: Padding(
-          padding:
-              EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Opacity(
-                opacity: 0.0,
-                child: ElevatedButton(
-                  child: Text('Prev'),
-                  onPressed: () async {},
-                ),
+        padding:
+            EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Opacity(
+              opacity: 0.0,
+              child: ElevatedButton(
+                child: Text('Prev'),
+                onPressed: () async {},
               ),
-              ElevatedButton(
-                child: Text('Save'),
-                onPressed: () async {
-                  await peerReviewPlanningScores();
-                  await peerReviewPlanning();
-                },
-              ),
-              ElevatedButton(
-                child: Text('Next'),
-                onPressed: () async {
-                  navigation.currentState.pushNamed('/communication');
-                },
-              ),
-            ],
-          )),
+            ),
+            ElevatedButton(
+              child: Text('Save'),
+              onPressed: () async {
+                await peerReviewPlanningScores();
+                await peerReviewPlanning();
+              },
+            ),
+            ElevatedButton(
+              child: Text('Next'),
+              onPressed: () async {
+                navigation.currentState.pushNamed('/communication');
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
