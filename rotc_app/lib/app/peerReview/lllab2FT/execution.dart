@@ -97,11 +97,17 @@ class ExecutionState extends State<Execution>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Execution'),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            navigation.currentState.pushNamed('/peerReviewLLAB2FT');
+          },
+        ),title: Text('Execution'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: signOut,
+            onPressed: (){},
 
           ),
         ],),
@@ -336,23 +342,34 @@ class ExecutionState extends State<Execution>{
                                 ],
                               ),
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Container(
-                                  child: ElevatedButton(
-                                    child: Text('Submit'),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                ElevatedButton(
+                                    child: Text('Prev'),
                                     onPressed: () async {
-                                      await peerReviewExecutionScores();
-                                      await peerReviewExecution();
                                       navigation.currentState
-                                          .pushNamed('/peerReviewLLAB2FT');
+                                          .pushNamed('/communication');
                                     },
                                   ),
+
+                                ElevatedButton(
+                                  child: Text('Save'),
+                                  onPressed: () async {
+                                    await peerReviewExecutionScores();
+                                    await peerReviewExecution();
+
+                                  },
+                                ),
+                                ElevatedButton(
+                                  child: Text('Next'),
+                                  onPressed: () async {
+                                    navigation.currentState
+                                        .pushNamed('/leadership');
+                                  },
                                 ),
                               ],
-                            ),
+                            )
                           ],
                         ),
                       ],
