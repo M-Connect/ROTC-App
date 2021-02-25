@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
-import '../peerReviewLanding.dart';
 
 /*
  Author: Kyle Serruys
@@ -139,6 +140,8 @@ class DebriefState extends State<Debrief> {
                           //const EdgeInsets.symmetric(vertical: 75.0),
                         ),
                         onSaved: (String value) {},
+                        validator:
+                        RequiredValidator(errorText: "Adheres to debrief format is required"),
                       ),
                     ),
                     SizedBox(
@@ -231,6 +234,8 @@ class DebriefState extends State<Debrief> {
                               //const EdgeInsets.symmetric(vertical: 75.0),
                             ),
                             onSaved: (String value) {},
+                            validator:
+                            RequiredValidator(errorText: "Receptive to feedback is required"),
                           ),
                         ),
                         SizedBox(
@@ -323,6 +328,8 @@ class DebriefState extends State<Debrief> {
                                   //const EdgeInsets.symmetric(vertical: 75.0),
                                 ),
                                 onSaved: (String value) {},
+                                validator:
+                                RequiredValidator(errorText: "Improvement oriented is required"),
                               ),
                             ),
                             SizedBox(
@@ -413,18 +420,24 @@ class DebriefState extends State<Debrief> {
               ElevatedButton(
                 child: Text('Save'),
                 onPressed: () async {
-                  await peerReviewDebriefScores();
-                  await peerReviewDebrief();
+                  SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+                  prefs.setString('adheresToDebriefFormat', adheresToDebriefFormat.text);
+                  prefs.setString(
+                        'receptiveToFeedback', receptiveToFeedback.text);
+                  prefs.setString('improvementOriented', improvementOriented.text);
 
+                  prefs.setInt('groupValueA', groupValueA);
+                  prefs.setInt('groupValueB', groupValueB);
+                  prefs.setInt('groupValueC', groupValueC);
                 },
               ),
               ElevatedButton(
                 child: Text('Confirm'),
                 onPressed: () async {
-                  await peerReviewDebriefScores();
-                  await peerReviewDebrief();
+
                   navigation.currentState
-                      .pushNamed('/confirmationPage');
+                      .pushNamed('/confirmation');
                 },
               ),
             ],

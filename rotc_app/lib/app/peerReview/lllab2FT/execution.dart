@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 import '../peerReviewLanding.dart';
 /*
@@ -158,6 +160,8 @@ class ExecutionState extends State<Execution>{
                             //const EdgeInsets.symmetric(vertical: 75.0),
                           ),
                           onSaved: (String value) {},
+                          validator:
+                          RequiredValidator(errorText: "Time management is required"),
                         ),
                       ),
                       SizedBox(
@@ -229,6 +233,8 @@ class ExecutionState extends State<Execution>{
                                 //const EdgeInsets.symmetric(vertical: 75.0),
                               ),
                               onSaved: (String value) {},
+                              validator:
+                              RequiredValidator(errorText: "Resources management is required"),
                             ),
                           ),
                           SizedBox(
@@ -300,6 +306,8 @@ class ExecutionState extends State<Execution>{
                                     //const EdgeInsets.symmetric(vertical: 75.0),
                                   ),
                                   onSaved: (String value) {},
+                                  validator:
+                                  RequiredValidator(errorText: "Flexibility is required"),
                                 ),
                               ),
                               SizedBox(
@@ -371,6 +379,8 @@ class ExecutionState extends State<Execution>{
                                         //const EdgeInsets.symmetric(vertical: 75.0),
                                       ),
                                       onSaved: (String value) {},
+                                      validator:
+                                      RequiredValidator(errorText: "Mission success is required"),
                                     ),
                                   ),
                                   SizedBox(
@@ -437,9 +447,18 @@ class ExecutionState extends State<Execution>{
             ElevatedButton(
               child: Text('Save'),
               onPressed: () async {
-                await peerReviewExecutionScores();
-                await peerReviewExecution();
-
+                SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+                prefs.setString('timeManagement', timeManagement.text);
+                prefs.setString(
+                    'resourcesManagement', resourcesManagement.text);
+                prefs.setString('flexibility', flexibility.text);
+                prefs.setString(
+                    'missionSuccess', missionSuccess.text);
+                prefs.setInt('groupValueA', groupValueA);
+                prefs.setInt('groupValueB', groupValueB);
+                prefs.setInt('groupValueC', groupValueC);
+                prefs.setInt('groupValueD', groupValueD);
               },
             ),
             ElevatedButton(

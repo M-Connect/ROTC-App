@@ -15,6 +15,7 @@ import 'Views/signInPage.dart';
 import 'Views/welcomePage.dart';
 import 'app/home.dart';
 import 'app/peerReview/lllab2FT/communication.dart';
+import 'app/peerReview/lllab2FT/confirmation.dart';
 import 'app/peerReview/lllab2FT/leadership.dart';
 import 'app/peerReview/lllab2FT/peerReviewLLAB2FT.dart';
 import 'app/peerReview/lllab2FT/planning.dart';
@@ -56,7 +57,7 @@ class MConnect extends StatelessWidget {
         title: 'Firebase Authentication',
         navigatorKey: navigation,
         home: Authenticate(),
-    initialRoute: '/',
+    initialRoute: '/peerReviewLanding',
     routes: {
       '/welcomePage': (context) => WelcomeView(),
       '/signIn': (context) => SignInView(),
@@ -77,6 +78,7 @@ class MConnect extends StatelessWidget {
       '/execution': (context) => Execution(),
       '/leadership': (context) => Leadership(),
       '/debrief': (context) => Debrief(),
+      '/confirmation': (context) => Confirmation(),
     } ),
     );
   }

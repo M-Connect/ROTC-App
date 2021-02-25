@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
-import '../peerReviewLanding.dart';
 /*
  Author: Kyle Serruys
   This class is the Planning page of our peer review
@@ -14,6 +15,7 @@ class Planning extends StatefulWidget {
   @override
   PlanningState createState() => PlanningState();
 }
+
 
 class PlanningState extends State<Planning> {
   TextEditingController teamOrganization = TextEditingController();
@@ -114,7 +116,6 @@ class PlanningState extends State<Planning> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,9 +164,10 @@ class PlanningState extends State<Planning> {
                               //  const EdgeInsets.symmetric(vertical: 75.0),
                               EdgeInsets.all(10.0),
                         ),
-                        onSaved: (String value) {
-                        },
+                        onSaved: (String value) async {},
 
+                        validator: RequiredValidator(
+                            errorText: "Team Organization is required."),
                       ),
                     ),
                     SizedBox(
@@ -259,6 +261,8 @@ class PlanningState extends State<Planning> {
                                   EdgeInsets.all(10.0),
                             ),
                             onSaved: (String value) {},
+                            validator: RequiredValidator(
+                                errorText: "Outside preparation is required."),
                           ),
                         ),
                         SizedBox(
@@ -308,7 +312,7 @@ class PlanningState extends State<Planning> {
                                   )),
                               ListTile(
                                 visualDensity:
-                                VisualDensity(horizontal: -4, vertical: -4),
+                                    VisualDensity(horizontal: -4, vertical: -4),
                                 title: const Text('0 pt'),
                                 leading: Radio(
                                   value: 0,
@@ -352,6 +356,8 @@ class PlanningState extends State<Planning> {
                                       EdgeInsets.all(10.0),
                                 ),
                                 onSaved: (String value) {},
+                                validator: RequiredValidator(
+                                    errorText: "Mission focus is required."),
                               ),
                             ),
                             SizedBox(
@@ -446,6 +452,8 @@ class PlanningState extends State<Planning> {
                                           EdgeInsets.all(10.0),
                                     ),
                                     onSaved: (String value) {},
+                                    validator: RequiredValidator(
+                                        errorText: "Creativity is required."),
                                   ),
                                 ),
                                 SizedBox(
@@ -544,14 +552,20 @@ class PlanningState extends State<Planning> {
             ElevatedButton(
               child: Text('Save'),
               onPressed: () async {
-                await peerReviewPlanningScores();
-                await peerReviewPlanning();
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('teamOrganization', teamOrganization.text);
+                prefs.setString('outsidePreparation', outsidePreparation.text);
+                prefs.setString('missionFocus', missionFocus.text);
+                prefs.setString('creativity', creativity.text);
+                prefs.setInt("groupValueA", groupValueA);
+
               },
             ),
             ElevatedButton(
               child: Text('Next'),
               onPressed: () async {
                 navigation.currentState.pushNamed('/communication');
+
               },
             ),
           ],
@@ -560,3 +574,4 @@ class PlanningState extends State<Planning> {
     );
   }
 }
+

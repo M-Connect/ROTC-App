@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 /*
  Author: Kyle Serruys
@@ -103,27 +105,28 @@ class CommunicationState extends State<Communication> {
               ),
               Container(
                 child: Row(
-                //  mainAxisAlignment: MainAxisAlignment.start,
+                  //  mainAxisAlignment: MainAxisAlignment.start,
 
                   children: <Widget>[
                     Container(
                       width: 200.0,
                       child: TextFormField(
                         textAlignVertical: TextAlignVertical.top,
-
                         maxLength: 160,
                         maxLengthEnforced: true,
-
                         maxLines: 10,
                         controller: chainOfCommand,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding:
-                             // const EdgeInsets.symmetric(vertical: 75.0),
+                              // const EdgeInsets.symmetric(vertical: 75.0),
 
-                          EdgeInsets.all(10.0),
+                              EdgeInsets.all(10.0),
                         ),
                         onSaved: (String value) {},
+                        validator:
+                          RequiredValidator(errorText: "Chain of Command is required"),
+
                       ),
                     ),
                     SizedBox(
@@ -131,9 +134,9 @@ class CommunicationState extends State<Communication> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-
                           ListTile(
-                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                            visualDensity:
+                                VisualDensity(horizontal: -4, vertical: -4),
                             title: const Text('20 pt'),
                             leading: Radio(
                               value: 20,
@@ -142,9 +145,9 @@ class CommunicationState extends State<Communication> {
                               onChanged: (int a) => buttonChangeA(a),
                             ),
                           ),
-
                           ListTile(
-                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                            visualDensity:
+                                VisualDensity(horizontal: -4, vertical: -4),
                             title: const Text('15 pt'),
                             leading: Radio(
                               value: 15,
@@ -154,7 +157,8 @@ class CommunicationState extends State<Communication> {
                             ),
                           ),
                           ListTile(
-                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                            visualDensity:
+                                VisualDensity(horizontal: -4, vertical: -4),
                             title: const Text('10 pt'),
                             leading: Radio(
                               value: 10,
@@ -164,7 +168,8 @@ class CommunicationState extends State<Communication> {
                             ),
                           ),
                           ListTile(
-                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                            visualDensity:
+                                VisualDensity(horizontal: -4, vertical: -4),
                             title: const Text('5 pt'),
                             leading: Radio(
                               value: 5,
@@ -174,7 +179,8 @@ class CommunicationState extends State<Communication> {
                             ),
                           ),
                           ListTile(
-                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                            visualDensity:
+                                VisualDensity(horizontal: -4, vertical: -4),
                             title: const Text('0 pt'),
                             leading: Radio(
                               value: 0,
@@ -201,27 +207,27 @@ class CommunicationState extends State<Communication> {
                   ),
                   Container(
                     child: Row(
-                    //  mainAxisAlignment: MainAxisAlignment.start,
+                      //  mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Container(
                           width: 200.0,
                           child: TextFormField(
                             textAlignVertical: TextAlignVertical.top,
-
                             maxLength: 160,
                             maxLengthEnforced: true,
-
                             maxLines: 10,
-
                             controller: situationalAwareness,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                               contentPadding:
-                               //   const EdgeInsets.symmetric(vertical: 75.0),
+                                  //   const EdgeInsets.symmetric(vertical: 75.0),
 
-                              EdgeInsets.all(10.0),
+                                  EdgeInsets.all(10.0),
                             ),
                             onSaved: (String value) {},
+                            validator:
+
+                            RequiredValidator(errorText: "Maintains team's situational awareness is required."),
                           ),
                         ),
                         SizedBox(
@@ -230,7 +236,8 @@ class CommunicationState extends State<Communication> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               ListTile(
-                                visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                visualDensity:
+                                    VisualDensity(horizontal: -4, vertical: -4),
                                 title: const Text('20 pt'),
                                 leading: Radio(
                                   value: 20,
@@ -240,7 +247,8 @@ class CommunicationState extends State<Communication> {
                                 ),
                               ),
                               ListTile(
-                                visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                visualDensity:
+                                    VisualDensity(horizontal: -4, vertical: -4),
                                 title: const Text('15 pt'),
                                 leading: Radio(
                                   value: 15,
@@ -250,7 +258,8 @@ class CommunicationState extends State<Communication> {
                                 ),
                               ),
                               ListTile(
-                                visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                visualDensity:
+                                    VisualDensity(horizontal: -4, vertical: -4),
                                 title: const Text('10 pt'),
                                 leading: Radio(
                                   value: 10,
@@ -260,7 +269,8 @@ class CommunicationState extends State<Communication> {
                                 ),
                               ),
                               ListTile(
-                                visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                visualDensity:
+                                    VisualDensity(horizontal: -4, vertical: -4),
                                 title: const Text('5 pt'),
                                 leading: Radio(
                                   value: 5,
@@ -270,7 +280,8 @@ class CommunicationState extends State<Communication> {
                                 ),
                               ),
                               ListTile(
-                                visualDensity: VisualDensity(horizontal: -4, vertical: -4),
+                                visualDensity:
+                                    VisualDensity(horizontal: -4, vertical: -4),
                                 title: const Text('0 pt'),
                                 leading: Radio(
                                   value: 0,
@@ -285,8 +296,6 @@ class CommunicationState extends State<Communication> {
                       ],
                     ),
                   ),
-
-
                 ],
               ),
             ],
@@ -294,8 +303,8 @@ class CommunicationState extends State<Communication> {
         ),
       ),
       bottomNavigationBar: Padding(
-          padding: EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),
-
+          padding:
+              EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -308,8 +317,13 @@ class CommunicationState extends State<Communication> {
               ElevatedButton(
                 child: Text('Save'),
                 onPressed: () async {
-                  await peerReviewCommunicationScores();
-                  await peerReviewCommunications();
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setString('chainOfCommand', chainOfCommand.text);
+                  prefs.setString(
+                      'situationalAwareness', situationalAwareness.text);
+                  prefs.setInt('groupValueA', groupValueA);
+                  prefs.setInt('groupValueB', groupValueB);
                 },
               ),
               ElevatedButton(
@@ -319,10 +333,7 @@ class CommunicationState extends State<Communication> {
                 },
               ),
             ],
-          )
-
-      ),
+          )),
     );
   }
-
 }

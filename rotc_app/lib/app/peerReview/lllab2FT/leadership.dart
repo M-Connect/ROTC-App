@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
 import '../../home.dart';
@@ -162,6 +164,8 @@ class LeadershipState extends State<Leadership> {
                           // const EdgeInsets.symmetric(vertical: 75.0),
                         ),
                         onSaved: (String value) {},
+                        validator:
+                        RequiredValidator(errorText: "Command presence is required"),
                       ),
                     ),
                     SizedBox(
@@ -254,6 +258,8 @@ class LeadershipState extends State<Leadership> {
                               //const EdgeInsets.symmetric(vertical: 75.0),
                             ),
                             onSaved: (String value) {},
+                            validator:
+                            RequiredValidator(errorText: "Delegation is required"),
                           ),
                         ),
                         SizedBox(
@@ -346,6 +352,8 @@ class LeadershipState extends State<Leadership> {
                                   //const EdgeInsets.symmetric(vertical: 75.0),
                                 ),
                                 onSaved: (String value) {},
+                                validator:
+                                RequiredValidator(errorText: "Empowerment is required"),
                               ),
                             ),
                             SizedBox(
@@ -439,6 +447,8 @@ class LeadershipState extends State<Leadership> {
                                       //const EdgeInsets.symmetric(vertical: 75.0),
                                     ),
                                     onSaved: (String value) {},
+                                    validator:
+                                    RequiredValidator(errorText: "Maintains control is required"),
                                   ),
                                 ),
                                 SizedBox(
@@ -533,8 +543,12 @@ class LeadershipState extends State<Leadership> {
               ElevatedButton(
                 child: Text('Save'),
                 onPressed: () async {
-                  await peerReviewLeadershipScores();
-                  await peerReviewLeadership();
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setString('commandPresence', commandPresence.text);
+                  prefs.setString('delegation', delegation.text);
+                  prefs.setString('empowerment', empowerment.text);
+                  prefs.setString('maintainsControl', maintainsControl.text);
                 },
               ),
               ElevatedButton(
