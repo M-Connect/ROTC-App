@@ -20,24 +20,7 @@ class DebriefState extends State<Debrief> {
   TextEditingController receptiveToFeedback = TextEditingController();
   TextEditingController improvementOriented = TextEditingController();
 
-  CollectionReference debrief = FirebaseFirestore.instance.collection('debrief');
-  CollectionReference debriefScores = FirebaseFirestore.instance.collection('debriefScores');
 
-  Future<void> peerReviewDebrief() {
-    return debrief.add({
-      'adheresToDebriefFormat': adheresToDebriefFormat.text,
-      'receptiveToFeedback': receptiveToFeedback.text,
-      'improvementOriented': improvementOriented.text,
-    });
-  }
-
-  Future<void> peerReviewDebriefScores(){
-    return debriefScores.add({
-      'debriefFormatScore': groupValueA,
-      'feedbackScore': groupValueB,
-      'improvementOrientedScore': groupValueC,
-    });
-  }
 
   int groupValueA;
   int groupValueB;

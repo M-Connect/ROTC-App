@@ -24,28 +24,7 @@ class LeadershipState extends State<Leadership> {
   TextEditingController empowerment = TextEditingController();
   TextEditingController maintainsControl = TextEditingController();
 
-  CollectionReference leadership =
-      FirebaseFirestore.instance.collection('leadership');
-  CollectionReference leadershipScores =
-      FirebaseFirestore.instance.collection('leadershipScores');
 
-  Future<void> peerReviewLeadership() {
-    return leadership.add({
-      'commandPresence': commandPresence.text,
-      'delegation': delegation.text,
-      'empowerment': empowerment.text,
-      'maintainsControl': maintainsControl.text,
-    });
-  }
-
-  Future<void> peerReviewLeadershipScores() {
-    return leadershipScores.add({
-      'commandPresenceScore': groupValueA,
-      'delegationScore': groupValueB,
-      'empowermentScore': groupValueC,
-      'maintainsControlScore': groupValueD,
-    });
-  }
 
   int groupValueA;
   int groupValueB;

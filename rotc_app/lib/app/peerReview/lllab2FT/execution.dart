@@ -22,26 +22,7 @@ class ExecutionState extends State<Execution>{
   TextEditingController flexibility = TextEditingController();
   TextEditingController missionSuccess = TextEditingController();
 
-  CollectionReference execution = FirebaseFirestore.instance.collection('execution');
-  CollectionReference executionScores = FirebaseFirestore.instance.collection('/execution').doc().collection('executionScores');
 
-  Future<void> peerReviewExecution() {
-    return execution.add({
-      'timeManagement': timeManagement.text,
-      'resourcesManagement': resourcesManagement.text,
-      'flexibility': flexibility.text,
-      'missionSuccess': missionSuccess.text,
-    });
-  }
-
-  Future<void> peerReviewExecutionScores() {
-    return executionScores.add({
-      'timeManagementScore': groupValueA,
-      'resourcesManagementScore': groupValueB,
-      'flexibilityScore': groupValueC,
-      'missionSuccessScore': groupValueD,
-    });
-  }
 
   int groupValueA;
   int groupValueB;

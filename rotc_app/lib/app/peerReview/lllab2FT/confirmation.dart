@@ -1,6 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../main.dart';
 
 class Confirmation extends StatefulWidget {
@@ -26,6 +26,31 @@ class _ConfirmationState extends State<Confirmation> {
   String adheresToDebriefFormat = "";
   String receptiveToFeedback = "";
   String improvementOriented = "";
+
+  CollectionReference llab2ftPeerReview =
+  FirebaseFirestore.instance.collection('llab2ftPeerReview');
+
+  Future<void> peerReview() {
+    return llab2ftPeerReview.add({
+      "teamOrganization": teamOrganization,
+      "outsidePreparation": outsidePreparation,
+      "missionFocus":missionFocus,
+      "creativity":creativity,
+      "chainOfCommand":chainOfCommand,
+      "situationalAwareness":situationalAwareness,
+      "timeManagement":timeManagement,
+      "resourcesManagement":resourcesManagement,
+      "flexibility":flexibility,
+      "missionSuccess":missionSuccess,
+      "commandPresence":commandPresence,
+      "delegation":delegation,
+      "empowerment":empowerment,
+      "maintainsControl":maintainsControl,
+      "adheresToDebriefFormat":adheresToDebriefFormat,
+      "receptiveToFeedback":receptiveToFeedback,
+      "improvementOriented":improvementOriented
+    });
+  }
 
   @override
   void initState() {
@@ -71,7 +96,6 @@ class _ConfirmationState extends State<Confirmation> {
       outsidePreparation = prefs.getString("outsidePreparation");
       missionFocus = prefs.getString("missionFocus");
       creativity = prefs.getString("creativity");
-
     });
   }
 
@@ -445,8 +469,27 @@ class _ConfirmationState extends State<Confirmation> {
             ElevatedButton(
               child: Text('Submit'),
               onPressed: () async {
+                await peerReview();
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                await prefs.clear();
+
+                await prefs.remove("teamOrganization");
+                await prefs.remove("outsidePreparation");
+                await prefs.remove("missionFocus");
+                await prefs.remove("creativity");
+                await prefs.remove("chainOfCommand");
+                await prefs.remove("situationalAwareness");
+                await prefs.remove("timeManagement");
+                await prefs.remove("resourcesManagement");
+                await prefs.remove("flexibility");
+                await prefs.remove("missionSuccess");
+                await prefs.remove("commandPresence");
+                await prefs.remove("delegation");
+                await prefs.remove("empowerment");
+                await prefs.remove("maintainsControl");
+                await prefs.remove("adheresToDebriefFormat");
+                await prefs.remove("receptiveToFeedback");
+                await prefs.remove("improvementOriented");
+
                 navigation.currentState.pushNamed('/peerReviewLanding');
               },
             ),

@@ -23,28 +23,7 @@ class PlanningState extends State<Planning> {
   TextEditingController missionFocus = TextEditingController();
   TextEditingController creativity = TextEditingController();
 
-  CollectionReference planning =
-      FirebaseFirestore.instance.collection('planning');
-  CollectionReference planningScores =
-      FirebaseFirestore.instance.collection('planningScores');
 
-  Future<void> peerReviewPlanning() {
-    return planning.add({
-      'teamOrganization': teamOrganization.text,
-      'outsidePreparation': outsidePreparation.text,
-      'missionFocus': missionFocus.text,
-      'creativity': creativity.text,
-    });
-  }
-
-  Future<void> peerReviewPlanningScores() {
-    return planningScores.add({
-      'teamOrganizationScore': groupValueA,
-      'outsidePreparationScore': groupValueB,
-      'missionFocusScore': groupValueC,
-      'creativityScore': groupValueD,
-    });
-  }
 
   int groupValueA;
   int groupValueB;
@@ -557,7 +536,6 @@ class PlanningState extends State<Planning> {
                 prefs.setString('outsidePreparation', outsidePreparation.text);
                 prefs.setString('missionFocus', missionFocus.text);
                 prefs.setString('creativity', creativity.text);
-                prefs.setInt("groupValueA", groupValueA);
 
               },
             ),

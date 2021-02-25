@@ -19,24 +19,7 @@ class CommunicationState extends State<Communication> {
   TextEditingController chainOfCommand = TextEditingController();
   TextEditingController situationalAwareness = TextEditingController();
 
-  CollectionReference communicationScores =
-      FirebaseFirestore.instance.collection('communicationScores');
-  CollectionReference communication =
-      FirebaseFirestore.instance.collection('communication');
 
-  Future<void> peerReviewCommunications() {
-    return communication.add({
-      'chainOfCommand': chainOfCommand.text,
-      'situationalAwareness': situationalAwareness.text,
-    });
-  }
-
-  peerReviewCommunicationScores() {
-    return communicationScores.add({
-      'useOfChainOfCommandScore': groupValueA,
-      'teamSituationalAwarenessScore': groupValueB,
-    });
-  }
 
   int groupValueA;
   int groupValueB;
