@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:rotc_app/app/dashboard/dashboard.dart';
+import 'package:rotc_app/app/messaging/messaging.dart';
+import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 import 'package:rotc_app/app/profile/profile.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
-import 'package:rotc_app/services/auth.dart';
 
-import '../main.dart';
-
-import 'package:provider/provider.dart';
 
 /*
   Author: Christine Thomas
@@ -16,18 +15,19 @@ import 'package:provider/provider.dart';
  */
 /*
 co-Author:  Kyle Serruys
+co-Author:  Mac-Rufus Umeokolo
 */
 
 class HomeView extends StatefulWidget {
   HomeView({Key key}) : super(key: key);
   @override
-  _CadreHomeState createState() => _CadreHomeState();
+  _HomeView createState() => _HomeView();
 }
 
 bool isCadre = false;
 
 /// This is the private state class that extends the State of CadreHome.
-class _CadreHomeState extends State<HomeView> {
+class _HomeView extends State<HomeView> {
   int _tabOption = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
@@ -92,113 +92,4 @@ class _CadreHomeState extends State<HomeView> {
   }
 }
 
-Widget dashboard() {
-  const TextStyle tabTextStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  return Scaffold(
-    body: Container(
-      padding: EdgeInsets.all(25.0),
-      color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            child: ElevatedButton(
-              child: Text('Review Request Anouncement'),
-              onPressed: () {
-                navigation.currentState.pushNamed('');
-              },
-            ),
-          ),
-          Container(
-            child: ElevatedButton(
-              child: Text('Lead Lab OPORD'),
-              onPressed: () {
-                navigation.currentState.pushNamed('');
-              },
-            ),
-          ),
-          Container(
-            child: ElevatedButton(
-              child: Text('PT ConOps'),
-              onPressed: () {
-                navigation.currentState.pushNamed('');
-              },
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-@override
-Widget peerReviewForm() {
-  const TextStyle tabTextStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  return Scaffold(
-    body: Container(
-      padding: EdgeInsets.all(25.0),
-      color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            child: ElevatedButton(
-              child: Text('Peer Review'),
-              onPressed: () {
-                navigation.currentState.pushNamed('/peerReview');
-              },
-            ),
-          ),
-          Visibility(
-            visible: isCadre == true,
-            child: Container(
-              child: ElevatedButton(
-                child: Text('Request a Peer Review'),
-                onPressed: () {
-                  navigation.currentState.pushNamed('/peerReviewRequest');
-                },
-              ),
-            ),
-          ),
-          Container(
-            child: ElevatedButton(
-              child: Text('Review Stats'),
-              onPressed: () {
-                navigation.currentState.pushNamed('/peerReviewStats');
-              },
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget messages() {
-  const TextStyle tabTextStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  return Scaffold(
-    body: SingleChildScrollView(
-      child: Container(
-          child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text(
-              'Messages',
-              style: tabTextStyle,
-            ),
-          ),
-          Column(
-            children: [],
-          ),
-        ],
-      )),
-    ),
-  );
-}
 
