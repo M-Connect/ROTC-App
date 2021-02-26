@@ -1,30 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:rotc_app/app/MyAppNavBar.dart';
 import 'package:rotc_app/app/profile/profile.dart';
-
-import 'package:rotc_app/app/MyBottomNavBar.dart';
 import '../main.dart';
 
-/*
-  Author: Christine Thomas
-  These classes make up the Cadre Control Panel Page.
-  TODO: Modularize and Separate + add more content to tabs.
- */
-/*
-co-Author:  Kyle Serruys
-*/
-
-class HomeView extends StatefulWidget {
-  HomeView({Key key}) : super(key: key);
+class MyBottomNavBar extends StatefulWidget {
+  MyBottomNavBar({Key key}) : super(key: key);
   @override
-  _CadreHomeState createState() => _CadreHomeState();
+  _MyBottomNavBar createState() => _MyBottomNavBar();
 }
 
 bool isCadre = false;
 
 /// This is the private state class that extends the State of CadreHome.
-class _CadreHomeState extends State<HomeView> {
+class _MyBottomNavBar extends State<MyBottomNavBar> {
   int _tabOption = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
@@ -40,18 +28,16 @@ class _CadreHomeState extends State<HomeView> {
     });
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Control Panel'),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: (){},
-
-
+            onPressed: () {},
           ),
         ],
         centerTitle: true,
@@ -83,7 +69,7 @@ class _CadreHomeState extends State<HomeView> {
         unselectedItemColor: Theme.of(context).primaryColorLight,
         //unselectedItemColor: Colors.indigo,
         selectedItemColor: Theme.of(context).accentColor,
-       // selectedItemColor: Colors.black87,
+        // selectedItemColor: Colors.black87,
         onTap: _chosenTab,
       ),
     );
@@ -104,7 +90,7 @@ Widget dashboard() {
           Container(
             child: ElevatedButton(
               child: Text('Review Request Anouncement'),
-              onPressed: (){
+              onPressed: () {
                 navigation.currentState.pushNamed('');
               },
             ),
@@ -112,7 +98,7 @@ Widget dashboard() {
           Container(
             child: ElevatedButton(
               child: Text('Lead Lab OPORD'),
-              onPressed: (){
+              onPressed: () {
                 navigation.currentState.pushNamed('');
               },
             ),
@@ -132,7 +118,7 @@ Widget dashboard() {
 }
 
 @override
-Widget peerReviewForm( ) {
+Widget peerReviewForm() {
   const TextStyle tabTextStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   return Scaffold(
@@ -146,7 +132,7 @@ Widget peerReviewForm( ) {
           Container(
             child: ElevatedButton(
               child: Text('Peer Review'),
-              onPressed: (){
+              onPressed: () {
                 navigation.currentState.pushNamed('/peerReviewLanding');
               },
             ),
