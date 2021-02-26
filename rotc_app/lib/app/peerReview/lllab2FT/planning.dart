@@ -23,8 +23,6 @@ class PlanningState extends State<Planning> {
   TextEditingController missionFocus = TextEditingController();
   TextEditingController creativity = TextEditingController();
 
-
-
   int groupValueA;
   int groupValueB;
   int groupValueC;
@@ -77,8 +75,7 @@ class PlanningState extends State<Planning> {
       }
     });
   }
-
-  void buttonChangeD(int button) {
+  void buttonChangeD(int button){
     setState(() {
       if (button == 20) {
         groupValueD = 20;
@@ -93,6 +90,7 @@ class PlanningState extends State<Planning> {
       }
     });
   }
+
 
 
   @override
@@ -133,6 +131,7 @@ class PlanningState extends State<Planning> {
                       width: 200.0,
                       child: TextFormField(
                         textAlignVertical: TextAlignVertical.top,
+
                         maxLength: 160,
                         maxLengthEnforced: true,
                         maxLines: 10,
@@ -143,7 +142,9 @@ class PlanningState extends State<Planning> {
                               //  const EdgeInsets.symmetric(vertical: 75.0),
                               EdgeInsets.all(10.0),
                         ),
-                        onSaved: (String value) async {},
+                        onSaved: (teamOrganization) async {
+
+                        },
 
                         validator: RequiredValidator(
                             errorText: "Team Organization is required."),
@@ -536,7 +537,10 @@ class PlanningState extends State<Planning> {
                 prefs.setString('outsidePreparation', outsidePreparation.text);
                 prefs.setString('missionFocus', missionFocus.text);
                 prefs.setString('creativity', creativity.text);
-
+                prefs.setString('planningValueA', groupValueA.toString());
+                prefs.setString('planningValueB', groupValueB.toString());
+                prefs.setString('planningValueC', groupValueC.toString());
+                prefs.setString('planningValueD', groupValueD.toString());
               },
             ),
             ElevatedButton(

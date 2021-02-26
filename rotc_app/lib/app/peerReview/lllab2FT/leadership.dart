@@ -522,12 +522,15 @@ class LeadershipState extends State<Leadership> {
               ElevatedButton(
                 child: Text('Save'),
                 onPressed: () async {
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
                   prefs.setString('commandPresence', commandPresence.text);
                   prefs.setString('delegation', delegation.text);
                   prefs.setString('empowerment', empowerment.text);
                   prefs.setString('maintainsControl', maintainsControl.text);
+                  prefs.setString('leadershipValueA', groupValueA.toString());
+                  prefs.setString('leadershipValueB', groupValueB.toString());
+                  prefs.setString('leadershipValueC', groupValueC.toString());
+                  prefs.setString('leadershipValueD', groupValueD.toString());
                 },
               ),
               ElevatedButton(

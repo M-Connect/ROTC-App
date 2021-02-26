@@ -305,8 +305,8 @@ class CommunicationState extends State<Communication> {
                   prefs.setString('chainOfCommand', chainOfCommand.text);
                   prefs.setString(
                       'situationalAwareness', situationalAwareness.text);
-                  prefs.setInt('groupValueA', groupValueA);
-                  prefs.setInt('groupValueB', groupValueB);
+                  prefs.setString('communicationValueA', groupValueA.toString());
+                  prefs.setString('communicationValueB', groupValueB.toString());
                 },
               ),
               ElevatedButton(

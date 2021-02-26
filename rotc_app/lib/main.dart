@@ -37,6 +37,7 @@ final GlobalKey<NavigatorState> navigation = new GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(MConnect());
 }
 

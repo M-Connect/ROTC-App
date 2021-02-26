@@ -428,18 +428,17 @@ class ExecutionState extends State<Execution>{
             ElevatedButton(
               child: Text('Save'),
               onPressed: () async {
-                SharedPreferences prefs =
-                await SharedPreferences.getInstance();
+                SharedPreferences prefs = await SharedPreferences.getInstance();
                 prefs.setString('timeManagement', timeManagement.text);
                 prefs.setString(
                     'resourcesManagement', resourcesManagement.text);
                 prefs.setString('flexibility', flexibility.text);
                 prefs.setString(
                     'missionSuccess', missionSuccess.text);
-                prefs.setInt('groupValueA', groupValueA);
-                prefs.setInt('groupValueB', groupValueB);
-                prefs.setInt('groupValueC', groupValueC);
-                prefs.setInt('groupValueD', groupValueD);
+                prefs.setString('executionValueA', groupValueA.toString());
+                prefs.setString('executionValueB', groupValueB.toString());
+                prefs.setString('executionValueC', groupValueC.toString());
+                prefs.setString('executionValueD', groupValueD.toString());
               },
             ),
             ElevatedButton(

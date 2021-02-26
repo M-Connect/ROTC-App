@@ -403,16 +403,15 @@ class DebriefState extends State<Debrief> {
               ElevatedButton(
                 child: Text('Save'),
                 onPressed: () async {
-                  SharedPreferences prefs =
-                  await SharedPreferences.getInstance();
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
                   prefs.setString('adheresToDebriefFormat', adheresToDebriefFormat.text);
                   prefs.setString(
                         'receptiveToFeedback', receptiveToFeedback.text);
                   prefs.setString('improvementOriented', improvementOriented.text);
 
-                  prefs.setInt('groupValueA', groupValueA);
-                  prefs.setInt('groupValueB', groupValueB);
-                  prefs.setInt('groupValueC', groupValueC);
+                  prefs.setString('debriefValueA', groupValueA.toString());
+                  prefs.setString('debriefValueB', groupValueB.toString());
+                  prefs.setString('ValueC', groupValueC.toString());
                 },
               ),
               ElevatedButton(

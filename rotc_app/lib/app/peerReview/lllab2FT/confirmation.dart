@@ -26,6 +26,24 @@ class _ConfirmationState extends State<Confirmation> {
   String adheresToDebriefFormat = "";
   String receptiveToFeedback = "";
   String improvementOriented = "";
+  String planningValueA = "";
+  String planningValueB = "";
+  String planningValueC = "";
+  String planningValueD = "";
+  String communicationValueA = "";
+  String communicationValueB = "";
+  String executionValueA = "";
+  String executionValueB = "";
+  String executionValueC = "";
+  String executionValueD = "";
+  String leadershipValueA = "";
+  String leadershipValueB = "";
+  String leadershipValueC = "";
+  String leadershipValueD = "";
+  String debriefValueA = "";
+  String debriefValueB = "";
+  String debriefValueC = "";
+
 
   CollectionReference llab2ftPeerReview =
   FirebaseFirestore.instance.collection('llab2ftPeerReview');
@@ -64,10 +82,16 @@ class _ConfirmationState extends State<Confirmation> {
   getExecutionData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+
       timeManagement = prefs.getString("timeManagement");
       resourcesManagement = prefs.getString("resourcesManagement");
       flexibility = prefs.getString("flexibility");
       missionSuccess = prefs.getString("missionSuccess");
+      executionValueA = prefs.getString("executionValueA");
+      executionValueB = prefs.getString("executionValueB");
+      executionValueC = prefs.getString("executionValueC");
+      executionValueD = prefs.getString("executionValueD");
+
     });
   }
 
@@ -78,6 +102,10 @@ class _ConfirmationState extends State<Confirmation> {
       delegation = prefs.getString("delegation");
       empowerment = prefs.getString("empowerment");
       maintainsControl = prefs.getString("maintainsControl");
+      leadershipValueA = prefs.getString("leadershipValueA");
+      leadershipValueB = prefs.getString("leadershipValueB");
+      leadershipValueC = prefs.getString("leadershipValueC");
+      leadershipValueD = prefs.getString("leadershipValueD");
     });
   }
 
@@ -86,6 +114,8 @@ class _ConfirmationState extends State<Confirmation> {
     setState(() {
       chainOfCommand = prefs.getString("chainOfCommand");
       situationalAwareness = prefs.getString("situationalAwareness");
+      communicationValueA = prefs.getString("communicationValueA");
+      communicationValueB = prefs.getString("communicationValueB");
     });
   }
 
@@ -96,6 +126,10 @@ class _ConfirmationState extends State<Confirmation> {
       outsidePreparation = prefs.getString("outsidePreparation");
       missionFocus = prefs.getString("missionFocus");
       creativity = prefs.getString("creativity");
+      planningValueA = prefs.getString("planningValueA");
+      planningValueB = prefs.getString("planningValueB");
+      planningValueC = prefs.getString("planningValueC");
+      planningValueD = prefs.getString("planningValueD");
     });
   }
 
@@ -105,6 +139,9 @@ class _ConfirmationState extends State<Confirmation> {
       adheresToDebriefFormat = prefs.getString("adheresToDebriefFormat");
       receptiveToFeedback = prefs.getString("receptiveToFeedback");
       improvementOriented = prefs.getString("improvementOriented");
+      debriefValueA = prefs.getString("debriefValueA");
+      debriefValueB = prefs.getString("debriefValueB");
+      debriefValueC = prefs.getString("debriefValueC");
     });
   }
 
@@ -149,6 +186,7 @@ class _ConfirmationState extends State<Confirmation> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+
                         Container(
                           child: Text('Notes'),
                         ),
@@ -170,21 +208,22 @@ class _ConfirmationState extends State<Confirmation> {
                       ],
                     ),
                     Column(
+
                       children: [
                         Container(
                           child: Text('Score'),
                         ),
                         Container(
-                          child: Text("1"),
+                          child: Text(planningValueA ?? ''),
                         ),
                         Container(
-                          child: Text("2"),
+                          child: Text(planningValueB ?? ''),
                         ),
                         Container(
-                          child: Text('3'),
+                          child: Text(planningValueC ?? ''),
                         ),
                         Container(
-                          child: Text('4'),
+                          child: Text(planningValueD ?? ''),
                         ),
                         Container(
                           child: Text('totalScore'),
@@ -237,11 +276,12 @@ class _ConfirmationState extends State<Confirmation> {
                           child: Text('Score'),
                         ),
                         Container(
-                          child: Text('1'),
+                          child: Text(communicationValueA ?? ''),
                         ),
                         Container(
-                          child: Text('2'),
+                          child: Text(communicationValueB ?? ''),
                         ),
+
                         Container(
                           child: Text('totalScore'),
                         ),
@@ -299,16 +339,16 @@ class _ConfirmationState extends State<Confirmation> {
                           child: Text('Score'),
                         ),
                         Container(
-                          child: Text('1'),
+                          child: Text(executionValueA ?? ''),
                         ),
                         Container(
-                          child: Text('2'),
+                          child: Text(executionValueB ?? ''),
                         ),
                         Container(
-                          child: Text('3'),
+                          child: Text(executionValueC ?? ''),
                         ),
                         Container(
-                          child: Text('4'),
+                          child: Text(executionValueD ?? ''),
                         ),
                         Container(
                           child: Text('totalScore'),
@@ -369,16 +409,16 @@ class _ConfirmationState extends State<Confirmation> {
                           child: Text('Score'),
                         ),
                         Container(
-                          child: Text('1'),
+                          child: Text(leadershipValueA ?? ''),
                         ),
                         Container(
-                          child: Text('2'),
+                          child: Text(leadershipValueB ?? ''),
                         ),
                         Container(
-                          child: Text('3'),
+                          child: Text(leadershipValueC ?? ''),
                         ),
                         Container(
-                          child: Text('4'),
+                          child: Text(leadershipValueD ?? ''),
                         ),
                         Container(
                           child: Text('totalScore'),
@@ -434,14 +474,15 @@ class _ConfirmationState extends State<Confirmation> {
                           child: Text('Score'),
                         ),
                         Container(
-                          child: Text('1'),
+                          child: Text(debriefValueA ?? ''),
                         ),
                         Container(
-                          child: Text('2'),
+                          child: Text(debriefValueB ?? ''),
                         ),
                         Container(
-                          child: Text('3'),
+                          child: Text(debriefValueC ?? ''),
                         ),
+
                         Container(
                           child: Text('totalScore'),
                         ),
@@ -469,9 +510,8 @@ class _ConfirmationState extends State<Confirmation> {
             ElevatedButton(
               child: Text('Submit'),
               onPressed: () async {
-                await peerReview();
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-
+                await peerReview();
                 await prefs.remove("teamOrganization");
                 await prefs.remove("outsidePreparation");
                 await prefs.remove("missionFocus");
@@ -489,6 +529,25 @@ class _ConfirmationState extends State<Confirmation> {
                 await prefs.remove("adheresToDebriefFormat");
                 await prefs.remove("receptiveToFeedback");
                 await prefs.remove("improvementOriented");
+                await prefs.remove("planningValueA");
+                await prefs.remove("planningValueB");
+                await prefs.remove("planningValueC");
+                await prefs.remove("planningValueD");
+                await prefs.remove("communicationValueA");
+                await prefs.remove("communicationValueB");
+                await prefs.remove("executionValueA");
+                await prefs.remove("executionValueB");
+                await prefs.remove("executionValueC");
+                await prefs.remove("executionValueD");
+                await prefs.remove("leadershipValueA");
+                await prefs.remove("leadershipValueB");
+                await prefs.remove("leadershipValueC");
+                await prefs.remove("leadershipValueD");
+                await prefs.remove("debriefValueA");
+                await prefs.remove("debriefValueB");
+                await prefs.remove("debriefValueC");
+
+
 
                 navigation.currentState.pushNamed('/peerReviewLanding');
               },
