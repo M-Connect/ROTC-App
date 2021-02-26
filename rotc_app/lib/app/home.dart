@@ -149,7 +149,7 @@ Widget peerReviewForm() {
             child: ElevatedButton(
               child: Text('Peer Review'),
               onPressed: () {
-                navigation.currentState.pushNamed('/peerReviewLanding');
+                navigation.currentState.pushNamed('/peerReview');
               },
             ),
           ),
