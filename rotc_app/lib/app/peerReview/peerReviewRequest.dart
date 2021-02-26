@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
+import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 
 /*
  Author: Sawyer Kisha
@@ -16,9 +17,9 @@ class PeerReviewRequest extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: (){},
-
-          ),
+        onPressed: () {
+          alertSignOut(context);
+        }),
         ],
       ),
       body: SingleChildScrollView(

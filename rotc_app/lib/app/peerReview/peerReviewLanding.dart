@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import '../../main.dart';
 
 /*
@@ -55,8 +56,9 @@ class _CadreHomeState extends State<PeerReviewLanding> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed:  (){},
-          ),
+        onPressed: () {
+          alertSignOut(context);
+        }),
         ],
         centerTitle: true,
       ),

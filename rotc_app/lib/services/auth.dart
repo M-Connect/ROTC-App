@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:rotc_app/main.dart';
 
 class Auth {
   //final FirebaseAuth auth = FirebaseAuth.instance;
@@ -23,10 +24,11 @@ class Auth {
     }
   }
 
- /* //TODO move logout code here
+ //TODO move logout code here
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
-  }*/
+
+  }
 
  //TODO who is current user code here
   Future<String> uid() async {

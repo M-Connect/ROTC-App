@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:rotc_app/app/MyAppNavBar.dart';
+import 'package:flutter/services.dart';
 import 'package:rotc_app/app/profile/profile.dart';
+import 'package:rotc_app/common_widgets/buttonWidgets.dart';
+import 'package:rotc_app/services/auth.dart';
 
-import 'package:rotc_app/app/MyBottomNavBar.dart';
 import '../main.dart';
+
+import 'package:provider/provider.dart';
 
 /*
   Author: Christine Thomas
@@ -40,7 +43,7 @@ class _CadreHomeState extends State<HomeView> {
     });
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -48,11 +51,10 @@ class _CadreHomeState extends State<HomeView> {
         automaticallyImplyLeading: false,
         actions: <Widget>[
           new IconButton(
-            icon: new Icon(Icons.logout),
-            onPressed: (){},
-
-
-          ),
+              icon: new Icon(Icons.logout),
+              onPressed: () {
+                alertSignOut(context);
+              }),
         ],
         centerTitle: true,
       ),
@@ -83,7 +85,7 @@ class _CadreHomeState extends State<HomeView> {
         unselectedItemColor: Theme.of(context).primaryColorLight,
         //unselectedItemColor: Colors.indigo,
         selectedItemColor: Theme.of(context).accentColor,
-       // selectedItemColor: Colors.black87,
+        // selectedItemColor: Colors.black87,
         onTap: _chosenTab,
       ),
     );
@@ -104,7 +106,7 @@ Widget dashboard() {
           Container(
             child: ElevatedButton(
               child: Text('Review Request Anouncement'),
-              onPressed: (){
+              onPressed: () {
                 navigation.currentState.pushNamed('');
               },
             ),
@@ -112,7 +114,7 @@ Widget dashboard() {
           Container(
             child: ElevatedButton(
               child: Text('Lead Lab OPORD'),
-              onPressed: (){
+              onPressed: () {
                 navigation.currentState.pushNamed('');
               },
             ),
@@ -132,7 +134,7 @@ Widget dashboard() {
 }
 
 @override
-Widget peerReviewForm( ) {
+Widget peerReviewForm() {
   const TextStyle tabTextStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   return Scaffold(
@@ -146,7 +148,7 @@ Widget peerReviewForm( ) {
           Container(
             child: ElevatedButton(
               child: Text('Peer Review'),
-              onPressed: (){
+              onPressed: () {
                 navigation.currentState.pushNamed('/peerReviewLanding');
               },
             ),
@@ -199,3 +201,4 @@ Widget messages() {
     ),
   );
 }
+

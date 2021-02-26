@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
+import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 
 import '../../main.dart';
 import '../home.dart';
@@ -41,8 +42,9 @@ class _CadreHomeState extends State<HomeView> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: (){},
-          ),
+              onPressed: () {
+                alertSignOut(context);
+              }),
         ],
         centerTitle: true,
       ),
