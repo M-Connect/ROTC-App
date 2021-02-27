@@ -18,15 +18,67 @@ class Planning extends StatefulWidget {
 
 
 class PlanningState extends State<Planning> {
-  TextEditingController teamOrganization = TextEditingController();
-  TextEditingController outsidePreparation = TextEditingController();
-  TextEditingController missionFocus = TextEditingController();
-  TextEditingController creativity = TextEditingController();
+  TextEditingController teamOrganization;
+  TextEditingController outsidePreparation;
+  TextEditingController missionFocus;
+  TextEditingController creativity;
 
   int groupValueA;
   int groupValueB;
   int groupValueC;
   int groupValueD;
+
+  @override
+  void initState() {
+    super.initState();
+    initControllers();
+    initRadioButtons();
+  }
+
+  initControllers() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var teamOrganizationValue =
+      prefs.getString("teamOrganization");
+      teamOrganization =
+          TextEditingController(text: teamOrganizationValue);
+
+      var outsidePreparationValue = prefs.getString("outsidePreparation");
+      outsidePreparation =
+          TextEditingController(text: outsidePreparationValue);
+
+      var missionFocusValue = prefs.getString("missionFocus");
+      missionFocus =
+          TextEditingController(text: missionFocusValue);
+
+      var creativityValue = prefs.getString("creativity");
+      creativity =
+          TextEditingController(text: creativityValue);
+    });
+  }
+
+  initRadioButtons() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var pValueA = prefs.getString("planningValueA");
+      var pValueB = prefs.getString("planningValueB");
+      var pValueC = prefs.getString("planningValueC");
+      var pValueD = prefs.getString("planningValueD");
+
+      if (pValueA != null) {
+        buttonChangeA(int.parse(pValueA));
+      }
+      if (pValueB != null) {
+        buttonChangeB(int.parse(pValueB));
+      }
+      if (pValueC != null) {
+        buttonChangeC(int.parse(pValueC));
+      }
+      if (pValueD != null) {
+        buttonChangeD(int.parse(pValueD));
+      }
+    });
+  }
 
   void buttonChangeA(int button) {
     setState(() {
@@ -91,8 +143,6 @@ class PlanningState extends State<Planning> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,7 +157,9 @@ class PlanningState extends State<Planning> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {},
+            onPressed: () {
+
+            },
           ),
         ],
       ),

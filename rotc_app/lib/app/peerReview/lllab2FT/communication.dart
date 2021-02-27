@@ -16,13 +16,49 @@ class Communication extends StatefulWidget {
 }
 
 class CommunicationState extends State<Communication> {
-  TextEditingController chainOfCommand = TextEditingController();
-  TextEditingController situationalAwareness = TextEditingController();
-
-
+  TextEditingController chainOfCommand;
+  TextEditingController situationalAwareness;
 
   int groupValueA;
   int groupValueB;
+
+  @override
+  void initState() {
+    super.initState();
+    initControllers();
+    initRadioButtons();
+  }
+
+  initControllers() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var chainOfCommandValue =
+      prefs.getString("chainOfCommand");
+      chainOfCommand =
+          TextEditingController(text: chainOfCommandValue);
+
+      var situationalAwarenessValue = prefs.getString("situationalAwareness");
+      situationalAwareness =
+          TextEditingController(text: situationalAwarenessValue);
+
+    });
+  }
+
+  initRadioButtons() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var cValueA = prefs.getString("communicationValueA");
+      var cValueB = prefs.getString("communicationValueB");
+
+      if (cValueA != null) {
+        buttonChangeA(int.parse(cValueA));
+      }
+      if (cValueB != null) {
+        buttonChangeB(int.parse(cValueB));
+      }
+    });
+  }
+
 
   void buttonChangeA(int button) {
     setState(() {

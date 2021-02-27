@@ -77,12 +77,12 @@ class _ConfirmationState extends State<Confirmation> {
     getLeadershipData();
     getExecutionData();
     getDebriefData();
+    print("Confirmation" + this.improvementOriented);
   }
 
   getExecutionData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-
       timeManagement = prefs.getString("timeManagement");
       resourcesManagement = prefs.getString("resourcesManagement");
       flexibility = prefs.getString("flexibility");
@@ -91,7 +91,6 @@ class _ConfirmationState extends State<Confirmation> {
       executionValueB = prefs.getString("executionValueB");
       executionValueC = prefs.getString("executionValueC");
       executionValueD = prefs.getString("executionValueD");
-
     });
   }
 

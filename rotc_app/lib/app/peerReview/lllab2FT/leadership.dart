@@ -19,17 +19,69 @@ class Leadership extends StatefulWidget {
 }
 
 class LeadershipState extends State<Leadership> {
-  TextEditingController commandPresence = TextEditingController();
-  TextEditingController delegation = TextEditingController();
-  TextEditingController empowerment = TextEditingController();
-  TextEditingController maintainsControl = TextEditingController();
-
-
+  TextEditingController commandPresence;
+  TextEditingController delegation;
+  TextEditingController empowerment;
+  TextEditingController maintainsControl;
 
   int groupValueA;
   int groupValueB;
   int groupValueC;
   int groupValueD;
+
+  @override
+  void initState() {
+    super.initState();
+    initControllers();
+    initRadioButtons();
+  }
+
+  initControllers() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var commandPresenceValue =
+      prefs.getString("commandPresence");
+      commandPresence =
+          TextEditingController(text: commandPresenceValue);
+
+      var delegationValue = prefs.getString("delegation");
+      delegation =
+          TextEditingController(text: delegationValue);
+
+      var empowermentValue = prefs.getString("empowerment");
+      empowerment =
+          TextEditingController(text: empowermentValue);
+
+      var maintainsControlValue = prefs.getString("maintainsControl");
+      maintainsControl =
+          TextEditingController(text: maintainsControlValue);
+    });
+  }
+
+  initRadioButtons() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var lValueA = prefs.getString("leadershipValueA");
+      var lValueB = prefs.getString("leadershipValueB");
+      var lValueC = prefs.getString("leadershipValueC");
+      var lValueD = prefs.getString("leadershipValueD");
+
+      if (lValueA != null) {
+        buttonChangeA(int.parse(lValueA));
+      }
+      if (lValueB != null) {
+        buttonChangeB(int.parse(lValueB));
+      }
+      if (lValueC != null) {
+        buttonChangeC(int.parse(lValueC));
+      }
+      if (lValueD != null) {
+        buttonChangeD(int.parse(lValueD));
+      }
+    });
+  }
+
+
 
   void buttonChangeA(int button) {
     setState(() {

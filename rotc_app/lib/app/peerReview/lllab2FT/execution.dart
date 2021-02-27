@@ -17,10 +17,10 @@ class Execution extends StatefulWidget {
 }
 
 class ExecutionState extends State<Execution>{
-  TextEditingController timeManagement = TextEditingController();
-  TextEditingController resourcesManagement = TextEditingController();
-  TextEditingController flexibility = TextEditingController();
-  TextEditingController missionSuccess = TextEditingController();
+  TextEditingController timeManagement;
+  TextEditingController resourcesManagement;
+  TextEditingController flexibility;
+  TextEditingController missionSuccess;
 
 
 
@@ -28,6 +28,59 @@ class ExecutionState extends State<Execution>{
   int groupValueB;
   int groupValueC;
   int groupValueD;
+
+  @override
+  void initState() {
+    super.initState();
+    initControllers();
+    initRadioButtons();
+  }
+
+  initControllers() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var timeManagementValue =
+      prefs.getString("timeManagement");
+      timeManagement =
+          TextEditingController(text: timeManagementValue);
+
+      var resourcesManagementValue = prefs.getString("resourcesManagement");
+      resourcesManagement =
+          TextEditingController(text: resourcesManagementValue);
+
+      var flexibilityValue = prefs.getString("flexibility");
+      flexibility =
+          TextEditingController(text: flexibilityValue);
+
+      var missionSuccessValue = prefs.getString("missionSuccess");
+      missionSuccess =
+          TextEditingController(text: missionSuccessValue);
+    });
+  }
+
+  initRadioButtons() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var eValueA = prefs.getString("executionValueA");
+      var eValueB = prefs.getString("executionValueB");
+      var eValueC = prefs.getString("executionValueC");
+      var eValueD = prefs.getString("executionValueD");
+
+      if (eValueA != null) {
+        buttonChangeA(int.parse(eValueA));
+      }
+      if (eValueB != null) {
+        buttonChangeB(int.parse(eValueB));
+      }
+      if (eValueC != null) {
+        buttonChangeC(int.parse(eValueC));
+      }
+      if (eValueD != null) {
+        buttonChangeD(int.parse(eValueD));
+      }
+    });
+  }
+
 
   void buttonChangeA(int button) {
     setState(() {
