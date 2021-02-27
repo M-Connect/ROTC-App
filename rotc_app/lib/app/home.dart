@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:rotc_app/app/profile/profile.dart';
-
 import '../main.dart';
 
 /*
@@ -50,9 +49,9 @@ class _CadreHomeState extends State<HomeView> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {
+            onPressed: (){},
 
-            },
+
           ),
         ],
         centerTitle: true,

@@ -41,7 +41,7 @@ class _CadreHomeState extends State<HomeView> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: signOut,
+            onPressed: (){},
           ),
         ],
         centerTitle: true,

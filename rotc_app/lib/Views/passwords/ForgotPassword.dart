@@ -102,7 +102,7 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
               FlatButton(
                 child: Text('Sign In'),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/signIn');
+                  Navigator.pop(context, '/signIn');
                 },
               )
             ],

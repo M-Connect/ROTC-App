@@ -11,11 +11,17 @@ class PeerReview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            navigation.currentState.pushNamed('/peerReviewLanding');
+          },
+        ),
         title: Text('Peer Review'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: signOut,
+            onPressed: (){},
           ),
         ],
       ),
