@@ -19,6 +19,7 @@ class SignInView extends StatefulWidget {
   _SignInViewState createState() => _SignInViewState();
 }
 
+
 class _SignInViewState extends State<SignInView> {
   CollectionReference cadres = FirebaseFirestore.instance.collection('cadres');
   CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');

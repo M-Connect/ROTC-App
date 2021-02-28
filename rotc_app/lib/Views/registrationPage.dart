@@ -89,9 +89,6 @@ class RegistrationView extends StatelessWidget {
                     PatternValidator(r'([a-zA-Z])',
                         errorText: 'First name can only contain letters.'),
                   ]),
-
-
-
                 ),
                 spaceBetweenFields,
                 Column(
