@@ -10,16 +10,22 @@ import '../peerReviewLanding.dart';
 
 class PeerReviewLLAB2FT extends StatelessWidget {
 
-
+  static final SizedBox spaceBetweenFields = SizedBox(height: 40.0);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Peer Review'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            navigation.currentState.pushNamed('/peerReview');
+          },
+        ),
+        title: Text('LLAB 2FT Peer Review'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: signOut,
+            onPressed: (){},
           ),
         ],
       ),
@@ -70,6 +76,17 @@ class PeerReviewLLAB2FT extends StatelessWidget {
                 child: Text('Debrief'),
                 onPressed: () {
                   navigation.currentState.pushNamed('/debrief');
+                },
+              ),
+            ),
+            spaceBetweenFields,
+            Container(
+
+              child: ElevatedButton(
+
+                child: Text('Confirmation'),
+                onPressed: () {
+                  navigation.currentState.pushNamed('/confirmation');
                 },
               ),
             ),

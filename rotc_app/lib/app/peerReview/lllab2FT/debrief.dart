@@ -1,95 +1,143 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
-import '../peerReviewLanding.dart';
 
 /*
  Author: Kyle Serruys
   This class is the Debrief page of our peer review
  */
 class Debrief extends StatefulWidget {
-Debrief() : super();
+  Debrief() : super();
 
-@override
-DebriefState createState() => DebriefState();
+  @override
+  DebriefState createState() => DebriefState();
 }
+
 class DebriefState extends State<Debrief> {
-  TextEditingController adheresToDebriefFormat = TextEditingController();
-  TextEditingController receptiveToFeedback = TextEditingController();
-  TextEditingController improvementOriented = TextEditingController();
-
-  CollectionReference debrief = FirebaseFirestore.instance.collection('debrief');
-  CollectionReference debriefScores = FirebaseFirestore.instance.collection('debriefScores');
-
-  Future<void> peerReviewDebrief() {
-    return debrief.add({
-      'adheresToDebriefFormat': adheresToDebriefFormat.text,
-      'receptiveToFeedback': receptiveToFeedback.text,
-      'improvementOriented': improvementOriented.text,
-    });
-  }
-
-  Future<void> peerReviewDebriefScores(){
-    return debriefScores.add({
-      'debriefFormatScore': groupValueA,
-      'feedbackScore': groupValueB,
-      'improvementOrientedScore': groupValueC,
-    });
-  }
+  TextEditingController adheresToDebriefFormat;
+  TextEditingController receptiveToFeedback;
+  TextEditingController improvementOriented;
 
   int groupValueA;
   int groupValueB;
   int groupValueC;
 
+  @override
+  void initState() {
+    super.initState();
+    initControllers();
+    initRadioButtons();
+  }
+
+  initControllers() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var adheresToDebriefFormatValue =
+          prefs.getString("adheresToDebriefFormat");
+      adheresToDebriefFormat =
+          TextEditingController(text: adheresToDebriefFormatValue);
+
+      var receptiveToFeedbackValue = prefs.getString("receptiveToFeedback");
+      receptiveToFeedback =
+          TextEditingController(text: receptiveToFeedbackValue);
+
+      var improvementOrientedValue = prefs.getString("improvementOriented");
+      improvementOriented =
+          TextEditingController(text: improvementOrientedValue);
+    });
+  }
+
+  initRadioButtons() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var dValueA = prefs.getString("debriefValueA");
+      var dValueB = prefs.getString("debriefValueB");
+      var dValueC = prefs.getString("debriefValueC");
+
+      if (dValueA != null) {
+        buttonChangeA(int.parse(dValueA));
+      }
+      if (dValueB != null) {
+        buttonChangeB(int.parse(dValueB));
+      }
+      if (dValueC != null) {
+        buttonChangeC(int.parse(dValueC));
+      }
+    });
+  }
+
   void buttonChangeA(int button) {
     setState(() {
       if (button == 20) {
         groupValueA = 20;
+      } else if (button == 15) {
+        groupValueA = 15;
       } else if (button == 10) {
         groupValueA = 10;
+      } else if (button == 5) {
+        groupValueA = 5;
       } else if (button == 0) {
         groupValueA = 0;
       }
     });
   }
+
   void buttonChangeB(int button) {
     setState(() {
       if (button == 20) {
         groupValueB = 20;
+      } else if (button == 15) {
+        groupValueB = 15;
       } else if (button == 10) {
         groupValueB = 10;
+      } else if (button == 5) {
+        groupValueB = 5;
       } else if (button == 0) {
         groupValueB = 0;
       }
     });
   }
+
   void buttonChangeC(int button) {
     setState(() {
       if (button == 20) {
         groupValueC = 20;
+      } else if (button == 15) {
+        groupValueC = 15;
       } else if (button == 10) {
         groupValueC = 10;
+      } else if (button == 5) {
+        groupValueC = 5;
       } else if (button == 0) {
         groupValueC = 0;
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Debrief'),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            navigation.currentState.pushNamed('/peerReviewLLAB2FT');
+          },
+        ),
+        title: Text('Debrief'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: signOut,
-
+            onPressed: () {},
           ),
-        ],),
+        ],
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Form(
-
           //Adheres To Debrief Format
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -100,19 +148,25 @@ class DebriefState extends State<Debrief> {
                 child: Text('Adheres to Debrief Format'),
               ),
               Container(
-                child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Container(
                       width: 200.0,
                       child: TextFormField(
-                        maxLines: 5,
+                        textAlignVertical: TextAlignVertical.top,
+                        maxLength: 160,
+                        maxLengthEnforced: true,
+                        maxLines: 10,
                         controller: adheresToDebriefFormat,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          contentPadding: const EdgeInsets.symmetric(vertical: 75.0),
+                          contentPadding: EdgeInsets.all(10.0),
+                          //const EdgeInsets.symmetric(vertical: 75.0),
                         ),
                         onSaved: (String value) {},
+                        validator: RequiredValidator(
+                            errorText: "Adheres to debrief format is required"),
                       ),
                     ),
                     SizedBox(
@@ -121,24 +175,55 @@ class DebriefState extends State<Debrief> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           ListTile(
+                              visualDensity:
+                                  VisualDensity(horizontal: -4, vertical: -4),
                               title: const Text('20 pt'),
-                              leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueA, onChanged: (int a) => buttonChangeA(a),)
-                          ),
+                              leading: Radio(
+                                value: 20,
+                                activeColor: Colors.black87,
+                                groupValue: groupValueA,
+                                onChanged: (int a) => buttonChangeA(a),
+                              )),
                           ListTile(
+                              visualDensity:
+                                  VisualDensity(horizontal: -4, vertical: -4),
                               title: const Text('15 pt'),
-                              leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
-                          ),
+                              leading: Radio(
+                                value: 15,
+                                activeColor: Colors.black87,
+                                groupValue: groupValueA,
+                                onChanged: (int a) => buttonChangeA(a),
+                              )),
                           ListTile(
+                              visualDensity:
+                                  VisualDensity(horizontal: -4, vertical: -4),
                               title: const Text('10 pt'),
-                              leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueA, onChanged: (int a) => buttonChangeA(a),)
-                          ),
+                              leading: Radio(
+                                value: 10,
+                                activeColor: Colors.black87,
+                                groupValue: groupValueA,
+                                onChanged: (int a) => buttonChangeA(a),
+                              )),
                           ListTile(
+                              visualDensity:
+                                  VisualDensity(horizontal: -4, vertical: -4),
                               title: const Text('5 pt'),
-                              leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
-                          ),
+                              leading: Radio(
+                                value: 5,
+                                activeColor: Colors.black87,
+                                groupValue: groupValueA,
+                                onChanged: (int a) => buttonChangeA(a),
+                              )),
                           ListTile(
+                            visualDensity:
+                                VisualDensity(horizontal: -4, vertical: -4),
                             title: const Text('0 pt'),
-                            leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueA, onChanged: (int a) => buttonChangeA(a),),
+                            leading: Radio(
+                              value: 0,
+                              activeColor: Colors.black87,
+                              groupValue: groupValueA,
+                              onChanged: (int a) => buttonChangeA(a),
+                            ),
                           ),
                         ],
                       ),
@@ -157,19 +242,25 @@ class DebriefState extends State<Debrief> {
                     child: Text('Receptive to Feedback'),
                   ),
                   Container(
-                    child:  Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Container(
                           width: 200.0,
                           child: TextFormField(
-                            maxLines: 5,
+                            textAlignVertical: TextAlignVertical.top,
+                            maxLength: 160,
+                            maxLengthEnforced: true,
+                            maxLines: 10,
                             controller: receptiveToFeedback,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              contentPadding: const EdgeInsets.symmetric(vertical: 75.0),
+                              contentPadding: EdgeInsets.all(10.0),
+                              //const EdgeInsets.symmetric(vertical: 75.0),
                             ),
                             onSaved: (String value) {},
+                            validator: RequiredValidator(
+                                errorText: "Receptive to feedback is required"),
                           ),
                         ),
                         SizedBox(
@@ -178,24 +269,55 @@ class DebriefState extends State<Debrief> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               ListTile(
+                                  visualDensity: VisualDensity(
+                                      horizontal: -4, vertical: -4),
                                   title: const Text('20 pt'),
-                                  leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueB, onChanged: (int b) => buttonChangeB(b),)
-                              ),
+                                  leading: Radio(
+                                    value: 20,
+                                    activeColor: Colors.black87,
+                                    groupValue: groupValueB,
+                                    onChanged: (int b) => buttonChangeB(b),
+                                  )),
                               ListTile(
+                                  visualDensity: VisualDensity(
+                                      horizontal: -4, vertical: -4),
                                   title: const Text('15 pt'),
-                                  leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
-                              ),
+                                  leading: Radio(
+                                    value: 15,
+                                    activeColor: Colors.black87,
+                                    groupValue: groupValueB,
+                                    onChanged: (int b) => buttonChangeB(b),
+                                  )),
                               ListTile(
+                                  visualDensity: VisualDensity(
+                                      horizontal: -4, vertical: -4),
                                   title: const Text('10 pt'),
-                                  leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueB, onChanged: (int b) => buttonChangeB(b),)
-                              ),
+                                  leading: Radio(
+                                    value: 10,
+                                    activeColor: Colors.black87,
+                                    groupValue: groupValueB,
+                                    onChanged: (int b) => buttonChangeB(b),
+                                  )),
                               ListTile(
+                                  visualDensity: VisualDensity(
+                                      horizontal: -4, vertical: -4),
                                   title: const Text('5 pt'),
-                                  leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
-                              ),
+                                  leading: Radio(
+                                    value: 5,
+                                    activeColor: Colors.black87,
+                                    groupValue: groupValueB,
+                                    onChanged: (int b) => buttonChangeB(b),
+                                  )),
                               ListTile(
+                                visualDensity:
+                                    VisualDensity(horizontal: -4, vertical: -4),
                                 title: const Text('0 pt'),
-                                leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueB, onChanged: (int b) => buttonChangeB(b),),
+                                leading: Radio(
+                                  value: 0,
+                                  activeColor: Colors.black87,
+                                  groupValue: groupValueB,
+                                  onChanged: (int b) => buttonChangeB(b),
+                                ),
                               ),
                             ],
                           ),
@@ -214,19 +336,26 @@ class DebriefState extends State<Debrief> {
                         child: Text('Improvement-Oriented'),
                       ),
                       Container(
-                        child:  Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
                               width: 200.0,
                               child: TextFormField(
-                                maxLines: 5,
+                                textAlignVertical: TextAlignVertical.top,
+                                maxLength: 160,
+                                maxLengthEnforced: true,
+                                maxLines: 10,
                                 controller: improvementOriented,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
-                                  contentPadding: const EdgeInsets.symmetric(vertical: 75.0),
+                                  contentPadding: EdgeInsets.all(10.0),
+                                  //const EdgeInsets.symmetric(vertical: 75.0),
                                 ),
                                 onSaved: (String value) {},
+                                validator: RequiredValidator(
+                                    errorText:
+                                        "Improvement oriented is required"),
                               ),
                             ),
                             SizedBox(
@@ -235,24 +364,55 @@ class DebriefState extends State<Debrief> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   ListTile(
+                                      visualDensity: VisualDensity(
+                                          horizontal: -4, vertical: -4),
                                       title: const Text('20 pt'),
-                                      leading: Radio(value: 20, activeColor: Colors.black87, groupValue: groupValueC, onChanged: (int c) => buttonChangeC(c),)
-                                  ),
+                                      leading: Radio(
+                                        value: 20,
+                                        activeColor: Colors.black87,
+                                        groupValue: groupValueC,
+                                        onChanged: (int c) => buttonChangeC(c),
+                                      )),
                                   ListTile(
+                                      visualDensity: VisualDensity(
+                                          horizontal: -4, vertical: -4),
                                       title: const Text('15 pt'),
-                                      leading: Radio(value: 15, activeColor: Colors.black87, groupValue: null, onChanged: null)
-                                  ),
+                                      leading: Radio(
+                                        value: 15,
+                                        activeColor: Colors.black87,
+                                        groupValue: groupValueC,
+                                        onChanged: (int c) => buttonChangeC(c),
+                                      )),
                                   ListTile(
+                                      visualDensity: VisualDensity(
+                                          horizontal: -4, vertical: -4),
                                       title: const Text('10 pt'),
-                                      leading: Radio(value: 10, activeColor: Colors.black87, groupValue: groupValueC, onChanged: (int c) => buttonChangeC(c),)
-                                  ),
+                                      leading: Radio(
+                                        value: 10,
+                                        activeColor: Colors.black87,
+                                        groupValue: groupValueC,
+                                        onChanged: (int c) => buttonChangeC(c),
+                                      )),
                                   ListTile(
+                                      visualDensity: VisualDensity(
+                                          horizontal: -4, vertical: -4),
                                       title: const Text('5 pt'),
-                                      leading: Radio(value: 5, activeColor: Colors.black87, groupValue: null, onChanged: null)
-                                  ),
+                                      leading: Radio(
+                                        value: 5,
+                                        activeColor: Colors.black87,
+                                        groupValue: groupValueC,
+                                        onChanged: (int c) => buttonChangeC(c),
+                                      )),
                                   ListTile(
+                                    visualDensity: VisualDensity(
+                                        horizontal: -4, vertical: -4),
                                     title: const Text('0 pt'),
-                                    leading: Radio(value: 0, activeColor: Colors.black87, groupValue: groupValueC, onChanged: (int c) => buttonChangeC(c),),
+                                    leading: Radio(
+                                      value: 0,
+                                      activeColor: Colors.black87,
+                                      groupValue: groupValueC,
+                                      onChanged: (int c) => buttonChangeC(c),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -260,31 +420,75 @@ class DebriefState extends State<Debrief> {
                           ],
                         ),
                       ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Container(
-                                child: ElevatedButton(
-                                  child: Text('Submit'),
-                                  onPressed: () async {
-                                    await peerReviewDebriefScores();
-                                    await peerReviewDebrief();
-                                    navigation.currentState
-                                        .pushNamed('/peerReviewLLAB2FT');
-                                  },
-                                ),
-                              ),
-                        ],
-                      ),
                     ],
                   ),
                 ],
               ),
             ],
           ),
-          ),
         ),
+      ),
+      bottomNavigationBar:
+      Padding(
+          padding:
+              EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              ElevatedButton(
+                child: Text('Prev'),
+                onPressed: () async {
+                  navigation.currentState.pushNamed('/leadership');
+                },
+              ),
+              ElevatedButton(
+                child: Text('Save'),
+                onPressed: () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setString(
+                      'adheresToDebriefFormat', adheresToDebriefFormat.text);
+                  prefs.setString(
+                      'receptiveToFeedback', receptiveToFeedback.text);
+                  prefs.setString(
+                      'improvementOriented', improvementOriented.text);
+
+                  prefs.setString('debriefValueA', groupValueA.toString());
+                  prefs.setString('debriefValueB', groupValueB.toString());
+                  prefs.setString('debriefValueC', groupValueC.toString());
+                  saveNotification(context);
+                },
+              ),
+              ElevatedButton(
+                child: Text('Confirm'),
+                onPressed: () async {
+                  navigation.currentState.pushNamed('/confirmation');
+                },
+              ),
+            ],
+          )),
     );
   }
+}
+
+saveNotification(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  AlertDialog alert = AlertDialog(
+  //  title: Text("Saved"),
+    content: Text("Input is saved"),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

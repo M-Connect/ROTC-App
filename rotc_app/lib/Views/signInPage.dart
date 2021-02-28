@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:rotc_app/services/auth.dart';
+import 'package:provider/provider.dart';
 
 /*
 Sawyer Kisha
@@ -12,13 +14,22 @@ Ui for the sign in page
 Co-Author:  Kyle Serruys
 Added Validation for the email and password properties
 */
+class SignInView extends StatefulWidget {
+  @override
+  _SignInViewState createState() => _SignInViewState();
+}
 
-class SignInView extends StatelessWidget {
+
+class _SignInViewState extends State<SignInView> {
   CollectionReference cadres = FirebaseFirestore.instance.collection('cadres');
   CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
 
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  //Controllers for e-mail and password textfields.
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
+
+  //Handling signup and signin
+  bool signUp = true;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +58,7 @@ class SignInView extends StatelessWidget {
                     border: OutlineInputBorder(),
                     hintText: 'Username / Email',
                   ),
-                  onSaved: (String value) {},
+                  //onSaved: (String value) {},********************
                   validator: MultiValidator([
                     RequiredValidator(errorText: "Required"),
                     EmailValidator(errorText: "Not a valid email"),
@@ -68,7 +79,7 @@ class SignInView extends StatelessWidget {
                         hintText: 'Password',
                       ),
                       obscureText: true,
-                      onSaved: (String value) {},
+                     // onSaved: (String value) {},******************
                       validator: MultiValidator([
                         MinLengthValidator(5,
                             errorText:
@@ -84,12 +95,18 @@ class SignInView extends StatelessWidget {
                               child: Text('Sign In'),
                               onPressed: () async {
                                 try {
+                                  context.read<Auth>().signIn(
+                                    email: email.text.trim(),
+                                    password: password.text.trim());
+                                      Navigator.pop(context, '/home');
+
+                                  /*
                                   UserCredential user = await FirebaseAuth
                                       .instance
                                       .signInWithEmailAndPassword(
                                           email: email.text,
                                           password: password.text);
-                                  Navigator.pushNamed(context, '/home');
+                                  Navigator.pushNamed(context, '/home');*/
 
                                 } catch (e) {
                                   alertDialog(context);
@@ -113,6 +130,7 @@ class SignInView extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.pushNamed(
                                       context, '/forgotPassword');
+
                                 },
                               ),
                             ],
