@@ -16,6 +16,8 @@ alertSignOut(BuildContext context) {
       child: Text("Yes"),
       onPressed: () async {
         context.read<Auth>().signOut();
+        Navigator.of(context, rootNavigator: true).pop();
+
       });
   AlertDialog alert = AlertDialog(
     title: Text("Sign Out"),
