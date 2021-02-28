@@ -1,166 +1,102 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:clipboard/clipboard.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:rotc_app/app/dashboard/uploadURl.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
+import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 
-/* Author: Mac-Rufus O. Umeokolo
+import '../../main.dart';
+import '../home.dart';
 
-**/
+/*
+  Author: Christine Thomas
+  These classes make up the Cadre Control Panel Page.
+  TODO: Modularize and Separate + add more content to tabs.
+ */
 
+class HomeView extends StatefulWidget {
+  HomeView({Key key}) : super(key: key);
+  @override
+  _CadreHomeState createState() => _CadreHomeState();
+}
 
+bool isCadre = true;
 
-class dashboard extends StatelessWidget {
-  CollectionReference dashboardUrls =
-      FirebaseFirestore.instance.collection('dashboardUrls');
+/// This is the private state class that extends the State of CadreHome.
+class _CadreHomeState extends State<HomeView> {
+  int _tabOption = 0;
 
-  TextEditingController dashboardUrl = TextEditingController();
+  static List<Widget> _widgetOptions = <Widget>[
+    dashboard(),
+  ];
 
-  TextEditingController documentNameText = TextEditingController();
-
-  static const url =
-      'https://docs.google.com/document/d/1izy6A08kGRre_oBplxPUsD6zNp8L5-Zhd_C7gJySg00/edit';
-
-  Future<void> documentURLLink() {
-    return dashboardUrls.add({
-      'dashboardUrl': dashboardUrl.text,
-      'documentNameText': documentNameText.text,
+  void _chosenTab(int index) {
+    setState(() {
+      _tabOption = index;
     });
   }
 
-  bool isCadre = false;
   @override
   Widget build(BuildContext context) {
-    const TextStyle tabTextStyle =
-        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => alertUploadURL(context),
-        tooltip: 'upload document Url',
-        child: const Icon(Icons.file_upload),
-      ),
-      body: Container(
-        padding: EdgeInsets.all(25.0),
-        color: Colors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              child: ElevatedButton(
-                child: Text('Week 1 OPORD'),
-                onPressed: () {
-                  _launchURL();
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _launchURL() async {
-    try {
-      closeWebView();
-
-      if (await canLaunch(url)) {
-        await launch(
-          url,
-          enableJavaScript: true,
-          forceWebView: true,
-        );
-      } else {
-        throw 'Could not launch $url';
-      }
-    } catch (e) {
-      BuildContext context; //does this really work
-      alertUrlError(context);
-    }
-  }
-
-  alertUploadURL(BuildContext context) {
-    dashboardUrl.clear();
-    documentNameText.clear();
-    AlertDialog alert = AlertDialog(
-      title: Text("Upload Document URL"),
-      content: SingleChildScrollView(
-        // autovalidateMode: null,
-        child: Column(
-          children: [
-            Text('Document Name'),
-            SizedBox(height: 10),
-            TextFormField(
-              controller: documentNameText,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '\"Week 2 OPORD\"',
-              ),
-              validator: MultiValidator(
-                  [RequiredValidator(errorText: 'Document Name is Required')]),
-            ),
-            SizedBox(height: 30),
-
-            Text('Document URL'),
-            SizedBox(height: 10),
-            TextFormField(
-              validator: MultiValidator([RequiredValidator(errorText: 'Document URL is Required'),
-                PatternValidator(
-                    r'^((?:.|\n)*?)((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)([-A-Z0-9.]+)(/[-A-Z0-9+&@#/%=~_|!:,.;]*)?(\?[A-Z0-9+&@#/%=~_|!:‌​,.;]*)?)',
-                    errorText: 'Must be a url'),
-              ]),
-              controller: dashboardUrl,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: '\"https://docs.google.com/document/...\"',
-              ),
-              toolbarOptions: ToolbarOptions(
-                paste: true,
-                cut: true,
-                copy: true,
-                selectAll: true,
-              ),
-            )
-          ],
-        ),
-      ),
-      actions: <Widget>[
-        MaterialButton(
-          elevation: 5.0,
-          child: Text(
-            'Post',
-            style: TextStyle(
-              color: Colors.blueAccent,
-            ),
+      appBar: AppBar(
+        title: const Text('Cadre Control Panel'),
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          new IconButton(
+            icon: new Icon(Icons.logout),
+            onPressed: (){},
           ),
-          onPressed: () async {
-            await documentURLLink();
-            Navigator.of(context, rootNavigator: true).pop();
-            dashboardUrl.clear();
-            documentNameText.clear();
-          },
-        )
-      ],
-    );
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
+        ],
+        centerTitle: true,
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_tabOption),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard_sharp),
+            label: 'Dashboard',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.ballot_sharp),
+            label: 'Peer Review Forms',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.message),
+            label: 'Messages',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_sharp),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: _tabOption,
+        unselectedItemColor: Theme.of(context).primaryColorLight,
+        selectedItemColor: Theme.of(context).accentColor,
+        onTap: _chosenTab,
+      ),
     );
   }
 }
 
-alertUrlError(BuildContext context) {
-  AlertDialog alert = AlertDialog(
-    title: Text("Error"),
-    content: Text("Document Url didn't launch."),
-  );
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
+Widget dashboard() {
+  const TextStyle tabTextStyle =
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  return Scaffold(
+    body: SingleChildScrollView(
+      child: Container(
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  'On Your Radar',
+                  style: tabTextStyle,
+                ),
+              ),
+              Column(
+                children: [],
+              ),
+            ],
+          )),
+    ),
   );
 }

@@ -39,7 +39,7 @@ class _SignInViewState extends State<SignInView> {
 
 
       ),
-      body: SingleChildScrollView(
+      body: Container(
         padding: EdgeInsets.all(25.0),
         child: Form(
           // ignore: deprecated_member_use

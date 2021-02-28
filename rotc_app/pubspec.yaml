@@ -23,9 +23,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  googleapis: any
-  google_sign_in: any
-  clipboard: ^0.1.2+5
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -37,7 +34,6 @@ dependencies:
   form_field_validator: 1.0.1
   shared_preferences: 0.5.12+4
   provider: ^4.3.3
-  url_launcher: ^5.7.10
 
 
 dev_dependencies:
