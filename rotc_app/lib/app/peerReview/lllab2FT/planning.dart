@@ -593,6 +593,7 @@ class PlanningState extends State<Planning> {
                 prefs.setString('planningValueB', groupValueB.toString());
                 prefs.setString('planningValueC', groupValueC.toString());
                 prefs.setString('planningValueD', groupValueD.toString());
+                saveNotification(context);
               },
             ),
             ElevatedButton(
@@ -609,3 +610,25 @@ class PlanningState extends State<Planning> {
   }
 }
 
+
+saveNotification(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    //  title: Text("Saved"),
+    content: Text("Input is saved"),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

@@ -492,6 +492,7 @@ class ExecutionState extends State<Execution>{
                 prefs.setString('executionValueB', groupValueB.toString());
                 prefs.setString('executionValueC', groupValueC.toString());
                 prefs.setString('executionValueD', groupValueD.toString());
+                saveNotification(context);
               },
             ),
             ElevatedButton(
@@ -506,4 +507,26 @@ class ExecutionState extends State<Execution>{
       ),
     );
   }
+}
+
+saveNotification(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    //  title: Text("Saved"),
+    content: Text("Input is saved"),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
