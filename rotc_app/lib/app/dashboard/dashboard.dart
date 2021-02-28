@@ -10,11 +10,14 @@ import 'package:form_field_validator/form_field_validator.dart';
 
 **/
 
+class dashboard extends StatefulWidget {
+  @override
+  _dashboardState createState() => _dashboardState();
+}
 
-
-class dashboard extends StatelessWidget {
+class _dashboardState extends State<dashboard> {
   CollectionReference dashboardUrls =
-      FirebaseFirestore.instance.collection('dashboardUrls');
+  FirebaseFirestore.instance.collection('dashboardUrls');
 
   TextEditingController dashboardUrl = TextEditingController();
 
@@ -34,7 +37,7 @@ class dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const TextStyle tabTextStyle =
-        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+    TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => alertUploadURL(context),
