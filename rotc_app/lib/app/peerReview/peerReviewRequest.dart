@@ -34,67 +34,72 @@ class PeerReviewRequest extends StatelessWidget {
                 child: Text('Cadet Name:'),
               ),
               Container(
-                width: 200.0, //Box length
-                child: new DropdownButton<String>(
-                  underline: Container(
-                    height: 2,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                    ),
-                  ),
-                  hint: Text('Select a Cadet'),
+                child: Column(
+                  children: <Widget> [
+                    Container(
+                      width: 200.0, //Box length
+                      child: new DropdownButton<String>(
+                        underline: Container(
+                          height: 2,
+                          decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          ),
+                        ),
+                      hint: Text('Select a Cadet'),
                   //Temporary placements (will fix with actual users in future)
-                items: <String>['John', 'James', 'Jones', 'Jackson'].map((String value) {
-                  return new DropdownMenuItem<String>(
-                    value: value,
-                    child: new Text(value),
-                  );
-                }).toList(),
-                onChanged: (_) {},
-              ),
-              ),
-              //Radio buttons 100 - 400 (Two rows)
-              ButtonBar(
-                alignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Radio(value: 100, activeColor: Colors.black87, groupValue: null, onChanged: null),
-                  Text('100'),
-                  Radio(value: 200, activeColor: Colors.black87, groupValue: null, onChanged: null),
-                  Text('200'),
-                  Radio(value: 300, activeColor: Colors.black87, groupValue: null, onChanged: null),
-                  Text('300'),
-                  Radio(value: 400, activeColor: Colors.black87, groupValue: null, onChanged: null),
-                  Text('400'),
+                  items: <String>['John', 'James', 'Jones', 'Jackson'].map((String value) {
+                    return new DropdownMenuItem<String>(
+                      value: value,
+                      child: new Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (_) {},
+                ),
+                    ),
                 ],
+                ),
               ),
-
-              //Radio buttons 500 - 800 (Two rows)
-              ButtonBar(
-                  alignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                  Radio(value: 500, activeColor: Colors.black87, groupValue: null, onChanged: null),
-                  Text('500'),
-                  Radio(value: 600, activeColor: Colors.black87, groupValue: null, onChanged: null),
-                  Text('600'),
-                  Radio(value: 700, activeColor: Colors.black87, groupValue: null, onChanged: null),
-                  Text('700'),
-                  Radio(value: 800, activeColor: Colors.black87, groupValue: null, onChanged: null),
-                  Text('800'),
+              SizedBox(
+                width: 900,
+               child: Row(
+                 children: <Widget>[
+                 Radio(value: 100, activeColor: Colors.black87, groupValue: null, onChanged: null),
+                 Text('AS100'),
+                 Radio(value: 200, activeColor: Colors.black87, groupValue: null, onChanged: null),
+                 Text('AS200'),
+                 Radio(value: 300, activeColor: Colors.black87, groupValue: null, onChanged: null),
+                 Text('AS300'),
+                 Radio(value: 400, activeColor: Colors.black87, groupValue: null, onChanged: null),
+                 Text('AS400'),
                  ],
+               ),
               ),
-
-              //Radio buttons GMC and POC
-              ButtonBar(
-                  alignment: MainAxisAlignment.start,
+              SizedBox(
+                width: 900,
+                child: Row(
                   children: <Widget>[
-                    Radio(value: 0, activeColor: Colors.black87, groupValue: null, onChanged: null), //Temp value set to 0
+                    Radio(value: 500, activeColor: Colors.black87, groupValue: null, onChanged: null),
+                    Text('AS500'),
+                    Radio(value: 600, activeColor: Colors.black87, groupValue: null, onChanged: null),
+                    Text('AS600'),
+                    Radio(value: 700, activeColor: Colors.black87, groupValue: null, onChanged: null),
+                    Text('AS700'),
+                    Radio(value: 800, activeColor: Colors.black87, groupValue: null, onChanged: null),
+                    Text('AS800'),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 900,
+                child: Row(
+                  children: <Widget>[
+                    Radio(value: 0, activeColor: Colors.black87, groupValue: null, onChanged: null), //test value
                     Text('GMC'),
-                    Radio(value: 1, activeColor: Colors.black87, groupValue: null, onChanged: null), //Temp calue set to 1
+                    Radio(value: 1, activeColor: Colors.black87, groupValue: null, onChanged: null), //test value
                     Text('POC'),
                   ],
+                ),
               ),
-
-              //Specify Reviewers
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, bottom:10.0),
                 child: Text('Specify Reviewer(s): '),
@@ -126,29 +131,37 @@ class PeerReviewRequest extends StatelessWidget {
                 child: Text('Evaluation for:'),
               ),
               Container(
-                width: 200.0, //Box length
-                child: new DropdownButton<String>(
-                  underline: Container(
-                    height: 2,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                    ),
+                width: 400.0,
+                child: TextFormField(
+                  textAlignVertical: TextAlignVertical.top,
+                  maxLength: 160,
+                  maxLengthEnforced: true,
+                  maxLines: 10,
+                  //controller:
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.all(10.0),
+                    // const EdgeInsets.symmetric(vertical: 75.0),
                   ),
-                  hint: Text('Select an event'),
-                  //Temporary placements (will fix with actual users in future)
-                  items: <String>['Activity', 'Exercise', 'Run', 'Weights'].map((String value) {
-                    return new DropdownMenuItem<String>(
-                      value: value,
-                      child: new Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (_) {},
+                  onSaved: (String value) {},
                 ),
-              ),
+                ),
             ],
+          ),
         ),
       ),
-      ),
-      );
+      bottomNavigationBar: Padding(
+          padding:
+          EdgeInsets.only(bottom: 20.0, left: 10.0, top: 20.0, right: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                child: Text('Submit'),
+                onPressed: () async {},
+              ),
+            ],
+          )),
+    );
   }
 }
