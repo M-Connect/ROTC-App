@@ -15,7 +15,7 @@ class PeerReview extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();;
+            Navigator.of(context, rootNavigator: true).pop();
           },
         ),
         title: Text('Peer Review'),
