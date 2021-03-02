@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
+import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 
 import '../../main.dart';
 
@@ -14,15 +15,16 @@ class PeerReview extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            navigation.currentState.pushNamed('/peerReviewLanding');
+            Navigator.of(context, rootNavigator: true).pop();;
           },
         ),
         title: Text('Peer Review'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: (){},
-          ),
+              onPressed: () {
+                alertSignOut(context);
+              }),
         ],
       ),
       body: Container(

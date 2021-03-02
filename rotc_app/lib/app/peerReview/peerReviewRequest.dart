@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
+import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 
 /*
  Author: Sawyer Kisha
@@ -16,9 +17,9 @@ class PeerReviewRequest extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: (){},
-
-          ),
+        onPressed: () {
+          alertSignOut(context);
+        }),
         ],
       ),
       body: SingleChildScrollView(
@@ -72,10 +73,6 @@ class PeerReviewRequest extends StatelessWidget {
               ButtonBar(
                   alignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                  Radio(value: 500, activeColor: Colors.black87, groupValue: null, onChanged: null),
-                  Text('500'),
-                  Radio(value: 600, activeColor: Colors.black87, groupValue: null, onChanged: null),
-                  Text('600'),
                   Radio(value: 700, activeColor: Colors.black87, groupValue: null, onChanged: null),
                   Text('700'),
                   Radio(value: 800, activeColor: Colors.black87, groupValue: null, onChanged: null),
