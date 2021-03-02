@@ -27,11 +27,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c64f85d-594a-46dd-8d29-eb037e16b2d1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ROTC-App.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ROTC-App.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Default_Changelist.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Default_Changelist.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Default_Changelist1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Default_Changelist1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Default_Changelist2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Default_Changelist2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotc_app/lib/Views/signInPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/Views/signInPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT/communication.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT/communication.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT/debrief.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT/debrief.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT/execution.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT/execution.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT/leadership.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT/leadership.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT/peerReviewLLAB2FT.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT/peerReviewLLAB2FT.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT/planning.dart" beforeDir="false" afterPath="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT/planning.dart" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,11 +76,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/rotc_app/lib/app/peerReview" />
       <recent name="$PROJECT_DIR$/rotc_app/lib/app/peerReview/lllab2FT" />
       <recent name="$PROJECT_DIR$/rotc_app/lib/Views" />
       <recent name="$PROJECT_DIR$/rotc_app/lib/app" />
       <recent name="$PROJECT_DIR$/rotc_app/lib" />
-      <recent name="$PROJECT_DIR$/rotc_app/lib/app/Views" />
     </key>
   </component>
   <component name="RunManager">
@@ -145,7 +149,35 @@
       <option name="project" value="LOCAL" />
       <updated>1613457307294</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Part 2 of my previous commit">
+      <created>1614063641274</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1614063641275</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Able to have saved data from the peer review pages show up on the confirmation page via shared preferences.  Once you hit submit on the confirmation page, the data is then released from shared preferences and deleted.  I still need to figure out how to store the value of the radio buttons.  I also have to send the data to Firebase.">
+      <created>1614220894348</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1614220894348</updated>
+    </task>
+    <task id="LOCAL-00010" summary="User Input text fields for peer review llab2ft gets sent to a Firebase database.">
+      <created>1614280859576</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1614280859577</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Upon pressing save, the user input data now stays in their respective widgets until the submit button on the confirmation page is pressed.">
+      <created>1614401171903</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1614401171904</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -159,7 +191,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/kyle_WIP" />
+                        <option value="origin/prototype02-temp" />
                       </list>
                     </value>
                   </entry>
@@ -178,7 +210,11 @@
     <MESSAGE value="Removed extra sign in button from the sign in page" />
     <MESSAGE value="Added more validation" />
     <MESSAGE value="Added peer review pages to the dashboard, and created the link to our database" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added peer review pages to the dashboard, and created the link to our database" />
+    <MESSAGE value="Part 2 of my previous commit" />
+    <MESSAGE value="Able to have saved data from the peer review pages show up on the confirmation page via shared preferences.  Once you hit submit on the confirmation page, the data is then released from shared preferences and deleted.  I still need to figure out how to store the value of the radio buttons.  I also have to send the data to Firebase." />
+    <MESSAGE value="User Input text fields for peer review llab2ft gets sent to a Firebase database." />
+    <MESSAGE value="Upon pressing save, the user input data now stays in their respective widgets until the submit button on the confirmation page is pressed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Upon pressing save, the user input data now stays in their respective widgets until the submit button on the confirmation page is pressed." />
   </component>
   <component name="WindowStateProjectService">
     <state x="232" y="139" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1614549907826">
@@ -190,82 +226,88 @@
       <screen x="1680" y="25" width="1920" height="1055" />
     </state>
     <state x="2185" y="301" key="#com.intellij.ide.util.TreeFileChooserDialog/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612478960729" />
+
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1614549935489">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1614549935489" />
     <state width="1476" height="372" key="GridCell.Tab.0.bottom" timestamp="1614052488681">
+
       <screen x="1680" y="25" width="1920" height="1055" />
     </state>
     <state width="799" height="196" key="GridCell.Tab.0.bottom/0.25.1440.791/1440.25.1280.695@1440.25.1280.695" timestamp="1612901421325" />
     <state width="1398" height="80" key="GridCell.Tab.0.bottom/0.25.1440.791@0.25.1440.791" timestamp="1612981930703" />
     <state width="1398" height="225" key="GridCell.Tab.0.bottom/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612989842609" />
-    <state width="1009" height="200" key="GridCell.Tab.0.bottom/0.25.1440.794@0.25.1440.794" timestamp="1612543315659" />
+    <state width="1398" height="199" key="GridCell.Tab.0.bottom/0.25.1440.794@0.25.1440.794" timestamp="1614393197572" />
     <state width="688" height="196" key="GridCell.Tab.0.bottom/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817049" />
-    <state width="1351" height="201" key="GridCell.Tab.0.bottom/0.25.1440.797@0.25.1440.797" timestamp="1612543953185" />
+    <state width="1398" height="247" key="GridCell.Tab.0.bottom/0.25.1440.797@0.25.1440.797" timestamp="1614192027321" />
     <state width="1398" height="80" key="GridCell.Tab.0.bottom/0.25.1440.799/1440.25.1280.695@1440.25.1280.695" timestamp="1612996016080" />
     <state width="855" height="194" key="GridCell.Tab.0.bottom/0.25.1440.875/1440.25.1280.621@1440.25.1280.621" timestamp="1613336406478" />
     <state width="1238" height="225" key="GridCell.Tab.0.bottom/0.25.1680.1025/1680.134.1280.621@1680.134.1280.621" timestamp="1613506655267" />
     <state width="855" height="194" key="GridCell.Tab.0.bottom/0.25.1680.938/1680.134.1280.695@1680.134.1280.695" timestamp="1613361012634" />
-    <state width="1476" height="372" key="GridCell.Tab.0.bottom/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614052488681" />
+    <state width="1840" height="199" key="GridCell.Tab.0.bottom/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614401377564" />
     <state width="1238" height="222" key="GridCell.Tab.0.bottom/0.25.1680.940/1680.134.1280.695@1680.134.1280.695" timestamp="1613457310122" />
-    <state width="1413" height="220" key="GridCell.Tab.0.bottom/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278701" />
+    <state width="1398" height="199" key="GridCell.Tab.0.bottom/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614378522338" />
     <state width="1238" height="222" key="GridCell.Tab.0.bottom/0.25.1680.942/1680.134.1280.695@1680.134.1280.695" timestamp="1613460739878" />
     <state width="1428" height="377" key="GridCell.Tab.0.bottom/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1613833599235" />
-    <state width="1476" height="372" key="GridCell.Tab.0.center" timestamp="1614052488680">
+    <state width="1878" height="316" key="GridCell.Tab.0.bottom/0.25.1680.947/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614142597333" />
+    <state width="1840" height="199" key="GridCell.Tab.0.center" timestamp="1614401377564">
       <screen x="1680" y="25" width="1920" height="1055" />
     </state>
     <state width="799" height="196" key="GridCell.Tab.0.center/0.25.1440.791/1440.25.1280.695@1440.25.1280.695" timestamp="1612901421324" />
     <state width="1398" height="80" key="GridCell.Tab.0.center/0.25.1440.791@0.25.1440.791" timestamp="1612981930703" />
     <state width="1398" height="225" key="GridCell.Tab.0.center/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612989842608" />
-    <state width="1009" height="200" key="GridCell.Tab.0.center/0.25.1440.794@0.25.1440.794" timestamp="1612543315658" />
+    <state width="1398" height="199" key="GridCell.Tab.0.center/0.25.1440.794@0.25.1440.794" timestamp="1614393197572" />
     <state width="688" height="196" key="GridCell.Tab.0.center/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817030" />
-    <state width="1351" height="201" key="GridCell.Tab.0.center/0.25.1440.797@0.25.1440.797" timestamp="1612543953184" />
+    <state width="1398" height="247" key="GridCell.Tab.0.center/0.25.1440.797@0.25.1440.797" timestamp="1614192027320" />
     <state width="1398" height="80" key="GridCell.Tab.0.center/0.25.1440.799/1440.25.1280.695@1440.25.1280.695" timestamp="1612996016079" />
     <state width="855" height="194" key="GridCell.Tab.0.center/0.25.1440.875/1440.25.1280.621@1440.25.1280.621" timestamp="1613336406477" />
     <state width="1238" height="225" key="GridCell.Tab.0.center/0.25.1680.1025/1680.134.1280.621@1680.134.1280.621" timestamp="1613506655266" />
     <state width="855" height="194" key="GridCell.Tab.0.center/0.25.1680.938/1680.134.1280.695@1680.134.1280.695" timestamp="1613361012633" />
-    <state width="1476" height="372" key="GridCell.Tab.0.center/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614052488680" />
+    <state width="1840" height="199" key="GridCell.Tab.0.center/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614401377563" />
     <state width="1238" height="222" key="GridCell.Tab.0.center/0.25.1680.940/1680.134.1280.695@1680.134.1280.695" timestamp="1613457310121" />
-    <state width="1413" height="220" key="GridCell.Tab.0.center/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278700" />
+    <state width="1398" height="199" key="GridCell.Tab.0.center/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614378522337" />
     <state width="1238" height="222" key="GridCell.Tab.0.center/0.25.1680.942/1680.134.1280.695@1680.134.1280.695" timestamp="1613460739877" />
     <state width="1428" height="377" key="GridCell.Tab.0.center/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1613833599235" />
-    <state width="1476" height="372" key="GridCell.Tab.0.left" timestamp="1614052488678">
+    <state width="1878" height="316" key="GridCell.Tab.0.center/0.25.1680.947/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614142597333" />
+    <state width="1840" height="199" key="GridCell.Tab.0.left" timestamp="1614401377562">
       <screen x="1680" y="25" width="1920" height="1055" />
     </state>
     <state width="799" height="196" key="GridCell.Tab.0.left/0.25.1440.791/1440.25.1280.695@1440.25.1280.695" timestamp="1612901421323" />
     <state width="1398" height="80" key="GridCell.Tab.0.left/0.25.1440.791@0.25.1440.791" timestamp="1612981930702" />
     <state width="1398" height="225" key="GridCell.Tab.0.left/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612989842606" />
-    <state width="1009" height="200" key="GridCell.Tab.0.left/0.25.1440.794@0.25.1440.794" timestamp="1612543315657" />
+    <state width="1398" height="199" key="GridCell.Tab.0.left/0.25.1440.794@0.25.1440.794" timestamp="1614393197569" />
     <state width="688" height="196" key="GridCell.Tab.0.left/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817025" />
-    <state width="1351" height="201" key="GridCell.Tab.0.left/0.25.1440.797@0.25.1440.797" timestamp="1612543953184" />
+    <state width="1398" height="247" key="GridCell.Tab.0.left/0.25.1440.797@0.25.1440.797" timestamp="1614192027319" />
     <state width="1398" height="80" key="GridCell.Tab.0.left/0.25.1440.799/1440.25.1280.695@1440.25.1280.695" timestamp="1612996016079" />
     <state width="855" height="194" key="GridCell.Tab.0.left/0.25.1440.875/1440.25.1280.621@1440.25.1280.621" timestamp="1613336406475" />
     <state width="1238" height="225" key="GridCell.Tab.0.left/0.25.1680.1025/1680.134.1280.621@1680.134.1280.621" timestamp="1613506655264" />
     <state width="855" height="194" key="GridCell.Tab.0.left/0.25.1680.938/1680.134.1280.695@1680.134.1280.695" timestamp="1613361012633" />
-    <state width="1476" height="372" key="GridCell.Tab.0.left/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614052488678" />
+    <state width="1840" height="199" key="GridCell.Tab.0.left/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614401377562" />
     <state width="1238" height="222" key="GridCell.Tab.0.left/0.25.1680.940/1680.134.1280.695@1680.134.1280.695" timestamp="1613457310121" />
-    <state width="1413" height="220" key="GridCell.Tab.0.left/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278699" />
+    <state width="1398" height="199" key="GridCell.Tab.0.left/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614378522337" />
     <state width="1238" height="222" key="GridCell.Tab.0.left/0.25.1680.942/1680.134.1280.695@1680.134.1280.695" timestamp="1613460739872" />
     <state width="1428" height="377" key="GridCell.Tab.0.left/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1613833599234" />
-    <state width="1476" height="372" key="GridCell.Tab.0.right" timestamp="1614052488681">
+    <state width="1878" height="316" key="GridCell.Tab.0.left/0.25.1680.947/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614142597333" />
+    <state width="1840" height="199" key="GridCell.Tab.0.right" timestamp="1614401377564">
       <screen x="1680" y="25" width="1920" height="1055" />
     </state>
     <state width="799" height="196" key="GridCell.Tab.0.right/0.25.1440.791/1440.25.1280.695@1440.25.1280.695" timestamp="1612901421324" />
     <state width="1398" height="80" key="GridCell.Tab.0.right/0.25.1440.791@0.25.1440.791" timestamp="1612981930703" />
     <state width="1398" height="225" key="GridCell.Tab.0.right/0.25.1440.794/1440.25.1280.695@0.25.1440.794" timestamp="1612989842608" />
-    <state width="1009" height="200" key="GridCell.Tab.0.right/0.25.1440.794@0.25.1440.794" timestamp="1612543315658" />
+    <state width="1398" height="199" key="GridCell.Tab.0.right/0.25.1440.794@0.25.1440.794" timestamp="1614393197572" />
     <state width="688" height="196" key="GridCell.Tab.0.right/0.25.1440.797/1440.25.1280.695@0.25.1440.797" timestamp="1612812817042" />
-    <state width="1351" height="201" key="GridCell.Tab.0.right/0.25.1440.797@0.25.1440.797" timestamp="1612543953185" />
+    <state width="1398" height="247" key="GridCell.Tab.0.right/0.25.1440.797@0.25.1440.797" timestamp="1614192027320" />
     <state width="1398" height="80" key="GridCell.Tab.0.right/0.25.1440.799/1440.25.1280.695@1440.25.1280.695" timestamp="1612996016080" />
     <state width="855" height="194" key="GridCell.Tab.0.right/0.25.1440.875/1440.25.1280.621@1440.25.1280.621" timestamp="1613336406477" />
     <state width="1238" height="225" key="GridCell.Tab.0.right/0.25.1680.1025/1680.134.1280.621@1680.134.1280.621" timestamp="1613506655266" />
     <state width="855" height="194" key="GridCell.Tab.0.right/0.25.1680.938/1680.134.1280.695@1680.134.1280.695" timestamp="1613361012634" />
-    <state width="1476" height="372" key="GridCell.Tab.0.right/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614052488681" />
+    <state width="1840" height="199" key="GridCell.Tab.0.right/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614401377564" />
     <state width="1238" height="222" key="GridCell.Tab.0.right/0.25.1680.940/1680.134.1280.695@1680.134.1280.695" timestamp="1613457310122" />
-    <state width="1413" height="220" key="GridCell.Tab.0.right/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612714278700" />
+    <state width="1398" height="199" key="GridCell.Tab.0.right/0.25.1680.940/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614378522338" />
     <state width="1238" height="222" key="GridCell.Tab.0.right/0.25.1680.942/1680.134.1280.695@1680.134.1280.695" timestamp="1613460739878" />
     <state width="1428" height="377" key="GridCell.Tab.0.right/0.25.1680.942/1680.25.1920.1055@1680.25.1920.1055" timestamp="1613833599235" />
+    <state width="1878" height="316" key="GridCell.Tab.0.right/0.25.1680.947/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614142597333" />
     <state x="202" y="94" key="SettingsEditor" timestamp="1612813908240">
       <screen x="0" y="25" width="1440" height="797" />
     </state>
@@ -275,11 +317,12 @@
       <screen x="1680" y="25" width="1920" height="1055" />
     </state>
     <state x="2613" y="424" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1612498870041" />
-    <state x="2193" y="182" width="670" height="58" key="search.everywhere.popup" timestamp="1614052456440">
-      <screen x="1680" y="25" width="1920" height="1055" />
+    <state x="449" y="164" width="782" height="799" key="search.everywhere.popup" timestamp="1614209733125">
+      <screen x="0" y="25" width="1680" height="938" />
     </state>
-    <state x="385" y="143" width="670" height="676" key="search.everywhere.popup/0.25.1440.794@0.25.1440.794" timestamp="1612542098623" />
+    <state x="385" y="143" width="670" height="676" key="search.everywhere.popup/0.25.1440.794@0.25.1440.794" timestamp="1614093030042" />
     <state x="385" y="144" width="670" height="681" key="search.everywhere.popup/0.25.1440.799@0.25.1440.799" timestamp="1612547690652" />
+    <state x="449" y="164" width="782" height="799" key="search.everywhere.popup/0.25.1680.938/1680.25.1920.1055@0.25.1680.938" timestamp="1614209733125" />
     <state x="2193" y="182" width="670" height="58" key="search.everywhere.popup/0.25.1680.938/1680.25.1920.1055@1680.25.1920.1055" timestamp="1614052456440" />
     <state x="2022" y="237" width="670" height="593" key="search.everywhere.popup/0.25.1680.940/1680.134.1280.695@1680.134.1280.695" timestamp="1613451412346" />
   </component>

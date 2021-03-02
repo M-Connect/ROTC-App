@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rotc_app/main.dart';
 
 class Auth {
-  //final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseAuth firebaseAuth;
 
   Auth(this.firebaseAuth);

@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
-import '../peerReviewLanding.dart';
 /*
  Author: Kyle Serruys
   This class is the Planning page of our peer review
@@ -15,39 +16,69 @@ class Planning extends StatefulWidget {
   PlanningState createState() => PlanningState();
 }
 
+
 class PlanningState extends State<Planning> {
-  TextEditingController teamOrganization = TextEditingController();
-  TextEditingController outsidePreparation = TextEditingController();
-  TextEditingController missionFocus = TextEditingController();
-  TextEditingController creativity = TextEditingController();
-
-  CollectionReference planning =
-      FirebaseFirestore.instance.collection('planning');
-  CollectionReference planningScores =
-      FirebaseFirestore.instance.collection('planningScores');
-
-  Future<void> peerReviewPlanning() {
-    return planning.add({
-      'teamOrganization': teamOrganization.text,
-      'outsidePreparation': outsidePreparation.text,
-      'missionFocus': missionFocus.text,
-      'creativity': creativity.text,
-    });
-  }
-
-  Future<void> peerReviewPlanningScores() {
-    return planningScores.add({
-      'teamOrganizationScore': groupValueA,
-      'outsidePreparationScore': groupValueB,
-      'missionFocusScore': groupValueC,
-      'creativityScore': groupValueD,
-    });
-  }
+  TextEditingController teamOrganization;
+  TextEditingController outsidePreparation;
+  TextEditingController missionFocus;
+  TextEditingController creativity;
 
   int groupValueA;
   int groupValueB;
   int groupValueC;
   int groupValueD;
+
+  @override
+  void initState() {
+    super.initState();
+    initControllers();
+    initRadioButtons();
+  }
+
+  initControllers() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var teamOrganizationValue =
+      prefs.getString("teamOrganization");
+      teamOrganization =
+          TextEditingController(text: teamOrganizationValue);
+
+      var outsidePreparationValue = prefs.getString("outsidePreparation");
+      outsidePreparation =
+          TextEditingController(text: outsidePreparationValue);
+
+      var missionFocusValue = prefs.getString("missionFocus");
+      missionFocus =
+          TextEditingController(text: missionFocusValue);
+
+      var creativityValue = prefs.getString("creativity");
+      creativity =
+          TextEditingController(text: creativityValue);
+    });
+  }
+
+  initRadioButtons() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var pValueA = prefs.getString("planningValueA");
+      var pValueB = prefs.getString("planningValueB");
+      var pValueC = prefs.getString("planningValueC");
+      var pValueD = prefs.getString("planningValueD");
+
+      if (pValueA != null) {
+        buttonChangeA(int.parse(pValueA));
+      }
+      if (pValueB != null) {
+        buttonChangeB(int.parse(pValueB));
+      }
+      if (pValueC != null) {
+        buttonChangeC(int.parse(pValueC));
+      }
+      if (pValueD != null) {
+        buttonChangeD(int.parse(pValueD));
+      }
+    });
+  }
 
   void buttonChangeA(int button) {
     setState(() {
@@ -96,8 +127,7 @@ class PlanningState extends State<Planning> {
       }
     });
   }
-
-  void buttonChangeD(int button) {
+  void buttonChangeD(int button){
     setState(() {
       if (button == 20) {
         groupValueD = 20;
@@ -127,7 +157,9 @@ class PlanningState extends State<Planning> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {},
+            onPressed: () {
+
+            },
           ),
         ],
       ),
@@ -151,6 +183,7 @@ class PlanningState extends State<Planning> {
                       width: 200.0,
                       child: TextFormField(
                         textAlignVertical: TextAlignVertical.top,
+
                         maxLength: 160,
                         maxLengthEnforced: true,
                         maxLines: 10,
@@ -161,7 +194,12 @@ class PlanningState extends State<Planning> {
                               //  const EdgeInsets.symmetric(vertical: 75.0),
                               EdgeInsets.all(10.0),
                         ),
-                        onSaved: (String value) {},
+                        onSaved: (teamOrganization) async {
+
+                        },
+
+                        validator: RequiredValidator(
+                            errorText: "Team Organization is required."),
                       ),
                     ),
                     SizedBox(
@@ -255,6 +293,8 @@ class PlanningState extends State<Planning> {
                                   EdgeInsets.all(10.0),
                             ),
                             onSaved: (String value) {},
+                            validator: RequiredValidator(
+                                errorText: "Outside preparation is required."),
                           ),
                         ),
                         SizedBox(
@@ -348,6 +388,8 @@ class PlanningState extends State<Planning> {
                                       EdgeInsets.all(10.0),
                                 ),
                                 onSaved: (String value) {},
+                                validator: RequiredValidator(
+                                    errorText: "Mission focus is required."),
                               ),
                             ),
                             SizedBox(
@@ -442,6 +484,8 @@ class PlanningState extends State<Planning> {
                                           EdgeInsets.all(10.0),
                                     ),
                                     onSaved: (String value) {},
+                                    validator: RequiredValidator(
+                                        errorText: "Creativity is required."),
                                   ),
                                 ),
                                 SizedBox(
@@ -450,15 +494,17 @@ class PlanningState extends State<Planning> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       ListTile(
-                                          visualDensity: VisualDensity(
-                                              horizontal: -4, vertical: -4),
-                                          title: const Text('20 pt'),
-                                          leading: Radio(
-                                            value: 20,
-                                            activeColor: Colors.black87,
-                                            groupValue: groupValueD,
-                                            onChanged: (int d) => buttonChangeD(d),
-                                          ),),
+                                        visualDensity: VisualDensity(
+                                            horizontal: -4, vertical: -4),
+                                        title: const Text('20 pt'),
+                                        leading: Radio(
+                                          value: 20,
+                                          activeColor: Colors.black87,
+                                          groupValue: groupValueD,
+                                          onChanged: (int d) =>
+                                              buttonChangeD(d),
+                                        ),
+                                      ),
                                       ListTile(
                                         visualDensity: VisualDensity(
                                             horizontal: -4, vertical: -4),
@@ -467,7 +513,8 @@ class PlanningState extends State<Planning> {
                                           value: 15,
                                           activeColor: Colors.black87,
                                           groupValue: groupValueD,
-                                          onChanged: (int d) => buttonChangeD(d),
+                                          onChanged: (int d) =>
+                                              buttonChangeD(d),
                                         ),
                                       ),
                                       ListTile(
@@ -522,33 +569,66 @@ class PlanningState extends State<Planning> {
         ),
       ),
       bottomNavigationBar: Padding(
-          padding:
-              EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Opacity(
-                opacity: 0.0,
-                child: ElevatedButton(
-                  child: Text('Prev'),
-                  onPressed: () async {},
-                ),
+        padding:
+            EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Opacity(
+              opacity: 0.0,
+              child: ElevatedButton(
+                child: Text('Prev'),
+                onPressed: () async {},
               ),
-              ElevatedButton(
-                child: Text('Save'),
-                onPressed: () async {
-                  await peerReviewPlanningScores();
-                  await peerReviewPlanning();
-                },
-              ),
-              ElevatedButton(
-                child: Text('Next'),
-                onPressed: () async {
-                  navigation.currentState.pushNamed('/communication');
-                },
-              ),
-            ],
-          )),
+            ),
+            ElevatedButton(
+              child: Text('Save'),
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('teamOrganization', teamOrganization.text);
+                prefs.setString('outsidePreparation', outsidePreparation.text);
+                prefs.setString('missionFocus', missionFocus.text);
+                prefs.setString('creativity', creativity.text);
+                prefs.setString('planningValueA', groupValueA.toString());
+                prefs.setString('planningValueB', groupValueB.toString());
+                prefs.setString('planningValueC', groupValueC.toString());
+                prefs.setString('planningValueD', groupValueD.toString());
+                saveNotification(context);
+              },
+            ),
+            ElevatedButton(
+              child: Text('Next'),
+              onPressed: () async {
+                navigation.currentState.pushNamed('/communication');
+
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
+}
+
+
+saveNotification(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    //  title: Text("Saved"),
+    content: Text("Input is saved"),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
