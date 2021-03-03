@@ -16,17 +16,10 @@ class Planning extends StatefulWidget {
   PlanningState createState() => PlanningState();
 }
 
-
 class PlanningState extends State<Planning> {
-  TextEditingController teamOrganization;
-  TextEditingController outsidePreparation;
-  TextEditingController missionFocus;
-  TextEditingController creativity;
+  TextEditingController planning;
 
-  int groupValueA;
-  int groupValueB;
-  int groupValueC;
-  int groupValueD;
+  int groupValue;
 
   @override
   void initState() {
@@ -38,107 +31,33 @@ class PlanningState extends State<Planning> {
   initControllers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var teamOrganizationValue =
-      prefs.getString("teamOrganization");
-      teamOrganization =
-          TextEditingController(text: teamOrganizationValue);
-
-      var outsidePreparationValue = prefs.getString("outsidePreparation");
-      outsidePreparation =
-          TextEditingController(text: outsidePreparationValue);
-
-      var missionFocusValue = prefs.getString("missionFocus");
-      missionFocus =
-          TextEditingController(text: missionFocusValue);
-
-      var creativityValue = prefs.getString("creativity");
-      creativity =
-          TextEditingController(text: creativityValue);
+      var planningValue = prefs.getString("planning");
+      planning = TextEditingController(text: planningValue);
     });
   }
 
   initRadioButtons() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var pValueA = prefs.getString("planningValueA");
-      var pValueB = prefs.getString("planningValueB");
-      var pValueC = prefs.getString("planningValueC");
-      var pValueD = prefs.getString("planningValueD");
-
-      if (pValueA != null) {
-        buttonChangeA(int.parse(pValueA));
-      }
-      if (pValueB != null) {
-        buttonChangeB(int.parse(pValueB));
-      }
-      if (pValueC != null) {
-        buttonChangeC(int.parse(pValueC));
-      }
-      if (pValueD != null) {
-        buttonChangeD(int.parse(pValueD));
+      var pValue = prefs.getString("planningValue");
+      if (pValue != null) {
+        buttonChange(int.parse(pValue));
       }
     });
   }
 
-  void buttonChangeA(int button) {
+  void buttonChange(int button) {
     setState(() {
       if (button == 20) {
-        groupValueA = 20;
+        groupValue = 20;
       } else if (button == 15) {
-        groupValueA = 15;
+        groupValue = 15;
       } else if (button == 10) {
-        groupValueA = 10;
+        groupValue = 10;
       } else if (button == 5) {
-        groupValueA = 5;
+        groupValue = 5;
       } else if (button == 0) {
-        groupValueA = 0;
-      }
-    });
-  }
-
-  void buttonChangeB(int button) {
-    setState(() {
-      if (button == 20) {
-        groupValueB = 20;
-      } else if (button == 15) {
-        groupValueB = 15;
-      } else if (button == 10) {
-        groupValueB = 10;
-      } else if (button == 5) {
-        groupValueB = 5;
-      } else if (button == 0) {
-        groupValueB = 0;
-      }
-    });
-  }
-
-  void buttonChangeC(int button) {
-    setState(() {
-      if (button == 20) {
-        groupValueC = 20;
-      } else if (button == 15) {
-        groupValueC = 15;
-      } else if (button == 10) {
-        groupValueC = 10;
-      } else if (button == 5) {
-        groupValueC = 5;
-      } else if (button == 0) {
-        groupValueC = 0;
-      }
-    });
-  }
-  void buttonChangeD(int button){
-    setState(() {
-      if (button == 20) {
-        groupValueD = 20;
-      } else if (button == 15) {
-        groupValueD = 15;
-      } else if (button == 10) {
-        groupValueD = 10;
-      } else if (button == 5) {
-        groupValueD = 5;
-      } else if (button == 0) {
-        groupValueD = 0;
+        groupValue = 0;
       }
     });
   }
@@ -157,9 +76,7 @@ class PlanningState extends State<Planning> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {
-
-            },
+            onPressed: () {},
           ),
         ],
       ),
@@ -168,448 +85,123 @@ class PlanningState extends State<Planning> {
         child: Center(
           //Team Organization
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                child: Text('Team Organization'),
-              ),
+              SizedBox(height: 50.0,),
               Container(
                 child: Row(
-                  //  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      width: 200.0,
-                      child: TextFormField(
-                        textAlignVertical: TextAlignVertical.top,
-
-                        maxLength: 160,
-                        maxLengthEnforced: true,
-                        maxLines: 10,
-                        controller: teamOrganization,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding:
-                              //  const EdgeInsets.symmetric(vertical: 75.0),
-                              EdgeInsets.all(10.0),
-                        ),
-                        onSaved: (teamOrganization) async {
-
-                        },
-
-                        validator: RequiredValidator(
-                            errorText: "Team Organization is required."),
-                      ),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Radio(
+                      value: 0,
+                      activeColor: Colors.black87,
+                      groupValue: groupValue,
+                      onChanged: (int button) => buttonChange(button),
                     ),
-                    SizedBox(
-                      width: 150,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          ListTile(
-                              visualDensity:
-                                  VisualDensity(horizontal: -4, vertical: -4),
-                              title: const Text('20 pt'),
-                              leading: Radio(
-                                value: 20,
-                                activeColor: Colors.black87,
-                                groupValue: groupValueA,
-                                onChanged: (int a) => buttonChangeA(a),
-                              )),
-                          ListTile(
-                              visualDensity:
-                                  VisualDensity(horizontal: -4, vertical: -4),
-                              title: const Text('15 pt'),
-                              leading: Radio(
-                                value: 15,
-                                activeColor: Colors.black87,
-                                groupValue: groupValueA,
-                                onChanged: (int a) => buttonChangeA(a),
-                              )),
-                          ListTile(
-                              visualDensity:
-                                  VisualDensity(horizontal: -4, vertical: -4),
-                              title: const Text('10 pt'),
-                              leading: Radio(
-                                value: 10,
-                                activeColor: Colors.black87,
-                                groupValue: groupValueA,
-                                onChanged: (int a) => buttonChangeA(a),
-                              )),
-                          ListTile(
-                              visualDensity:
-                                  VisualDensity(horizontal: -4, vertical: -4),
-                              title: const Text('5 pt'),
-                              leading: Radio(
-                                value: 5,
-                                activeColor: Colors.black87,
-                                groupValue: groupValueA,
-                                onChanged: (int a) => buttonChangeA(a),
-                              )),
-                          ListTile(
-                            visualDensity:
-                                VisualDensity(horizontal: -4, vertical: -4),
-                            title: const Text('0 pt'),
-                            leading: Radio(
-                              value: 0,
-                              activeColor: Colors.black87,
-                              groupValue: groupValueA,
-                              onChanged: (int a) => buttonChangeA(a),
-                            ),
-                          ),
-                        ],
-                      ),
+                    Text('0'),
+                    Radio(
+                      value: 5,
+                      activeColor: Colors.black87,
+                      groupValue: groupValue,
+                      onChanged: (int button) => buttonChange(button),
                     ),
+                    Text('5'),
+                    Radio(
+                      value: 10,
+                      activeColor: Colors.black87,
+                      groupValue: groupValue,
+                      onChanged: (int button) => buttonChange(button),
+                    ),
+                    Text('10'),
+                    Radio(
+                      value: 15,
+                      activeColor: Colors.black87,
+                      groupValue: groupValue,
+                      onChanged: (int button) => buttonChange(button),
+                    ),
+                    Text('15'),
+                    Radio(
+                      value: 20,
+                      activeColor: Colors.black87,
+                      groupValue: groupValue,
+                      onChanged: (int button) => buttonChange(button),
+                    ),
+                    Text('20'),
                   ],
                 ),
               ),
-
-              //Outside Preparation
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: Text('Outside Preparation'),
-                  ),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          width: 200.0,
-                          child: TextFormField(
-                            textAlignVertical: TextAlignVertical.top,
-                            maxLength: 160,
-                            maxLengthEnforced: true,
-                            maxLines: 10,
-                            controller: outsidePreparation,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              contentPadding:
-                                  //   const EdgeInsets.symmetric(vertical: 75.0),
-                                  EdgeInsets.all(10.0),
-                            ),
-                            onSaved: (String value) {},
-                            validator: RequiredValidator(
-                                errorText: "Outside preparation is required."),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 150,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              ListTile(
-                                  visualDensity: VisualDensity(
-                                      horizontal: -4, vertical: -4),
-                                  title: const Text('20 pt'),
-                                  leading: Radio(
-                                    value: 20,
-                                    activeColor: Colors.black87,
-                                    groupValue: groupValueB,
-                                    onChanged: (int b) => buttonChangeB(b),
-                                  )),
-                              ListTile(
-                                  visualDensity: VisualDensity(
-                                      horizontal: -4, vertical: -4),
-                                  title: const Text('15 pt'),
-                                  leading: Radio(
-                                    value: 15,
-                                    activeColor: Colors.black87,
-                                    groupValue: groupValueB,
-                                    onChanged: (int b) => buttonChangeB(b),
-                                  )),
-                              ListTile(
-                                  visualDensity: VisualDensity(
-                                      horizontal: -4, vertical: -4),
-                                  title: const Text('10 pt'),
-                                  leading: Radio(
-                                    value: 10,
-                                    activeColor: Colors.black87,
-                                    groupValue: groupValueB,
-                                    onChanged: (int b) => buttonChangeB(b),
-                                  )),
-                              ListTile(
-                                  visualDensity: VisualDensity(
-                                      horizontal: -4, vertical: -4),
-                                  title: const Text('5 pt'),
-                                  leading: Radio(
-                                    value: 5,
-                                    activeColor: Colors.black87,
-                                    groupValue: groupValueB,
-                                    onChanged: (int b) => buttonChangeB(b),
-                                  )),
-                              ListTile(
-                                visualDensity:
-                                    VisualDensity(horizontal: -4, vertical: -4),
-                                title: const Text('0 pt'),
-                                leading: Radio(
-                                  value: 0,
-                                  activeColor: Colors.black87,
-                                  groupValue: groupValueB,
-                                  onChanged: (int b) => buttonChangeB(b),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+              SizedBox(height: 20.0,),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                      child: Text('Evaluator Notes:'),
                     ),
-                  ),
-
-                  //Mission Focus
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                        child: Text('Mission Focus'),
-                      ),
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              width: 200.0,
-                              child: TextFormField(
-                                textAlignVertical: TextAlignVertical.top,
-                                maxLength: 160,
-                                maxLengthEnforced: true,
-                                maxLines: 10,
-                                controller: missionFocus,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  contentPadding:
-                                      //const EdgeInsets.symmetric(vertical: 75.0),
-                                      EdgeInsets.all(10.0),
-                                ),
-                                onSaved: (String value) {},
-                                validator: RequiredValidator(
-                                    errorText: "Mission focus is required."),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 150,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  ListTile(
-                                      visualDensity: VisualDensity(
-                                          horizontal: -4, vertical: -4),
-                                      title: const Text('20 pt'),
-                                      leading: Radio(
-                                        value: 20,
-                                        activeColor: Colors.black87,
-                                        groupValue: groupValueC,
-                                        onChanged: (int c) => buttonChangeC(c),
-                                      )),
-                                  ListTile(
-                                      visualDensity: VisualDensity(
-                                          horizontal: -4, vertical: -4),
-                                      title: const Text('15 pt'),
-                                      leading: Radio(
-                                        value: 15,
-                                        activeColor: Colors.black87,
-                                        groupValue: groupValueC,
-                                        onChanged: (int c) => buttonChangeC(c),
-                                      )),
-                                  ListTile(
-                                      visualDensity: VisualDensity(
-                                          horizontal: -4, vertical: -4),
-                                      title: const Text('10 pt'),
-                                      leading: Radio(
-                                        value: 10,
-                                        activeColor: Colors.black87,
-                                        groupValue: groupValueC,
-                                        onChanged: (int c) => buttonChangeC(c),
-                                      )),
-                                  ListTile(
-                                      visualDensity: VisualDensity(
-                                          horizontal: -4, vertical: -4),
-                                      title: const Text('5 pt'),
-                                      leading: Radio(
-                                        value: 5,
-                                        activeColor: Colors.black87,
-                                        groupValue: groupValueC,
-                                        onChanged: (int c) => buttonChangeC(c),
-                                      )),
-                                  ListTile(
-                                    visualDensity: VisualDensity(
-                                        horizontal: -4, vertical: -4),
-                                    title: const Text('0 pt'),
-                                    leading: Radio(
-                                      value: 0,
-                                      activeColor: Colors.black87,
-                                      groupValue: groupValueC,
-                                      onChanged: (int c) => buttonChangeC(c),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      //Creativity
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: Text('Creativity'),
-                          ),
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  width: 200.0,
-                                  child: TextFormField(
-                                    textAlignVertical: TextAlignVertical.top,
-                                    maxLength: 160,
-                                    maxLengthEnforced: true,
-                                    maxLines: 10,
-                                    controller: creativity,
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      contentPadding:
-                                          //const EdgeInsets.symmetric(vertical: 75.0),
-                                          EdgeInsets.all(10.0),
-                                    ),
-                                    onSaved: (String value) {},
-                                    validator: RequiredValidator(
-                                        errorText: "Creativity is required."),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 150,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      ListTile(
-                                        visualDensity: VisualDensity(
-                                            horizontal: -4, vertical: -4),
-                                        title: const Text('20 pt'),
-                                        leading: Radio(
-                                          value: 20,
-                                          activeColor: Colors.black87,
-                                          groupValue: groupValueD,
-                                          onChanged: (int d) =>
-                                              buttonChangeD(d),
-                                        ),
-                                      ),
-                                      ListTile(
-                                        visualDensity: VisualDensity(
-                                            horizontal: -4, vertical: -4),
-                                        title: const Text('15 pt'),
-                                        leading: Radio(
-                                          value: 15,
-                                          activeColor: Colors.black87,
-                                          groupValue: groupValueD,
-                                          onChanged: (int d) =>
-                                              buttonChangeD(d),
-                                        ),
-                                      ),
-                                      ListTile(
-                                        visualDensity: VisualDensity(
-                                            horizontal: -4, vertical: -4),
-                                        title: const Text('10 pt'),
-                                        leading: Radio(
-                                          value: 10,
-                                          activeColor: Colors.black87,
-                                          groupValue: groupValueD,
-                                          onChanged: (int d) =>
-                                              buttonChangeD(d),
-                                        ),
-                                      ),
-                                      ListTile(
-                                          visualDensity: VisualDensity(
-                                              horizontal: -4, vertical: -4),
-                                          title: const Text('5 pt'),
-                                          leading: Radio(
-                                            value: 5,
-                                            activeColor: Colors.black87,
-                                            groupValue: groupValueD,
-                                            onChanged: (int d) =>
-                                                buttonChangeD(d),
-                                          )),
-                                      ListTile(
-                                        visualDensity: VisualDensity(
-                                            horizontal: -4, vertical: -4),
-                                        title: const Text('0 pt'),
-                                        leading: Radio(
-                                          value: 0,
-                                          activeColor: Colors.black87,
-                                          groupValue: groupValueD,
-                                          onChanged: (int d) =>
-                                              buttonChangeD(d),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                )
               ),
+
+              Container(
+                width: 200.0,
+                child: TextFormField(
+                  textAlignVertical: TextAlignVertical.top,
+                  maxLength: 160,
+                  maxLengthEnforced: true,
+                  maxLines: 10,
+                  controller: planning,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.all(10.0),
+
+                  ),
+                  onSaved: (String value) {},
+                  validator: RequiredValidator(
+                      errorText: "Adheres to debrief format is required"),
+                ),
+              ),
+              SizedBox(height: 50.0,),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Opacity(
+                      opacity: 0.0,
+                      child: ElevatedButton(
+                        child: Text('Prev'),
+                        onPressed: () async {},
+                      ),
+                    ),
+                    ElevatedButton(
+                      child: Text('Save'),
+                      onPressed: () async {
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        prefs.setString('planning', planning.text);
+                        prefs.setString('planningValue', groupValue.toString());
+                        saveNotification(context);
+                      },
+                    ),
+                    ElevatedButton(
+                      child: Text('Next'),
+                      onPressed: () async {
+                        navigation.currentState.pushNamed('/communication');
+                      },
+                    ),
+                  ],
+
+                ),
+              ),
+
             ],
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding:
-            EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Opacity(
-              opacity: 0.0,
-              child: ElevatedButton(
-                child: Text('Prev'),
-                onPressed: () async {},
-              ),
-            ),
-            ElevatedButton(
-              child: Text('Save'),
-              onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString('teamOrganization', teamOrganization.text);
-                prefs.setString('outsidePreparation', outsidePreparation.text);
-                prefs.setString('missionFocus', missionFocus.text);
-                prefs.setString('creativity', creativity.text);
-                prefs.setString('planningValueA', groupValueA.toString());
-                prefs.setString('planningValueB', groupValueB.toString());
-                prefs.setString('planningValueC', groupValueC.toString());
-                prefs.setString('planningValueD', groupValueD.toString());
-                saveNotification(context);
-              },
-            ),
-            ElevatedButton(
-              child: Text('Next'),
-              onPressed: () async {
-                navigation.currentState.pushNamed('/communication');
 
-              },
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
-
 
 saveNotification(BuildContext context) {
   Widget button = FlatButton(
