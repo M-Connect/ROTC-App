@@ -19,6 +19,7 @@ class SignInView extends StatefulWidget {
   _SignInViewState createState() => _SignInViewState();
 }
 
+
 class _SignInViewState extends State<SignInView> {
   CollectionReference cadres = FirebaseFirestore.instance.collection('cadres');
   CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
@@ -38,7 +39,7 @@ class _SignInViewState extends State<SignInView> {
 
 
       ),
-      body: Container(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Form(
           // ignore: deprecated_member_use

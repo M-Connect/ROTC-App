@@ -58,7 +58,7 @@ class MConnect extends StatelessWidget {
         title: 'Firebase Authentication',
         navigatorKey: navigation,
         home: Authenticate(),
-    initialRoute: '/peerReviewLanding',
+    initialRoute: '/',
     routes: {
       '/welcomePage': (context) => WelcomeView(),
       '/signIn': (context) => SignInView(),
@@ -67,7 +67,7 @@ class MConnect extends StatelessWidget {
       '/forgotPassword': (context) => ForgotPasswordView(),
       '/profile': (context) => Profile(),
       '/editProfile': (context) => EditProfile(),
-      '/peerReviewLanding': (context) => PeerReviewLanding(),
+      //'/peerReviewLanding': (context) => PeerReviewLanding(),
       '/peerReview': (context) => PeerReview(),
       '/peerReviewRequest': (context) => PeerReviewRequest(),
       '/peerReviewStats': (context) => PeerReviewStats(),

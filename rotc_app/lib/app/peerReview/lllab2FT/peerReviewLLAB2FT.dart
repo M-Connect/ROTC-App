@@ -10,7 +10,7 @@ import '../peerReviewLanding.dart';
 
 class PeerReviewLLAB2FT extends StatelessWidget {
 
-
+  static final SizedBox spaceBetweenFields = SizedBox(height: 40.0);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +76,17 @@ class PeerReviewLLAB2FT extends StatelessWidget {
                 child: Text('Debrief'),
                 onPressed: () {
                   navigation.currentState.pushNamed('/debrief');
+                },
+              ),
+            ),
+            spaceBetweenFields,
+            Container(
+
+              child: ElevatedButton(
+
+                child: Text('Confirmation'),
+                onPressed: () {
+                  navigation.currentState.pushNamed('/confirmation');
                 },
               ),
             ),

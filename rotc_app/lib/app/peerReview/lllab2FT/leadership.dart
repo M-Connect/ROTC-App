@@ -583,6 +583,7 @@ class LeadershipState extends State<Leadership> {
                   prefs.setString('leadershipValueB', groupValueB.toString());
                   prefs.setString('leadershipValueC', groupValueC.toString());
                   prefs.setString('leadershipValueD', groupValueD.toString());
+                  saveNotification(context);
                 },
               ),
               ElevatedButton(
@@ -595,4 +596,26 @@ class LeadershipState extends State<Leadership> {
           )),
     );
   }
+}
+
+saveNotification(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    //  title: Text("Saved"),
+    content: Text("Input is saved"),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

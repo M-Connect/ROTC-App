@@ -343,6 +343,7 @@ class CommunicationState extends State<Communication> {
                       'situationalAwareness', situationalAwareness.text);
                   prefs.setString('communicationValueA', groupValueA.toString());
                   prefs.setString('communicationValueB', groupValueB.toString());
+                  saveNotification(context);
                 },
               ),
               ElevatedButton(
@@ -355,4 +356,26 @@ class CommunicationState extends State<Communication> {
           )),
     );
   }
+}
+
+saveNotification(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    //  title: Text("Saved"),
+    content: Text("Input is saved"),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -427,7 +428,8 @@ class DebriefState extends State<Debrief> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
+      bottomNavigationBar:
+      Padding(
           padding:
               EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),
           child: Row(
@@ -454,6 +456,7 @@ class DebriefState extends State<Debrief> {
                   prefs.setString('debriefValueA', groupValueA.toString());
                   prefs.setString('debriefValueB', groupValueB.toString());
                   prefs.setString('debriefValueC', groupValueC.toString());
+                  saveNotification(context);
                 },
               ),
               ElevatedButton(
@@ -466,4 +469,26 @@ class DebriefState extends State<Debrief> {
           )),
     );
   }
+}
+
+saveNotification(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  AlertDialog alert = AlertDialog(
+  //  title: Text("Saved"),
+    content: Text("Input is saved"),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
