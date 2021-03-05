@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
@@ -21,13 +22,12 @@ class Leadership extends StatefulWidget {
 class LeadershipState extends State<Leadership> {
   TextEditingController leadership;
 
-  int groupValue;
+  double leadershipValue = 10;
 
   @override
   void initState() {
     super.initState();
     initControllers();
-    initRadioButtons();
   }
 
   initControllers() async {
@@ -38,33 +38,6 @@ class LeadershipState extends State<Leadership> {
     });
   }
 
-  initRadioButtons() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      var lValue = prefs.getString("leadershipValue");
-
-      if (lValue != null) {
-        buttonChange(int.parse(lValue));
-      }
-    });
-  }
-
-  void buttonChange(int button) {
-    setState(() {
-      if (button == 20) {
-        groupValue = 20;
-      } else if (button == 15) {
-        groupValue = 15;
-      } else if (button == 10) {
-        groupValue = 10;
-      } else if (button == 5) {
-        groupValue = 5;
-      } else if (button == 0) {
-        groupValue = 0;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,21 +45,22 @@ class LeadershipState extends State<Leadership> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
+            navigation.currentState.pushNamed('/peerReviewLLAB2FT');
           },
         ),
         title: Text('Leadership'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {},
+            onPressed: () {
+              alertSignOut(context);
+            },
           ),
         ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Center(
-          //Command Presence
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -94,46 +68,36 @@ class LeadershipState extends State<Leadership> {
               SizedBox(
                 height: 50.0,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: (Border.all(
+                        color: Colors.black87,
+                      )),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: Text(leadershipValue.round().toString()),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Radio(
-                      value: 0,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('0'),
-                    Radio(
-                      value: 5,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('5'),
-                    Radio(
-                      value: 10,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('10'),
-                    Radio(
-                      value: 15,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('15'),
-                    Radio(
-                      value: 20,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('20'),
-                  ],
+                child: Slider(
+                  value: leadershipValue,
+                  onChanged: (newSliderValue) {
+                    setState(() => leadershipValue = newSliderValue);
+                  },
+                  min: 0,
+                  max: 20,
                 ),
               ),
               SizedBox(
@@ -189,8 +153,8 @@ class LeadershipState extends State<Leadership> {
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
                         prefs.setString('leadership', leadership.text);
-                        prefs.setString(
-                            'leadershipValue', groupValue.toString());
+                        prefs.setString('leadershipValue',
+                            leadershipValue.round().toString());
                         saveNotification(context);
                       },
                     ),

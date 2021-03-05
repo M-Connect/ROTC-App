@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
@@ -19,13 +20,14 @@ class Planning extends StatefulWidget {
 class PlanningState extends State<Planning> {
   TextEditingController planning;
 
-  int groupValue;
+
+  double planningValue = 10;
 
   @override
   void initState() {
     super.initState();
     initControllers();
-    initRadioButtons();
+  //  initSliderValue();
   }
 
   initControllers() async {
@@ -35,33 +37,17 @@ class PlanningState extends State<Planning> {
       planning = TextEditingController(text: planningValue);
     });
   }
-
-  initRadioButtons() async {
+/*
+  initSliderValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var pValue = prefs.getString("planningValue");
+      var pValue = prefs.getString("sliderValue");
       if (pValue != null) {
-        buttonChange(int.parse(pValue));
+        sliderChange(int.parse(pValue));
       }
     });
   }
-
-  void buttonChange(int button) {
-    setState(() {
-      if (button == 20) {
-        groupValue = 20;
-      } else if (button == 15) {
-        groupValue = 15;
-      } else if (button == 10) {
-        groupValue = 10;
-      } else if (button == 5) {
-        groupValue = 5;
-      } else if (button == 0) {
-        groupValue = 0;
-      }
-    });
-  }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,81 +55,76 @@ class PlanningState extends State<Planning> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
+            navigation.currentState.pushNamed('/peerReviewLLAB2FT');
           },
         ),
         title: Text('Planning'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {},
+            onPressed: () {
+              alertSignOut(context);
+            },
           ),
         ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Center(
-          //Team Organization
+
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 50.0,),
+              SizedBox(
+                height: 50.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: (Border.all(
+                        color: Colors.black87,
+                      )),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: Text(planningValue.round().toString()),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Radio(
-                      value: 0,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('0'),
-                    Radio(
-                      value: 5,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('5'),
-                    Radio(
-                      value: 10,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('10'),
-                    Radio(
-                      value: 15,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('15'),
-                    Radio(
-                      value: 20,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('20'),
-                  ],
+                child: Slider(
+                  value: planningValue,
+                  onChanged: (newSliderValue) {
+                    setState(() => planningValue = newSliderValue);
+                  },
+                  min: 0,
+                  max: 20,
                 ),
               ),
-              SizedBox(height: 20.0,),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: Text('Evaluator Notes:'),
-                    ),
-                  ],
-                )
-              ),
 
+              SizedBox(
+                height: 20.0,
+              ),
+              Container(
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: Text('Evaluator Notes:'),
+                  ),
+                ],
+              )),
               Container(
                 width: 200.0,
                 child: TextFormField(
@@ -155,14 +136,15 @@ class PlanningState extends State<Planning> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     contentPadding: EdgeInsets.all(10.0),
-
                   ),
                   onSaved: (String value) {},
                   validator: RequiredValidator(
                       errorText: "Adheres to debrief format is required"),
                 ),
               ),
-              SizedBox(height: 50.0,),
+              SizedBox(
+                height: 50.0,
+              ),
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -177,9 +159,10 @@ class PlanningState extends State<Planning> {
                     ElevatedButton(
                       child: Text('Save'),
                       onPressed: () async {
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
                         prefs.setString('planning', planning.text);
-                        prefs.setString('planningValue', groupValue.toString());
+                        prefs.setString('planningValue', planningValue.round().toString());
                         saveNotification(context);
                       },
                     ),
@@ -190,15 +173,12 @@ class PlanningState extends State<Planning> {
                       },
                     ),
                   ],
-
                 ),
               ),
-
             ],
           ),
         ),
       ),
-
     );
   }
 }

@@ -22,6 +22,7 @@ class Auth {
     } on FirebaseAuthException catch (e) {
       return e.message;
     }
+
   }
 
  //TODO move logout code here

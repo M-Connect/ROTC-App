@@ -18,7 +18,7 @@ class PeerReviewLLAB2FT extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
+            navigation.currentState.pushNamed('/peerReview');
           },
         ),
         title: Text('LLAB 2FT Peer Review'),

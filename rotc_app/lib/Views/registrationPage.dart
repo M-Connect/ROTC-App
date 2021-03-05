@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /*
  Author: Christine Thomas
@@ -25,13 +26,14 @@ class RegistrationView extends StatelessWidget {
 
 
 
-  Future<void> userRegistration() {
+  Future<void> userRegistration()  {
     return cadets.add({
       'firstName': fName.text,
       'lastName': lName.text,
       'nickName': nName.text,
       'email': email.text,
       'password': password.text,
+      'isCadre': false,
     });
   }
 

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 /*
@@ -18,13 +19,12 @@ class Communication extends StatefulWidget {
 class CommunicationState extends State<Communication> {
   TextEditingController communication;
 
-  int groupValue;
+  double communicationValue = 10;
 
   @override
   void initState() {
     super.initState();
     initControllers();
-    initRadioButtons();
   }
 
   initControllers() async {
@@ -35,32 +35,7 @@ class CommunicationState extends State<Communication> {
     });
   }
 
-  initRadioButtons() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      var cValue = prefs.getString("communicationValue");
 
-      if (cValue != null) {
-        buttonChange(int.parse(cValue));
-      }
-    });
-  }
-
-  void buttonChange(int button) {
-    setState(() {
-      if (button == 20) {
-        groupValue = 20;
-      } else if (button == 15) {
-        groupValue = 15;
-      } else if (button == 10) {
-        groupValue = 10;
-      } else if (button == 5) {
-        groupValue = 5;
-      } else if (button == 0) {
-        groupValue = 0;
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,21 +44,23 @@ class CommunicationState extends State<Communication> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
+            navigation.currentState.pushNamed('/peerReviewLLAB2FT');
           },
         ),
         title: Text('Communication'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {},
+            onPressed: () {
+              alertSignOut(context);
+            },
           ),
         ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Center(
-          //Use of Chain of Command
+
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -91,48 +68,39 @@ class CommunicationState extends State<Communication> {
               SizedBox(
                 height: 50.0,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: (Border.all(
+                        color: Colors.black87,
+                      )),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: Text(communicationValue.round().toString()),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Radio(
-                      value: 0,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('0'),
-                    Radio(
-                      value: 5,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('5'),
-                    Radio(
-                      value: 10,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('10'),
-                    Radio(
-                      value: 15,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('15'),
-                    Radio(
-                      value: 20,
-                      activeColor: Colors.black87,
-                      groupValue: groupValue,
-                      onChanged: (int button) => buttonChange(button),
-                    ),
-                    Text('20'),
-                  ],
+                child: Slider(
+                  value: communicationValue,
+                  onChanged: (newSliderValue) {
+                    setState(() => communicationValue = newSliderValue);
+                  },
+                  min: 0,
+                  max: 20,
                 ),
               ),
+
               SizedBox(
                 height: 20.0,
               ),
@@ -186,7 +154,7 @@ class CommunicationState extends State<Communication> {
                             await SharedPreferences.getInstance();
                         prefs.setString('communication', communication.text);
                         prefs.setString(
-                            'communicationValue', groupValue.toString());
+                            'communicationValue', communicationValue.round().toString());
                         saveNotification(context);
                       },
                     ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:rotc_app/services/auth.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /*
 Sawyer Kisha
@@ -21,8 +22,7 @@ class SignInView extends StatefulWidget {
 
 
 class _SignInViewState extends State<SignInView> {
-  CollectionReference cadres = FirebaseFirestore.instance.collection('cadres');
-  CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
+  CollectionReference cadres = FirebaseFirestore.instance.collection('users');
 
   //Controllers for e-mail and password textfields.
   final TextEditingController email = TextEditingController();
@@ -111,6 +111,7 @@ class _SignInViewState extends State<SignInView> {
                                 } catch (e) {
                                   alertDialog(context);
                                 }
+
                               },
                             ),
                           ),

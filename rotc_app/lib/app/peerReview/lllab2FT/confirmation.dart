@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 
@@ -26,6 +27,7 @@ class _ConfirmationState extends State<Confirmation> {
   Future<void> peerEvaluation() {
     return evaluation.add({
       "planning": planning,
+      "planningValue": planningValue,
       "communication": communication,
       "execution": execution,
       "leadership": leadership,
@@ -93,7 +95,9 @@ class _ConfirmationState extends State<Confirmation> {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {},
+            onPressed: () {
+              alertSignOut(context);
+            },
           ),
         ],
       ),
@@ -106,7 +110,7 @@ class _ConfirmationState extends State<Confirmation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Planning:  $planningValue points',
+                    'Planning:  $planningValue/20 points',
                     style: TextStyle(
                       fontSize: 20.0,
                     ),
@@ -136,7 +140,7 @@ class _ConfirmationState extends State<Confirmation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Communication:  $communicationValue points',
+                    'Communication:  $communicationValue/20 points',
                     style: TextStyle(
                       fontSize: 20.0,
                     ),
@@ -166,7 +170,7 @@ class _ConfirmationState extends State<Confirmation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Execution:  $executionValue points',
+                    'Execution:  $executionValue/20 points',
                     style: TextStyle(
                       fontSize: 20.0,
                     ),
@@ -194,7 +198,7 @@ class _ConfirmationState extends State<Confirmation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Leadership:  $leadershipValue points',
+                    'Leadership:  $leadershipValue/20 points',
                     style: TextStyle(
                       fontSize: 20.0,
                     ),
@@ -222,7 +226,7 @@ class _ConfirmationState extends State<Confirmation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Debrief:  $debriefValue points',
+                    'Debrief:  $debriefValue/20 points',
                     style: TextStyle(
                       fontSize: 20.0,
                     ),
