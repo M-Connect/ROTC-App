@@ -29,9 +29,13 @@ class _ConfirmationState extends State<Confirmation> {
       "planning": planning,
       "planningValue": planningValue,
       "communication": communication,
+      "communicationValue": communicationValue,
       "execution": execution,
+      "executionValue":executionValue,
       "leadership": leadership,
+      "leadershipValue": leadershipValue,
       "debrief": debrief,
+      "debriefValue":debriefValue,
     });
   }
 
@@ -265,8 +269,7 @@ class _ConfirmationState extends State<Confirmation> {
                     ElevatedButton(
                       child: Text('Submit'),
                       onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
                         await peerEvaluation();
                         await prefs.remove("planning");
                         await prefs.remove("communication");
@@ -279,8 +282,7 @@ class _ConfirmationState extends State<Confirmation> {
                         await prefs.remove("leadershipValue");
                         await prefs.remove("debriefValue");
 
-                        Navigator.of(context, rootNavigator: true)
-                            .pop('/peerReview');
+                        navigation.currentState.pushNamed('/homePage');
                       },
                     ),
                   ],

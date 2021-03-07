@@ -22,7 +22,6 @@ import 'app/peerReview/lllab2FT/planning.dart';
 import 'app/peerReview/lllab2FT/execution.dart';
 import 'app/peerReview/lllab2FT/debrief.dart';
 import 'app/peerReview/peerReview.dart';
-import 'app/peerReview/peerReviewCommissioning.dart';
 import 'app/peerReview/peerReviewFLXFlight.dart';
 import 'app/peerReview/peerReviewLanding.dart';
 import 'app/profile/profile.dart';
@@ -67,13 +66,12 @@ class MConnect extends StatelessWidget {
       '/forgotPassword': (context) => ForgotPasswordView(),
       '/profile': (context) => Profile(),
       '/editProfile': (context) => EditProfile(),
-      //'/peerReviewLanding': (context) => PeerReviewLanding(),
+     // '/peerReviewLanding': (context) => PeerReviewLanding(),
       '/peerReview': (context) => PeerReview(),
       '/peerReviewRequest': (context) => PeerReviewRequest(),
       '/peerReviewStats': (context) => PeerReviewStats(),
       '/peerReviewLLAB2FT': (context) => PeerReviewLLAB2FT(),
       '/peerReviewFLXFlight': (context) => PeerReviewFLXFlight(),
-      '/peerReviewCommissioning': (context) => PeerReviewCommissioning(),
       '/planning': (context) => Planning(),
       '/communication': (context) => Communication(),
       '/execution': (context) => Execution(),

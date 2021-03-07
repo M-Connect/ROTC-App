@@ -10,13 +10,13 @@ import 'package:shared_preferences/shared_preferences.dart';
  TODO: TextFormFields to be modularized and validation needs to be fixed.
 
   Co-Author:  Kyle Serruys
-  This class now has the functionality to connect to our cadets database.
+  This class now has the functionality to connect to our users database.
   This class now has validation on first name, last name, email, and password fields.
 */
 
 // ignore: must_be_immutable
 class RegistrationView extends StatelessWidget {
-  CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   TextEditingController fName = TextEditingController();
   TextEditingController lName = TextEditingController();
@@ -26,8 +26,8 @@ class RegistrationView extends StatelessWidget {
 
 
 
-  Future<void> userRegistration()  {
-    return cadets.add({
+  Future<void> userRegistration(String id)  {
+    return users.doc(id).set({
       'firstName': fName.text,
       'lastName': lName.text,
       'nickName': nName.text,
@@ -226,7 +226,9 @@ class RegistrationView extends StatelessWidget {
                             await FirebaseAuth.instance
                                 .createUserWithEmailAndPassword(
                                     email: email.text, password: password.text);
-                            await userRegistration();
+                                  var currentUser = await FirebaseAuth.instance.currentUser;
+
+                            await userRegistration(currentUser.uid);
                             ///Sending to signInPage instead of welcomePage -Christine
                             Navigator.pushNamed(context, '/signIn');
                           },

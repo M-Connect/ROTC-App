@@ -20,13 +20,18 @@ class Planning extends StatefulWidget {
 class PlanningState extends State<Planning> {
   TextEditingController planning;
 
-
+  String firstName ="";
+  String lastName ="";
+  String emailAddress = "";
+  String nickname ="";
+  bool isCadre;
   double planningValue = 10;
 
   @override
   void initState() {
     super.initState();
     initControllers();
+    getUserInfo();
   //  initSliderValue();
   }
 
@@ -37,17 +42,18 @@ class PlanningState extends State<Planning> {
       planning = TextEditingController(text: planningValue);
     });
   }
-/*
-  initSliderValue() async {
+
+  getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var pValue = prefs.getString("sliderValue");
-      if (pValue != null) {
-        sliderChange(int.parse(pValue));
-      }
+       firstName = prefs.getString("firstName");
+       lastName = prefs.getString("lastName");
+       emailAddress = prefs.getString("email");
+       nickname = prefs.getString('nickname');
+       isCadre = prefs.getString('isCadre') == 'true';
     });
   }
-*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,11 +77,11 @@ class PlanningState extends State<Planning> {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Center(
-
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Container(child: Text('$firstName $lastName $nickname $emailAddress $isCadre'),),
               SizedBox(
                 height: 50.0,
               ),

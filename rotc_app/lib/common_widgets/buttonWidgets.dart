@@ -2,6 +2,7 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:rotc_app/services/auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -16,8 +17,9 @@ alertSignOut(BuildContext context) {
       child: Text("Yes"),
       onPressed: () async {
         context.read<Auth>().signOut();
-        Navigator.of(context, rootNavigator: true).pop();
-
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.clear();
+        Navigator.of(context, rootNavigator: true).pushNamed('/welcomePage');
       });
   AlertDialog alert = AlertDialog(
     title: Text("Sign Out"),

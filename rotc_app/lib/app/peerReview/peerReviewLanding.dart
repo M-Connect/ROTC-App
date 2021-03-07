@@ -1,13 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 
-class peerReviewForm extends StatelessWidget {
+class PeerReviewForm extends StatefulWidget {
+  PeerReviewForm() : super();
 
-  bool isCadre = false;
+  @override
+  PeerReviewFormState createState() => PeerReviewFormState();
+}
+
+class PeerReviewFormState extends State<PeerReviewForm> {
+  bool isCadre;
+
+  @override
+  void initState() {
+    super.initState();
+    getBool();
+    //  initSliderValue();
+  }
+
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     const TextStyle tabTextStyle =
-    TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.all(25.0),
