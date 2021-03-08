@@ -131,6 +131,7 @@ class _SignInViewState extends State<SignInView> {
                                   await prefs.setString('email', currentUser.email);
                                   await prefs.setString('isCadre', data['isCadre'].toString());
 
+
                                   Navigator.pushNamed(context, '/homePage');
 
                                 } catch (e) {
