@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:googleapis/fcm/v1.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -12,6 +13,7 @@ Author: Mac-Rufus O. Umeokolo
 **/
 
 class Dashboard extends StatefulWidget {
+
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -21,7 +23,22 @@ class _DashboardState extends State<Dashboard> {
   String userInput = '';
   String userURLInput = '';
 
+  bool isCadre;
 
+  @override
+  void initState() {
+    super.initState();
+    getBool();
+    //  initSliderValue();
+  }
+
+
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
 
   createTasks() async {
     var url = userURLInput.toString();
@@ -62,74 +79,77 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
-  bool isCadre = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text("Upload Document URL"),
-                  content: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Text('Document Name'),
-                        SizedBox(height: 10),
-                        TextFormField(
-                          onChanged: (String documentTask) {
-                            userInput = documentTask;
-                          },
-                          decoration: new InputDecoration(
-                            labelText: '\"Document Name\"',
+      floatingActionButton: Visibility(
+        visible: isCadre == true,
+        child: FloatingActionButton(
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Upload Document URL"),
+                    content: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Text('Document Name'),
+                          SizedBox(height: 10),
+                          TextFormField(
+                            onChanged: (String documentTask) {
+                              userInput = documentTask;
+                            },
+                            decoration: new InputDecoration(
+                              labelText: '\"Document Name\"',
+                            ),
+                            toolbarOptions: ToolbarOptions(
+                              paste: true,
+                              cut: true,
+                              copy: true,
+                              selectAll: true,
+                            ),
                           ),
-                          toolbarOptions: ToolbarOptions(
-                            paste: true,
-                            cut: true,
-                            copy: true,
-                            selectAll: true,
+                          SizedBox(height: 10),
+
+                          TextField(
+                            onChanged: (String documentUrlTask) {
+                              userURLInput = documentUrlTask;
+                            },
+
+                            decoration: new InputDecoration(
+                              labelText: '\"Document URL\"',
+                            ),
+
+                            toolbarOptions: ToolbarOptions(
+                              paste: true,
+                              cut: true,
+                              copy: true,
+                              selectAll: true,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10),
 
-                        TextField(
-                          onChanged: (String documentUrlTask) {
-                            userURLInput = documentUrlTask;
-                          },
-
-                          decoration: new InputDecoration(
-                            labelText: '\"Document URL\"',
-                          ),
-
-                          toolbarOptions: ToolbarOptions(
-                            paste: true,
-                            cut: true,
-                            copy: true,
-                            selectAll: true,
-                          ),
-                        ),
-
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        createTasks();
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          createTasks();
 
-                        Navigator.of(context).pop();
-                      },
-                      child: Text("Post"),
-                    ),
-                  ],
-                );
-              });
-        },
-        child: Icon(
-          Icons.upload_outlined,
-          color: Colors.white,
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("Post"),
+                      ),
+                    ],
+                  );
+                });
+          },
+          child: Icon(
+            Icons.upload_outlined,
+            color: Colors.white,
+          ),
         ),
       ),
       body: StreamBuilder(

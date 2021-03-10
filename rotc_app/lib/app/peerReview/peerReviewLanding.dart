@@ -69,10 +69,10 @@ class PeerReviewFormState extends State<PeerReviewForm> {
             SizedBox(height: 10),
             Center(
               child: Visibility(
-                visible: isCadre == false,
+                visible: isCadre == true,
                 child: AnimatedButton(
                   child: Text(
-                    'Request Others to Evaluate an individual',
+                    'Request others to evaluate an individual',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -93,7 +93,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
               child: Container(
                 child: AnimatedButton(
                   child: Text(
-                    'View Individual Evaluation Profile',
+                    'View individual evaluation profile',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -116,7 +116,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
               child: Container(
                 child: AnimatedButton(
                   child: Text(
-                    'Respond to Pending Eval Requests',
+                    'Respond to pending eval requests',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -124,7 +124,9 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    navigation.currentState.pushNamed('/notifications');
+                  },
                   width: 300,
                   height: 80,
                   shadowDegree: ShadowDegree.dark,
@@ -132,12 +134,6 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                 ),
               ),
             ),
-            Container(child: ElevatedButton(
-              child:Text('Notifications'),
-              onPressed: (){
-                navigation.currentState.pushNamed('/notifications');
-              },
-            ),),
           ],
         ),
       ),
