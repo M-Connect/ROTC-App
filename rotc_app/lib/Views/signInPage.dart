@@ -2,8 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:googleapis/doubleclickbidmanager/v1_1.dart';
 import 'package:rotc_app/services/auth.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../main.dart';
 
 /*
 Sawyer Kisha
@@ -19,10 +23,8 @@ class SignInView extends StatefulWidget {
   _SignInViewState createState() => _SignInViewState();
 }
 
-
 class _SignInViewState extends State<SignInView> {
-  CollectionReference cadres = FirebaseFirestore.instance.collection('cadres');
-  CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   //Controllers for e-mail and password textfields.
   final TextEditingController email = TextEditingController();
@@ -30,14 +32,23 @@ class _SignInViewState extends State<SignInView> {
 
   //Handling signup and signin
   bool signUp = true;
+  bool isCadre;
+  final String firstName="";
+  final String lastName="";
+  final String nickname = "";
+  final String emailAddress ="";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            navigation.currentState.pushNamed('/welcomePage');
+          },
+        ),
         title: Text('Sign-In'),
-
-
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
@@ -50,13 +61,13 @@ class _SignInViewState extends State<SignInView> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text('Username / Email: '),
+                  child: Text('Email: '),
                 ),
                 TextFormField(
                   controller: email,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Username / Email',
+                    hintText: 'Insert Email',
                   ),
                   //onSaved: (String value) {},********************
                   validator: MultiValidator([
@@ -76,10 +87,10 @@ class _SignInViewState extends State<SignInView> {
                       controller: password,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: 'Password',
+                        hintText: 'Insert Password',
                       ),
                       obscureText: true,
-                     // onSaved: (String value) {},******************
+                      // onSaved: (String value) {},******************
                       validator: MultiValidator([
                         MinLengthValidator(5,
                             errorText:
@@ -95,18 +106,33 @@ class _SignInViewState extends State<SignInView> {
                               child: Text('Sign In'),
                               onPressed: () async {
                                 try {
-                                  context.read<Auth>().signIn(
-                                    email: email.text.trim(),
-                                    password: password.text.trim());
-                                      Navigator.pop(context, '/home');
+                                 /* context.read<Auth>().signIn(
+                                      email: email.text.trim(),
+                                      password: password.text.trim());*/
 
-                                  /*
                                   UserCredential user = await FirebaseAuth
                                       .instance
                                       .signInWithEmailAndPassword(
-                                          email: email.text,
-                                          password: password.text);
-                                  Navigator.pushNamed(context, '/home');*/
+                                      email: email.text,
+                                      password: password.text);
+
+                                  var currentUser = await FirebaseAuth.instance.currentUser;
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                                  var uid = currentUser.uid;
+
+                                  var data = await FirebaseFirestore.instance.collection('users').doc(uid).get().then((docSnapshot) {
+                                    return docSnapshot.data();
+                                  });
+
+                                  await prefs.setString('firstName', data['firstName'].toString());
+                                  await prefs.setString('lastName', data['lastName'].toString());
+                                  await prefs.setString('nickname', data['nickName'].toString());
+                                  await prefs.setString('email', currentUser.email);
+                                  await prefs.setString('isCadre', data['isCadre'].toString());
+
+
+                                  Navigator.pushNamed(context, '/homePage');
 
                                 } catch (e) {
                                   alertDialog(context);
@@ -130,7 +156,6 @@ class _SignInViewState extends State<SignInView> {
                                 onPressed: () {
                                   Navigator.pushNamed(
                                       context, '/forgotPassword');
-
                                 },
                               ),
                             ],
