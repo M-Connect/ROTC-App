@@ -96,8 +96,8 @@ class MConnect extends StatelessWidget {
       '/multipleEvalConfirmationPage':(context) => MultipleEvalConfirmationPage(),
       '/usersToDoEvaluation':(context) => UsersToDoEvaluation(),
       '/notifications':(context) => Notifications(),
-      '/barGraph': (context) => BarGraph(),
-      '/lineGraph': (context) => LineGraph(),
+    //  '/barGraph': (context) => BarGraph(),
+    //  '/lineGraph': (context) => LineGraph(),
 
     } ),
     );

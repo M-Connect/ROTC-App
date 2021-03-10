@@ -40,7 +40,7 @@ class _IndividualEvalConfirmationPageState
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       selectedUserList = prefs.getStringList("selectedUserList".toString());
-     // selectedUserString = prefs.getStringList("selectedUserList").join();
+     selectedUserString = prefs.getStringList("selectedUserList").reduce((value, element) => value + element);
     });
   }
 
@@ -82,7 +82,7 @@ class _IndividualEvalConfirmationPageState
                   children: [
                     Expanded(
                       child: Container(
-                        child: Text('$selectedUserList Evaluation',
+                        child: Text('$selectedUserString Evaluation',
                           style: TextStyle(
                             fontSize: 20.0,
                           ),

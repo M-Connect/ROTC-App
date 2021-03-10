@@ -22,6 +22,8 @@ class _ConfirmationState extends State<Confirmation> {
   String debriefValue = "";
   String firstName = "";
   String lastName ="";
+  String email = "";
+
 
   CollectionReference evaluation =
       FirebaseFirestore.instance.collection('peerEvaluation');
@@ -40,6 +42,7 @@ class _ConfirmationState extends State<Confirmation> {
     return evaluation.add({
       "firstName": firstName,
       "lastName": lastName,
+      "email": email,
       "planning": planning,
       "planningValue": planningValue,
       "communication": communication,
@@ -55,12 +58,22 @@ class _ConfirmationState extends State<Confirmation> {
 
   @override
   void initState() {
+    getUserData();
     getPlanningData();
     getCommunicationData();
     getLeadershipData();
     getExecutionData();
     getDebriefData();
     print("Confirmation" + this.planning);
+  }
+  getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+
+      firstName = prefs.getString("firstName");
+      lastName = prefs.getString("lastName");
+      email = prefs.getString("email");
+    });
   }
 
   getExecutionData() async {
@@ -126,11 +139,11 @@ class _ConfirmationState extends State<Confirmation> {
         child: Container(
           child: Column(
             children: [
-              Row(
+              /*Row(
                 children: [
-                  Text('Evaluatee:  ',style: TextStyle(fontSize: 20.0),),
+                  Text('Evaluatee:  $selectedUserList',style: TextStyle(fontSize: 20.0),),
                 ],
-              ),
+              ),*/
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -304,7 +317,9 @@ class _ConfirmationState extends State<Confirmation> {
                         await prefs.remove("leadershipValue");
                         await prefs.remove("debriefValue");
                         await prefs.remove("currentEvaluationId");
-                        await prefs.remove("evaluatee");
+                        await prefs.remove("firstName");
+                        await prefs.remove("lastName");
+                        await prefs.remove("email");
 
                         navigation.currentState.pushNamed('/homePage');
                       },
