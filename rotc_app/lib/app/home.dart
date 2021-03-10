@@ -31,7 +31,7 @@ class _HomeView extends State<HomeView> {
   int _tabOption = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
-    dashboard(),
+    Dashboard(),
     peerReviewForm(),
     messages(),
     Profile(),

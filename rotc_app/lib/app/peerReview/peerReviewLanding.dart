@@ -9,9 +9,9 @@ class peerReviewForm extends StatelessWidget {
     const TextStyle tabTextStyle =
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     return Scaffold(
-      body: Container(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
-        color: Colors.white,
+        //color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -74,7 +74,9 @@ class peerReviewForm extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    navigation.currentState.pushNamed('/lineGraph');
+                  },
                   width: 300,
                   height: 80,
                   shadowDegree: ShadowDegree.dark,
