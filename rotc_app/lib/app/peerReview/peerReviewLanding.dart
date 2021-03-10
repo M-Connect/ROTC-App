@@ -80,7 +80,9 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    navigation.currentState.pushNamed('/peerReviewRequest');
+                  },
                   width: 300,
                   height: 80,
                   shadowDegree: ShadowDegree.dark,
