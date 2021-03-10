@@ -56,7 +56,7 @@ class _IndividualEvalConfirmationPageState
             navigation.currentState.pushNamed('/peerReview');
           },
         ),
-        title: Text('Confirmation'),
+        title: Text('Confirmation Request'),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.logout),
@@ -81,9 +81,35 @@ class _IndividualEvalConfirmationPageState
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Text(
-
-                        '$selectedUserList Evaluation',
+                      child: Container(
+                        child: Text('$selectedUserList Evaluation',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+              ),
+              Container(
+                child: Row(
+                  children: [
+                    Container(
+                      child: Text('Evaluation Date:',
+                        style: TextStyle(
+                        fontSize: 17.5,
+                      ),
+                      ),
+                    ),
+                    Container(
+                      child: Text('Insert Calendar Here',
+                        style: TextStyle(
+                        fontSize: 17.5,
+                      ),
                       ),
                     ),
                   ],
@@ -93,27 +119,25 @@ class _IndividualEvalConfirmationPageState
                 child: Row(
                   children: [
                     Container(
-                      child: Text("Evaluation Date:"),
-                    ),
-                    Container(
-                      child: Text("Insert Calendar Here"),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Container(
-                      child: Text('Evaluation Activity:'),
+                      child: Text('Evaluation Activity:',
+                        style: TextStyle(
+                        fontSize: 17.5,
+                      ),
+                      ),
                     ),
                     Container(
                       child: Text(
                         'insert activities here',
+                        style: TextStyle(
+                        fontSize: 17.5,
+                      ),
                       ),
                     ),
                   ],
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
               ),
               Container(
                 child: ElevatedButton(
@@ -150,3 +174,4 @@ class _IndividualEvalConfirmationPageState
     );
   }
 }
+

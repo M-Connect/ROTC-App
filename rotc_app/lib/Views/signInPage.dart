@@ -61,13 +61,13 @@ class _SignInViewState extends State<SignInView> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text('Username / Email: '),
+                  child: Text('Email: '),
                 ),
                 TextFormField(
                   controller: email,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Username / Email',
+                    hintText: 'Insert Email',
                   ),
                   //onSaved: (String value) {},********************
                   validator: MultiValidator([
@@ -87,7 +87,7 @@ class _SignInViewState extends State<SignInView> {
                       controller: password,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: 'Password',
+                        hintText: 'Insert Password',
                       ),
                       obscureText: true,
                       // onSaved: (String value) {},******************

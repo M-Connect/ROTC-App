@@ -55,8 +55,35 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Text(
-                        '$userDisplayString Evaluation',
+                      child: Container(
+                        child: Text('$userDisplayString to be under evaluation',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+              ),
+              Container(
+                child: Row(
+                  children: [
+                    Container(
+                      child: Text("Evaluation Date: ",
+                        style: TextStyle(
+                          fontSize: 17.5,
+                      ),
+                      ),
+                    ),
+                    Container(
+                      child: Text("Date",
+                        style: TextStyle(
+                        fontSize: 17.5,
+                      ),
                       ),
                     ),
                   ],
@@ -66,29 +93,28 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                 child: Row(
                   children: [
                     Container(
-                      child: Text("Evaluation Date:"),
+                      child: Text('Evaluation Activity: ',
+                        style: TextStyle(
+                        fontSize: 17.5,
+                      ),
+                      ),
                     ),
                     Container(
-                      child: Text("Insert Calendar Here"),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Container(
-                      child: Text('Evaluation Activity:'),
-                    ),
-                    Container(
-                      child: Text(
-                        'insert activities here',
+                      child: Text('Activities',
+                        style: TextStyle(
+                        fontSize: 17.5,
+                      ),
                       ),
                     ),
                   ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
+              ),
               Container(
+                width: 200,
+                height: 40,
                 child: ElevatedButton(
                   child: Text('Next'),
                   onPressed: () {

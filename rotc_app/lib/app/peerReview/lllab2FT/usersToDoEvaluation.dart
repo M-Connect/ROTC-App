@@ -77,7 +77,16 @@ Author:  Kyle Serruys
             SharedPreferences prefs = await SharedPreferences.getInstance();
             selectUsersList.add(userList[i]);
           },
-          child: Text(userList[i]),
+          child: Container(
+              width: 200,
+              height: 40,
+              child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:<Widget>[
+                    Text(userList[i])
+                  ]
+              )
+          ),
         ),
       );
     }
@@ -104,9 +113,15 @@ Author:  Kyle Serruys
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 50.0, bottom: 70.0),
-                  child: Text('Select One or More Individuals who will be evaluating previously selected people - you can evaluate yourself:'),
-                ),
+                  padding: const EdgeInsets.only(top: 50.0, bottom: 50.0),
+                    child: Container(
+                      child: Text('Select Cadet(s) To Evaluate The Previously Selected Cadet(s)              (Self Evaluation is Accepted):',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
+                       ),
+                     )
+                  ),
                 Container(
                   child: Column(
                     children: makeButtonsList(),

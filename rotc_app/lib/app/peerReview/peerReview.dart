@@ -70,6 +70,7 @@ first and last name of the users in the users collection.
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
         userList.add(element.data()['firstName'].toString() + " " +
+
             element.data()['lastName'].toString());
       });
     });
@@ -81,6 +82,9 @@ first and last name of the users in the users collection.
   This list takes the users from our users collection and adds a button with
   their name on it.  This will populate for each and every user in the users
   collection.
+  Co-Author: Sawyer Kisha
+  Formatted the list of cadets for the interface
+
   */
   List<Widget> makeButtonsList() {
     for (int i = 0; i < userList.length; i++) {
@@ -90,11 +94,18 @@ first and last name of the users in the users collection.
             SharedPreferences prefs = await SharedPreferences.getInstance();
             selectedUserList.add(userList[i]);
             prefs.setStringList('selectedUserList', selectedUserList);
-            navigation.currentState
-                .pushNamed('/individualEvalConfirmationPage');
+            navigation.currentState.pushNamed('/individualEvalConfirmationPage');
           },
-
-          child: Text(userList[i]),
+          child: Container(
+              width: 200,
+              height: 40,
+              child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:<Widget>[
+                    Text(userList[i])
+                  ]
+              )
+          ),
         ),
       );
     }
@@ -123,26 +134,21 @@ first and last name of the users in the users collection.
         padding: EdgeInsets.all(25.0),
         child: Container(
           child: Column(
-              /*mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,*/
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 50.0, bottom: 70.0),
-                      child: Text(
-                        'Select a Single User to Evaluate:',
-                        style: TextStyle(fontSize: 20.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, top: 50.0, bottom: 50.0),
+                    child: Container(
+                      child: Text('Select Cadet:',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
                       ),
-                    ),
-                  ],
+                    )
                 ),
-               Container(
+                Center(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: makeButtonsList(),
                   ),
                 ),
@@ -153,6 +159,7 @@ first and last name of the users in the users collection.
               ]),
         ),
       ),
+
     );
   }
 }
