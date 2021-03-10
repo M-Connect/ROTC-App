@@ -19,12 +19,15 @@ class Communication extends StatefulWidget {
 class CommunicationState extends State<Communication> {
   TextEditingController communication;
 
-  double communicationValue = 10;
+  double communicationValue;
+  String defaultCommunicationValue = "10";
 
   @override
   void initState() {
     super.initState();
     initControllers();
+    getUserInfo();
+    initSliderValue();
   }
 
   initControllers() async {
@@ -35,7 +38,27 @@ class CommunicationState extends State<Communication> {
     });
   }
 
+  initSliderValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sliderChange(communicationValue);
+    });
+  }
+  void sliderChange(double test) {
+    setState(() {
+      if(test != null){
+        test = communicationValue;
+      }
+    });
+  }
 
+  getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var communicationSliderValue = prefs.getString('communicationValue') ?? defaultCommunicationValue;
+      communicationValue = double.parse(communicationSliderValue);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +106,7 @@ class CommunicationState extends State<Communication> {
                       children: [
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(communicationValue.round().toString()),
+                          child: Text(communicationValue.round().toString(),style: TextStyle(fontSize: 25.0, ),),
                         ),
                       ],
                     ),
@@ -91,13 +114,29 @@ class CommunicationState extends State<Communication> {
                 ],
               ),
               Container(
-                child: Slider(
-                  value: communicationValue,
-                  onChanged: (newSliderValue) {
-                    setState(() => communicationValue = newSliderValue);
-                  },
-                  min: 0,
-                  max: 20,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text('0',style: TextStyle(fontSize: 25.0, ),),
+                      flex: 2,
+                    ),
+                    Expanded(
+                      child: Slider(
+                        value: communicationValue,
+                        onChanged: (newSliderValue) {
+                          setState(() => communicationValue = newSliderValue);
+                        },
+                        min: 0,
+                        max: 20,
+                      ),
+                      flex: 19,
+                    ),
+                    Expanded(
+                      child: Text("20",style: TextStyle(fontSize: 25.0, ),),
+                      flex:2,
+                    ),
+                  ],
                 ),
               ),
 
@@ -110,7 +149,7 @@ class CommunicationState extends State<Communication> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: Text('Evaluator Notes:'),
+                    child: Text('Evaluator Notes:',style: TextStyle(fontSize: 25.0, ),),
                   ),
                 ],
               ),),
@@ -130,8 +169,18 @@ class CommunicationState extends State<Communication> {
                         EdgeInsets.all(10.0),
                   ),
                   onSaved: (String value) {},
-                  validator: RequiredValidator(
-                      errorText: "Chain of Command is required"),
+
+                ),
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text("Hint:\n-Use of Chain of Command\n-Maintains Team's Situational Awareness\n\n",style: TextStyle(fontSize: 18.0),),
+                      flex:8,
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
@@ -144,10 +193,15 @@ class CommunicationState extends State<Communication> {
                     ElevatedButton(
                       child: Text('Prev'),
                       onPressed: () async {
+                        SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                        prefs.setString('communication', communication.text);
+                        prefs.setString(
+                            'communicationValue', communicationValue.round().toString());
                         navigation.currentState.pushNamed('/planning');
                       },
                     ),
-                    ElevatedButton(
+                    /*ElevatedButton(
                       child: Text('Save'),
                       onPressed: () async {
                         SharedPreferences prefs =
@@ -157,10 +211,15 @@ class CommunicationState extends State<Communication> {
                             'communicationValue', communicationValue.round().toString());
                         saveNotification(context);
                       },
-                    ),
+                    ),*/
                     ElevatedButton(
                       child: Text('Next'),
                       onPressed: () async {
+                        SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                        prefs.setString('communication', communication.text);
+                        prefs.setString(
+                            'communicationValue', communicationValue.round().toString());
                         navigation.currentState.pushNamed('/execution');
                       },
                     ),

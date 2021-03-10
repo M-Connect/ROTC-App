@@ -19,10 +19,12 @@ class Execution extends StatefulWidget {
 
 class ExecutionState extends State<Execution> {
   TextEditingController execution;
-double executionValue=10;
+double executionValue;
+String defaultExecutionValue = "10";
   @override
   void initState() {
     super.initState();
+    getUserInfo();
     initControllers();
   }
 
@@ -34,6 +36,26 @@ double executionValue=10;
     });
   }
 
+  getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var executionSliderValue = prefs.getString('executionValue') ?? defaultExecutionValue;
+      executionValue = double.parse(executionSliderValue);
+    });
+  }
+  initSliderValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sliderChange(executionValue);
+    });
+  }
+  void sliderChange(double test) {
+    setState(() {
+      if(test != null){
+        test = executionValue;
+      }
+    });
+  }
 
 
   @override
@@ -82,7 +104,7 @@ double executionValue=10;
                       children: [
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(executionValue.round().toString()),
+                          child: Text(executionValue.round().toString(),style: TextStyle(fontSize: 25.0, ),),
                         ),
                       ],
                     ),
@@ -90,13 +112,29 @@ double executionValue=10;
                 ],
               ),
               Container(
-                child: Slider(
-                  value: executionValue,
-                  onChanged: (newSliderValue) {
-                    setState(() => executionValue = newSliderValue);
-                  },
-                  min: 0,
-                  max: 20,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text('0',style: TextStyle(fontSize: 25.0, ),),
+                      flex: 2,
+                    ),
+                    Expanded(
+                      child: Slider(
+                        value: executionValue,
+                        onChanged: (newSliderValue) {
+                          setState(() => executionValue = newSliderValue);
+                        },
+                        min: 0,
+                        max: 20,
+                      ),
+                      flex: 19,
+                    ),
+                    Expanded(
+                      child: Text("20",style: TextStyle(fontSize: 25.0, ),),
+                      flex:2,
+                    ),
+                  ],
                 ),
               ),
 
@@ -109,7 +147,7 @@ double executionValue=10;
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: Text('Evaluator Notes:'),
+                      child: Text('Evaluator Notes:',style: TextStyle(fontSize: 25.0, ),),
                     ),
                   ],
                 ),
@@ -134,6 +172,17 @@ double executionValue=10;
                       errorText: "Chain of Command is required"),
                 ),
               ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text("Hint:\n-Time Management\n-Resource Management\n-Flexibility\n-Mission Success",style: TextStyle(fontSize: 18.0, ),),
+                      flex:8,
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: 50.0,
               ),
@@ -144,23 +193,23 @@ double executionValue=10;
                     ElevatedButton(
                       child: Text('Prev'),
                       onPressed: () async {
-                        navigation.currentState.pushNamed('/communication');
-                      },
-                    ),
-                    ElevatedButton(
-                      child: Text('Save'),
-                      onPressed: () async {
                         SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
+                        await SharedPreferences.getInstance();
                         prefs.setString('execution', execution.text);
                         prefs.setString(
                             'executionValue', executionValue.round().toString());
-                        saveNotification(context);
+                        navigation.currentState.pushNamed('/communication');
                       },
                     ),
+
                     ElevatedButton(
                       child: Text('Next'),
                       onPressed: () async {
+                        SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                        prefs.setString('execution', execution.text);
+                        prefs.setString(
+                            'executionValue', executionValue.round().toString());
                         navigation.currentState.pushNamed('/leadership');
                       },
                     ),
@@ -173,26 +222,4 @@ double executionValue=10;
       ),
     );
   }
-}
-
-saveNotification(BuildContext context) {
-  Widget button = FlatButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-  AlertDialog alert = AlertDialog(
-    //  title: Text("Saved"),
-    content: Text("Input is saved"),
-    actions: [
-      button,
-    ],
-  );
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }

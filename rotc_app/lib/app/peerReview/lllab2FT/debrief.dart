@@ -20,11 +20,13 @@ class Debrief extends StatefulWidget {
 class DebriefState extends State<Debrief> {
   TextEditingController debrief;
 
-double debriefValue = 10;
-
+double debriefValue;
+String defaultDebriefValue = "10";
   @override
   void initState() {
     super.initState();
+    getUserInfo();
+    initSliderValue();
     initControllers();
   }
 
@@ -36,6 +38,27 @@ double debriefValue = 10;
     });
   }
 
+  getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var debriefSliderValue = prefs.getString('debriefValue') ?? defaultDebriefValue;
+      debriefValue = double.parse(debriefSliderValue);
+    });
+  }
+
+  initSliderValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sliderChange(debriefValue);
+    });
+  }
+  void sliderChange(double test) {
+    setState(() {
+      if(test != null){
+        test = debriefValue;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +104,7 @@ double debriefValue = 10;
                       children: [
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(debriefValue.round().toString()),
+                          child: Text(debriefValue.round().toString(),style: TextStyle(fontSize: 25.0, ),),
                         ),
                       ],
                     ),
@@ -89,15 +112,32 @@ double debriefValue = 10;
                 ],
               ),
               Container(
-                child: Slider(
-                  value: debriefValue,
-                  onChanged: (newSliderValue) {
-                    setState(() => debriefValue = newSliderValue);
-                  },
-                  min: 0,
-                  max: 20,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text('0',style: TextStyle(fontSize: 25.0, ),),
+                      flex: 2,
+                    ),
+                    Expanded(
+                      child: Slider(
+                        value: debriefValue,
+                        onChanged: (newSliderValue) {
+                          setState(() => debriefValue = newSliderValue);
+                        },
+                        min: 0,
+                        max: 20,
+                      ),
+                      flex: 19,
+                    ),
+                    Expanded(
+                      child: Text("20",style: TextStyle(fontSize: 25.0, ),),
+                      flex:2,
+                    ),
+                  ],
                 ),
               ),
+
 
               SizedBox(
                 height: 20.0,
@@ -108,7 +148,7 @@ double debriefValue = 10;
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: Text('Evaluator Notes:' ),
+                      child: Text('Evaluator Notes:',style: TextStyle(fontSize: 25.0, ),),
                     ),
                   ],
                 ),
@@ -133,6 +173,17 @@ double debriefValue = 10;
                       errorText: "Chain of Command is required"),
                 ),
               ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text("Hint:\n-Adheres to Debrief Format\n-Receptive to Feedback\n-Improvement Oriented\n",style: TextStyle(fontSize: 18.0, ),),
+                      flex:8,
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: 50.0,
               ),
@@ -143,22 +194,21 @@ double debriefValue = 10;
                     ElevatedButton(
                       child: Text('Prev'),
                       onPressed: () async {
+                        SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                        prefs.setString('debrief', debrief.text);
+                        prefs.setString('debriefValue', debriefValue.round().toString());
                         navigation.currentState.pushNamed('/leadership');
                       },
                     ),
-                    ElevatedButton(
-                      child: Text('Save'),
-                      onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        prefs.setString('debrief', debrief.text);
-                        prefs.setString('debriefValue', debriefValue.round().toString());
-                        saveNotification(context);
-                      },
-                    ),
+
                     ElevatedButton(
                       child: Text('Confirm'),
                       onPressed: () async {
+                        SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                        prefs.setString('debrief', debrief.text);
+                        prefs.setString('debriefValue', debriefValue.round().toString());
                         navigation.currentState.pushNamed('/confirmation');
                       },
                     ),
@@ -173,24 +223,3 @@ double debriefValue = 10;
   }
 }
 
-saveNotification(BuildContext context) {
-  Widget button = FlatButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-  AlertDialog alert = AlertDialog(
-    //  title: Text("Saved"),
-    content: Text("Input is saved"),
-    actions: [
-      button,
-    ],
-  );
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}

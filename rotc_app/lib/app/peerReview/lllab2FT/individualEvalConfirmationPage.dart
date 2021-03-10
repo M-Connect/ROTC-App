@@ -12,6 +12,11 @@ the type of evaluation to be performed.  Upon clicking the start evaluation
 button it will send you to the evaluation form.
 */
 
+CollectionReference evaluationRequests = FirebaseFirestore.instance.collection('userEvaluationRequests');
+
+/*
+When you press sub
+* */
 class IndividualEvalConfirmationPage extends StatefulWidget {
   @override
   _IndividualEvalConfirmationPageState createState() =>
@@ -102,7 +107,27 @@ class _IndividualEvalConfirmationPageState
               Container(
                 child: ElevatedButton(
                   child: Text('Start Evaluation'),
-                  onPressed: () {
+                  onPressed: () async{
+                    /*
+                    * Insert into the userEvaluationRequests collection the evaluator name and the status*/
+                    //get the user info to save and add it.
+
+
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                    var userToEvaluate = selectedUserList.first;
+                    var firstName = prefs.getString('firstName');
+                    var lastName = prefs.getString('lastName');
+                    var evaluator = firstName + lastName;
+                    var docRef = await evaluationRequests.add({
+                      "evaluator": evaluator,
+                      "evaluatee": userToEvaluate,
+                      "status":"Pending"
+                    });
+
+                    //save id into shared prefs
+                    var docId = docRef.id;
+                    prefs.setString("currentEvaluationId", docId);
                     navigation.currentState.pushNamed('/peerReviewLLAB2FT');
                   },
                 ),

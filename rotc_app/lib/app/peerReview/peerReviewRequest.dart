@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rotc_app/app/peerReview/peerReview.dart';
 import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../main.dart';
 
 /*
  Author: Sawyer Kisha
@@ -10,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
   This class is the home page for our peer review request page
   Needs functionality
  */
+
 class PeerReviewRequest extends StatefulWidget {
   PeerReviewRequest() : super();
 
@@ -19,16 +22,19 @@ class PeerReviewRequest extends StatefulWidget {
 
 class PeerReviewRequestState extends State<PeerReviewRequest> {
   var userList = new List<String>();
+  var usersToEvaluate = new List<String>();
+  var selectUsersList = new List<String>();
+
   List<ElevatedButton> userButtonList = new List<ElevatedButton>();
+  String firstName = "";
+  String lastName = "";
 
   @override
   void initState() {
     super.initState();
-
     getUserInfo();
     //  initSliderValue();
   }
-
 
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -44,10 +50,18 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
     setState(() {});
   }
 
-  List<Widget> makeButtonsList(){
+  List<Widget> makeButtonsList() {
     for (int i = 0; i < userList.length; i++) {
-      userButtonList
-          .add(new ElevatedButton(onPressed: (){}, child: Text(userList[i])));
+      userButtonList.add(
+        new ElevatedButton(
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            usersToEvaluate.add(userList[i]);
+            prefs.setStringList('usersToEvaluate', usersToEvaluate);
+          },
+          child: Text(userList[i]),
+        ),
+      );
     }
     return userButtonList;
   }
@@ -55,7 +69,7 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Peer Review request'),
+        title: Text('Evaluation Request'),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.logout),
@@ -66,14 +80,47 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
-        child: Form(
+        child: Container(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-              makeButtonsList(),
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 50.0, bottom: 70.0),
+                  child: Text('Select One or More Individuals to Request an Eval for:'),
+                ),
+                Container(
+                  child: Column(
+                    children: makeButtonsList(),
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    children: <Widget>[
 
-          ),
+                    ],
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                ),
+              ]),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding:
+            EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              child: Text('Next'),
+              onPressed: () async {
+                navigation.currentState.pushNamed('/multipleEvalConfirmationPage');
+              },
+            ),
+          ],
         ),
       ),
     );

@@ -22,12 +22,15 @@ class Leadership extends StatefulWidget {
 class LeadershipState extends State<Leadership> {
   TextEditingController leadership;
 
-  double leadershipValue = 10;
+  double leadershipValue;
+  String defaultLeadershipValue = "10";
 
   @override
   void initState() {
     super.initState();
+    getUserInfo();
     initControllers();
+    initSliderValue();
   }
 
   initControllers() async {
@@ -35,6 +38,30 @@ class LeadershipState extends State<Leadership> {
     setState(() {
       var leadershipValue = prefs.getString("leadership");
       leadership = TextEditingController(text: leadershipValue);
+    });
+  }
+
+  initSliderValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sliderChange(leadershipValue);
+    });
+  }
+
+  void sliderChange(double test) {
+    setState(() {
+      if (test != null) {
+        test = leadershipValue;
+      }
+    });
+  }
+
+  getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var leadershipSliderValue =
+          prefs.getString('leadershipValue') ?? defaultLeadershipValue;
+      leadershipValue = double.parse(leadershipSliderValue);
     });
   }
 
@@ -83,7 +110,12 @@ class LeadershipState extends State<Leadership> {
                       children: [
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(leadershipValue.round().toString()),
+                          child: Text(
+                            leadershipValue.round().toString(),
+                            style: TextStyle(
+                              fontSize: 25.0,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -91,13 +123,39 @@ class LeadershipState extends State<Leadership> {
                 ],
               ),
               Container(
-                child: Slider(
-                  value: leadershipValue,
-                  onChanged: (newSliderValue) {
-                    setState(() => leadershipValue = newSliderValue);
-                  },
-                  min: 0,
-                  max: 20,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '0',
+                        style: TextStyle(
+                          fontSize: 25.0,
+                        ),
+                      ),
+                      flex: 2,
+                    ),
+                    Expanded(
+                      child: Slider(
+                        value: leadershipValue,
+                        onChanged: (newSliderValue) {
+                          setState(() => leadershipValue = newSliderValue);
+                        },
+                        min: 0,
+                        max: 20,
+                      ),
+                      flex: 19,
+                    ),
+                    Expanded(
+                      child: Text(
+                        "20",
+                        style: TextStyle(
+                          fontSize: 25.0,
+                        ),
+                      ),
+                      flex: 2,
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
@@ -109,7 +167,12 @@ class LeadershipState extends State<Leadership> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: Text('Evaluator Notes:'),
+                      child: Text(
+                        'Evaluator Notes:',
+                        style: TextStyle(
+                          fontSize: 25.0,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -134,6 +197,22 @@ class LeadershipState extends State<Leadership> {
                       errorText: "Chain of Command is required"),
                 ),
               ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "Hint:\n-Confidence/Command Presence\n-Delegation\n-Empowerment\n-Maintains Control Over Situation",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                      ),
+                      flex: 8,
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: 50.0,
               ),
@@ -144,23 +223,22 @@ class LeadershipState extends State<Leadership> {
                     ElevatedButton(
                       child: Text('Prev'),
                       onPressed: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setString('leadership', leadership.text);
+                        prefs.setString('leadershipValue',
+                            leadershipValue.round().toString());
                         navigation.currentState.pushNamed('/execution');
                       },
                     ),
                     ElevatedButton(
-                      child: Text('Save'),
+                      child: Text('Next'),
                       onPressed: () async {
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
                         prefs.setString('leadership', leadership.text);
                         prefs.setString('leadershipValue',
                             leadershipValue.round().toString());
-                        saveNotification(context);
-                      },
-                    ),
-                    ElevatedButton(
-                      child: Text('Next'),
-                      onPressed: () async {
                         navigation.currentState.pushNamed('/debrief');
                       },
                     ),
@@ -173,26 +251,4 @@ class LeadershipState extends State<Leadership> {
       ),
     );
   }
-}
-
-saveNotification(BuildContext context) {
-  Widget button = FlatButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-  AlertDialog alert = AlertDialog(
-    //  title: Text("Saved"),
-    content: Text("Input is saved"),
-    actions: [
-      button,
-    ],
-  );
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }

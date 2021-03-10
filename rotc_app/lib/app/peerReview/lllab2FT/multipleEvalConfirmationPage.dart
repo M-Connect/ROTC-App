@@ -10,6 +10,7 @@ class MultipleEvalConfirmationPage extends StatefulWidget {
 
 class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationPage> {
   var usersToEvaluate = new List<String>();
+  String userDisplayString;
 
   @override
   void initState() {
@@ -20,7 +21,8 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
   getSelectedUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      usersToEvaluate = prefs.getStringList("usersToEvaluate".toString());
+
+      userDisplayString = prefs.getStringList("usersToEvaluate").join(", ");
     });
   }
 
@@ -54,7 +56,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                   children: [
                     Expanded(
                       child: Text(
-                        '$usersToEvaluate Evaluation',
+                        '$userDisplayString Evaluation',
                       ),
                     ),
                   ],

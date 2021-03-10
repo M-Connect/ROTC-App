@@ -20,12 +20,26 @@ class _ConfirmationState extends State<Confirmation> {
   String executionValue = "";
   String leadershipValue = "";
   String debriefValue = "";
+  String firstName = "";
+  String lastName ="";
 
   CollectionReference evaluation =
       FirebaseFirestore.instance.collection('peerEvaluation');
 
+  CollectionReference evaluationRequests = FirebaseFirestore.instance.collection('userEvaluationRequests');
+
+  Future<void> markEvaluationComplete() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var evaluationId = prefs.getString("currentEvaluationId");
+    evaluationRequests.doc(evaluationId).update({
+      "status":"Complete"
+    });
+  }
+
   Future<void> peerEvaluation() {
     return evaluation.add({
+      "firstName": firstName,
+      "lastName": lastName,
       "planning": planning,
       "planningValue": planningValue,
       "communication": communication,
@@ -54,6 +68,8 @@ class _ConfirmationState extends State<Confirmation> {
     setState(() {
       execution = prefs.getString("execution");
       executionValue = prefs.getString("executionValue");
+      firstName = prefs.getString("firstName");
+      lastName = prefs.getString("lastName");
     });
   }
 
@@ -110,6 +126,11 @@ class _ConfirmationState extends State<Confirmation> {
         child: Container(
           child: Column(
             children: [
+              Row(
+                children: [
+                  Text('Evaluatee:  $firstName $lastName'),
+                ],
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -270,6 +291,7 @@ class _ConfirmationState extends State<Confirmation> {
                       child: Text('Submit'),
                       onPressed: () async {
                         SharedPreferences prefs = await SharedPreferences.getInstance();
+                        await markEvaluationComplete();
                         await peerEvaluation();
                         await prefs.remove("planning");
                         await prefs.remove("communication");
@@ -281,6 +303,7 @@ class _ConfirmationState extends State<Confirmation> {
                         await prefs.remove("executionValue");
                         await prefs.remove("leadershipValue");
                         await prefs.remove("debriefValue");
+                        await prefs.remove("currentEvaluationId");
 
                         navigation.currentState.pushNamed('/homePage');
                       },

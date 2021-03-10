@@ -20,37 +20,55 @@ class Planning extends StatefulWidget {
 class PlanningState extends State<Planning> {
   TextEditingController planning;
 
-  String firstName ="";
-  String lastName ="";
+  String firstName = "";
+  String lastName = "";
   String emailAddress = "";
-  String nickname ="";
+  String nickname = "";
   bool isCadre;
-  double planningValue = 10;
+  double planningValue;
+  String defaultPlanningValue = "10";
 
   @override
   void initState() {
     super.initState();
     initControllers();
     getUserInfo();
-  //  initSliderValue();
+    initSliderValue();
   }
 
   initControllers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var planningValue = prefs.getString("planning");
-      planning = TextEditingController(text: planningValue);
+      var planningTextValue = prefs.getString("planning");
+      planning = TextEditingController(text: planningTextValue);
+    });
+  }
+
+  initSliderValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sliderChange(planningValue);
+    });
+  }
+  void sliderChange(double test) {
+    setState(() {
+      if(test != null){
+        test = planningValue;
+      }
     });
   }
 
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-       firstName = prefs.getString("firstName");
-       lastName = prefs.getString("lastName");
-       emailAddress = prefs.getString("email");
-       nickname = prefs.getString('nickname');
-       isCadre = prefs.getString('isCadre') == 'true';
+      firstName = prefs.getString("firstName");
+      lastName = prefs.getString("lastName");
+      emailAddress = prefs.getString("email");
+      nickname = prefs.getString('nickname');
+      isCadre = prefs.getString('isCadre') == 'true';
+
+      var planningSliderValue = prefs.getString('planningValue') ?? defaultPlanningValue;
+      planningValue = double.parse(planningSliderValue);
     });
   }
 
@@ -81,7 +99,6 @@ class PlanningState extends State<Planning> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(child: Text('$firstName $lastName $nickname $emailAddress $isCadre'),),
               SizedBox(
                 height: 50.0,
               ),
@@ -100,7 +117,7 @@ class PlanningState extends State<Planning> {
                       children: [
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(planningValue.round().toString()),
+                          child: Text(planningValue.round().toString(),style: TextStyle(fontSize: 25.0, ),),
                         ),
                       ],
                     ),
@@ -108,26 +125,41 @@ class PlanningState extends State<Planning> {
                 ],
               ),
               Container(
-                child: Slider(
-                  value: planningValue,
-                  onChanged: (newSliderValue) {
-                    setState(() => planningValue = newSliderValue);
-                  },
-                  min: 0,
-                  max: 20,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text('0',style: TextStyle(fontSize: 25.0, ),),
+                      flex: 2,
+                    ),
+                    Expanded(
+                      child: Slider(
+                        value: planningValue,
+                        onChanged: (newSliderValue) {
+                          setState(() => planningValue = newSliderValue);
+                        },
+                        min: 0,
+                        max: 20,
+                      ),
+                      flex: 19,
+                    ),
+                    Expanded(
+                      child: Text("20",style: TextStyle(fontSize: 25.0, ),),
+                      flex:2,
+                    ),
+                  ],
                 ),
               ),
-
               SizedBox(
                 height: 20.0,
               ),
               Container(
                   child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: Text('Evaluator Notes:'),
+                    child: Text('Evaluator Notes:', style: TextStyle(fontSize: 25.0, ),),
                   ),
                 ],
               )),
@@ -144,8 +176,17 @@ class PlanningState extends State<Planning> {
                     contentPadding: EdgeInsets.all(10.0),
                   ),
                   onSaved: (String value) {},
-                  validator: RequiredValidator(
-                      errorText: "Adheres to debrief format is required"),
+                ),
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text("Hint:\n-Team Organization\n-Outside Preparation\n-Mission Focus\n-Creativity", style: TextStyle(fontSize: 18.0),),
+                      flex:8,
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
@@ -163,18 +204,13 @@ class PlanningState extends State<Planning> {
                       ),
                     ),
                     ElevatedButton(
-                      child: Text('Save'),
+                      child: Text('Next'),
                       onPressed: () async {
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
                         prefs.setString('planning', planning.text);
-                        prefs.setString('planningValue', planningValue.round().toString());
-                        saveNotification(context);
-                      },
-                    ),
-                    ElevatedButton(
-                      child: Text('Next'),
-                      onPressed: () async {
+                        prefs.setString(
+                            'planningValue', planningValue.round().toString());
                         navigation.currentState.pushNamed('/communication');
                       },
                     ),
@@ -189,24 +225,3 @@ class PlanningState extends State<Planning> {
   }
 }
 
-saveNotification(BuildContext context) {
-  Widget button = FlatButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-  AlertDialog alert = AlertDialog(
-    //  title: Text("Saved"),
-    content: Text("Input is saved"),
-    actions: [
-      button,
-    ],
-  );
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}

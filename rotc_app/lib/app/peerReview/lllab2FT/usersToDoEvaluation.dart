@@ -22,10 +22,21 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
   CollectionReference evaluationRequests = FirebaseFirestore.instance.collection('userEvaluationRequests');
 
   Future<void> userEvaluationRequests() {
-    return evaluationRequests.add({
+    selectUsersList.forEach((evaluator) {
+      usersToEvaluate.forEach((evaluatee) {
+        return evaluationRequests.add({
+          "evaluator": evaluator,
+          "evaluatee":evaluatee,
+          "status":"Pending"
+        });
+      });
+    });
+
+
+    /*return evaluationRequests.add({
       "usersToEvaluate": usersToEvaluate,
       "usersToDoEvaluation": selectUsersList,
-    });
+    });*/
   }
 
 /*
@@ -122,10 +133,11 @@ Author:  Kyle Serruys
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              child: Text('Next'),
+              child: Text('Submit'),
               onPressed: () async {
                 SharedPreferences prefs= await SharedPreferences.getInstance();
                 await userEvaluationRequests();
+                prefs.remove("usersToEvaluate");
                 navigation.currentState.pushNamed('/homePage');
               },
             ),

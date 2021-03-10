@@ -69,6 +69,12 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                 },
               ),
             ),
+            Container(child: ElevatedButton(
+              child:Text('Notifications'),
+              onPressed: (){
+                navigation.currentState.pushNamed('/notifications');
+              },
+            ),),
           ],
         ),
       ),
