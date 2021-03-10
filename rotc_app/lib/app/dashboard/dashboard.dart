@@ -84,7 +84,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: Visibility(
-        visible: isCadre == true,
+        visible: isCadre = true,
         child: FloatingActionButton(
           onPressed: () {
             showDialog(
