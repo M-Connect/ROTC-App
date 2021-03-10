@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rotc_app/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -18,10 +20,12 @@ class Auth {
     try {
       await firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+
       return "Signed in";
     } on FirebaseAuthException catch (e) {
       return e.message;
     }
+
   }
 
  //TODO move logout code here
@@ -34,10 +38,7 @@ class Auth {
   Future<String> uid() async {
     return firebaseAuth.currentUser.uid;
   }
-  /*
-  Future<void> logOut() async {
-    await auth.signOut();
-  }*/
+
 
 
 }
