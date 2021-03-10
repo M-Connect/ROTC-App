@@ -16,7 +16,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PeerReview extends StatefulWidget {
   @override
   PeerReviewState createState() => PeerReviewState();
-
 }
 
 class PeerReviewState extends State<PeerReview> {
@@ -70,7 +69,7 @@ first and last name of the users in the users collection.
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
-        userList.add(element.data()['firstName'].toString() +
+        userList.add(element.data()['firstName'].toString() + " " +
             element.data()['lastName'].toString());
       });
     });
@@ -91,8 +90,10 @@ first and last name of the users in the users collection.
             SharedPreferences prefs = await SharedPreferences.getInstance();
             selectedUserList.add(userList[i]);
             prefs.setStringList('selectedUserList', selectedUserList);
-            navigation.currentState.pushNamed('/individualEvalConfirmationPage');
+            navigation.currentState
+                .pushNamed('/individualEvalConfirmationPage');
           },
+
           child: Text(userList[i]),
         ),
       );
@@ -103,7 +104,13 @@ first and last name of the users in the users collection.
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Peer Review Request'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            navigation.currentState.pushNamed('/homePage');
+          },
+        ),
+        title: Text('Evaluation Request'),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.logout),
@@ -116,23 +123,27 @@ first and last name of the users in the users collection.
         padding: EdgeInsets.all(25.0),
         child: Container(
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              /*mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,*/
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 50.0, bottom: 70.0),
-                  child: Text('Select Cadet:'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50.0, bottom: 70.0),
+                      child: Text(
+                        'Select a Single User to Evaluate:',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
+               Container(
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: makeButtonsList(),
-                  ),
-                ),
-                Container(
-                  child: Column(
-                    children: <Widget>[
-
-                    ],
                   ),
                 ),
 
@@ -142,7 +153,6 @@ first and last name of the users in the users collection.
               ]),
         ),
       ),
-
     );
   }
 }

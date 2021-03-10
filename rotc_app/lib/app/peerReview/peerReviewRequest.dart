@@ -43,7 +43,7 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
-        userList.add(element.data()['firstName'].toString() +
+        userList.add(element.data()['firstName'].toString() + " " +
             element.data()['lastName'].toString());
       });
     });
@@ -116,7 +116,9 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
           children: <Widget>[
             ElevatedButton(
               child: Text('Next'),
+
               onPressed: () async {
+
                 navigation.currentState.pushNamed('/multipleEvalConfirmationPage');
               },
             ),

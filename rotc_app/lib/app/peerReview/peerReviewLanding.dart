@@ -42,12 +42,15 @@ class PeerReviewFormState extends State<PeerReviewForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              child: ElevatedButton(
-                child: Text('Peer Review'),
-                onPressed: () {
-                  navigation.currentState.pushNamed('/peerReview');
-                },
+            Visibility(
+              visible: isCadre ==true,
+              child: Container(
+                child: ElevatedButton(
+                  child: Text('Peer Review'),
+                  onPressed: () {
+                    navigation.currentState.pushNamed('/peerReview');
+                  },
+                ),
               ),
             ),
             Visibility(

@@ -128,7 +128,7 @@ class _ConfirmationState extends State<Confirmation> {
             children: [
               Row(
                 children: [
-                  Text('Evaluatee:  $firstName $lastName'),
+                  Text('Evaluatee:  ',style: TextStyle(fontSize: 20.0),),
                 ],
               ),
               Row(
@@ -304,6 +304,7 @@ class _ConfirmationState extends State<Confirmation> {
                         await prefs.remove("leadershipValue");
                         await prefs.remove("debriefValue");
                         await prefs.remove("currentEvaluationId");
+                        await prefs.remove("evaluatee");
 
                         navigation.currentState.pushNamed('/homePage');
                       },

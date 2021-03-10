@@ -105,7 +105,7 @@ Author:  Kyle Serruys
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 70.0),
-                  child: Text('Select One or More Individuals who will be evaluating previously selected people - you ca evaluate yourself:'),
+                  child: Text('Select One or More Individuals who will be evaluating previously selected people - you can evaluate yourself:'),
                 ),
                 Container(
                   child: Column(
