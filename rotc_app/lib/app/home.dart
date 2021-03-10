@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:rotc_app/app/Schedule/CalendarTasks.dart';
 import 'package:rotc_app/app/dashboard/dashboard.dart';
 import 'package:rotc_app/app/messaging/messaging.dart';
 import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
@@ -33,6 +34,7 @@ class _HomeView extends State<HomeView> {
   static List<Widget> _widgetOptions = <Widget>[
     dashboard(),
     peerReviewForm(),
+    CalendarTasks(),
     messages(),
     Profile(),
   ];
@@ -73,12 +75,16 @@ class _HomeView extends State<HomeView> {
             label: 'Peer Review Forms',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today_sharp),
+            label: 'Schedule',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.message),
             label: 'Messages',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_sharp),
-            label: 'Profile',
+            label: 'Account',
           ),
         ],
         currentIndex: _tabOption,
