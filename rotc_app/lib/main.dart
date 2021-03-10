@@ -14,6 +14,8 @@ import 'Views/registrationPage.dart';
 import 'Views/signInPage.dart';
 import 'Views/welcomePage.dart';
 import 'app/home.dart';
+import 'app/peerReview/graphs/barGraphs.dart';
+import 'app/peerReview/graphs/lineGraphs.dart';
 import 'app/peerReview/lllab2FT/communication.dart';
 import 'app/peerReview/lllab2FT/confirmation.dart';
 import 'app/peerReview/lllab2FT/leadership.dart';
@@ -51,7 +53,7 @@ class MConnect extends StatelessWidget {
           create: (_) => Auth(FirebaseAuth.instance),
         ),
         StreamProvider(
-          create: (context) => context.read<Auth>().authState,
+          create: (context) => context.read<Auth>().authState, initialData: null,
         )
       ],
       child: MaterialApp(
@@ -80,6 +82,8 @@ class MConnect extends StatelessWidget {
       '/leadership': (context) => Leadership(),
       '/debrief': (context) => Debrief(),
       '/confirmation': (context) => Confirmation(),
+      '/barGraph': (context) => BarGraph(),
+      '/lineGraph': (context) => LineGraph(),
     } ),
     );
   }
