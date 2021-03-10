@@ -44,7 +44,7 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
-        userList.add(element.data()['firstName'].toString() +
+        userList.add(element.data()['firstName'].toString() + " " +
             element.data()['lastName'].toString());
       });
     });
@@ -75,25 +75,6 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   }
     return userButtonList;
   }
-
-  /*
-  List<Widget> makeButtonsList() {
-    for (int i = 0; i < userList.length; i++) {
-      userButtonList.add(
-        new ElevatedButton(
-          onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            usersToEvaluate.add(userList[i]);
-            prefs.setStringList('usersToEvaluate', usersToEvaluate);
-          },
-          child: Text(userList[i]),
-
-          ),
-      );
-    }
-    return userButtonList;
-  }
-*/
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,7 +118,6 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
               ]),
         ),
       ),
-
       bottomNavigationBar: Padding(
         padding:
             EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),

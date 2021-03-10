@@ -1,9 +1,36 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animated_button/animated_button.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 
-class peerReviewForm extends StatelessWidget {
-  bool isCadre = false;
+class PeerReviewForm extends StatefulWidget {
+  PeerReviewForm() : super();
+
+  @override
+  PeerReviewFormState createState() => PeerReviewFormState();
+}
+
+class PeerReviewFormState extends State<PeerReviewForm> {
+  bool isCadre;
+
+  @override
+  void initState() {
+    super.initState();
+    getBool();
+    //  initSliderValue();
+  }
+
+
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     const TextStyle tabTextStyle =
@@ -18,10 +45,10 @@ class peerReviewForm extends StatelessWidget {
           children: <Widget>[
             Center(
               child: Visibility(
-                visible: isCadre == false,
+                visible: isCadre == true,
                 child: AnimatedButton(
                   child: Text(
-                    'Start Evaluation on an individual',
+                    'Start evaluation on an individual',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -30,7 +57,7 @@ class peerReviewForm extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   onPressed: () {
-                    navigation.currentState.pushNamed('/peerReviewLLAB2FT');
+                    navigation.currentState.pushNamed('/peerReview');
                   },
                   width: 300,
                   height: 80,
@@ -105,6 +132,12 @@ class peerReviewForm extends StatelessWidget {
                 ),
               ),
             ),
+            Container(child: ElevatedButton(
+              child:Text('Notifications'),
+              onPressed: (){
+                navigation.currentState.pushNamed('/notifications');
+              },
+            ),),
           ],
         ),
       ),

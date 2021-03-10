@@ -27,6 +27,7 @@ class _IndividualEvalConfirmationPageState
     extends State<IndividualEvalConfirmationPage> {
 
   var selectedUserList = new List<String>();
+  String selectedUserString;
 
   @override
   void initState() {
@@ -39,6 +40,7 @@ class _IndividualEvalConfirmationPageState
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       selectedUserList = prefs.getStringList("selectedUserList".toString());
+     // selectedUserString = prefs.getStringList("selectedUserList").join();
     });
   }
 
@@ -46,7 +48,15 @@ class _IndividualEvalConfirmationPageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Request'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove('selectedUserList');
+            navigation.currentState.pushNamed('/peerReview');
+          },
+        ),
+        title: Text('Confirmation Request'),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.logout),
@@ -164,3 +174,4 @@ class _IndividualEvalConfirmationPageState
     );
   }
 }
+
