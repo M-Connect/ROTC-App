@@ -12,7 +12,8 @@ the type of evaluation to be performed.  Upon clicking the start evaluation
 button it will send you to the evaluation form.
 */
 
-CollectionReference evaluationRequests = FirebaseFirestore.instance.collection('userEvaluationRequests');
+CollectionReference evaluationRequests =
+    FirebaseFirestore.instance.collection('userEvaluationRequests');
 
 /*
 When you press sub
@@ -25,9 +26,8 @@ class IndividualEvalConfirmationPage extends StatefulWidget {
 
 class _IndividualEvalConfirmationPageState
     extends State<IndividualEvalConfirmationPage> {
-
-  var selectedUserList = new List<String>();
   String selectedUserString;
+  var selectedUserList = new List<String>();
 
   @override
   void initState() {
@@ -40,7 +40,9 @@ class _IndividualEvalConfirmationPageState
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       selectedUserList = prefs.getStringList("selectedUserList".toString());
-     // selectedUserString = prefs.getStringList("selectedUserList").join();
+      selectedUserString = prefs
+          .getStringList("selectedUserList")
+          .reduce((value, element) => value + element);
     });
   }
 
@@ -82,7 +84,8 @@ class _IndividualEvalConfirmationPageState
                   children: [
                     Expanded(
                       child: Container(
-                        child: Text('$selectedUserList Evaluation',
+                        child: Text(
+                          '$selectedUserString Evaluation',
                           style: TextStyle(
                             fontSize: 20.0,
                           ),
@@ -99,17 +102,19 @@ class _IndividualEvalConfirmationPageState
                 child: Row(
                   children: [
                     Container(
-                      child: Text('Evaluation Date:',
+                      child: Text(
+                        'Evaluation Date:',
                         style: TextStyle(
-                        fontSize: 17.5,
-                      ),
+                          fontSize: 17.5,
+                        ),
                       ),
                     ),
                     Container(
-                      child: Text('Insert Calendar Here',
+                      child: Text(
+                        'Insert Calendar Here',
                         style: TextStyle(
-                        fontSize: 17.5,
-                      ),
+                          fontSize: 17.5,
+                        ),
                       ),
                     ),
                   ],
@@ -119,18 +124,19 @@ class _IndividualEvalConfirmationPageState
                 child: Row(
                   children: [
                     Container(
-                      child: Text('Evaluation Activity:',
+                      child: Text(
+                        'Evaluation Activity:',
                         style: TextStyle(
-                        fontSize: 17.5,
-                      ),
+                          fontSize: 17.5,
+                        ),
                       ),
                     ),
                     Container(
                       child: Text(
                         'insert activities here',
                         style: TextStyle(
-                        fontSize: 17.5,
-                      ),
+                          fontSize: 17.5,
+                        ),
                       ),
                     ),
                   ],
@@ -142,13 +148,13 @@ class _IndividualEvalConfirmationPageState
               Container(
                 child: ElevatedButton(
                   child: Text('Start Evaluation'),
-                  onPressed: () async{
+                  onPressed: () async {
                     /*
                     * Insert into the userEvaluationRequests collection the evaluator name and the status*/
                     //get the user info to save and add it.
 
-
-                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
 
                     var userToEvaluate = selectedUserList.first;
                     var firstName = prefs.getString('firstName');
@@ -157,7 +163,7 @@ class _IndividualEvalConfirmationPageState
                     var docRef = await evaluationRequests.add({
                       "evaluator": evaluator,
                       "evaluatee": userToEvaluate,
-                      "status":"Pending"
+                      "status": "Pending"
                     });
 
                     //save id into shared prefs
@@ -174,4 +180,3 @@ class _IndividualEvalConfirmationPageState
     );
   }
 }
-

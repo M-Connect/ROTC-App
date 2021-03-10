@@ -52,7 +52,7 @@ class _HomeView extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Control Panel'),
+        title: const Text('DET 390'),
         automaticallyImplyLeading: false,
         actions: <Widget>[
           new IconButton(

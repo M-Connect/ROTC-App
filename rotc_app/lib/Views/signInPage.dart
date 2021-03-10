@@ -67,7 +67,7 @@ class _SignInViewState extends State<SignInView> {
                   controller: email,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'Insert Email',
+                    hintText: 'Enter Email',
                   ),
                   //onSaved: (String value) {},********************
                   validator: MultiValidator([
@@ -87,7 +87,7 @@ class _SignInViewState extends State<SignInView> {
                       controller: password,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: 'Insert Password',
+                        hintText: 'Enter Password',
                       ),
                       obscureText: true,
                       // onSaved: (String value) {},******************
