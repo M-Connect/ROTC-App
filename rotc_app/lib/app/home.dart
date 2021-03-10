@@ -75,7 +75,7 @@ class _HomeView extends State<HomeView> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.ballot_sharp),
-            label: 'Peer Review Forms',
+            label: 'Evaluation Forms',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today_sharp),

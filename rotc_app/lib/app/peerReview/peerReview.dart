@@ -87,6 +87,7 @@ first and last name of the users in the users collection.
 
   */
   List<Widget> makeButtonsList() {
+    userButtonList.clear();
     for (int i = 0; i < userList.length; i++) {
       userButtonList.add(
         new ElevatedButton(
@@ -140,7 +141,7 @@ first and last name of the users in the users collection.
                 Padding(
                   padding: const EdgeInsets.only(left: 20.0, top: 50.0, bottom: 50.0),
                     child: Container(
-                      child: Text('Select Cadet:',
+                      child: Text('Select Individual:',
                         style: TextStyle(
                           fontSize: 20.0,
                         ),

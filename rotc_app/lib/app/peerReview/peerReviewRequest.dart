@@ -52,6 +52,7 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   }
 
   List<Widget> makeButtonsList() {
+    userButtonList.clear();
     for (int i = 0; i < userList.length; i++) {
       userButtonList.add(
         new ElevatedButton(
@@ -98,7 +99,7 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
                 Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 50.0),
                   child: Container(
-                    child: Text('Select Cadet(s) Under Evaluation:',
+                    child: Text('Select individual(s) Under Evaluation:',
                       style: TextStyle(
                         fontSize: 20.0,
                       ),
