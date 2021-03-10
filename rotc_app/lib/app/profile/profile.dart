@@ -1,8 +1,10 @@
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 /*
@@ -11,7 +13,18 @@ import 'package:flutter/material.dart';
  */
 
 class Profile extends StatefulWidget {
-  Profile({Key key}) : super(key: key);
+
+  TextEditingController email;
+
+/*  Profile(TextEditingController email){
+    this.email = email;
+    CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
+    cadets.where('email', isEqualTo: email).snapshots();
+
+
+
+  }*/
+
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -19,6 +32,10 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   /// adding reference to database for profile collection path use
   CollectionReference profiles = FirebaseFirestore.instance.collection('profiles');
+
+
+
+
   Map<String, dynamic> biography;
   Map profileData;
 
@@ -83,26 +100,6 @@ class _ProfileState extends State<Profile> {
 
   }
 
-  readNickname(){
-    /// make Nickname public
-    /// TODO: add if statement to determine if cadet or cadre
-    CollectionReference cadres = FirebaseFirestore.instance.collection('cadres');
-  }
-
-
-  updateNickname(){
-    /// update Nickname in database
-    /// TODO: add if statement to determine if cadet or cadre
-    CollectionReference cadres = FirebaseFirestore.instance.collection('cadres');
-
-  }
-
-
-  deleteNickname(){
-    /// delete Nickname from database
-    /// TODO: add if statement to determine if cadet or cadre
-    CollectionReference cadres = FirebaseFirestore.instance.collection('cadres');
-  }
 
 
   updateEmail(){
@@ -123,7 +120,29 @@ class _ProfileState extends State<Profile> {
       TextStyle(fontSize: 18, fontWeight: FontWeight.normal);
   final _textController = TextEditingController();
 
+  String fName = '';
+  String lName = '';
+  String nName = '';
+  String email = '';
+
+
   bool iconPressed = false;
+@override
+void initState() {
+    super.initState();
+    getUserInfo();
+  }
+
+  getUserInfo() async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  setState(() {
+    fName = prefs.getString('firstName');
+    lName = prefs.getString('lastName');
+    nName = prefs.getString('nickname');
+    email = prefs.getString('email');
+
+  });
+}
 
 
 
@@ -133,7 +152,7 @@ class _ProfileState extends State<Profile> {
       body: Container(
         child: Column(
           children: [
-            Padding(
+            /*Padding(
               padding: const EdgeInsets.only(top: 25.0, bottom: 15.0),
               child: Align(
                 alignment: Alignment.topCenter,
@@ -151,17 +170,13 @@ class _ProfileState extends State<Profile> {
                   radius: 75.0,
                 ),
               ),
-            ),
-            Text(
-              'Cadre Doe',
-              style: tabTextStyle,
-            ),
+            ),*/
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Technical Sergeant',
-                style: TextStyle(
-                  fontSize: 20,
+              padding: const EdgeInsets.all(25.0),
+              child: Center(
+                child: Text(
+                  '$fName' + ' $lName',
+                  style: tabTextStyle,
                 ),
               ),
             ),
@@ -169,12 +184,103 @@ class _ProfileState extends State<Profile> {
               thickness: 1,
             ),
             Container(
+              padding: EdgeInsets.only(left: 20, right: 20, top: 8.0),
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Ranking:',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                        'Technical Sergeant',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                  ),
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Nickname:',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      ' $nName',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Email:',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      ' $email',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  Divider(),
+                 /* Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.edit_outlined,
+                          color: Colors.amber[200],
+                        ),
+                        onPressed: () {
+                          iconPressed = true;
+                          readBio();
+                        },
+                      ),
+                    ],
+                  ),*/
+                ],
+              ),
+            ),
+            Container(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Nickname',
+                 /* Text(
+                    'Biography',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w400,
@@ -195,38 +301,7 @@ class _ProfileState extends State<Profile> {
                         },
                       ),
                     ],
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Biography',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
-                    ),
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.edit_outlined,
-                          color: Colors.amber[200],
-                        ),
-                        onPressed: () {
-                          iconPressed = true;
-                          readBio();
-                          },
-                      ),
-                    ],
-                  ),
+                  ),*/
                 ],
               ),
             ),
@@ -237,7 +312,7 @@ class _ProfileState extends State<Profile> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(40.0, 0.0, 255.0, 0.0),
                       child:Text(
-                        profileData.toString(),
+                        ''
                       )
                   ),
 
