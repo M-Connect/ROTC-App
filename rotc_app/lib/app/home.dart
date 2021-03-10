@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +8,7 @@ import 'package:rotc_app/app/messaging/messaging.dart';
 import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 import 'package:rotc_app/app/profile/profile.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 /*
   Author: Christine Thomas
@@ -31,9 +32,10 @@ bool isCadre = false;
 class _HomeView extends State<HomeView> {
   int _tabOption = 0;
 
+
   static List<Widget> _widgetOptions = <Widget>[
-    dashboard(),
-    peerReviewForm(),
+    Dashboard(),
+    PeerReviewForm(),
     CalendarTasks(),
     messages(),
     Profile(),
@@ -44,6 +46,7 @@ class _HomeView extends State<HomeView> {
       _tabOption = option;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -97,5 +100,4 @@ class _HomeView extends State<HomeView> {
     );
   }
 }
-
 

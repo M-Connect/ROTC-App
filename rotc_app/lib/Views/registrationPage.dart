@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /*
  Author: Christine Thomas
@@ -9,13 +11,13 @@ import 'package:form_field_validator/form_field_validator.dart';
  TODO: TextFormFields to be modularized and validation needs to be fixed.
 
   Co-Author:  Kyle Serruys
-  This class now has the functionality to connect to our cadets database.
+  This class now has the functionality to connect to our users database.
   This class now has validation on first name, last name, email, and password fields.
 */
 
 // ignore: must_be_immutable
 class RegistrationView extends StatelessWidget {
-  CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   TextEditingController fName = TextEditingController();
   TextEditingController lName = TextEditingController();
@@ -25,13 +27,14 @@ class RegistrationView extends StatelessWidget {
 
 
 
-  Future<void> userRegistration() {
-    return cadets.add({
+  Future<void> userRegistration(String id)  {
+    return users.doc(id).set({
       'firstName': fName.text,
       'lastName': lName.text,
       'nickName': nName.text,
       'email': email.text,
       'password': password.text,
+      'isCadre': false,
     });
   }
 
@@ -221,12 +224,20 @@ class RegistrationView extends StatelessWidget {
                         child: ElevatedButton(
                           child: Text('Register'),
                           onPressed: () async {
-                            await FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                                    email: email.text, password: password.text);
-                            await userRegistration();
-                            ///Sending to signInPage instead of welcomePage -Christine
-                            Navigator.pushNamed(context, '/signIn');
+                           // try {
+                              await FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                  email: email.text, password: password.text);
+                              var currentUser = await FirebaseAuth.instance
+                                  .currentUser;
+
+                              await userRegistration(currentUser.uid);
+
+                              ///Sending to signInPage instead of welcomePage -Christine
+                              Navigator.pushNamed(context, '/signIn');
+                         /*   } catch (e) {
+                              alertDialog(context);
+                             }*/
                           },
                         ),
                       ),
@@ -242,3 +253,24 @@ class RegistrationView extends StatelessWidget {
   }
 }
 
+Future <void> alertDialog(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pushNamed(context, '/register');
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("Email Address is Already Taken.  Please Use Another Email Address."),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

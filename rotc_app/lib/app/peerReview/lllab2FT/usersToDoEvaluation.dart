@@ -1,67 +1,60 @@
-import 'package:flutter/material.dart';
-import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
-import 'package:rotc_app/common_widgets/buttonWidgets.dart';
-
-import '../../main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../main.dart';
 
-/*
- Author: Sawyer Kisha
- Co-author: Kyle Serruys
-  This class is the home page for our peer review request page
-  Needs functionality
- */
-
-class PeerReview extends StatefulWidget {
+class UsersToDoEvaluation extends StatefulWidget {
   @override
-  PeerReviewState createState() => PeerReviewState();
+  _UsersToDoEvaluationState createState() => _UsersToDoEvaluationState();
 }
 
-class PeerReviewState extends State<PeerReview> {
+class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
   var userList = new List<String>();
-  var selectedUserList = new List<String>();
+  var usersToEvaluate = new List<String>();
+  var usersToDoEvaluation = new List<String>();
+  var selectUsersList = new List<String>();
 
   List<ElevatedButton> userButtonList = new List<ElevatedButton>();
   String firstName = "";
   String lastName = "";
 
-  CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
+  CollectionReference evaluationRequests = FirebaseFirestore.instance.collection('userEvaluationRequests');
 
-  Future<void> peerReview() {
-    return cadets.add({
-      "firstName": firstName,
-      "lastName": lastName,
+  Future<void> userEvaluationRequests() {
+    selectUsersList.forEach((evaluator) {
+      usersToEvaluate.forEach((evaluatee) {
+        return evaluationRequests.add({
+          "evaluator": evaluator,
+          "evaluatee":evaluatee,
+          "status":"Pending"
+        });
+      });
     });
+
+
+    /*return evaluationRequests.add({
+      "usersToEvaluate": usersToEvaluate,
+      "usersToDoEvaluation": selectUsersList,
+    });*/
   }
 
 /*
 Author:  Kyle Serruys
-This sets the state for the functions getCadetNames and getUserInfo.  We put
-them in this initState becuase both functions need to be async, and you can't
-make initState an async function.
+
   */
   @override
   void initState() {
     super.initState();
-    getCadetNames();
     getUserInfo();
-    //  initSliderValue();
+    getUsersToEvaluate();
   }
 
-  getCadetNames() async {
+  getUsersToEvaluate() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      firstName = prefs.getString("firstName");
-      lastName = prefs.getString("lastName");
-    });
+    usersToEvaluate = prefs.getStringList("usersToEvaluate");
   }
 
-/*
-Author:  Kyle Serruys
-This is the function used to take a snapshot of our collection and import the
-first and last name of the users in the users collection.
-  */
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await FirebaseFirestore.instance
@@ -69,32 +62,20 @@ first and last name of the users in the users collection.
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
-        userList.add(element.data()['firstName'].toString() + " " +
-
+        userList.add(element.data()['firstName'].toString() +
             element.data()['lastName'].toString());
       });
     });
     setState(() {});
   }
 
-  /*
-  Author:  Kyle Serruys
-  This list takes the users from our users collection and adds a button with
-  their name on it.  This will populate for each and every user in the users
-  collection.
-  Co-Author: Sawyer Kisha
-  Formatted the list of cadets for the interface
-
-  */
   List<Widget> makeButtonsList() {
     for (int i = 0; i < userList.length; i++) {
       userButtonList.add(
         new ElevatedButton(
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            selectedUserList.add(userList[i]);
-            prefs.setStringList('selectedUserList', selectedUserList);
-            navigation.currentState.pushNamed('/individualEvalConfirmationPage');
+            selectUsersList.add(userList[i]);
           },
           child: Container(
               width: 200,
@@ -115,13 +96,7 @@ first and last name of the users in the users collection.
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            navigation.currentState.pushNamed('/homePage');
-          },
-        ),
-        title: Text('Evaluation Request'),
+        title: Text('Peer Review Request'),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.logout),
@@ -135,21 +110,28 @@ first and last name of the users in the users collection.
         child: Container(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 20.0, top: 50.0, bottom: 50.0),
+                  padding: const EdgeInsets.only(top: 50.0, bottom: 50.0),
                     child: Container(
-                      child: Text('Select Cadet:',
+                      child: Text('Select Cadet(s) To Evaluate The Previously Selected Cadet(s)              (Self Evaluation is Accepted):',
                         style: TextStyle(
                           fontSize: 20.0,
                         ),
-                      ),
-                    )
-                ),
-                Center(
+                       ),
+                     )
+                  ),
+                Container(
                   child: Column(
                     children: makeButtonsList(),
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    children: <Widget>[
+
+                    ],
                   ),
                 ),
 
@@ -159,7 +141,24 @@ first and last name of the users in the users collection.
               ]),
         ),
       ),
-
+      bottomNavigationBar: Padding(
+        padding:
+        EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              child: Text('Submit'),
+              onPressed: () async {
+                SharedPreferences prefs= await SharedPreferences.getInstance();
+                await userEvaluationRequests();
+                prefs.remove("usersToEvaluate");
+                navigation.currentState.pushNamed('/homePage');
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
