@@ -79,7 +79,8 @@ class PlanningState extends State<Planning> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            navigation.currentState.pushNamed('/peerReviewLLAB2FT');
+            //navigation.currentState.pushNamed('/peerReviewLLAB2FT');
+            Navigator.of(context, rootNavigator: true).pop();
           },
         ),
         title: Text('Planning'),

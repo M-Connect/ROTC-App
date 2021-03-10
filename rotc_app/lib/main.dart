@@ -17,6 +17,8 @@ import 'Views/registrationPage.dart';
 import 'Views/signInPage.dart';
 import 'Views/welcomePage.dart';
 import 'app/home.dart';
+import 'app/peerReview/graphs/barGraphs.dart';
+import 'app/peerReview/graphs/lineGraphs.dart';
 import 'app/peerReview/lllab2FT/communication.dart';
 import 'app/peerReview/lllab2FT/confirmation.dart';
 import 'app/peerReview/lllab2FT/leadership.dart';
@@ -55,7 +57,7 @@ class MConnect extends StatelessWidget {
           create: (_) => Auth(FirebaseAuth.instance),
         ),
         StreamProvider(
-          create: (context) => context.read<Auth>().authState,
+          create: (context) => context.read<Auth>().authState, initialData: null,
         )
       ],
       child: MaterialApp(
@@ -94,6 +96,8 @@ class MConnect extends StatelessWidget {
       '/multipleEvalConfirmationPage':(context) => MultipleEvalConfirmationPage(),
       '/usersToDoEvaluation':(context) => UsersToDoEvaluation(),
       '/notifications':(context) => Notifications(),
+      '/barGraph': (context) => BarGraph(),
+      '/lineGraph': (context) => LineGraph(),
 
     } ),
     );
@@ -112,40 +116,3 @@ class Authenticate extends StatelessWidget {
   }
 }
 
-/*@override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'M-Connect',
-      navigatorKey: navigation,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        primaryColorLight: Colors.cyan[300],
-        primaryColor: Colors.blue[900],
-        accentColor: Colors.amber[200],
-      ),
-      initialRoute: '/',
-      routes: {
-        '/w': (context) => WelcomeView(),
-        '/signIn': (context) => SignInView(),
-        '/register': (context) => RegistrationView(),
-        '/':(context) => HomeView(),
-        '/forgotPassword': (context) => ForgotPasswordView(),
-        '/profile': (context) => Profile(),
-        '/editProfile': (context) => EditProfile(),
-        '/peerReviewLanding': (context) => PeerReviewLanding(),
-        '/peerReview': (context) => PeerReview(),
-        '/peerReviewRequest': (context) => PeerReviewRequest(),
-        '/peerReviewStats': (context) => PeerReviewStats(),
-        '/peerReviewLLAB2FT': (context)=> PeerReviewLLAB2FT(),
-        '/peerReviewFLXFlight': (context) => PeerReviewFLXFlight(),
-        '/peerReviewCommissioning': (context) => PeerReviewCommissioning(),
-        '/planning':(context) => Planning(),
-        '/communications':(context) => Communication(),
-        '/execution': (context) => Execution(),
-        '/leadership': (context) => Leadership(),
-        '/debrief': (context) => Debrief(),
-      },
-    );
-  }
-}*/
