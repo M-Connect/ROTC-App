@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -223,14 +224,20 @@ class RegistrationView extends StatelessWidget {
                         child: ElevatedButton(
                           child: Text('Register'),
                           onPressed: () async {
-                            await FirebaseAuth.instance
-                                .createUserWithEmailAndPassword(
-                                    email: email.text, password: password.text);
-                                  var currentUser = await FirebaseAuth.instance.currentUser;
+                           // try {
+                              await FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                  email: email.text, password: password.text);
+                              var currentUser = await FirebaseAuth.instance
+                                  .currentUser;
 
-                            await userRegistration(currentUser.uid);
-                            ///Sending to signInPage instead of welcomePage -Christine
-                            Navigator.pushNamed(context, '/signIn');
+                              await userRegistration(currentUser.uid);
+
+                              ///Sending to signInPage instead of welcomePage -Christine
+                              Navigator.pushNamed(context, '/signIn');
+                         /*   } catch (e) {
+                              alertDialog(context);
+                             }*/
                           },
                         ),
                       ),
@@ -246,3 +253,24 @@ class RegistrationView extends StatelessWidget {
   }
 }
 
+Future <void> alertDialog(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pushNamed(context, '/register');
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("Email Address is Already Taken.  Please Use Another Email Address."),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

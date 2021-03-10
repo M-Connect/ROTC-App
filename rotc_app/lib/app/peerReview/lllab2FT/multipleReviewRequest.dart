@@ -19,11 +19,6 @@ class _MultipleReviewRequestState extends State<MultipleReviewRequest> {
     getUserInfo();
   }
 
-
-
-
-
-
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await FirebaseFirestore.instance

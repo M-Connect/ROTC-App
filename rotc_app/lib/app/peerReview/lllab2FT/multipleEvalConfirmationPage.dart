@@ -90,7 +90,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
               ),
               Container(
                 child: ElevatedButton(
-                  child: Text('Start Evaluation'),
+                  child: Text('Next'),
                   onPressed: () {
                     navigation.currentState.pushNamed('/usersToDoEvaluation');
                   },
