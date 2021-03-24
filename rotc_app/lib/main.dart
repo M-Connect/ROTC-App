@@ -32,6 +32,7 @@ import 'app/peerReview/commissioning/peerReviewCommissioning.dart';
 import 'app/peerReview/flxflight/peerReviewFLXFlight.dart';
 import 'app/peerReview/peerReviewLanding.dart';
 import 'app/profile/profile.dart';
+
 /*
   Author: Kyle Serruys
   created main and MConnect class.
@@ -45,6 +46,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   runApp(MConnect());
+
 }
 
 
