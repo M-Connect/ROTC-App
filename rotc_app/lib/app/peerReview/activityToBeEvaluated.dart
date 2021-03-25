@@ -7,37 +7,37 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /*
- Author: Sawyer Kisha
- Co-author: Kyle Serruys
-  This class is the home page for our peer review request page
-  Needs functionality
+ Author: Kyle Serruys
+ This class allows the evaluator to evaluate the evaluatee on a certain activity.
+ It pulls from all activites listed in the database, as well as gives the option
+ to add a new activity.
  */
 
-class PeerReview extends StatefulWidget {
+class ActivityToBeEvaluated extends StatefulWidget {
   @override
-  PeerReviewState createState() => PeerReviewState();
+  ActivityToBeEvaluatedState createState() => ActivityToBeEvaluatedState();
 }
 
-class PeerReviewState extends State<PeerReview> {
-  var userList = new List<String>();
-  var filteredUserList = new List<String>();
-  var selectedUserList = new List<String>();
+class ActivityToBeEvaluatedState extends State<ActivityToBeEvaluated> {
+  var activityList = new List<String>();
+  var filteredActivityList = new List<String>();
+  var selectedActivityList = new List<String>();
   var tempList = new List<String>();
 
-  TextEditingController userSearch = TextEditingController();
+  bool isListEmpty = true;
 
-  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
-  String firstName = "";
-  String lastName = "";
+  TextEditingController activitySearch = TextEditingController();
 
-  //CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
+  List<ElevatedButton> activityButtonList = new List<ElevatedButton>();
+  String activity = "";
 
-  /*Future<void> peerReview() {
-    return cadets.add({
-      "firstName": firstName,
-      "lastName": lastName,
+  CollectionReference activities = FirebaseFirestore.instance.collection('activity');
+
+  Future<void> activityRegistration()  {
+    return activities.add({
+      'activity': activitySearch.text,
     });
-  }*/
+  }
 
 /*
 Author:  Kyle Serruys
@@ -48,15 +48,14 @@ make initState an async function.
   @override
   void initState() {
     super.initState();
-    getCadetNames();
-    getUserInfo();
+    getActivity();
+    getActivityInfo();
   }
 
-  getCadetNames() async {
+  getActivity() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      firstName = prefs.getString("firstName");
-      lastName = prefs.getString("lastName");
+      activity = prefs.getString("activity");
     });
   }
 
@@ -65,16 +64,14 @@ Author:  Kyle Serruys
 This is the function used to take a snapshot of our collection and import the
 first and last name of the users in the users collection.
   */
-  getUserInfo() async {
+  getActivityInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await FirebaseFirestore.instance
-        .collection('users')
+        .collection('activity')
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
-        userList.add(element.data()['firstName'].toString() +
-            " " +
-            element.data()['lastName'].toString());
+        activityList.add(element.data()['activity'].toString());
       });
     });
     setState(() {
@@ -92,14 +89,14 @@ first and last name of the users in the users collection.
 
   */
   List<Widget> makeButtonsList() {
-    userButtonList.clear();
-    for (int i = 0; i < filteredUserList.length; i++) {
-      userButtonList.add(
+    activityButtonList.clear();
+    for (int i = 0; i < filteredActivityList.length; i++) {
+      activityButtonList.add(
         new ElevatedButton(
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            selectedUserList.add(filteredUserList[i]);
-            prefs.setStringList('selectedUserList', selectedUserList);
+            selectedActivityList.add(filteredActivityList[i]);
+            prefs.setStringList('selectedActivityList', selectedActivityList);
             navigation.currentState
                 .pushNamed('/individualEvalConfirmationPage');
           },
@@ -108,28 +105,32 @@ first and last name of the users in the users collection.
               height: 40,
               child: new Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[Text(filteredUserList[i])])),
+                  children: <Widget>[Text(filteredActivityList[i])])),
         ),
       );
     }
-    return userButtonList;
+    return activityButtonList;
   }
 
   searchList(String value) {
-    var filter = userSearch.value.text;
+    var filter = activitySearch.value.text;
     setState(() {
       if(filter == "" || filter == null)
-        {
-          filteredUserList = userList;
-        }
-      else{
-      filteredUserList = userList
-          .where(
-              (element) => element.toLowerCase().contains(filter.toLowerCase()))
-          .toList();
+      {
+        filteredActivityList = activityList;
+        isListEmpty = true;
       }
+      else{
+        filteredActivityList = activityList
+            .where(
+                (element) => element.toLowerCase().contains(filter.toLowerCase()))
+            .toList();
+        isListEmpty = false;
+      }
+
     });
   }
+
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,14 +162,14 @@ first and last name of the users in the users collection.
                         left: 20.0, top: 50.0, bottom: 50.0),
                     child: Container(
                       child: Text(
-                        'Select Cadet:',
+                        'Select from an activity below, or add a new activity:',
                         style: TextStyle(
                           fontSize: 20.0,
                         ),
                       ),
                     )),
                 TextField(
-                  controller: userSearch,
+                  controller: activitySearch,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
@@ -189,7 +190,7 @@ first and last name of the users in the users collection.
                           title: Text(value),
                           onTap: () async {
                             SharedPreferences prefs = await SharedPreferences.getInstance();
-                            prefs.setStringList('selectedUserList', selectedUserList);
+                            prefs.setStringList('selectedActivityList', selectedActivityList);
                             navigation.currentState
                                 .pushNamed('/individualEvalConfirmationPage');
                           },
@@ -199,11 +200,27 @@ first and last name of the users in the users collection.
                   ),
                 Center(
                   child: Column(
-                         children: makeButtonsList(),
-                      ),
+                    children: makeButtonsList(),
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 40.0),
+                ),
+                Visibility(
+                  visible: isListEmpty,
+                  child: Row(
+                    children: [
+                      Container(
+                        child: ElevatedButton(
+                          child: Text("Submit",),
+                          onPressed: ()async {
+                            activityRegistration();
+                            navigation.currentState.pushNamed('/individualEvalConfirmationPage');
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ]),
         ),

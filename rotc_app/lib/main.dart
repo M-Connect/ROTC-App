@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rotc_app/app/peerReview/activityToBeEvaluated.dart';
 
 import 'package:rotc_app/app/peerReview/lllab2FT/debrief.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/execution.dart';
@@ -16,6 +17,7 @@ import 'Views/passwords/ForgotPassword.dart';
 import 'Views/registrationPage.dart';
 import 'Views/signInPage.dart';
 import 'Views/welcomePage.dart';
+import 'app/Schedule/CalendarTasks.dart';
 import 'app/home.dart';
 import 'app/peerReview/graphs/barGraphs.dart';
 import 'app/peerReview/graphs/lineGraphs.dart';
@@ -73,8 +75,8 @@ class MConnect extends StatelessWidget {
       '/forgotPassword': (context) => ForgotPasswordView(),
       '/profile': (context) => Profile(),
       '/editProfile': (context) => EditProfile(),
-
-
+      '/calendar': (context) => CalendarTasks(),
+      '/activityToBeEvaluated': (context) => ActivityToBeEvaluated(),
       '/peerReviewLanding': (context) => PeerReviewForm(),
 
       '/peerReview': (context) => PeerReview(),

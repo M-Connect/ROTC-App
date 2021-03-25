@@ -118,6 +118,8 @@ class _ConfirmationState extends State<Confirmation> {
     });
   }
 
+
+
   static final SizedBox spaceBetweenFields = SizedBox(height: 20.0);
   @override
   Widget build(BuildContext context) {
@@ -303,6 +305,8 @@ class _ConfirmationState extends State<Confirmation> {
                     ElevatedButton(
                       child: Text('Submit'),
                       onPressed: () async {
+
+
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                         await markEvaluationComplete();
                         await peerEvaluation();
@@ -317,9 +321,9 @@ class _ConfirmationState extends State<Confirmation> {
                         await prefs.remove("leadershipValue");
                         await prefs.remove("debriefValue");
                         await prefs.remove("currentEvaluationId");
-                        await prefs.remove("firstName");
+                       /* await prefs.remove("firstName");
                         await prefs.remove("lastName");
-                        await prefs.remove("email");
+                        await prefs.remove("email");*/
 
                         navigation.currentState.pushNamed('/homePage');
                       },
