@@ -105,18 +105,18 @@ class _IndividualEvalConfirmationPageState
               Container(
                 height: 75,
                 padding: (EdgeInsets.all(5.0)),
-                decoration: BoxDecoration(
+                /*decoration: BoxDecoration(
                   border: (Border.all(color: Colors.black87)),
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
+                ),*/
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                 // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       child: Container(
                         child: Text(
                           '$selectedUserString Evaluation',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20.0,
                           ),
@@ -130,18 +130,21 @@ class _IndividualEvalConfirmationPageState
                 padding: const EdgeInsets.only(bottom: 20.0),
               ),
               Container(
-                // width: 30.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    Center(
+                      child: Container(
+                    padding: EdgeInsets.only(left: 25.0),
+
                       child: Text(
                         'Evaluation Date:',
                         style: TextStyle(
-                          fontSize: 17.5,
+                          fontSize: 20.0,
                         ),
                       ),
+                    ),
                     ),
                   ],
                 ),
@@ -174,24 +177,31 @@ class _IndividualEvalConfirmationPageState
                               ),
                             ),
                             onTap: () {
-                              getEvaluationCompletionDate(context);
+                              navigation.currentState.pushNamed('/evaluationCalendarTasks');
+                              //getEvaluationCompletionDate(context);
                             },
                           ),
                         ),
                       ),
                     ]),
               ),
+
               Container(
                 child: Row(
                   children: [
-                    Container(
-                      child: Text(
-                        'Evaluation Activity:',
-                        style: TextStyle(
-                          fontSize: 17.5,
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.only(left: 25.0),
+
+                        child: Text(
+                          'Evaluation Activity:',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
                         ),
                       ),
                     ),
+
                   ],
                 ),
               ),

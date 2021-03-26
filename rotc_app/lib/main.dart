@@ -8,6 +8,7 @@ import 'package:rotc_app/app/peerReview/lllab2FT/debrief.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/execution.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/individualEvalConfirmationPage.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/multipleEvalConfirmationPage.dart';
+import 'package:rotc_app/app/peerReview/lllab2FT/multipleUserActivityToBeEvaluated.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/usersToDoEvaluation.dart';
 import 'package:rotc_app/app/peerReview/peerReviewRequest.dart';
 import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
@@ -18,6 +19,7 @@ import 'Views/registrationPage.dart';
 import 'Views/signInPage.dart';
 import 'Views/welcomePage.dart';
 import 'app/Schedule/CalendarTasks.dart';
+import 'app/Schedule/evaluationCalendarTasks.dart';
 import 'app/home.dart';
 import 'app/peerReview/graphs/barGraphs.dart';
 import 'app/peerReview/graphs/lineGraphs.dart';
@@ -76,6 +78,7 @@ class MConnect extends StatelessWidget {
       '/profile': (context) => Profile(),
       '/editProfile': (context) => EditProfile(),
       '/calendar': (context) => CalendarTasks(),
+      '/evaluationCalendarTasks': (context) => EvaluationCalendarTasks(),
       '/activityToBeEvaluated': (context) => ActivityToBeEvaluated(),
       '/peerReviewLanding': (context) => PeerReviewForm(),
 
@@ -97,6 +100,7 @@ class MConnect extends StatelessWidget {
       '/individualEvalConfirmationPage': (context) => IndividualEvalConfirmationPage(),
       '/multipleEvalConfirmationPage':(context) => MultipleEvalConfirmationPage(),
       '/usersToDoEvaluation':(context) => UsersToDoEvaluation(),
+      '/multipleUserActivityToBeEvaluated':(context) => MultipleUserActivityToBeEvaluated(),
       '/notifications':(context) => Notifications(),
     //  '/barGraph': (context) => BarGraph(),
     //  '/lineGraph': (context) => LineGraph(),

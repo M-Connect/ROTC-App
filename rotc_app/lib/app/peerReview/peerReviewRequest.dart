@@ -25,6 +25,10 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   var userList = new List<String>();
   var usersToEvaluate = new List<String>();
   var selectUsersList = new List<String>();
+  var filteredUserList = new List<String>();
+  var tempList = new List<String>();
+
+  TextEditingController userSearch = TextEditingController();
 
   List<ElevatedButton> userButtonList = new List<ElevatedButton>();
   String firstName = "";
@@ -48,16 +52,20 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
             element.data()['lastName'].toString());
       });
     });
-    setState(() {});
+    setState(() {
+      searchList("");
+    });
   }
 
   List<Widget> makeButtonsList() {
-    for (int i = 0; i < userList.length; i++) {
+    userButtonList.clear();
+
+    for (int i = 0; i < filteredUserList.length; i++) {
       userButtonList.add(
         new ElevatedButton(
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            usersToEvaluate.add(userList[i]);
+            usersToEvaluate.add(filteredUserList[i]);
             prefs.setStringList('usersToEvaluate', usersToEvaluate);
           },
           child: Container(
@@ -66,7 +74,7 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
               child: new Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:<Widget>[
-                    Text(userList[i])
+                    Text(filteredUserList[i])
                   ]
               )
           ),
@@ -74,6 +82,22 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
     );
   }
     return userButtonList;
+  }
+
+  searchList(String value) {
+    var filter = userSearch.value.text;
+    setState(() {
+      if(filter == "" || filter == null)
+      {
+        filteredUserList = userList;
+      }
+      else{
+        filteredUserList = userList
+            .where(
+                (element) => element.toLowerCase().contains(filter.toLowerCase()))
+            .toList();
+      }
+    });
   }
 
   Widget build(BuildContext context) {
@@ -106,6 +130,36 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
                   ),
 
                 ),
+                TextField(
+                  controller: userSearch,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5.0),
+                      ),
+                    ),
+                  ),
+                  onChanged: searchList,
+                ),
+                if (tempList != null)
+                  SizedBox(
+                    child: ListView(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.all(12.0),
+                      children: tempList?.map((value) {
+                        return ListTile(
+                          title: Text(value),
+                          onTap: () async {
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setStringList('selectUsersList', selectUsersList);
+                            navigation.currentState
+                                .pushNamed('/individualEvalConfirmationPage');
+                          },
+                        );
+                      })?.toList(),
+                    ),
+                  ),
                 Center(
                   child: Column(
                     children: makeButtonsList(),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
-
-import '../../main.dart';
+import '../../../main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,12 +11,12 @@ import 'package:shared_preferences/shared_preferences.dart';
  to add a new activity.
  */
 
-class ActivityToBeEvaluated extends StatefulWidget {
+class MultipleUserActivityToBeEvaluated extends StatefulWidget {
   @override
-  ActivityToBeEvaluatedState createState() => ActivityToBeEvaluatedState();
+  MultipleUserActivityToBeEvaluatedState createState() => MultipleUserActivityToBeEvaluatedState();
 }
 
-class ActivityToBeEvaluatedState extends State<ActivityToBeEvaluated> {
+class MultipleUserActivityToBeEvaluatedState extends State<MultipleUserActivityToBeEvaluated> {
   var activityList = new List<String>();
   var filteredActivityList = new List<String>();
   var selectedActivityList = new List<String>();
@@ -84,8 +82,7 @@ first and last name of the users in the users collection.
   This list takes the users from our users collection and adds a button with
   their name on it.  This will populate for each and every user in the users
   collection.
-  Co-Author: Sawyer Kisha
-  Formatted the list of cadets for the interface
+
 
   */
   List<Widget> makeButtonsList() {
@@ -98,7 +95,7 @@ first and last name of the users in the users collection.
             selectedActivityList.add(filteredActivityList[i]);
             prefs.setStringList('selectedActivityList', selectedActivityList);
             navigation.currentState
-                .pushNamed('/individualEvalConfirmationPage');
+                .pushNamed('/multipleEvalConfirmationPage');
           },
           child: Container(
               width: 200,
@@ -118,14 +115,14 @@ first and last name of the users in the users collection.
       if(filter == "" || filter == null)
       {
         filteredActivityList = activityList;
-        isListEmpty = false;
+        isListEmpty = true;
       }
       else{
         filteredActivityList = activityList
             .where(
                 (element) => element.toLowerCase().contains(filter.toLowerCase()))
             .toList();
-        isListEmpty = true;
+        isListEmpty = false;
       }
 
     });
@@ -140,7 +137,7 @@ first and last name of the users in the users collection.
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.remove('selectedActivityList');
-            navigation.currentState.pushNamed('/individualEvalConfirmationPage');
+            navigation.currentState.pushNamed('/multipleEvalConfirmationPage');
           },
         ),
         title: Text('Evaluation Activity'),
@@ -193,8 +190,7 @@ first and last name of the users in the users collection.
                           onTap: () async {
                             SharedPreferences prefs = await SharedPreferences.getInstance();
                             prefs.setStringList('selectedActivityList', selectedActivityList);
-                            navigation.currentState
-                                .pushNamed('/individualEvalConfirmationPage');
+                            navigation.currentState.pushNamed('/multipleEvalConfirmationPage');
                           },
                         );
                       })?.toList(),
@@ -218,7 +214,7 @@ first and last name of the users in the users collection.
                           child: Text("Submit",),
                           onPressed: ()async {
                             activityRegistration();
-                            navigation.currentState.pushNamed('/individualEvalConfirmationPage');
+                            navigation.currentState.pushNamed('/multipleEvalConfirmationPage');
                           },
                         ),
                       ),

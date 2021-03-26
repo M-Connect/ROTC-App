@@ -23,6 +23,11 @@ class _ConfirmationState extends State<Confirmation> {
   String firstName = "";
   String lastName ="";
   String email = "";
+  String activity = "";
+  var selectedUserList = new List<String>();
+  var selectedActivityList = new List<String>();
+  String selectedActivityString;
+  String selectedUserString;
 
 
   CollectionReference evaluation =
@@ -43,6 +48,7 @@ class _ConfirmationState extends State<Confirmation> {
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
+      "activity":activity,
       "planning": planning,
       "planningValue": planningValue,
       "communication": communication,
@@ -53,12 +59,15 @@ class _ConfirmationState extends State<Confirmation> {
       "leadershipValue": leadershipValue,
       "debrief": debrief,
       "debriefValue":debriefValue,
+
     });
   }
 
   @override
   void initState() {
     getUserData();
+    getSelectedUser();
+    getSelectedActivity();
     getPlanningData();
     getCommunicationData();
     getLeadershipData();
@@ -69,20 +78,34 @@ class _ConfirmationState extends State<Confirmation> {
   getUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-
       firstName = prefs.getString("firstName");
       lastName = prefs.getString("lastName");
       email = prefs.getString("email");
     });
   }
 
+  getSelectedActivity() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedActivityList = prefs.getStringList("selectedActivityList".toString());
+      selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
+    });
+  }
+
+  getSelectedUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedUserList = prefs.getStringList("selectedUserList".toString());
+      selectedUserString = prefs
+          .getStringList("selectedUserList")
+          .reduce((value, element) => value + element);
+    });
+  }
   getExecutionData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       execution = prefs.getString("execution");
       executionValue = prefs.getString("executionValue");
-      firstName = prefs.getString("firstName");
-      lastName = prefs.getString("lastName");
     });
   }
 
@@ -141,11 +164,21 @@ class _ConfirmationState extends State<Confirmation> {
         child: Container(
           child: Column(
             children: [
-              /*Row(
+              Row(
                 children: [
-                  Text('Evaluatee:  $selectedUserList',style: TextStyle(fontSize: 20.0),),
+                  Text('Evaluator: $firstName $lastName', style: TextStyle(fontSize: 20.0),),
                 ],
-              ),*/
+              ),
+              Row(
+                children: [
+                  Text('Evaluatee:  $selectedUserString',style: TextStyle(fontSize: 20.0),),
+                ],
+              ),
+              Row(
+                children: [
+                  Text('Activity: $selectedActivityString', style: TextStyle(fontSize: 20.0),),
+                ],
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -321,6 +354,7 @@ class _ConfirmationState extends State<Confirmation> {
                         await prefs.remove("leadershipValue");
                         await prefs.remove("debriefValue");
                         await prefs.remove("currentEvaluationId");
+                        await prefs.remove("selectedActivityList");
                        /* await prefs.remove("firstName");
                         await prefs.remove("lastName");
                         await prefs.remove("email");*/
