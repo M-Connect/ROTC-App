@@ -30,15 +30,6 @@ class PeerReviewState extends State<PeerReview> {
   String firstName = "";
   String lastName = "";
 
-  //CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
-
-  /*Future<void> peerReview() {
-    return cadets.add({
-      "firstName": firstName,
-      "lastName": lastName,
-    });
-  }*/
-
 /*
 Author:  Kyle Serruys
 This sets the state for the functions getCadetNames and getUserInfo.  We put
@@ -137,7 +128,7 @@ first and last name of the users in the users collection.
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            navigation.currentState.pushNamed('/homePage');
+            navigation.currentState.pushNamed('/peerReviewLanding');
           },
         ),
         title: Text('Evaluation Request'),
