@@ -59,28 +59,32 @@ class PeerReviewFormState extends State<PeerReviewForm> {
             ),
 
             //Cadre View
-            Center(
-              child: Visibility(
-                visible: isCadre == true,
-               child: Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                 children: <Widget>[
-                  Text(
-                    '    Cadre View    ',
-                    style: TextStyle(
-                      fontSize: 50.0,
-                      color: Colors.black45,
-                      fontWeight: FontWeight.bold,
-                      //decoration: TextDecoration.underline,
+
+              Center(
+                child: Visibility(
+                  visible: isCadre == true,
+                 child: Row(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                   children: <Widget>[
+                    Text(
+                      '    Cadre View    ',
+                      style: TextStyle(
+                        fontSize: 50.0,
+                        color: Colors.black45,
+                        fontWeight: FontWeight.bold,
+                        //decoration: TextDecoration.underline,
+                      ),
                     ),
+                  ],
                   ),
-                ],
                 ),
               ),
-            ),
+
+
 
             //Cadet View
-            Center(
+            SizedBox(
+            child: Center(
               child: Visibility(
                 visible: isCadre == false,
                 child: Row(
@@ -99,7 +103,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                 ),
               ),
             ),
-
+            ),
             //Underline
             Center(
                 child: Row(
@@ -220,7 +224,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     ),
                   ),
                   onPressed: () {
-                    navigation.currentState.pushNamed('/lineGraph');
+                    navigation.currentState.pushNamed('/graphActivitySelector');
                   },
                   width: 350,
                   height: 100,

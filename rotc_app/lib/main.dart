@@ -14,6 +14,7 @@ import 'package:rotc_app/app/peerReview/lllab2FT/usersToDoEvaluation.dart';
 import 'package:rotc_app/app/peerReview/peerReviewRequest.dart';
 import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
 import 'package:rotc_app/app/profile/editProfile.dart';
+import 'package:rotc_app/common_widgets/barGraphWidget2.0.dart';
 import 'package:rotc_app/services/auth.dart';
 import 'Views/passwords/ForgotPassword.dart';
 import 'Views/registrationPage.dart';
@@ -103,6 +104,7 @@ class MConnect extends StatelessWidget {
       '/usersToDoEvaluation':(context) => UsersToDoEvaluation(),
       '/multipleUserActivityToBeEvaluated':(context) => MultipleUserActivityToBeEvaluated(),
       '/notifications':(context) => Notifications(),
+      '/barGraphy2':(context) => BarGraphv2(),
     //  '/barGraph': (context) => BarGraph(),
     //  '/lineGraph': (context) => LineGraph(),
 

@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BarGraphv2  extends StatefulWidget {
   @override
@@ -9,6 +11,57 @@ class BarGraphv2  extends StatefulWidget {
 class _BarGraphv2State extends State<BarGraphv2 > {
   final List<double> sectionData = [10.0, 17.0, 20.0, 9.0, 5.0];
   int barIndex;
+
+  String planning = "";
+  String communication = "";
+  String execution = "";
+  String leadership = "";
+  String debrief = "";
+  String planningValue = "";
+  String communicationValue = "";
+  String executionValue = "";
+  String leadershipValue = "";
+  String debriefValue = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getEvaluationSections();
+    //getEvaluationData();
+  }
+
+  getEvaluationSections() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      planning = prefs.getString("planning");
+      communication = prefs.getString("communication");
+      execution = prefs.getString("execution");
+      leadership = prefs.getString("leadership");
+      debrief = prefs.getString("debrief");
+      planningValue = prefs.getString("planningValue");
+      communicationValue = prefs.getString("communicationValue");
+      executionValue = prefs.getString("executionValue");
+      leadershipValue = prefs.getString("leadershipValue");
+      debriefValue = prefs.getString("debriefValue");
+    });
+  }
+/*
+  getEvaluationData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var data = await FirebaseFirestore.instance
+        .collection('peerEvaluation')
+        .get()
+        .then((docSnapshot) {
+      docSnapshot.docs.forEach((element) {
+        activityList.add(element.data()['activity'].toString());
+      });
+    });
+    setState(() {
+      searchList("");
+    });
+  }*/
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,6 +157,7 @@ class _BarGraphv2State extends State<BarGraphv2 > {
 
   BarTouchData _bgTouchData() {
     return BarTouchData(
+
       touchTooltipData: BarTouchTooltipData(
         tooltipBgColor: Colors.black,
         getTooltipItem: (group, groupIndex, rod, rodIndex) {
