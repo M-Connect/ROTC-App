@@ -204,6 +204,9 @@ class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
               Navigator.pop(context);
             }, child: Text("Cancel")),
             ElevatedButton(onPressed: () {
+            //  prefs.setString("events", json.encode(encodeMap(_tasks)));
+
+              prefs.setString("evaluationDate",_calendarController.selectedDay.toString());
               Navigator.pop(context);
             }, child: Text("Submit")),
 

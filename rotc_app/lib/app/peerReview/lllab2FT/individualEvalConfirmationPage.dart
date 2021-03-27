@@ -1,6 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
@@ -31,8 +32,9 @@ class _IndividualEvalConfirmationPageState
   var selectedActivityList = new List<String>();
   String selectedActivityString;
   String selectedUserString;
-  DateTime evaluationCompletionDate = DateTime.now();
   String text;
+  String tempString = "";
+  String evalDate = "";
 
   TextEditingController chooseDate = TextEditingController();
   TextEditingController chooseActivity = TextEditingController();
@@ -41,16 +43,33 @@ class _IndividualEvalConfirmationPageState
   void initState() {
     // TODO: implement initState
     super.initState();
+    makeTextBlank();
     getSelectedUser();
     getSelectedActivity();
+    getEvaluationDate();
   }
 
+  getEvaluationDate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      evalDate = prefs.getString('evaluationDate') ?? " ";
+  DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
+});
+
+
+  }
   getSelectedActivity() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       selectedActivityList = prefs.getStringList("selectedActivityList".toString());
       selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
     });
+  }
+
+  makeTextBlank(){
+    if(selectedActivityString == null){
+      selectedActivityString = tempString;
+    }
   }
 
   getSelectedUser() async {
@@ -63,19 +82,8 @@ class _IndividualEvalConfirmationPageState
     });
   }
 
-  getEvaluationCompletionDate(BuildContext context) async {
-    DateTime selection = await showDatePicker(
-      context: context,
-      initialDate: evaluationCompletionDate,
-      firstDate: DateTime(2021),
-      lastDate: DateTime(2030),
-    );
-    if (selection != null && selection != evaluationCompletionDate) {
-      setState(() {
-        evaluationCompletionDate = selection;
-      });
-    }
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -163,8 +171,8 @@ class _IndividualEvalConfirmationPageState
                             readOnly: true,
                             controller: chooseDate,
                             decoration: InputDecoration(
-                              hintText: ("${evaluationCompletionDate.toLocal()}"
-                                  .split(' ')[0]),
+
+                              hintText: (evalDate),
                               hintStyle: TextStyle(
                                   fontSize: 20.0, color: Colors.black87),
                               isDense: true,
@@ -176,8 +184,9 @@ class _IndividualEvalConfirmationPageState
                                 ),
                               ),
                             ),
-                            onTap: () {
-                              navigation.currentState.pushNamed('/evaluationCalendarTasks');
+                            onTap: () async {
+                              await navigation.currentState.pushNamed('/evaluationCalendarTasks');
+                              getEvaluationDate();
                               //getEvaluationCompletionDate(context);
                             },
                           ),
@@ -219,7 +228,7 @@ class _IndividualEvalConfirmationPageState
                               readOnly: true,
                               controller: chooseActivity,
                               decoration: InputDecoration(
-                                hintText: '$selectedActivityString',
+                                hintText: selectedActivityString,
                                 hintStyle: TextStyle(
                                     fontSize: 20.0, color: Colors.black87),
                                 isDense: true,
@@ -232,6 +241,7 @@ class _IndividualEvalConfirmationPageState
                                 ),
                               ),
                               onTap: () {
+
                                 navigation.currentState.pushNamed('/activityToBeEvaluated');
                               },
                               //  onChanged: chooseDate,

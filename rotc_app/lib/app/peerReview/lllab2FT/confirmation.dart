@@ -48,7 +48,7 @@ class _ConfirmationState extends State<Confirmation> {
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
-      "activity":activity,
+      "activity":selectedActivityString,
       "planning": planning,
       "planningValue": planningValue,
       "communication": communication,
@@ -59,7 +59,6 @@ class _ConfirmationState extends State<Confirmation> {
       "leadershipValue": leadershipValue,
       "debrief": debrief,
       "debriefValue":debriefValue,
-
     });
   }
 
@@ -179,6 +178,7 @@ class _ConfirmationState extends State<Confirmation> {
                   Text('Activity: $selectedActivityString', style: TextStyle(fontSize: 20.0),),
                 ],
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -27,6 +27,7 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   var selectUsersList = new List<String>();
   var filteredUserList = new List<String>();
   var tempList = new List<String>();
+  var usersSelected = new Map<String,bool>();
 
   TextEditingController userSearch = TextEditingController();
 
@@ -44,7 +45,7 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await FirebaseFirestore.instance
-        .collection('users')
+        .collection('users').orderBy("firstName")
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
@@ -53,8 +54,23 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
       });
     });
     setState(() {
+      for(int i = 0; i <  userList.length; i++) {
+        if(!usersSelected.containsKey(userList[i].toString())) {
+          usersSelected[userList[i].toString()] = false;
+        }
+      }
       searchList("");
     });
+  }
+
+  bool isSelected(String userName) {
+    return usersSelected[userName];
+  }
+
+  void toggleUser(String userName)
+  {
+    var selectedValue =  usersSelected[userName];
+    usersSelected[userName] = !selectedValue;
   }
 
   List<Widget> makeButtonsList() {
@@ -63,18 +79,22 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
     for (int i = 0; i < filteredUserList.length; i++) {
       userButtonList.add(
         new ElevatedButton(
+
           onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            usersToEvaluate.add(filteredUserList[i]);
-            prefs.setStringList('usersToEvaluate', usersToEvaluate);
+
+            setState(() {
+              toggleUser(filteredUserList[i]);
+            });
           },
+          style: ElevatedButton.styleFrom(side : BorderSide(width: usersSelected[filteredUserList[i]] ? 5.0 : 1.0,
+          color: usersSelected[filteredUserList[i]] ?Colors.amber : Colors.black87)),
           child: Container(
               width: 200,
               height: 40,
               child: new Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:<Widget>[
-                    Text(filteredUserList[i])
+                    Text(filteredUserList[i]),
                   ]
               )
           ),
@@ -181,6 +201,14 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
             ElevatedButton(
               child: Text('Next'),
               onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                usersSelected.forEach((key, value) {
+                  if(value){
+                    usersToEvaluate.add(key);
+                  }
+                });
+
+                prefs.setStringList('usersToEvaluate', usersToEvaluate);
                 navigation.currentState.pushNamed('/multipleEvalConfirmationPage');
               },
             ),

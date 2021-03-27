@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rotc_app/app/peerReview/activityToBeEvaluated.dart';
+import 'package:rotc_app/app/peerReview/graphs/graphActivitySelector.dart';
 
 import 'package:rotc_app/app/peerReview/lllab2FT/debrief.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/execution.dart';
@@ -81,7 +82,7 @@ class MConnect extends StatelessWidget {
       '/evaluationCalendarTasks': (context) => EvaluationCalendarTasks(),
       '/activityToBeEvaluated': (context) => ActivityToBeEvaluated(),
       '/peerReviewLanding': (context) => PeerReviewForm(),
-
+      '/graphActivitySelector': (context) => GraphActivitySelector(),
       '/peerReview': (context) => PeerReview(),
       '/peerReviewRequest': (context) => PeerReviewRequest(),
       '/peerReviewStats': (context) => PeerReviewStats(),

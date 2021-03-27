@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
-import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
-
-import '../../main.dart';
+import '../../../main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /*
- Author: Kyle Serruys
- This class allows the evaluator to evaluate the evaluatee on a certain activity.
- It pulls from all activites listed in the database, as well as gives the option
- to add a new activity.
+Author: Kyle Serruys
+  This page will load the users evaluations that have been performed on them.
+  You will be able to search by either date or activity name.  After the activity
+  has been chosen it will send you to the bar graph page.
  */
 
-class ActivityToBeEvaluated extends StatefulWidget {
+class GraphActivitySelector extends StatefulWidget {
   @override
-  ActivityToBeEvaluatedState createState() => ActivityToBeEvaluatedState();
+  GraphActivitySelectorState createState() => GraphActivitySelectorState();
 }
 
-class ActivityToBeEvaluatedState extends State<ActivityToBeEvaluated> {
+class GraphActivitySelectorState extends State<GraphActivitySelector> {
   var activityList = new List<String>();
   var filteredActivityList = new List<String>();
   var selectedActivityList = new List<String>();
@@ -33,12 +31,14 @@ class ActivityToBeEvaluatedState extends State<ActivityToBeEvaluated> {
 
   CollectionReference activities = FirebaseFirestore.instance.collection('activity');
 
-  Future<void> activityRegistration()  {
-    return activities.add({
-      'activity': activitySearch.text,
-    });
-  }
 
+
+/*
+Author:  Kyle Serruys
+This sets the state for the functions getCadetNames and getUserInfo.  We put
+them in this initState becuase both functions need to be async, and you can't
+make initState an async function.
+  */
   @override
   void initState() {
     super.initState();
@@ -61,7 +61,7 @@ first and last name of the users in the users collection.
   getActivityInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await FirebaseFirestore.instance
-        .collection('activity').orderBy("activity")
+        .collection('peerEvaluation')
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
@@ -75,11 +75,7 @@ first and last name of the users in the users collection.
 
   /*
   Author:  Kyle Serruys
-  This list takes the users from our users collection and adds a button with
-  their name on it.  This will populate for each and every user in the users
-  collection.
-  Co-Author: Sawyer Kisha
-  Formatted the list of cadets for the interface
+
 
   */
   List<Widget> makeButtonsList() {
@@ -112,15 +108,15 @@ first and last name of the users in the users collection.
       if(filter == "" || filter == null)
       {
         filteredActivityList = activityList;
-
+        isListEmpty = false;
       }
       else{
         filteredActivityList = activityList
             .where(
                 (element) => element.toLowerCase().contains(filter.toLowerCase()))
             .toList();
+        isListEmpty = true;
       }
-      isListEmpty = filteredActivityList.length == 0;
 
     });
   }
@@ -209,12 +205,8 @@ first and last name of the users in the users collection.
                     children: [
                       Container(
                         child: ElevatedButton(
-                          child: Text("Add",),
+                          child: Text("Submit",),
                           onPressed: ()async {
-                            activityRegistration();
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            selectedActivityList.add(activitySearch.text);
-                            prefs.setStringList('selectedActivityList', selectedActivityList);
                             navigation.currentState.pushNamed('/individualEvalConfirmationPage');
                           },
                         ),

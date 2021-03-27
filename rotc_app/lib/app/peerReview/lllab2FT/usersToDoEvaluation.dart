@@ -58,7 +58,7 @@ Author:  Kyle Serruys
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await FirebaseFirestore.instance
-        .collection('users')
+        .collection('users').orderBy("firstName")
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {

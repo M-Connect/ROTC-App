@@ -65,7 +65,7 @@ first and last name of the users in the users collection.
   getActivityInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await FirebaseFirestore.instance
-        .collection('activity')
+        .collection('activity').orderBy("activity")
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
@@ -115,16 +115,16 @@ first and last name of the users in the users collection.
       if(filter == "" || filter == null)
       {
         filteredActivityList = activityList;
-        isListEmpty = true;
+
       }
       else{
         filteredActivityList = activityList
             .where(
                 (element) => element.toLowerCase().contains(filter.toLowerCase()))
             .toList();
-        isListEmpty = false;
-      }
 
+      }
+      isListEmpty = filteredActivityList.length == 0;
     });
   }
 
