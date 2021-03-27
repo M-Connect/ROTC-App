@@ -71,8 +71,8 @@ class MConnect extends StatelessWidget {
         home: Authenticate(),
     initialRoute: '/',
     routes: {
-      '/welcomePage': (context) => WelcomeView(),
       '/signIn': (context) => SignInView(),
+      '/welcomePage': (context) => WelcomeView(),
       '/register': (context) => RegistrationView(),
       '/homePage': (context) => HomeView(),
       '/forgotPassword': (context) => ForgotPasswordView(),
@@ -119,7 +119,7 @@ class Authenticate extends StatelessWidget {
     if (firebaseUser != null) {
       return HomeView();
     }
-    return WelcomeView();
+    return SignInView();
   }
 }
 
