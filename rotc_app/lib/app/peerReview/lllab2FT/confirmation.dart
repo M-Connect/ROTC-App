@@ -28,6 +28,7 @@ class _ConfirmationState extends State<Confirmation> {
   var selectedActivityList = new List<String>();
   String selectedActivityString;
   String selectedUserString;
+  String evalDate= "";
 
 
   CollectionReference evaluation =
@@ -48,6 +49,7 @@ class _ConfirmationState extends State<Confirmation> {
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
+      "evaluationDate": evalDate,
       "activity":selectedActivityString,
       "planning": planning,
       "planningValue": planningValue,
@@ -80,6 +82,7 @@ class _ConfirmationState extends State<Confirmation> {
       firstName = prefs.getString("firstName");
       lastName = prefs.getString("lastName");
       email = prefs.getString("email");
+      evalDate = prefs.get("evaluationDate");
     });
   }
 
@@ -148,7 +151,7 @@ class _ConfirmationState extends State<Confirmation> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Peer Review Confirmation'),
+        title: Text('Evaluation Confirmation'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
@@ -165,7 +168,7 @@ class _ConfirmationState extends State<Confirmation> {
             children: [
               Row(
                 children: [
-                  Text('Evaluator: $firstName $lastName', style: TextStyle(fontSize: 20.0),),
+                  Text('Evaluator:  $firstName $lastName', style: TextStyle(fontSize: 20.0),),
                 ],
               ),
               Row(
@@ -175,10 +178,10 @@ class _ConfirmationState extends State<Confirmation> {
               ),
               Row(
                 children: [
-                  Text('Activity: $selectedActivityString', style: TextStyle(fontSize: 20.0),),
+                  Text('Activity:  $selectedActivityString', style: TextStyle(fontSize: 20.0),),
                 ],
               ),
-
+              Padding(padding: EdgeInsets.only(bottom: 20.0),),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -355,6 +358,7 @@ class _ConfirmationState extends State<Confirmation> {
                         await prefs.remove("debriefValue");
                         await prefs.remove("currentEvaluationId");
                         await prefs.remove("selectedActivityList");
+                        await prefs.remove("evaluationDate");
                        /* await prefs.remove("firstName");
                         await prefs.remove("lastName");
                         await prefs.remove("email");*/

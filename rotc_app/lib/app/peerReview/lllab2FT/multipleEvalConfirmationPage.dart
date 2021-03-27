@@ -3,6 +3,8 @@ import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 
+import 'package:intl/intl.dart';
+
 class MultipleEvalConfirmationPage extends StatefulWidget {
   @override
   _MultipleEvalConfirmationPageState createState() => _MultipleEvalConfirmationPageState();
@@ -16,6 +18,8 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
 
   DateTime evaluationCompletionDate = DateTime.now();
   String text;
+  String tempString = "";
+  String evalDate = "";
 
   TextEditingController chooseDate = TextEditingController();
   TextEditingController chooseActivity = TextEditingController();
@@ -23,9 +27,18 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
+    makeTextBlank();
     getSelectedUser();
     getSelectedActivity();
+    getEvaluationDate();
+  }
+
+  makeTextBlank(){
+    if(selectedActivityString == null){
+      selectedActivityString = tempString;
+    }
   }
   getSelectedActivity() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -42,21 +55,13 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
       userDisplayString = prefs.getStringList("usersToEvaluate").join(", ");
     });
   }
-
-  getEvaluationCompletionDate(BuildContext context) async {
-    DateTime selection = await showDatePicker(
-      context: context,
-      initialDate: evaluationCompletionDate,
-      firstDate: DateTime(2021),
-      lastDate: DateTime(2030),
-    );
-    if (selection != null && selection != evaluationCompletionDate) {
-      setState(() {
-        evaluationCompletionDate = selection;
-      });
-    }
+  getEvaluationDate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      evalDate = prefs.getString('evaluationDate') ?? " ";
+      DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
+    });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,8 +70,8 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.remove('selectedActivityList');
-            navigation.currentState.pushNamed('/peerReviewRequest');
+            prefs.remove('selectedUserList');
+            navigation.currentState.pushNamed('/peerReview');
           },
         ),
         title: Text('Request'),
@@ -96,6 +101,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                     Expanded(
                       child: Container(
                         child: Text('$userDisplayString to be under evaluation',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20.0,
                           ),
@@ -142,8 +148,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                             readOnly: true,
                             controller: chooseDate,
                             decoration: InputDecoration(
-                              hintText: ("${evaluationCompletionDate.toLocal()}"
-                                  .split(' ')[0]),
+                              hintText: (evalDate),
                               hintStyle: TextStyle(
                                   fontSize: 20.0, color: Colors.black87),
                               isDense: true,
@@ -155,8 +160,9 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                                 ),
                               ),
                             ),
-                            onTap: () {
-                              getEvaluationCompletionDate(context);
+                            onTap: () async{
+                              await navigation.currentState.pushNamed('/evaluationCalendarTasks');
+                              getEvaluationDate();
                             },
                           ),
                         ),
@@ -197,7 +203,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                               readOnly: true,
                               controller: chooseActivity,
                               decoration: InputDecoration(
-                                hintText: '$selectedActivityString',
+                                hintText: selectedActivityString,
                                 hintStyle: TextStyle(
                                     fontSize: 20.0, color: Colors.black87),
                                 isDense: true,

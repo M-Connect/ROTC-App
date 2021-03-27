@@ -24,6 +24,7 @@ class ActivityToBeEvaluatedState extends State<ActivityToBeEvaluated> {
   var selectedActivityList = new List<String>();
   var tempList = new List<String>();
 
+
   bool isListEmpty = true;
 
   TextEditingController activitySearch = TextEditingController();

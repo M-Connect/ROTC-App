@@ -39,7 +39,6 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   void initState() {
     super.initState();
     getUserInfo();
-    //  initSliderValue();
   }
 
   getUserInfo() async {
@@ -75,13 +74,10 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
 
   List<Widget> makeButtonsList() {
     userButtonList.clear();
-
     for (int i = 0; i < filteredUserList.length; i++) {
       userButtonList.add(
         new ElevatedButton(
-
           onPressed: () async {
-
             setState(() {
               toggleUser(filteredUserList[i]);
             });
@@ -141,14 +137,13 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 50.0),
-                  child: Container(
+                  child: Container(alignment: Alignment.center,
                     child: Text('Select Cadet(s) Under Evaluation:',
                       style: TextStyle(
                         fontSize: 20.0,
                       ),
                     ),
                   ),
-
                 ),
                 TextField(
                   controller: userSearch,
@@ -189,6 +184,32 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                 ),
+               /* Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(padding: EdgeInsets.only(bottom: 150.0)),
+                    Container(
+                      width: 230,
+                      height: 40,
+                      child: ElevatedButton(
+
+                        child: Text('Next'),
+
+                        onPressed: () async {
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          usersSelected.forEach((key, value) {
+                            if(value){
+                              usersToEvaluate.add(key);
+                            }
+                          });
+
+                          prefs.setStringList('usersToEvaluate', usersToEvaluate);
+                          navigation.currentState.pushNamed('/multipleEvalConfirmationPage');
+                        },
+                      ),
+                    ),
+                  ],
+                ),*/
               ]),
         ),
       ),

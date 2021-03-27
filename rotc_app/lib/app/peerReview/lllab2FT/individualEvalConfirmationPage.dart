@@ -17,9 +17,6 @@ button it will send you to the evaluation form.
 CollectionReference evaluationRequests =
     FirebaseFirestore.instance.collection('userEvaluationRequests');
 
-/*
-When you press sub
-* */
 class IndividualEvalConfirmationPage extends StatefulWidget {
   @override
   _IndividualEvalConfirmationPageState createState() =>

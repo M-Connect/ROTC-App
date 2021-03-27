@@ -37,12 +37,7 @@ class MultipleUserActivityToBeEvaluatedState extends State<MultipleUserActivityT
     });
   }
 
-/*
-Author:  Kyle Serruys
-This sets the state for the functions getCadetNames and getUserInfo.  We put
-them in this initState becuase both functions need to be async, and you can't
-make initState an async function.
-  */
+
   @override
   void initState() {
     super.initState();
@@ -77,14 +72,7 @@ first and last name of the users in the users collection.
     });
   }
 
-  /*
-  Author:  Kyle Serruys
-  This list takes the users from our users collection and adds a button with
-  their name on it.  This will populate for each and every user in the users
-  collection.
 
-
-  */
   List<Widget> makeButtonsList() {
     activityButtonList.clear();
     for (int i = 0; i < filteredActivityList.length; i++) {
@@ -214,6 +202,9 @@ first and last name of the users in the users collection.
                           child: Text("Submit",),
                           onPressed: ()async {
                             activityRegistration();
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            selectedActivityList.add(activitySearch.text);
+                            prefs.setStringList('selectedActivityList', selectedActivityList);
                             navigation.currentState.pushNamed('/multipleEvalConfirmationPage');
                           },
                         ),
