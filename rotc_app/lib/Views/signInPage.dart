@@ -11,10 +11,8 @@ import '../main.dart';
 
 /*
 Sawyer Kisha
-02/02/2021
-1.0 - Prototype 01
-Ui for the sign in page
-
+Ui for the sign in page, turned into the replacement
+for the welcome page. User begins here.
 Co-Author:  Kyle Serruys
 Added Validation for the email and password properties
 */
@@ -41,135 +39,164 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            navigation.currentState.pushNamed('/welcomePage');
-          },
-        ),
-        title: Text('Sign-In'),
-      ),
+
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Form(
           // ignore: deprecated_member_use
           autovalidate: true,
+          //child: SizedBox(height: 100.0),
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text('Email: '),
-                ),
-                TextFormField(
-                  controller: email,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Insert Email',
+                  padding: const EdgeInsets.only(top: 100.0, bottom: 100.0),
+                  child: Text('ROTC App',
+                    style: TextStyle(fontSize: 40.0,
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  //onSaved: (String value) {},********************
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: "Required"),
-                    EmailValidator(errorText: "Not a valid email"),
-                  ]),
+                ),
+
+
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      controller: email,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Email',
+                      ),
+                      //onSaved: (String value) {},********************
+                      validator: MultiValidator([
+                        RequiredValidator(errorText: "Required"),
+                        EmailValidator(errorText: "Not a valid email"),
+                      ]
+                      ),
+                    ),
+                  ],
                 ),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: Text('Password: '),
+                      //child: Text('Password: '),
                     ),
                     TextFormField(
                       controller: password,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: 'Insert Password',
+                        hintText: 'Password',
                       ),
                       obscureText: true,
                       // onSaved: (String value) {},******************
                       validator: MultiValidator([
                         MinLengthValidator(5,
                             errorText:
-                                "Password must be at least 5 characters."),
-                      ]),
+                            "Password must be at least 5 characters."),
+                      ]
+                      ),
                     ),
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: ElevatedButton(
-                              child: Text('Sign In'),
-                              onPressed: () async {
-                                try {
-                                 /* context.read<Auth>().signIn(
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 50.0,
+                  child: ElevatedButton(
+                    child: Text('Sign In',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                        )
+                    ),
+                    onPressed: () async {
+                      try {
+                        /* context.read<Auth>().signIn(
                                       email: email.text.trim(),
                                       password: password.text.trim());*/
 
-                                  UserCredential user = await FirebaseAuth
-                                      .instance
-                                      .signInWithEmailAndPassword(
-                                      email: email.text,
-                                      password: password.text);
+                        UserCredential user = await FirebaseAuth
+                            .instance
+                            .signInWithEmailAndPassword(
+                            email: email.text,
+                            password: password.text);
 
-                                  var currentUser = await FirebaseAuth.instance.currentUser;
-                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                        var currentUser = await FirebaseAuth.instance.currentUser;
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                                  var uid = currentUser.uid;
+                        var uid = currentUser.uid;
 
-                                  var data = await FirebaseFirestore.instance.collection('users').doc(uid).get().then((docSnapshot) {
-                                    return docSnapshot.data();
-                                  });
+                        var data = await FirebaseFirestore.instance.collection('users').doc(uid).get().then((docSnapshot) {
+                          return docSnapshot.data();
+                        });
 
-                                  await prefs.setString('firstName', data['firstName'].toString());
-                                  await prefs.setString('lastName', data['lastName'].toString());
-                                  await prefs.setString('nickname', data['nickName'].toString());
-                                  await prefs.setString('email', currentUser.email);
-                                  await prefs.setString('isCadre', data['isCadre'].toString());
+                        await prefs.setString('firstName', data['firstName'].toString());
+                        await prefs.setString('lastName', data['lastName'].toString());
+                        await prefs.setString('nickname', data['nickName'].toString());
+                        await prefs.setString('email', currentUser.email);
+                        await prefs.setString('isCadre', data['isCadre'].toString());
 
 
-                                  Navigator.pushNamed(context, '/homePage');
+                        Navigator.pushNamed(context, '/homePage');
 
-                                } catch (e) {
-                                  alertDialog(context);
-                                }
-                              },
+                      } catch (e) {
+                        alertDialog(context);
+                      }
+                    },
+                  ),
+                ),
+
+                //added forgot password button - MRU
+                SizedBox(height: 1.0),
+                Container(
+                    child: Row(
+                      children: [
+                        TextButton(
+                          child: Text(
+                            "Forgot password?",
+                            style: TextStyle(
+                              color: Colors.blueAccent,
+                              //decoration: TextDecoration.underline,
                             ),
                           ),
-
-                          //added forgot password button - MRU
-                          SizedBox(height: 1.0),
-                          Column(
-                            children: [
-                              TextButton(
-                                child: Text(
-                                  "Forgot Password?",
-                                  style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, '/forgotPassword');
-                                },
-                              ),
-                            ],
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, '/forgotPassword');
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 95.0),
+                        ),
+                        TextButton(
+                          child: Text(
+                            "New user? Sign up",
+                            style: TextStyle(
+                              color: Colors.blueAccent,
+                            ),
                           ),
-                        ])
-                  ],
-                ),
-              ]),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, '/register');
+                          },
+                        ),
+                      ],
+                    )
+                )
+              ]
+          ),
         ),
       ),
     );
   }
 }
-
 alertDialog(BuildContext context) {
   Widget button = FlatButton(
     child: Text("OK"),
