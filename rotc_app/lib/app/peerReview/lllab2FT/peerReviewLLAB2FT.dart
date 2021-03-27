@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:animated_button/animated_button.dart';
 import '../../../main.dart';
 import '../peerReviewLanding.dart';
 
@@ -18,6 +18,7 @@ class PeerReviewLLAB2FT extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
+           // Navigator.pop(context);
             navigation.currentState.pushNamed('/homePage');
           },
         ),
@@ -38,56 +39,212 @@ class PeerReviewLLAB2FT extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
 
-            Container(
-              child: ElevatedButton(
-                child: Text('Planning'),
+            Center(
+              child: AnimatedButton(
+                child: Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(
+                        Icons.subtitles_outlined,
+                        size: 32.5,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        '          Planning',
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 onPressed: () {
                   navigation.currentState.pushNamed('/planning');
                 },
+                width: 350,
+                height: 60,
+                shadowDegree: ShadowDegree.dark,
+                duration: 100,
               ),
             ),
-            Container(
-              child: ElevatedButton(
-                child: Text('Communication'),
+            SizedBox(
+              height: 6.0,
+            ),
+            Center(
+              child: AnimatedButton(
+                child: Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(
+                        Icons.phone_in_talk,
+                        size: 32.5,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        '     Communication',
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 onPressed: () {
                   navigation.currentState.pushNamed('/communication');
                 },
+                width: 350,
+                height: 60,
+                shadowDegree: ShadowDegree.dark,
+                duration: 100,
               ),
             ),
-
-            Container(
-              child: ElevatedButton(
-                child: Text('Execution'),
+            SizedBox(
+              height: 6.0,
+            ),
+            Center(
+              child: AnimatedButton(
+                child: Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(
+                        Icons.sports_kabaddi_outlined,
+                        size: 32.5,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        '          Execution',
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 onPressed: () {
                   navigation.currentState.pushNamed('/execution');
                 },
+                width: 350,
+                height: 60,
+                shadowDegree: ShadowDegree.dark,
+                duration: 100,
               ),
             ),
-            Container(
-              child: ElevatedButton(
-                child: Text('Leadership'),
+            SizedBox(
+              height: 6.0,
+            ),
+            Center(
+              child: AnimatedButton(
+                child: Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(
+                        Icons.sports_outlined,
+                        size: 32.5,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        '         Leadership',
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 onPressed: () {
                   navigation.currentState.pushNamed('/leadership');
                 },
+                width: 350,
+                height: 60,
+                shadowDegree: ShadowDegree.dark,
+                duration: 100,
               ),
             ),
-            Container(
-              child: ElevatedButton(
-                child: Text('Debrief'),
+            SizedBox(
+              height: 6.0,
+            ),
+            Center(
+              child: AnimatedButton(
+                child: Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(
+                        Icons.supervised_user_circle,
+                        size: 32.5,
+                        color: Colors.white,
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        '            Debrief',
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 onPressed: () {
                   navigation.currentState.pushNamed('/debrief');
                 },
+                width: 350,
+                height: 60,
+                shadowDegree: ShadowDegree.dark,
+                duration: 100,
               ),
             ),
             spaceBetweenFields,
-            Container(
-
-              child: ElevatedButton(
-
-                child: Text('Confirmation'),
+            SizedBox(
+              height: 15.0,
+            ),
+            Center(
+              child: AnimatedButton(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Confirmation',
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 onPressed: () {
                   navigation.currentState.pushNamed('/confirmation');
                 },
+                width: 350,
+                height: 75,
+                shadowDegree: ShadowDegree.dark,
+                duration: 100,
               ),
             ),
           ],

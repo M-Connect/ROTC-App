@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:rotc_app/services/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/*
+Added common widget for log out alertSignOut button,
+will direct the user to the sign-in page
+*/
 
-
-// Added common widget for log out alertSignOut button,
 alertSignOut(BuildContext context) {
   Widget button2 = FlatButton(
       child: Text("No"),
@@ -19,7 +21,7 @@ alertSignOut(BuildContext context) {
         context.read<Auth>().signOut();
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.clear();
-        Navigator.of(context, rootNavigator: true).pushNamed('/welcomePage');
+        Navigator.of(context, rootNavigator: true).pushNamed('/signIn');
       });
   AlertDialog alert = AlertDialog(
     title: Text("Sign Out"),

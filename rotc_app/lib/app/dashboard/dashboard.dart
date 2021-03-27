@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:googleapis/fcm/v1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -156,23 +157,17 @@ class _DashboardState extends State<Dashboard> {
               .collection("dashboardUrls")
               .snapshots(),
           builder: (context, snapshots) {
-
             if (snapshots.connectionState == ConnectionState.active) {
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: snapshots.data.docs.length,
                 itemBuilder: (context, index) {
                   DocumentSnapshot docSnap = snapshots.data.docs[index];
-
-                  if (isCadre == true) {
                   return Dismissible(
                     onDismissed: (swipe) {
-                      if (isCadre == true) {
-                        deleteTasks(docSnap['DocumentName']);
-                        deleteTasks(docSnap['DocumentURL']);
-                      }
+                      deleteTasks(docSnap['DocumentName']);
+                      deleteTasks(docSnap['DocumentURL']);
                     },
-                    direction: DismissDirection.endToStart,
                     key: Key(docSnap['DocumentName']),
                     child: Card(
                       color: Colors.lightBlueAccent,
@@ -188,32 +183,7 @@ class _DashboardState extends State<Dashboard> {
                         },
                       ),
                     ),
-                    background: Container(
-                      color: Colors.lightBlueAccent,
-                      child: Icon(Icons.cancel),
-                    ),
                   );
-                  }
-                  else
-                    return Dismissible(
-                      onDismissed: (none){},
-                      direction: DismissDirection.none,
-                      key: Key(docSnap['DocumentName']),
-                      child: Card(
-                        color: Colors.lightBlueAccent,
-                        elevation: 2,
-                        margin: EdgeInsets.all(8),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: ListTile(
-                          title: Text(docSnap['DocumentName']),
-                          onTap: () {
-                            _launchURL(docSnap['DocumentURL']);
-                          },
-                        ),
-                      ),
-                    );
                 },
               );
             } else if (snapshots.connectionState == ConnectionState.waiting) {

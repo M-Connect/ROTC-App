@@ -12,6 +12,11 @@ class _MultipleReviewRequestState extends State<MultipleReviewRequest> {
   var userList = new List<String>();
   List<ElevatedButton> userButtonList = new List<ElevatedButton>();
   var selectUsersList = new List<String>();
+  var filteredUserList = new List<String>();
+  var tempList = new List<String>();
+
+  TextEditingController userSearch = TextEditingController();
+
 
   @override
   void initState() {
@@ -30,10 +35,27 @@ class _MultipleReviewRequestState extends State<MultipleReviewRequest> {
             element.data()['lastName'].toString());
       });
     });
-    setState(() {});
+    setState(() {
+      searchList("");
+    });
   }
 
 
+  searchList(String value) {
+    var filter = userSearch.value.text;
+    setState(() {
+      if(filter == "" || filter == null)
+      {
+        filteredUserList = userList;
+      }
+      else{
+        filteredUserList = userList
+            .where(
+                (element) => element.toLowerCase().contains(filter.toLowerCase()))
+            .toList();
+      }
+    });
+  }
 
 
   List<Widget> makeButtonsList(){

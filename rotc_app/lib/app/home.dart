@@ -52,7 +52,13 @@ class _HomeView extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('DET 390'),
+        //toolbarHeight: 70.0,
+        title: const Text("ROTC Control Panel",
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+          fontSize: 25.0,
+        ),
+        ),
         automaticallyImplyLeading: false,
         actions: <Widget>[
           new IconButton(
@@ -75,7 +81,7 @@ class _HomeView extends State<HomeView> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.ballot_sharp),
-            label: 'Evaluation Forms',
+            label: 'Evaluations',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today_sharp),
