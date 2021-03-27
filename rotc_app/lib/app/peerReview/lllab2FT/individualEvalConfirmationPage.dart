@@ -1,5 +1,7 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
@@ -15,9 +17,6 @@ button it will send you to the evaluation form.
 CollectionReference evaluationRequests =
     FirebaseFirestore.instance.collection('userEvaluationRequests');
 
-/*
-When you press sub
-* */
 class IndividualEvalConfirmationPage extends StatefulWidget {
   @override
   _IndividualEvalConfirmationPageState createState() =>
@@ -26,14 +25,49 @@ class IndividualEvalConfirmationPage extends StatefulWidget {
 
 class _IndividualEvalConfirmationPageState
     extends State<IndividualEvalConfirmationPage> {
-  String selectedUserString;
   var selectedUserList = new List<String>();
+  var selectedActivityList = new List<String>();
+  String selectedActivityString;
+  String selectedUserString;
+  String text;
+  String tempString = "";
+  String evalDate = "";
+
+  TextEditingController chooseDate = TextEditingController();
+  TextEditingController chooseActivity = TextEditingController();
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    makeTextBlank();
     getSelectedUser();
+    getSelectedActivity();
+    getEvaluationDate();
+  }
+
+  getEvaluationDate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      evalDate = prefs.getString('evaluationDate') ?? " ";
+  DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
+});
+
+
+  }
+  getSelectedActivity() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedActivityList = prefs.getStringList("selectedActivityList".toString());
+      selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
+    });
+  }
+
+  makeTextBlank(){
+    if(selectedActivityString == null){
+      selectedActivityString = tempString;
+    }
   }
 
   getSelectedUser() async {
@@ -45,6 +79,9 @@ class _IndividualEvalConfirmationPageState
           .reduce((value, element) => value + element);
     });
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,18 +111,19 @@ class _IndividualEvalConfirmationPageState
               Container(
                 height: 75,
                 padding: (EdgeInsets.all(5.0)),
-                decoration: BoxDecoration(
+                /*decoration: BoxDecoration(
                   border: (Border.all(color: Colors.black87)),
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
+                ),*/
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                 // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       child: Container(
                         child: Text(
                           '$selectedUserString Evaluation',
+                          textAlign: TextAlign.center,
+
                           style: TextStyle(
                             fontSize: 20.0,
                           ),
@@ -100,47 +138,120 @@ class _IndividualEvalConfirmationPageState
               ),
               Container(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+
+                    Center(
+                      child: Container(
+                    padding: EdgeInsets.only(left: 25.0),
+
                       child: Text(
                         'Evaluation Date:',
                         style: TextStyle(
-                          fontSize: 17.5,
+                          fontSize: 20.0,
                         ),
                       ),
                     ),
-                    Container(
-                      child: Text(
-                        'Insert Calendar Here',
-                        style: TextStyle(
-                          fontSize: 17.5,
-                        ),
-                      ),
+
                     ),
                   ],
                 ),
               ),
               Container(
+                //width: 250,
+                padding: EdgeInsets.all(25.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          //  width: 250,
+                          child: TextField(
+                            readOnly: true,
+                            controller: chooseDate,
+                            decoration: InputDecoration(
+
+                              hintText: (evalDate),
+                              hintStyle: TextStyle(
+                                  fontSize: 20.0, color: Colors.black87),
+                              isDense: true,
+                              contentPadding: EdgeInsets.all(8.0),
+                              prefixIcon: Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0),
+                                ),
+                              ),
+                            ),
+                            onTap: () async {
+                              await navigation.currentState.pushNamed('/evaluationCalendarTasks');
+                              getEvaluationDate();
+                              //getEvaluationCompletionDate(context);
+                            },
+                          ),
+                        ),
+                      ),
+                    ]),
+              ),
+
+              Container(
                 child: Row(
                   children: [
-                    Container(
-                      child: Text(
-                        'Evaluation Activity:',
-                        style: TextStyle(
-                          fontSize: 17.5,
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.only(left: 25.0),
+
+                        child: Text(
+                          'Evaluation Activity:',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
+
                         ),
                       ),
                     ),
-                    Container(
-                      child: Text(
-                        'insert activities here',
-                        style: TextStyle(
-                          fontSize: 17.5,
-                        ),
-                      ),
-                    ),
+
                   ],
                 ),
+              ),
+              Container(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: SizedBox(
+                          child: Container(
+
+                            padding: EdgeInsets.all(25.0),
+                            child: TextField(
+                              readOnly: true,
+                              controller: chooseActivity,
+                              decoration: InputDecoration(
+                                hintText: selectedActivityString,
+                                hintStyle: TextStyle(
+                                    fontSize: 20.0, color: Colors.black87),
+                                isDense: true,
+                                contentPadding: EdgeInsets.all(8.0),
+                                prefixIcon: Icon(Icons.search),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5.0),
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+
+                                navigation.currentState.pushNamed('/activityToBeEvaluated');
+                              },
+                              //  onChanged: chooseDate,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
@@ -174,8 +285,10 @@ class _IndividualEvalConfirmationPageState
                 ),
               ),
             ],
+
           ),
         ),
+
       ),
     );
   }

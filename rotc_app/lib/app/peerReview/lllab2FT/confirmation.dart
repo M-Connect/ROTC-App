@@ -23,6 +23,13 @@ class _ConfirmationState extends State<Confirmation> {
   String firstName = "";
   String lastName ="";
   String email = "";
+  String activity = "";
+  var selectedUserList = new List<String>();
+  var selectedActivityList = new List<String>();
+  String selectedActivityString;
+  String selectedUserString;
+  String evalDate= "";
+
 
 
   CollectionReference evaluation =
@@ -43,6 +50,10 @@ class _ConfirmationState extends State<Confirmation> {
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
+
+      "evaluationDate": evalDate,
+      "activity":selectedActivityString,
+
       "planning": planning,
       "planningValue": planningValue,
       "communication": communication,
@@ -59,6 +70,10 @@ class _ConfirmationState extends State<Confirmation> {
   @override
   void initState() {
     getUserData();
+
+    getSelectedUser();
+    getSelectedActivity();
+
     getPlanningData();
     getCommunicationData();
     getLeadershipData();
@@ -73,16 +88,33 @@ class _ConfirmationState extends State<Confirmation> {
       firstName = prefs.getString("firstName");
       lastName = prefs.getString("lastName");
       email = prefs.getString("email");
+      evalDate = prefs.get("evaluationDate");
+
     });
   }
 
+  getSelectedActivity() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedActivityList = prefs.getStringList("selectedActivityList".toString());
+      selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
+    });
+  }
+
+  getSelectedUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedUserList = prefs.getStringList("selectedUserList".toString());
+      selectedUserString = prefs
+          .getStringList("selectedUserList")
+          .reduce((value, element) => value + element);
+    });
+  }
   getExecutionData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       execution = prefs.getString("execution");
       executionValue = prefs.getString("executionValue");
-      firstName = prefs.getString("firstName");
-      lastName = prefs.getString("lastName");
     });
   }
 
@@ -118,13 +150,15 @@ class _ConfirmationState extends State<Confirmation> {
     });
   }
 
+
+
   static final SizedBox spaceBetweenFields = SizedBox(height: 20.0);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Peer Review Confirmation'),
+        title: Text('Evaluation Confirmation'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
@@ -141,9 +175,22 @@ class _ConfirmationState extends State<Confirmation> {
             children: [
               /*Row(
                 children: [
-                  Text('Evaluatee:  $selectedUserList',style: TextStyle(fontSize: 20.0),),
+
+                  Text('Evaluator:  $firstName $lastName', style: TextStyle(fontSize: 20.0),),
+
                 ],
               ),*/
+              Row(
+                children: [
+                  Text('Evaluatee:  $selectedUserString',style: TextStyle(fontSize: 20.0),),
+                ],
+              ),
+              Row(
+                children: [
+                  Text('Activity:  $selectedActivityString', style: TextStyle(fontSize: 20.0),),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 20.0),),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -303,6 +350,8 @@ class _ConfirmationState extends State<Confirmation> {
                     ElevatedButton(
                       child: Text('Submit'),
                       onPressed: () async {
+
+
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                         await markEvaluationComplete();
                         await peerEvaluation();
@@ -317,9 +366,13 @@ class _ConfirmationState extends State<Confirmation> {
                         await prefs.remove("leadershipValue");
                         await prefs.remove("debriefValue");
                         await prefs.remove("currentEvaluationId");
-                        await prefs.remove("firstName");
+
+                        await prefs.remove("selectedActivityList");
+                        await prefs.remove("evaluationDate");
+                       /* await prefs.remove("firstName");
                         await prefs.remove("lastName");
-                        await prefs.remove("email");
+                        await prefs.remove("email");*/
+
 
                         navigation.currentState.pushNamed('/homePage');
                       },

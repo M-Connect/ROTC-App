@@ -19,6 +19,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
   List<dynamic> _tasksChosen;
   TextEditingController _taskController;
   SharedPreferences prefs;
+  String evaluationDate = "";
 
   @override
   void initState() {
@@ -29,8 +30,15 @@ class _CalendarTasksState extends State<CalendarTasks> {
     _tasksChosen = [];
     sharedPrefsData();
     _loadButtonPressed();
+    getEvaluationDate();
   }
 
+  getEvaluationDate()async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+     evaluationDate = prefs.getString('evaluationDate');
+    });
+  }
   sharedPrefsData() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -74,7 +82,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    /*  appBar: AppBar(
+      /*appBar: AppBar(
         title: Text('Schedule'),
         centerTitle: true,
       ),*/

@@ -27,7 +27,7 @@ class CommunicationState extends State<Communication> {
     super.initState();
     initControllers();
     getUserInfo();
-    initSliderValue();
+   // initSliderValue();
   }
 
   initControllers() async {
@@ -38,12 +38,12 @@ class CommunicationState extends State<Communication> {
     });
   }
 
-  initSliderValue() async {
+ /* initSliderValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       sliderChange(communicationValue);
     });
-  }
+  }*/
   void sliderChange(double test) {
     setState(() {
       if(test != null){
