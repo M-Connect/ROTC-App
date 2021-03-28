@@ -25,9 +25,7 @@ class RegistrationView extends StatelessWidget {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-
-
-  Future<void> userRegistration(String id)  {
+  Future<void> userRegistration(String id) {
     return users.doc(id).set({
       'firstName': fName.text,
       'lastName': lName.text,
@@ -43,7 +41,6 @@ class RegistrationView extends StatelessWidget {
   // variables
   static final SizedBox spaceBetweenFields = SizedBox(height: 20.0);
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +55,7 @@ class RegistrationView extends StatelessWidget {
           child: Form(
             // ignore: deprecated_member_use
             autovalidate: true,
-          //  key: key,
+            //  key: key,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,8 +83,7 @@ class RegistrationView extends StatelessWidget {
                     hintText: 'John',
                   ),
                   onSaved: (String value) {},
-                  validator:
-                  MultiValidator([
+                  validator: MultiValidator([
                     RequiredValidator(errorText: "First name is required."),
                     PatternValidator(r'([a-zA-Z])',
                         errorText: 'First name can only contain letters.'),
@@ -113,8 +109,8 @@ class RegistrationView extends StatelessWidget {
                       onSaved: (String value) {},
                       validator: MultiValidator([
                         RequiredValidator(errorText: "Last name is required."),
-                        PatternValidator(r'([a-zA-Z])', errorText: 'Last name can only contain letters.'),
-
+                        PatternValidator(r'([a-zA-Z])',
+                            errorText: 'Last name can only contain letters.'),
                       ]),
                     ),
                   ],
@@ -166,7 +162,6 @@ class RegistrationView extends StatelessWidget {
                       validator: MultiValidator([
                         RequiredValidator(errorText: "Required"),
                         EmailValidator(errorText: "Not a valid email"),
-
                       ]),
                     ),
                   ],
@@ -191,8 +186,9 @@ class RegistrationView extends StatelessWidget {
                       onSaved: (String value) {},
                       onChanged: (value) => pass = value,
                       validator: MultiValidator([
-                        MinLengthValidator(5, errorText: "Password must be at least 5 characters."),
-
+                        MinLengthValidator(5,
+                            errorText:
+                                "Password must be at least 5 characters."),
                       ]),
                     ),
                   ],
@@ -214,8 +210,9 @@ class RegistrationView extends StatelessWidget {
                       ),
                       obscureText: true,
                       onSaved: (String value) {},
-                      validator: (value) => MatchValidator(errorText: "Passwords do not match").validateMatch(value, pass),
-
+                      validator: (value) =>
+                          MatchValidator(errorText: "Passwords do not match")
+                              .validateMatch(value, pass),
                     ),
                     Container(
                       child: Padding(
@@ -224,20 +221,25 @@ class RegistrationView extends StatelessWidget {
                         child: ElevatedButton(
                           child: Text('Register'),
                           onPressed: () async {
-                           // try {
-                              await FirebaseAuth.instance
+                            try {
+                              final newUser = await FirebaseAuth.instance
                                   .createUserWithEmailAndPassword(
-                                  email: email.text, password: password.text);
-                              var currentUser = await FirebaseAuth.instance
-                                  .currentUser;
+                                      email: email.text,
+                                      password: password.text);
+                              var currentUser =
+                                  await FirebaseAuth.instance.currentUser;
 
                               await userRegistration(currentUser.uid);
+                              await newUser.user.sendEmailVerification();
 
                               ///Sending to signInPage instead of welcomePage -Christine
-                              Navigator.pushNamed(context, '/signIn');
-                         /*   } catch (e) {
+                              if (newUser != null) {
+                                _verifyEmailAlertDialog(context);
+                              }
+                            } catch (e) {
                               alertDialog(context);
-                             }*/
+                              print(e);
+                            }
                           },
                         ),
                       ),
@@ -253,7 +255,7 @@ class RegistrationView extends StatelessWidget {
   }
 }
 
-Future <void> alertDialog(BuildContext context) {
+Future<void> alertDialog(BuildContext context) {
   Widget button = FlatButton(
     child: Text("OK"),
     onPressed: () {
@@ -262,8 +264,37 @@ Future <void> alertDialog(BuildContext context) {
   );
   AlertDialog alert = AlertDialog(
     title: Text("Error"),
-    content: Text("Email Address is Already Taken.  Please Use Another Email Address."),
+    content: Text(
+        "Email Address is Already Taken.  Please Use Another Email Address."),
     actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+Future<void> _verifyEmailAlertDialog(BuildContext context) async {
+  Widget button = FlatButton(
+    child: Text("close"),
+    onPressed: () {
+      Navigator.pushNamed(context, '/signIn');
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Verify Email"),
+    content: Text("An email has been sent to you. \n"
+        "Don't forget to verify your email to continue in sign-in."),
+    actions: [
+      TextButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
       button,
     ],
   );

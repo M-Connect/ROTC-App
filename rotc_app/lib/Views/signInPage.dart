@@ -131,8 +131,13 @@ class _SignInViewState extends State<SignInView> {
                                   await prefs.setString('email', currentUser.email);
                                   await prefs.setString('isCadre', data['isCadre'].toString());
 
-
-                                  Navigator.pushNamed(context, '/homePage');
+                                  if (user.user.emailVerified) {
+                                    Navigator.pushNamed(context, '/homePage');
+                                  }
+                                  else
+                                    {
+                                      _verifyEmailAlertDialog(context);
+                                    }
 
                                 } catch (e) {
                                   alertDialog(context);
@@ -181,6 +186,36 @@ alertDialog(BuildContext context) {
     title: Text("Error"),
     content: Text("Invalid login, please re-enter your email and password."),
     actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+
+
+Future<void> _verifyEmailAlertDialog(BuildContext context) async {
+  Widget button = FlatButton(
+    child: Text("close"),
+    onPressed: () {
+      Navigator.pushNamed(context, '/signIn');
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Verify Email"),
+    content: Text("your email isn't regiestered with us yet or \n"
+        "has not yet been verified."),
+    actions: [
+      TextButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
       button,
     ],
   );

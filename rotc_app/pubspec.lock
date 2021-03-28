@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.1"
+  animated_background:
+    dependency: "direct main"
+    description:
+      name: animated_background
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.5"
   animated_button:
     dependency: "direct main"
     description:
@@ -429,6 +436,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  pdftron_flutter:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: a734f3ea86470a55556b4ab9450762f7cc1d7fdd
+      url: "git://github.com/PDFTron/pdftron-flutter.git"
+    source: git
+    version: "0.0.31"
   pedantic:
     dependency: transitive
     description:
@@ -478,6 +494,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.5"
+  sa_v1_migration:
+    dependency: "direct main"
+    description:
+      name: sa_v1_migration
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.2"
   service_worker:
     dependency: transitive
     description:
@@ -527,6 +550,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  simple_animations:
+    dependency: "direct main"
+    description:
+      name: simple_animations
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.5.1"
   simple_gesture_detector:
     dependency: transitive
     description:
@@ -567,6 +597,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  supercharged:
+    dependency: transitive
+    description:
+      name: supercharged
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.12.0"
+  supercharged_dart:
+    dependency: transitive
+    description:
+      name: supercharged_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.0"
   table_calendar:
     dependency: "direct main"
     description:
