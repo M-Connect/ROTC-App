@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rotc_app/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -123,7 +124,7 @@ class _ProfileState extends State<Profile> {
   String fName = '';
   String lName = '';
   String nName = '';
-  String email = '';
+  static String email = '';
 
 
   bool iconPressed = false;
@@ -311,8 +312,13 @@ void initState() {
                 children: [
                   Padding(
                     padding: const EdgeInsets.fromLTRB(40.0, 0.0, 255.0, 0.0),
-                      child:Text(
-                        ''
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.bar_chart,
+                        ),
+                        onPressed: (){
+                          navigation.currentState.pushNamed('/barGraph');
+                        },
                       )
                   ),
 
