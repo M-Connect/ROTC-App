@@ -7,9 +7,6 @@ import 'package:form_field_validator/form_field_validator.dart';
 class ResetPasswordPage extends StatelessWidget {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-  TextEditingController fName = TextEditingController();
-  TextEditingController lName = TextEditingController();
-  TextEditingController nName = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
@@ -17,9 +14,6 @@ class ResetPasswordPage extends StatelessWidget {
 
   Future<void> userRegistration(String id)  {
     return users.doc(id).set({
-      'firstName': fName.text,
-      'lastName': lName.text,
-      'nickName': nName.text,
       'email': email.text,
       'password': password.text,
       'isCadre': false,
@@ -37,7 +31,7 @@ class ResetPasswordPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text('Register'),
+        title: Text('Reset Password'),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -61,105 +55,6 @@ class ResetPasswordPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                  child: Text(
-                    'First Name *',
-                  ),
-                ),
-                TextFormField(
-                  controller: fName,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'John',
-                  ),
-                  onSaved: (String value) {},
-                  validator:
-                  MultiValidator([
-                    RequiredValidator(errorText: "First name is required."),
-                    PatternValidator(r'([a-zA-Z])',
-                        errorText: 'First name can only contain letters.'),
-                  ]),
-                ),
-                spaceBetweenFields,
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Last Name *',
-                      ),
-                    ),
-                    TextFormField(
-                      controller: lName,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Doe',
-                      ),
-                      onSaved: (String value) {},
-                      validator: MultiValidator([
-                        RequiredValidator(errorText: "Last name is required."),
-                        PatternValidator(r'([a-zA-Z])', errorText: 'Last name can only contain letters.'),
-
-                      ]),
-                    ),
-                  ],
-                ),
-                spaceBetweenFields,
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Nickname ',
-                      ),
-                    ),
-                    TextFormField(
-                      controller: nName,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: '\"The Deer\"',
-                      ),
-                      onSaved: (String value) {},
-                      validator: (String value) {
-                        return value.contains('_')
-                            ? 'Only type in letters and numbers.'
-                            : null;
-                      },
-                    ),
-                  ],
-                ),
-                spaceBetweenFields,
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Email  *',
-                      ),
-                    ),
-                    TextFormField(
-                      controller: email,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'johndoe@rotc.com',
-                      ),
-                      onSaved: (String value) {},
-                      validator: MultiValidator([
-                        RequiredValidator(errorText: "Required"),
-                        EmailValidator(errorText: "Not a valid email"),
-
-                      ]),
-                    ),
-                  ],
-                ),
-                spaceBetweenFields,
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,7 +105,7 @@ class ResetPasswordPage extends StatelessWidget {
                         padding:
                         const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
                         child: ElevatedButton(
-                          child: Text('Register'),
+                          child: Text('Reset'),
                           onPressed: () async {
                             // try {
                             await FirebaseAuth.instance

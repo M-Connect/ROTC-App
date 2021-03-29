@@ -259,7 +259,7 @@ Future<void> alertDialog(BuildContext context) {
   Widget button = FlatButton(
     child: Text("OK"),
     onPressed: () {
-      Navigator.pushNamed(context, '/register');
+      Navigator.of(context).pop();
     },
   );
   AlertDialog alert = AlertDialog(
