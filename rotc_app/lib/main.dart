@@ -2,11 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rotc_app/app/peerReview/activityToBeEvaluated.dart';
+import 'package:rotc_app/app/peerReview/graphs/graphActivitySelector.dart';
 
 import 'package:rotc_app/app/peerReview/lllab2FT/debrief.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/execution.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/individualEvalConfirmationPage.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/multipleEvalConfirmationPage.dart';
+import 'package:rotc_app/app/peerReview/lllab2FT/multipleUserActivityToBeEvaluated.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/usersToDoEvaluation.dart';
 import 'package:rotc_app/app/peerReview/peerReviewRequest.dart';
 import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
@@ -16,6 +19,8 @@ import 'Views/passwords/ForgotPassword.dart';
 import 'Views/registrationPage.dart';
 import 'Views/signInPage.dart';
 import 'Views/welcomePage.dart';
+import 'app/Schedule/CalendarTasks.dart';
+import 'app/Schedule/evaluationCalendarTasks.dart';
 import 'app/home.dart';
 import 'app/peerReview/graphs/barGraphs.dart';
 import 'app/peerReview/graphs/lineGraphs.dart';
@@ -66,17 +71,18 @@ class MConnect extends StatelessWidget {
         home: Authenticate(),
     initialRoute: '/',
     routes: {
-      '/welcomePage': (context) => WelcomeView(),
       '/signIn': (context) => SignInView(),
+      '/welcomePage': (context) => WelcomeView(),
       '/register': (context) => RegistrationView(),
       '/homePage': (context) => HomeView(),
       '/forgotPassword': (context) => ForgotPasswordView(),
       '/profile': (context) => Profile(),
       '/editProfile': (context) => EditProfile(),
-
-
+      '/calendar': (context) => CalendarTasks(),
+      '/evaluationCalendarTasks': (context) => EvaluationCalendarTasks(),
+      '/activityToBeEvaluated': (context) => ActivityToBeEvaluated(),
       '/peerReviewLanding': (context) => PeerReviewForm(),
-
+      '/graphActivitySelector': (context) => GraphActivitySelector(),
       '/peerReview': (context) => PeerReview(),
       '/peerReviewRequest': (context) => PeerReviewRequest(),
       '/peerReviewStats': (context) => PeerReviewStats(),
@@ -95,9 +101,10 @@ class MConnect extends StatelessWidget {
       '/individualEvalConfirmationPage': (context) => IndividualEvalConfirmationPage(),
       '/multipleEvalConfirmationPage':(context) => MultipleEvalConfirmationPage(),
       '/usersToDoEvaluation':(context) => UsersToDoEvaluation(),
+      '/multipleUserActivityToBeEvaluated':(context) => MultipleUserActivityToBeEvaluated(),
       '/notifications':(context) => Notifications(),
-      '/barGraph': (context) => BarGraph(),
-      '/lineGraph': (context) => LineGraph(),
+    //  '/barGraph': (context) => BarGraph(),
+    //  '/lineGraph': (context) => LineGraph(),
 
     } ),
     );
@@ -112,7 +119,7 @@ class Authenticate extends StatelessWidget {
     if (firebaseUser != null) {
       return HomeView();
     }
-    return WelcomeView();
+    return SignInView();
   }
 }
 

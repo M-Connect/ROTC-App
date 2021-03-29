@@ -1,4 +1,5 @@
-import 'package:fl_chart/fl_chart.dart';
+/*
+//import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rotc_app/app/peerReview/graphs/graphTitleData.dart';
@@ -16,17 +17,22 @@ class _LineGraphState extends State<LineGraph> {
   ];
   @override
   Widget build(BuildContext context) {
-    /* SystemChrome.setPreferredOrientations([
+    */
+/* SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
-    ]);*/
-    return /*Scaffold(
+    ]);*//*
+
+    return */
+/*Scaffold(
 
       backgroundColor: Colors.white,
       extendBody: true,
 
-      body:*/
-        LineChart(
+      body:*//*
+
+       */
+/* LineChart(
 
       LineChartData(
 
@@ -52,7 +58,9 @@ class _LineGraphState extends State<LineGraph> {
               );
             },
           ),
-          borderData: FlBorderData(
+        *//*
+*/
+/*  borderData: FlBorderData(
             show: true,
             border: Border.all(color: const Color(0xff37434d), width: 1),
           ),
@@ -63,7 +71,9 @@ class _LineGraphState extends State<LineGraph> {
                   FlSpot(2, 60),
                   FlSpot(5, 30),
                   FlSpot(8, 30),
-                ],
+                ],*//*
+*/
+/*
                 isCurved: true,
                 preventCurveOverShooting: true,
 
@@ -71,18 +81,21 @@ class _LineGraphState extends State<LineGraph> {
                 barWidth: 5,
 
                 //to have the graph show the dots
-                dotData: FlDotData(
+             //   dotData: FlDotData(
                   show: true,
                 ),
 
-                belowBarData: BarAreaData(
+           //     belowBarData: BarAreaData(
                   show: true,
                   colors: gradientColors
                       .map((color) => color.withOpacity(0.3))
                       .toList(),
-                )),
+                )
+    //),
           ]),
-    );
-    /* );*/
-  }
-}
+    );*//*
+
+    // );
+  //}
+//}
+*/

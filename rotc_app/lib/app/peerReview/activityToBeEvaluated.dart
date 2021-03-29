@@ -1,53 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
+import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 
 import '../../main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /*
- Author: Sawyer Kisha
- Co-author: Kyle Serruys
-  This class is the home page for our peer review request page
-  Needs functionality
+ Author: Kyle Serruys
+ This class allows the evaluator to evaluate the evaluatee on a certain activity.
+ It pulls from all activites listed in the database, as well as gives the option
+ to add a new activity.
  */
 
-class PeerReview extends StatefulWidget {
+class ActivityToBeEvaluated extends StatefulWidget {
   @override
-  PeerReviewState createState() => PeerReviewState();
+  ActivityToBeEvaluatedState createState() => ActivityToBeEvaluatedState();
 }
 
-class PeerReviewState extends State<PeerReview> {
-  var userList = new List<String>();
-  var filteredUserList = new List<String>();
-  var selectedUserList = new List<String>();
+class ActivityToBeEvaluatedState extends State<ActivityToBeEvaluated> {
+  var activityList = new List<String>();
+  var filteredActivityList = new List<String>();
+  var selectedActivityList = new List<String>();
   var tempList = new List<String>();
 
-  TextEditingController userSearch = TextEditingController();
 
-  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
-  String firstName = "";
-  String lastName = "";
+  bool isListEmpty = true;
 
-/*
-Author:  Kyle Serruys
-This sets the state for the functions getCadetNames and getUserInfo.  We put
-them in this initState becuase both functions need to be async, and you can't
-make initState an async function.
-  */
+  TextEditingController activitySearch = TextEditingController();
+
+  List<ElevatedButton> activityButtonList = new List<ElevatedButton>();
+  String activity = "";
+
+  CollectionReference activities = FirebaseFirestore.instance.collection('activity');
+
+  Future<void> activityRegistration()  {
+    return activities.add({
+      'activity': activitySearch.text,
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    getCadetNames();
-    getUserInfo();
+    getActivity();
+    getActivityInfo();
   }
 
-  getCadetNames() async {
+  getActivity() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      firstName = prefs.getString("firstName");
-      lastName = prefs.getString("lastName");
+      activity = prefs.getString("activity");
     });
   }
 
@@ -56,16 +59,14 @@ Author:  Kyle Serruys
 This is the function used to take a snapshot of our collection and import the
 first and last name of the users in the users collection.
   */
-  getUserInfo() async {
+  getActivityInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await FirebaseFirestore.instance
-        .collection('users').orderBy("firstName")
+        .collection('activity').orderBy("activity")
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
-        userList.add(element.data()['firstName'].toString() +
-            " " +
-            element.data()['lastName'].toString());
+        activityList.add(element.data()['activity'].toString());
       });
     });
     setState(() {
@@ -83,14 +84,14 @@ first and last name of the users in the users collection.
 
   */
   List<Widget> makeButtonsList() {
-    userButtonList.clear();
-    for (int i = 0; i < filteredUserList.length; i++) {
-      userButtonList.add(
+    activityButtonList.clear();
+    for (int i = 0; i < filteredActivityList.length; i++) {
+      activityButtonList.add(
         new ElevatedButton(
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            selectedUserList.add(filteredUserList[i]);
-            prefs.setStringList('selectedUserList', selectedUserList);
+            selectedActivityList.add(filteredActivityList[i]);
+            prefs.setStringList('selectedActivityList', selectedActivityList);
             navigation.currentState
                 .pushNamed('/individualEvalConfirmationPage');
           },
@@ -99,39 +100,45 @@ first and last name of the users in the users collection.
               height: 40,
               child: new Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[Text(filteredUserList[i])])),
+                  children: <Widget>[Text(filteredActivityList[i])])),
         ),
       );
     }
-    return userButtonList;
+    return activityButtonList;
   }
 
   searchList(String value) {
-    var filter = userSearch.value.text;
+    var filter = activitySearch.value.text;
     setState(() {
       if(filter == "" || filter == null)
-        {
-          filteredUserList = userList;
-        }
-      else{
-      filteredUserList = userList
-          .where(
-              (element) => element.toLowerCase().contains(filter.toLowerCase()))
-          .toList();
+      {
+        filteredActivityList = activityList;
+
       }
+      else{
+        filteredActivityList = activityList
+            .where(
+                (element) => element.toLowerCase().contains(filter.toLowerCase()))
+            .toList();
+      }
+      isListEmpty = filteredActivityList.length == 0;
+
     });
   }
+
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            navigation.currentState.pushNamed('/peerReviewLanding');
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove('selectedActivityList');
+            navigation.currentState.pushNamed('/individualEvalConfirmationPage');
           },
         ),
-        title: Text('Evaluation Request'),
+        title: Text('Evaluation Activity'),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.logout),
@@ -148,18 +155,18 @@ first and last name of the users in the users collection.
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                   padding: const EdgeInsets.only(
-                       top: 80.0, bottom: 20.0),
+                    padding: const EdgeInsets.only(
+                        left: 20.0, top: 50.0, bottom: 50.0),
                     child: Container(
                       child: Text(
-                        'Select Cadet:',
+                        'Select from an activity below, or add a new activity:',
                         style: TextStyle(
                           fontSize: 20.0,
                         ),
                       ),
                     )),
                 TextField(
-                  controller: userSearch,
+                  controller: activitySearch,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
@@ -180,7 +187,7 @@ first and last name of the users in the users collection.
                           title: Text(value),
                           onTap: () async {
                             SharedPreferences prefs = await SharedPreferences.getInstance();
-                            prefs.setStringList('selectedUserList', selectedUserList);
+                            prefs.setStringList('selectedActivityList', selectedActivityList);
                             navigation.currentState
                                 .pushNamed('/individualEvalConfirmationPage');
                           },
@@ -190,11 +197,31 @@ first and last name of the users in the users collection.
                   ),
                 Center(
                   child: Column(
-                         children: makeButtonsList(),
-                      ),
+                    children: makeButtonsList(),
+                  ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 40.0),
+                ),
+                Visibility(
+                  visible: isListEmpty,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: ElevatedButton(
+                          child: Text("Add",),
+                          onPressed: ()async {
+                            activityRegistration();
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            selectedActivityList.add(activitySearch.text);
+                            prefs.setStringList('selectedActivityList', selectedActivityList);
+                            navigation.currentState.pushNamed('/individualEvalConfirmationPage');
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ]),
         ),

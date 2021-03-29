@@ -54,8 +54,8 @@ Map evaluationMap = new Map();
 
         if(evaluator == userName && status == "Pending")
           {
-           // var userKey = uid + evaluatee;
-            var userKey = userName + evaluatee;
+            var userKey = uid + evaluatee;
+            //var userKey = userName + evaluatee;
             evaluationMap[userKey] = element.id;
             userList.add(evaluatee);
           }
@@ -80,9 +80,9 @@ Map evaluationMap = new Map();
           .add(new ElevatedButton(onPressed: () async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
-        //var userKey =  uid + userList[i];
+        var userKey =  uid + userList[i];
 
-        var userKey =  firstName + lastName + userList[i];
+        //var userKey =  firstName + lastName + userList[i];
         var currentEvaluationId = evaluationMap[userKey];
         prefs.setString("currentEvaluationId", currentEvaluationId);
         selectUsersList.add(userList[i]);
