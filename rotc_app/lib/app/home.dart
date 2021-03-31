@@ -26,12 +26,17 @@ class HomeView extends StatefulWidget {
   _HomeView createState() => _HomeView();
 }
 
-bool isCadre = false;
-
 /// This is the private state class that extends the State of CadreHome.
 class _HomeView extends State<HomeView> {
   int _tabOption = 0;
+  bool isCadre = false;
 
+  @override
+  void initState() {
+    super.initState();
+    getBool();
+    //  initSliderValue();
+  }
 
   static List<Widget> _widgetOptions = <Widget>[
     Dashboard(),
@@ -46,22 +51,27 @@ class _HomeView extends State<HomeView> {
       _tabOption = option;
     });
   }
-
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: isCadre ? Colors.blue : Color(0xFF031f72),
+        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         //toolbarHeight: 70.0,
-        title: isCadre ? Text("Det-390: Cadet",
+        title: isCadre ? Text("Det-390: Cadre",
         style: TextStyle(
             fontWeight: FontWeight.bold,
           fontSize: 25.0,
           letterSpacing: 0.5,
         ),
         ): Text(
-          "Det-390: Cadre",
+          "Det-390: Cadet",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25.0,
