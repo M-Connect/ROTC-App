@@ -119,6 +119,14 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove('selectedUserList');
+            navigation.currentState.pushNamed('/homePage');
+          },
+        ),
         title: Text('Evaluatee Request'),
         actions: <Widget>[
           new IconButton(
