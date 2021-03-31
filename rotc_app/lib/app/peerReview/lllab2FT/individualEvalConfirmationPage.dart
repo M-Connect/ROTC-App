@@ -50,7 +50,7 @@ class _IndividualEvalConfirmationPageState
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       evalDate = prefs.getString('evaluationDate') ?? " ";
-  DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
+  //DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
 });
   }
 
@@ -93,7 +93,7 @@ class _IndividualEvalConfirmationPageState
             navigation.currentState.pushNamed('/peerReview');
           },
         ),
-        title: Text('Confirmation Request'),
+        title: Text('Request Confirmation'),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.logout),

@@ -62,6 +62,7 @@ class _ConfirmationState extends State<Confirmation> {
       "leadershipValue": leadershipValue,
       "debrief": debrief,
       "debriefValue":debriefValue,
+
     });
   }
 
@@ -92,8 +93,8 @@ class _ConfirmationState extends State<Confirmation> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       selectedActivityString = prefs.getString("activity");
-   //   selectedActivityList = prefs.getStringList("selectedActivityList".toString());
-     // selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
+      /*selectedActivityList = prefs.getStringList("selectedActivityList".toString());
+      selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);*/
     });
   }
 
@@ -101,7 +102,7 @@ class _ConfirmationState extends State<Confirmation> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       selectedUserString = prefs.getString("evaluatee");
-     /* selectedUserList = prefs.getStringList("selectedUserList".toString());
+     /*selectedUserList = prefs.getStringList("selectedUserList".toString());
       selectedUserString = prefs
           .getStringList("selectedUserList")
           .reduce((value, element) => value + element);*/
@@ -146,8 +147,6 @@ class _ConfirmationState extends State<Confirmation> {
       debriefValue = prefs.getString("debriefValue");
     });
   }
-
-
 
   static final SizedBox spaceBetweenFields = SizedBox(height: 20.0);
   @override

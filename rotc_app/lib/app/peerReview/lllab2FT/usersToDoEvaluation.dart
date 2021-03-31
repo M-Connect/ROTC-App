@@ -173,7 +173,7 @@ Author:  Kyle Serruys
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Peer Review Request'),
+        title: Text('Request Evaluator'),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.logout),
@@ -192,9 +192,9 @@ Author:  Kyle Serruys
                 Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 50.0),
                     child: Container(
-                      child: Text('Select Cadet(s) To Evaluate The Previously Selected Cadet(s)              (Self Evaluation is Accepted):',
+                      child: Text('Select at Least One User to Perform Evaluation:',
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 18.0,
                         ),
                        ),
                      )
