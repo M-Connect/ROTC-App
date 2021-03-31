@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:rotc_app/app/peerReview/lllab2FT/confirmation.dart';
+import 'package:rotc_app/app/profile/profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BarGraphv2  extends StatefulWidget {
   @override
@@ -7,8 +12,66 @@ class BarGraphv2  extends StatefulWidget {
 }
 
 class _BarGraphv2State extends State<BarGraphv2 > {
-  final List<double> sectionData = [10.0, 17.0, 20.0, 9.0, 5.0];
+ // final List<double> sectionData = [10.0, 17.0, 20.0, 9.0, 5.0];
+  var evalActivity = new List<String>();
+  List<String> test = List<String>.empty(growable: true);
+  var evalPoints = new List<String>();
+  var evalComments = new List<String>();
+  String firstName = "";
+  String lastName = "";
+  String uid = "";
+  String email = "";
+  Map evaluationMap = new Map();
+
   int barIndex;
+  
+  @override 
+  void initState(){
+    super.initState();
+    getCurrentUser();
+    getEvaluationData();
+  }
+
+  getCurrentUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var currentUser = await FirebaseAuth.instance.currentUser;
+
+    setState(() {
+      uid = currentUser.uid;
+      firstName = prefs.getString('firstName');
+      lastName =  prefs.getString('lastName');
+      email = prefs.getString('email');
+    });
+  }
+  
+  getEvaluationData() async {
+    DateTime _now = DateTime.now();
+    DateTime _dateTime = DateTime(_now.year, _now.month, _now.day, 0, 0);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var evalData = await FirebaseFirestore.instance.collection('peerEvaluation')
+        .where('email', isEqualTo: email)
+    .get().then((docSnapshot){
+      docSnapshot.docs.forEach((element) {
+
+        test.add(element.data()['activity']);
+        evalPoints.add(element.data()['leadershipValue'].toString());
+        evalPoints.add(element.data()['executionValue'].toString());
+        evalPoints.add(element.data()['planningValue'].toString());
+        evalPoints.add(element.data()['debriefValue'].toString());
+        evalPoints.add(element.data()['communicationValue'].toString());
+
+        evalComments.add(element.data()['leadership'].toString());
+        evalComments.add(element.data()['execution'].toString());
+        evalComments.add(element.data()['planning'].toString());
+        evalComments.add(element.data()['debrief'].toString());
+        evalComments.add(element.data()['communication'].toString());
+
+      });
+    });
+
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +101,8 @@ class _BarGraphv2State extends State<BarGraphv2 > {
                 height: 5,
               ),
               Text(
-                'LeadLab Week 2',
+                //evalActivity?.elementAt(0) ?? " ",
+                test[0].toString(),
                 style: TextStyle(
                   color: Colors.white60,
                   fontSize: 25,
@@ -110,19 +174,19 @@ class _BarGraphv2State extends State<BarGraphv2 > {
           String section;
           switch (group.x.toInt()){
             case 0:
-              section = 'Leadership:\n \' Demonstrated good leadership skills.\'';
+              section = evalComments[0];
               break;
             case 1:
-              section = 'Execution:\n \'Execution left something to be desired.\'';
+              section = evalComments[1];
               break;
             case 2:
-              section = 'Planning: \n \'Seemed like they planned really well.\'';
+              section = evalComments[2];
               break;
             case 3:
-              section = 'Debrief: \n \'Confused by debrief.\'';
+              section = evalComments[3];
               break;
             case 4:
-              section = 'Communication: \n \'Communication wasnt always clear.\'';
+              section = evalComments[4];
               break;
           }
           return BarTooltipItem(section + '\n' + (rod.y).toString() + ' Points', TextStyle(
@@ -190,7 +254,8 @@ class _BarGraphv2State extends State<BarGraphv2 > {
    }
 
   List<BarChartGroupData> _bgGroups() {
-    return List.generate(sectionData.length, (index) => _bgRods(index, sectionData[index],
+    List<double> sectionData = evalPoints.map(double.parse).toList();
+    return List.generate(evalPoints.length, (index) => _bgRods(index, sectionData[index],
     touched: index == barIndex),
     );
   }

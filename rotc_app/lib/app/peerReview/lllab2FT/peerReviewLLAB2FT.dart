@@ -19,7 +19,7 @@ class PeerReviewLLAB2FT extends StatelessWidget {
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
            // Navigator.pop(context);
-            navigation.currentState.pushNamed('/homePage');
+            navigation.currentState.pop();
           },
         ),
         title: Text('LLAB 2FT Peer Review'),
@@ -31,7 +31,7 @@ class PeerReviewLLAB2FT extends StatelessWidget {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.all(25.0),
+        padding: EdgeInsets.all(19.0),
         color: Colors.white,
         child: Column(
 

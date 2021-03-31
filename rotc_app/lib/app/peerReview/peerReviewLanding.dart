@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animated_button/animated_button.dart';
@@ -48,74 +49,12 @@ class PeerReviewFormState extends State<PeerReviewForm> {
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(25.0),
+        padding: EdgeInsets.only(top: 50, right: 20, left: 20, bottom: 50),
         //color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            //Cadre View
-            Center(
-              child: Visibility(
-                visible: isCadre == true,
-               child: Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                 children: <Widget>[
-                  Text(
-                    '    Cadre View    ',
-                    style: TextStyle(
-                      fontSize: 50.0,
-                      color: Colors.black45,
-                      fontWeight: FontWeight.bold,
-                      //decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ],
-                ),
-              ),
-            ),
-
-            //Cadet View
-            Center(
-              child: Visibility(
-                visible: isCadre == false,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      '    Cadet View    ',
-                      style: TextStyle(
-                        fontSize: 50.0,
-                        color: Colors.black45,
-                        fontWeight: FontWeight.bold,
-                        //decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            //Underline
-            Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      '                                                                                          ', //length of underline
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.black45,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
-                ),
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
             Center(
               child: Visibility(
                 visible: isCadre == true,
@@ -146,7 +85,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     navigation.currentState.pushNamed('/peerReview');
                   },
                   width: 350,
-                  height: 90,
+                  height: 100,
                   shadowDegree: ShadowDegree.dark,
                   duration: 100,
                 ),
@@ -183,7 +122,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     navigation.currentState.pushNamed('/peerReviewRequest');
                   },
                   width: 350,
-                  height: 90,
+                  height: 100,
                   shadowDegree: ShadowDegree.dark,
                   duration: 100,
                 ),
@@ -219,7 +158,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     navigation.currentState.pushNamed('/lineGraph');
                   },
                   width: 350,
-                  height: 90,
+                  height: 100,
                   shadowDegree: ShadowDegree.dark,
                   duration: 100,
                 ),
@@ -255,7 +194,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     navigation.currentState.pushNamed('/notifications');
                   },
                   width: 350,
-                  height: 90,
+                  height: 100,
                   shadowDegree: ShadowDegree.dark,
                   duration: 100,
                 ),

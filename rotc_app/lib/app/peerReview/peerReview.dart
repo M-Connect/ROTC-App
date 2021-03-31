@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
@@ -128,7 +129,7 @@ first and last name of the users in the users collection.
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context);
+            navigation.currentState.pop();
           },
         ),
         title: Text('Evaluation Request'),

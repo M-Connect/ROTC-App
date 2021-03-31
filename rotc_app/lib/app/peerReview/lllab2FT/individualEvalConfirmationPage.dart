@@ -91,7 +91,7 @@ class _IndividualEvalConfirmationPageState
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.remove('selectedUserList');
-            navigation.currentState.pushNamed('/peerReview');
+            navigation.currentState.pop();
           },
         ),
         title: Text('Confirmation Request'),

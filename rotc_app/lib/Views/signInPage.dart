@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -50,9 +51,15 @@ class _SignInViewState extends State<SignInView> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                /// Tried to add an image, but wont load -CT
+                /*Center(
+                  child: Image(
+                    image: AssetImage('assets/logo.png'),
+                  ),
+                ),*/
                 Padding(
                   padding: const EdgeInsets.only(top: 100.0, bottom: 100.0),
-                  child: Text('ROTC App',
+                  child: Text('M-Connect',
                     style: TextStyle(fontSize: 40.0,
                       color: Colors.blueAccent,
                       fontWeight: FontWeight.bold,
@@ -155,9 +162,9 @@ class _SignInViewState extends State<SignInView> {
                 ),
 
                 //added forgot password button - MRU
-                SizedBox(height: 10.0),
+                SizedBox(height: 1.0),
                 Container(
-                    child: Column(
+                    child: Row(
                       children: [
                         TextButton(
                           child: Text(
@@ -171,6 +178,9 @@ class _SignInViewState extends State<SignInView> {
                             Navigator.pushNamed(
                                 context, '/forgotPassword');
                           },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 95.0),
                         ),
                         TextButton(
                           child: Text(
@@ -214,4 +224,3 @@ alertDialog(BuildContext context) {
       return alert;
     },
   );
-}
