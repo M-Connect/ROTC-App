@@ -199,7 +199,7 @@ first and last name of the users in the users collection.
                     children: [
                       Container(
                         child: ElevatedButton(
-                          child: Text("Submit",),
+                          child: Text("Add",),
                           onPressed: ()async {
                             activityRegistration();
                             SharedPreferences prefs = await SharedPreferences.getInstance();

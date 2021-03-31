@@ -71,7 +71,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.remove('selectedUserList');
-            navigation.currentState.pushNamed('/peerReview');
+            navigation.currentState.pushNamed('/peerReviewRequest');
           },
         ),
         title: Text('Request'),

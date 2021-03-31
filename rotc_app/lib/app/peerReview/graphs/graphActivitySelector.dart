@@ -88,7 +88,7 @@ first and last name of the users in the users collection.
             selectedActivityList.add(filteredActivityList[i]);
             prefs.setStringList('selectedActivityList', selectedActivityList);
             navigation.currentState
-                .pushNamed('/individualEvalConfirmationPage');
+                .pushNamed('/barGraphy2');
           },
           child: Container(
               width: 200,
@@ -130,7 +130,7 @@ first and last name of the users in the users collection.
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.remove('selectedActivityList');
-            navigation.currentState.pushNamed('/individualEvalConfirmationPage');
+            Navigator.pop(context);
           },
         ),
         title: Text('Evaluation Activity'),

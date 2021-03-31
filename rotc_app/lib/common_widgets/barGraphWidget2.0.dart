@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/confirmation.dart';
 import 'package:rotc_app/app/profile/profile.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BarGraphv2  extends StatefulWidget {
@@ -24,54 +26,7 @@ class _BarGraphv2State extends State<BarGraphv2 > {
   Map evaluationMap = new Map();
 
   int barIndex;
-  
-  @override 
-  void initState(){
-    super.initState();
-    getCurrentUser();
-    getEvaluationData();
-  }
 
-  getCurrentUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var currentUser = await FirebaseAuth.instance.currentUser;
-
-    setState(() {
-      uid = currentUser.uid;
-      firstName = prefs.getString('firstName');
-      lastName =  prefs.getString('lastName');
-      email = prefs.getString('email');
-    });
-  }
-  
-  getEvaluationData() async {
-    DateTime _now = DateTime.now();
-    DateTime _dateTime = DateTime(_now.year, _now.month, _now.day, 0, 0);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var evalData = await FirebaseFirestore.instance.collection('peerEvaluation')
-        .where('email', isEqualTo: email)
-    .get().then((docSnapshot){
-      docSnapshot.docs.forEach((element) {
-
-        test.add(element.data()['activity']);
-        evalPoints.add(element.data()['leadershipValue'].toString());
-        evalPoints.add(element.data()['executionValue'].toString());
-        evalPoints.add(element.data()['planningValue'].toString());
-        evalPoints.add(element.data()['debriefValue'].toString());
-        evalPoints.add(element.data()['communicationValue'].toString());
-
-        evalComments.add(element.data()['leadership'].toString());
-        evalComments.add(element.data()['execution'].toString());
-        evalComments.add(element.data()['planning'].toString());
-        evalComments.add(element.data()['debrief'].toString());
-        evalComments.add(element.data()['communication'].toString());
-
-      });
-    });
-
-  }
-
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,6 +123,7 @@ class _BarGraphv2State extends State<BarGraphv2 > {
 
   BarTouchData _bgTouchData() {
     return BarTouchData(
+
       touchTooltipData: BarTouchTooltipData(
         tooltipBgColor: Colors.black,
         getTooltipItem: (group, groupIndex, rod, rodIndex) {

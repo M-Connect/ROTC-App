@@ -50,11 +50,10 @@ class _IndividualEvalConfirmationPageState
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       evalDate = prefs.getString('evaluationDate') ?? " ";
-  DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
+  //DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
 });
-
-
   }
+
   getSelectedActivity() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -91,10 +90,10 @@ class _IndividualEvalConfirmationPageState
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.remove('selectedUserList');
-            navigation.currentState.pop();
+            navigation.currentState.pushNamed('/peerReview');
           },
         ),
-        title: Text('Confirmation Request'),
+        title: Text('Request Confirmation'),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.logout),

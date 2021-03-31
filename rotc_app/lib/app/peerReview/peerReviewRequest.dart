@@ -119,7 +119,15 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Evaluation Request'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove('selectedUserList');
+            navigation.currentState.pushNamed('/homePage');
+          },
+        ),
+        title: Text('Evaluatee Request'),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.logout),
@@ -138,9 +146,9 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
                 Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 50.0),
                   child: Container(alignment: Alignment.center,
-                    child: Text('Select Cadet(s) Under Evaluation:',
+                    child: Text('Select at Least One User to Be Evaluated:',
                       style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 18.0,
                       ),
                     ),
                   ),

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:googleapis_auth/auth.dart';
 import 'package:googleapis_auth/auth_io.dart';
@@ -31,9 +33,14 @@ GCEventCRUD eventCRUD = GCEventCRUD();
 CalendarController _calendarController = CalendarController();
   Map<DateTime, List<dynamic>> _tasks;
   List<dynamic> _tasksChosen;
+  var userEvaluations = Map<String, DateTime>();
   TextEditingController _taskController;
   SharedPreferences prefs;
   String evaluationDate = "";
+
+  var evaluationsForToday = List<String>();
+  
+
   bool isCadre = false;
 
   @override
@@ -44,9 +51,50 @@ CalendarController _calendarController = CalendarController();
     _tasks = {};
     _tasksChosen = [];
     sharedPrefsData();
+
+    _loadButtonPressed();
+    getEvaluationDate();
+    getUserEvaluations();
+  }
+
+  /*
+  * Author:  Kyle Serruys
+  * getUserEvaluations stores the requested evaluations for the current user.  This allows
+  * the user to see which evaluations are due on which days.  Once an evaluation is marked
+  * complete it will be removed from this calendar view.
+  * */
+
+  getUserEvaluations() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var firstName = prefs.getString('firstName');
+    var lastName =  prefs.getString('lastName');
+    var userName = firstName + " " + lastName;
+    var data = await FirebaseFirestore.instance
+        .collection('userEvaluationRequests')
+        .get()
+        .then((docSnapshot) {
+      docSnapshot.docs.forEach((element) {
+        var evaluator = element.data()['evaluator'].toString();
+        var evaluatee = element.data()['evaluatee'].toString();
+        var status = element.data()['status'].toString();
+        var activity = element.data()['activity'].toString();
+        var evalDate = DateTime.parse(element.data()['evaluationDate'].toString());
+
+        if(evaluator == userName && status != "Complete" ) {
+          var key = evaluatee + "|" + activity + "|" + userEvaluations.length.toString();
+          userEvaluations[key] = evalDate;
+        }
+
+      });
+    });
+    setState(() {
+
+    });
+
     getBool();
     //_loadButtonPressed();
     //getEvaluationDate();
+
   }
 
 getBool() async {
@@ -62,6 +110,7 @@ getBool() async {
      evaluationDate = prefs.getString('evaluationDate');
     });
   }
+
   sharedPrefsData() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -113,12 +162,72 @@ getBool() async {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+
+            TableCalendar(
+              events: _tasks,
+              availableCalendarFormats: const {CalendarFormat.month: 'Month'},
+
+              headerStyle: HeaderStyle(
+                centerHeaderTitle: true,
+                titleTextStyle: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+                leftChevronIcon: Icon(
+                  Icons.arrow_back_ios_outlined,
+                  size: 30,
+                ),
+                rightChevronIcon: Icon(
+                  Icons.arrow_forward_ios_outlined,
+                  size: 30,
+                ),
+                headerMargin: EdgeInsets.only(bottom: 8.0),
+                formatButtonVisible: false,
+              ),
+              startingDayOfWeek: StartingDayOfWeek.sunday,
+              onDaySelected: (date, events, holidays) {
+                print("day selected");
+                evaluationsForToday.clear();
+
+               // _tasksChosen.clear();
+                userEvaluations.forEach((key, value) {
+                  var selectedDay = date;
+                  var tomorrow = selectedDay.add(const Duration(days: 1));
+
+                  if((value.isAfter(selectedDay) || value.isAtSameMomentAs(selectedDay)) && (value.isBefore(tomorrow)) ) {
+                    var tempArray =  key.split("|");
+                    var item = "Evaluate: " + tempArray[0] + " Activity: " + tempArray[1];
+                    evaluationsForToday.add(item);
+                  }
+                });
+                setState(() {
+                //  _tasksChosen = events;
+                  _tasksChosen = evaluationsForToday;
+                });
+              },
+              daysOfWeekStyle: DaysOfWeekStyle(
+                weekdayStyle: TextStyle(
+                 // fontWeight: FontWeight.bold,
+                ),
+                weekendStyle: TextStyle(
+                  color: Colors.cyanAccent.shade700,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              calendarStyle: CalendarStyle(
+                  canEventMarkersOverflow: true,
+                  todayColor: Colors.amber,
+                  weekendStyle: TextStyle(
+                    color: Colors.cyanAccent.shade700,
+                    fontWeight: FontWeight.bold,
+
             Container(
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Card(
                   shape: Border.all(
                     color: Colors.blue.shade900,
+
                   ),
                   shadowColor: Colors.deepPurpleAccent,
                   elevation: 8,
@@ -260,7 +369,7 @@ getBool() async {
                                       letterSpacing: 0.5,
                                     ),
                                   ),
-                                  leading: IconButton(
+                                  /*leading: IconButton(
                                     icon: Icon(
                                       Icons.close,
                                       color: Colors.redAccent,
@@ -268,6 +377,7 @@ getBool() async {
 
                                     ),
                                     onPressed: (){
+
                                       setState(() {
                                         _tasks[_calendarController.selectedDay]
                                             .remove(task);
@@ -275,7 +385,11 @@ getBool() async {
                                         _taskController.clear();
                                       });
                                     },
+
+                                  ),*/
+
                                   ),
+
 
                                  /* trailing: IconButton(
                                       icon: Icon(
@@ -301,6 +415,7 @@ getBool() async {
                     ),
 
                 )),
+
           ],
         ),
       ),

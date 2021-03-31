@@ -27,6 +27,7 @@ class PlanningState extends State<Planning> {
   bool isCadre;
   double planningValue;
   String defaultPlanningValue = "10";
+  var currentEvaluationId = "";
 
   @override
   void initState() {
@@ -39,6 +40,7 @@ class PlanningState extends State<Planning> {
   initControllers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+      currentEvaluationId = prefs.getString("currentEvaluationId");
       var planningTextValue = prefs.getString("planning");
       planning = TextEditingController(text: planningTextValue);
     });
@@ -72,13 +74,35 @@ class PlanningState extends State<Planning> {
     });
   }
 
+  Future<void> saveProgress() async{
+    CollectionReference evaluation =
+    FirebaseFirestore.instance.collection('peerEvaluation');
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    evaluation.doc(currentEvaluationId).set({
+      "evaluationDate": DateTime.now().toString(),
+      "planning": planning.text,
+      "planningValue": planningValue.round().toString(),
+      "communication": prefs.getString("communication"),
+      "communicationValue": prefs.getString("communicationValue"),
+      "execution": prefs.getString("execution"),
+      "executionValue":prefs.getString("executionValue"),
+      "leadership": prefs.getString("leadership"),
+      "leadershipValue": prefs.getString("leadershipValue"),
+      "debrief": prefs.getString("debrief"),
+      "debriefValue":prefs.getString("debriefValue"),
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
+          onPressed: () async {
+           await saveProgress();
             //navigation.currentState.pushNamed('/peerReviewLLAB2FT');
             Navigator.of(context, rootNavigator: true).pop();
           },
@@ -201,7 +225,8 @@ class PlanningState extends State<Planning> {
                       opacity: 0.0,
                       child: ElevatedButton(
                         child: Text('Prev'),
-                        onPressed: () async {},
+                        onPressed: () async {
+                        },
                       ),
                     ),
                     ElevatedButton(
@@ -212,6 +237,7 @@ class PlanningState extends State<Planning> {
                         prefs.setString('planning', planning.text);
                         prefs.setString(
                             'planningValue', planningValue.round().toString());
+                        await saveProgress();
                         navigation.currentState.pushNamed('/communication');
                       },
                     ),

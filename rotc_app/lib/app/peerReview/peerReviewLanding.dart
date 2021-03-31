@@ -55,6 +55,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+
             Center(
               child: Visibility(
                 visible: isCadre == true,
@@ -155,7 +156,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     ),
                   ),
                   onPressed: () {
-                    navigation.currentState.pushNamed('/lineGraph');
+                    navigation.currentState.pushNamed('/graphActivitySelector');
                   },
                   width: 350,
                   height: 100,
