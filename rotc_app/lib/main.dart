@@ -13,7 +13,7 @@ import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
 import 'package:rotc_app/app/profile/editProfile.dart';
 import 'package:rotc_app/services/auth.dart';
 import 'Views/passwords/ForgotPassword.dart';
-import 'Views/passwords/SentForgetPasswordEmail.dart';
+import 'Views/passwords/enterResetPin.dart';
 import 'Views/passwords/resetPasswordPage.dart';
 import 'Views/registrationPage.dart';
 import 'Views/signInPage.dart';
@@ -103,7 +103,7 @@ class MConnect extends StatelessWidget {
       '/barGraph': (context) => BarGraph(),
       '/lineGraph': (context) => LineGraph(),
       '/ResetPasswordPage': (context) => ResetPasswordPage(),
-      '/SentForgetPasswordEmail': (context) => SentForgetPasswordEmail(),
+      '/ProcessPin': (context) => ProcessPin(),
      // '/': (context) => (),
       // '/': (context) => (),
 

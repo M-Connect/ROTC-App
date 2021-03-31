@@ -5,7 +5,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:googleapis/cloudsearch/v1.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
-import 'package:rotc_app/Views/passwords/SentForgetPasswordEmail.dart';
+import 'package:rotc_app/Views/passwords/enterResetPin.dart';
 import 'package:rotc_app/Views/passwords/resetfunction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
@@ -33,6 +33,8 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
   //String _email;
 
   TextEditingController _email = TextEditingController();
+
+
 
   var userList = new List<String>();
   var usersToEvaluate = new List<String>();
@@ -148,12 +150,12 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
           return AlertDialog(
             title: Text("Password Reset"),
             content: Text("An email has been sent to you,\n"
-                "Click the link provided to complete password reset\n"
-                "if not found, check if you entered the right email."),
+                "Use the Pin to continue on the next page"),
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.popAndPushNamed(context, '/ProcessPin');
+                  //Navigator.of(context).pop();
                 },
                 child: Text("close"),
               ),
@@ -219,8 +221,13 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
                 child: Text('Send Email'),
                 onPressed: () async {
                   try {
-                    getEmail(_email.text);
-                    _resetAlert();
+                    if(_email.text != null) {
+                      getEmail(_email.text);
+                      _resetAlert();
+                    }
+                    final snackBar = SnackBar(content: Text("Email can't be empty!"));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    return 0;
                   } catch (e) {
                     invalidAlertDialog(context);
                   }
@@ -240,11 +247,14 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
   }
 }
 
-String mailingEmail;
+String mailingEmail = "testplaceholder";
 getEmail(String value) {
   mailingEmail = value;
 }
-
+String sendPinAndEmail(){
+  List<String> pinAndEmail = [mailingEmail, pin];
+  return pinAndEmail.toString();
+}
 sendMail() async {
   String username = 'rotc.application@gmail.com';
   String password = 'Rotc123!';

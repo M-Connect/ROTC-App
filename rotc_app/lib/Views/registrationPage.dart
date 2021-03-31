@@ -25,15 +25,33 @@ class RegistrationView extends StatelessWidget {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  Future<void> userRegistration(String id) {
-    return users.doc(id).set({
+  userRegistration(String emailUID) async {
+
+    DocumentReference docRef =
+    FirebaseFirestore.instance.collection('users').doc(emailUID);
+    /*return users.doc(id).set({
       'firstName': fName.text,
       'lastName': lName.text,
       'nickName': nName.text,
       'email': email.text,
       'password': password.text,
       'isCadre': false,
+    });*/
+
+    Map<String, dynamic> tasks = {
+      'firstName': fName.text,
+      'lastName': lName.text,
+      'nickName': nName.text,
+      'email': email.text,
+      'password': password.text,
+      'isCadre': false,
+    };
+
+    await docRef.set(tasks).whenComplete(() {
+      print("$emailUID sent");
     });
+
+
   }
 
   String pass;
@@ -53,14 +71,14 @@ class RegistrationView extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(25.0, 19.0, 35.0, 8.0),
           width: MediaQuery.of(context).size.width,
           child: Form(
-            // ignore: deprecated_member_use
-            autovalidate: true,
-            //  key: key,
+            autovalidateMode: AutovalidateMode.always,
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
+
                   padding: const EdgeInsets.only(left: 3.0, bottom: 18.0),
                   child: Text(
                     '* indicates a required field.',
@@ -221,26 +239,29 @@ class RegistrationView extends StatelessWidget {
                         child: ElevatedButton(
                           child: Text('Register'),
                           onPressed: () async {
-                            try {
-                              final newUser = await FirebaseAuth.instance
-                                  .createUserWithEmailAndPassword(
-                                      email: email.text,
-                                      password: password.text);
-                              var currentUser =
-                                  await FirebaseAuth.instance.currentUser;
 
-                              await userRegistration(currentUser.uid);
-                              await newUser.user.sendEmailVerification();
+                              try {
 
-                              ///Sending to signInPage instead of welcomePage -Christine
-                              if (newUser != null) {
-                                _verifyEmailAlertDialog(context);
+                                final newUser = await FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                    email: email.text,
+                                    password: password.text);
+                                var currentUser =
+                                await FirebaseAuth.instance.currentUser;
+
+                                await userRegistration(email.text.trim());
+                                await newUser.user.sendEmailVerification();
+
+                                ///Sending to signInPage instead of welcomePage -Christine
+                                if (newUser != null) {
+                                  _verifyEmailAlertDialog(context);
+                                }
+                              } catch (e) {
+                                alertDialog(context);
+                                print(e);
                               }
-                            } catch (e) {
-                              alertDialog(context);
-                              print(e);
-                            }
-                          },
+                            },
+
                         ),
                       ),
                     ),
@@ -265,7 +286,7 @@ Future<void> alertDialog(BuildContext context) {
   AlertDialog alert = AlertDialog(
     title: Text("Error"),
     content: Text(
-        "Email Address is Already Taken.  Please Use Another Email Address."),
+        "Email address is already taken.  Please use another email eddress."),
     actions: [
       button,
     ],

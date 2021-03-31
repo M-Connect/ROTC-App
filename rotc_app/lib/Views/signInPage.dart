@@ -121,7 +121,7 @@ class _SignInViewState extends State<SignInView> {
 
                                   var uid = currentUser.uid;
 
-                                  var data = await FirebaseFirestore.instance.collection('users').doc(uid).get().then((docSnapshot) {
+                                  var data = await FirebaseFirestore.instance.collection('users').doc(email.text).get().then((docSnapshot) {
                                     return docSnapshot.data();
                                   });
 
