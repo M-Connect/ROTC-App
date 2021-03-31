@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
@@ -17,6 +18,10 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
   var filteredUserList = new List<String>();
   var tempList = new List<String>();
   var usersSelected = new Map<String,bool>();
+  var selectedActivityList = new List<String>();
+  String selectedActivityString;
+  String evalDate = "";
+
 
   TextEditingController userSearch = TextEditingController();
 
@@ -27,11 +32,21 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
   CollectionReference evaluationRequests = FirebaseFirestore.instance.collection('userEvaluationRequests');
 
   Future<void> userEvaluationRequests() {
-    selectUsersList.forEach((evaluator) {
+    var selectedUsers = new List<String>();
+
+    usersSelected.entries.forEach((entry) {
+      if(entry.value) {
+        selectedUsers.add(entry.key);
+      }
+    });
+
+    selectedUsers.forEach((evaluator) {
       usersToEvaluate.forEach((evaluatee) {
         return evaluationRequests.add({
           "evaluator": evaluator,
           "evaluatee":evaluatee,
+          "activity":selectedActivityString,
+          "evaluationDate":evalDate,
           "status":"Pending"
         });
       });
@@ -53,6 +68,25 @@ Author:  Kyle Serruys
     super.initState();
     getUserInfo();
     getUsersToEvaluate();
+    getSelectedActivity();
+    getEvaluationDate();
+  }
+
+  getSelectedActivity() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedActivityList = prefs.getStringList("selectedActivityList".toString());
+      selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
+    });
+  }
+
+
+  getEvaluationDate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      evalDate = prefs.getString('evaluationDate') ?? " ";
+    //  DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
+    });
   }
 
   getUsersToEvaluate() async{

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -17,10 +18,12 @@ class _CalendarTasksState extends State<CalendarTasks> {
   CalendarController _calendarController = CalendarController();
   Map<DateTime, List<dynamic>> _tasks;
   List<dynamic> _tasksChosen;
+  var userEvaluations = Map<String, DateTime>();
   TextEditingController _taskController;
   SharedPreferences prefs;
   String evaluationDate = "";
-
+  var evaluationsForToday = List<String>();
+  
   @override
   void initState() {
     super.initState();
@@ -31,6 +34,42 @@ class _CalendarTasksState extends State<CalendarTasks> {
     sharedPrefsData();
     _loadButtonPressed();
     getEvaluationDate();
+    getUserEvaluations();
+  }
+
+  /*
+  * Author:  Kyle Serruys
+  * getUserEvaluations stores the requested evaluations for the current user.  This allows
+  * the user to see which evaluations are due on which days.  Once an evaluation is marked
+  * complete it will be removed from this calendar view.
+  * */
+
+  getUserEvaluations() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var firstName = prefs.getString('firstName');
+    var lastName =  prefs.getString('lastName');
+    var userName = firstName + " " + lastName;
+    var data = await FirebaseFirestore.instance
+        .collection('userEvaluationRequests')
+        .get()
+        .then((docSnapshot) {
+      docSnapshot.docs.forEach((element) {
+        var evaluator = element.data()['evaluator'].toString();
+        var evaluatee = element.data()['evaluatee'].toString();
+        var status = element.data()['status'].toString();
+        var activity = element.data()['activity'].toString();
+        var evalDate = DateTime.parse(element.data()['evaluationDate'].toString());
+
+        if(evaluator == userName && status != "Complete" ) {
+          var key = evaluatee + "|" + activity + "|" + userEvaluations.length.toString();
+          userEvaluations[key] = evalDate;
+        }
+
+      });
+    });
+    setState(() {
+
+    });
   }
 
   getEvaluationDate()async {
@@ -39,6 +78,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
      evaluationDate = prefs.getString('evaluationDate');
     });
   }
+
   sharedPrefsData() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -113,8 +153,23 @@ class _CalendarTasksState extends State<CalendarTasks> {
               ),
               startingDayOfWeek: StartingDayOfWeek.sunday,
               onDaySelected: (date, events, holidays) {
+                print("day selected");
+                evaluationsForToday.clear();
+
+               // _tasksChosen.clear();
+                userEvaluations.forEach((key, value) {
+                  var selectedDay = date;
+                  var tomorrow = selectedDay.add(const Duration(days: 1));
+
+                  if((value.isAfter(selectedDay) || value.isAtSameMomentAs(selectedDay)) && (value.isBefore(tomorrow)) ) {
+                    var tempArray =  key.split("|");
+                    var item = "Evaluate: " + tempArray[0] + " Activity: " + tempArray[1];
+                    evaluationsForToday.add(item);
+                  }
+                });
                 setState(() {
-                  _tasksChosen = events;
+                //  _tasksChosen = events;
+                  _tasksChosen = evaluationsForToday;
                 });
               },
               daysOfWeekStyle: DaysOfWeekStyle(
@@ -173,12 +228,13 @@ class _CalendarTasksState extends State<CalendarTasks> {
                                       color: Colors.black,
                                     ),
                                   ),
-                                  leading: IconButton(
+                                  /*leading: IconButton(
                                     icon: Icon(
                                       Icons.clear,
                                       color: Colors.red,
                                     ),
                                     onPressed: (){
+
                                       setState(() {
                                         _tasks[_calendarController.selectedDay]
                                             .remove(event);
@@ -186,7 +242,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
                                         _taskController.clear();
                                       });
                                     },
-                                  ),
+                                  ),*/
                                  /* trailing: IconButton(
                                       icon: Icon(
                                         Icons.check_circle_outline,
@@ -211,6 +267,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
                     ),
 
                 )),
+
           ],
         ),
       ),

@@ -52,9 +52,8 @@ class _IndividualEvalConfirmationPageState
       evalDate = prefs.getString('evaluationDate') ?? " ";
   DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
 });
-
-
   }
+
   getSelectedActivity() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {

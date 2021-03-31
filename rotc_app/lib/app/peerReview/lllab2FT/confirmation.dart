@@ -29,6 +29,7 @@ class _ConfirmationState extends State<Confirmation> {
   String selectedActivityString;
   String selectedUserString;
   String evalDate= "";
+  String evaluationId="";
 
 
   CollectionReference evaluation =
@@ -38,18 +39,18 @@ class _ConfirmationState extends State<Confirmation> {
 
   Future<void> markEvaluationComplete() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var evaluationId = prefs.getString("currentEvaluationId");
+    evaluationId = prefs.getString("currentEvaluationId");
     evaluationRequests.doc(evaluationId).update({
       "status":"Complete"
     });
   }
 
   Future<void> peerEvaluation() {
-    return evaluation.add({
+    evaluation.doc(evaluationId).set({
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
-      "evaluationDate": evalDate,
+      "evaluationDate": DateTime.now().toString(),
       "activity":selectedActivityString,
       "planning": planning,
       "planningValue": planningValue,
@@ -74,8 +75,8 @@ class _ConfirmationState extends State<Confirmation> {
     getLeadershipData();
     getExecutionData();
     getDebriefData();
-    print("Confirmation" + this.planning);
   }
+
   getUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -83,24 +84,27 @@ class _ConfirmationState extends State<Confirmation> {
       lastName = prefs.getString("lastName");
       email = prefs.getString("email");
       evalDate = prefs.get("evaluationDate");
+
     });
   }
 
   getSelectedActivity() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      selectedActivityList = prefs.getStringList("selectedActivityList".toString());
-      selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
+      selectedActivityString = prefs.getString("activity");
+   //   selectedActivityList = prefs.getStringList("selectedActivityList".toString());
+     // selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
     });
   }
 
   getSelectedUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      selectedUserList = prefs.getStringList("selectedUserList".toString());
+      selectedUserString = prefs.getString("evaluatee");
+     /* selectedUserList = prefs.getStringList("selectedUserList".toString());
       selectedUserString = prefs
           .getStringList("selectedUserList")
-          .reduce((value, element) => value + element);
+          .reduce((value, element) => value + element);*/
     });
   }
   getExecutionData() async {
@@ -358,10 +362,9 @@ class _ConfirmationState extends State<Confirmation> {
                         await prefs.remove("debriefValue");
                         await prefs.remove("currentEvaluationId");
                         await prefs.remove("selectedActivityList");
+                        await prefs.remove("activity");
                         await prefs.remove("evaluationDate");
-                       /* await prefs.remove("firstName");
-                        await prefs.remove("lastName");
-                        await prefs.remove("email");*/
+
 
                         navigation.currentState.pushNamed('/homePage');
                       },

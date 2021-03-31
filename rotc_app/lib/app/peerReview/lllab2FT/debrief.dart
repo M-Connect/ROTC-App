@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -22,6 +23,7 @@ class DebriefState extends State<Debrief> {
 
 double debriefValue;
 String defaultDebriefValue = "10";
+var currentEvaluationId = "";
   @override
   void initState() {
     super.initState();
@@ -33,6 +35,7 @@ String defaultDebriefValue = "10";
   initControllers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+      currentEvaluationId = prefs.getString("currentEvaluationId");
       var debriefValue = prefs.getString("debrief");
       debrief = TextEditingController(text: debriefValue);
     });
@@ -59,6 +62,25 @@ String defaultDebriefValue = "10";
       }
     });
   }
+  Future<void> saveProgress() async {
+    CollectionReference evaluation =
+    FirebaseFirestore.instance.collection('peerEvaluation');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    evaluation.doc(currentEvaluationId).set({
+      "evaluationDate": DateTime.now().toString(),
+      "planning": prefs.getString(("planning")),
+      "planningValue": prefs.getString("planningValue"),
+      "communication": prefs.getString("communication"),
+      "communicationValue": prefs.getString("communicationValue"),
+      "execution": prefs.getString("execution"),
+      "executionValue":prefs.getString("executionValue"),
+      "leadership": prefs.getString("leadership"),
+      "leadershipValue": prefs.getString("leadershipValue"),
+      "debrief": debrief.text,
+      "debriefValue":debriefValue.round().toString(),
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +88,8 @@ String defaultDebriefValue = "10";
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
+          onPressed: () async {
+            await saveProgress();
             navigation.currentState.pushNamed('/peerReviewLLAB2FT');
           },
         ),
@@ -198,6 +221,7 @@ String defaultDebriefValue = "10";
                         await SharedPreferences.getInstance();
                         prefs.setString('debrief', debrief.text);
                         prefs.setString('debriefValue', debriefValue.round().toString());
+                        await saveProgress();
                         navigation.currentState.pushNamed('/leadership');
                       },
                     ),
@@ -209,6 +233,7 @@ String defaultDebriefValue = "10";
                         await SharedPreferences.getInstance();
                         prefs.setString('debrief', debrief.text);
                         prefs.setString('debriefValue', debriefValue.round().toString());
+                        await saveProgress();
                         navigation.currentState.pushNamed('/confirmation');
                       },
                     ),

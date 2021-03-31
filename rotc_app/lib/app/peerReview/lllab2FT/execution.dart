@@ -21,6 +21,7 @@ class ExecutionState extends State<Execution> {
   TextEditingController execution;
 double executionValue;
 String defaultExecutionValue = "10";
+var currentEvaluationId = "";
   @override
   void initState() {
     super.initState();
@@ -31,6 +32,7 @@ String defaultExecutionValue = "10";
   initControllers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+      currentEvaluationId = prefs.getString("currentEvaluationId");
       var executionValue = prefs.getString("execution");
       execution = TextEditingController(text: executionValue);
     });
@@ -57,6 +59,25 @@ String defaultExecutionValue = "10";
     });
   }
 
+  Future<void> saveProgress() async{
+    CollectionReference evaluation =
+    FirebaseFirestore.instance.collection('peerEvaluation');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    evaluation.doc(currentEvaluationId).set({
+      "evaluationDate": DateTime.now().toString(),
+      "planning": prefs.getString(("planning")),
+      "planningValue": prefs.getString("planningValue"),
+      "communication": prefs.getString("communication"),
+      "communicationValue": prefs.getString("communicationValue"),
+      "execution": execution.text,
+      "executionValue":executionValue.round().toString(),
+      "leadership": prefs.getString("leadership"),
+      "leadershipValue": prefs.getString("leadershipValue"),
+      "debrief": prefs.getString("debrief"),
+      "debriefValue":prefs.getString("debriefValue"),
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +85,8 @@ String defaultExecutionValue = "10";
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
+          onPressed: () async {
+           await saveProgress();
             navigation.currentState.pushNamed('/peerReviewLLAB2FT');
           },
         ),
@@ -198,6 +220,7 @@ String defaultExecutionValue = "10";
                         prefs.setString('execution', execution.text);
                         prefs.setString(
                             'executionValue', executionValue.round().toString());
+                       await saveProgress();
                         navigation.currentState.pushNamed('/communication');
                       },
                     ),
@@ -210,6 +233,7 @@ String defaultExecutionValue = "10";
                         prefs.setString('execution', execution.text);
                         prefs.setString(
                             'executionValue', executionValue.round().toString());
+                        await saveProgress();
                         navigation.currentState.pushNamed('/leadership');
                       },
                     ),

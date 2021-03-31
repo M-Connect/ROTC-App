@@ -24,6 +24,7 @@ class LeadershipState extends State<Leadership> {
 
   double leadershipValue;
   String defaultLeadershipValue = "10";
+  var currentEvaluationId="";
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class LeadershipState extends State<Leadership> {
   initControllers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+      currentEvaluationId = prefs.getString("currentEvaluationId");
       var leadershipValue = prefs.getString("leadership");
       leadership = TextEditingController(text: leadershipValue);
     });
@@ -64,6 +66,26 @@ class LeadershipState extends State<Leadership> {
       leadershipValue = double.parse(leadershipSliderValue);
     });
   }
+  Future<void> saveProgress()async {
+    CollectionReference evaluation =
+    FirebaseFirestore.instance.collection('peerEvaluation');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    evaluation.doc(currentEvaluationId).set({
+      "evaluationDate": DateTime.now().toString(),
+      "planning": prefs.getString(("planning")),
+      "planningValue": prefs.getString("planningValue"),
+      "communication": prefs.getString("communication"),
+      "communicationValue": prefs.getString("communicationValue"),
+      "execution": prefs.getString("execution"),
+      "executionValue":prefs.getString("executionValue"),
+      "leadership": leadership.text,
+      "leadershipValue": leadershipValue.round().toString(),
+      "debrief": prefs.getString("debrief"),
+      "debriefValue":prefs.getString("debriefValue"),
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +93,8 @@ class LeadershipState extends State<Leadership> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
+          onPressed: () async {
+            await saveProgress();
             navigation.currentState.pushNamed('/peerReviewLLAB2FT');
           },
         ),
@@ -228,6 +251,7 @@ class LeadershipState extends State<Leadership> {
                         prefs.setString('leadership', leadership.text);
                         prefs.setString('leadershipValue',
                             leadershipValue.round().toString());
+                       await saveProgress();
                         navigation.currentState.pushNamed('/execution');
                       },
                     ),
@@ -239,6 +263,7 @@ class LeadershipState extends State<Leadership> {
                         prefs.setString('leadership', leadership.text);
                         prefs.setString('leadershipValue',
                             leadershipValue.round().toString());
+                        await saveProgress();
                         navigation.currentState.pushNamed('/debrief');
                       },
                     ),

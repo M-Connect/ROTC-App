@@ -153,7 +153,7 @@ first and last name of the users in the users collection.
                        top: 80.0, bottom: 20.0),
                     child: Container(
                       child: Text(
-                        'Select Cadet:',
+                        'Select Person to Evaluate:',
                         style: TextStyle(
                           fontSize: 20.0,
                         ),
