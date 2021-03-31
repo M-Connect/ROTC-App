@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:rotc_app/app/peerReview/lllab2FT/confirmation.dart';
@@ -13,26 +14,46 @@ class BarGraphv2  extends StatefulWidget {
 class _BarGraphv2State extends State<BarGraphv2 > {
  // final List<double> sectionData = [10.0, 17.0, 20.0, 9.0, 5.0];
   var evalActivity = new List<String>();
+  List<String> test = List<String>.empty(growable: true);
   var evalPoints = new List<String>();
   var evalComments = new List<String>();
+  String firstName = "";
+  String lastName = "";
+  String uid = "";
+  String email = "";
+  Map evaluationMap = new Map();
 
   int barIndex;
   
   @override 
   void initState(){
     super.initState();
+    getCurrentUser();
     getEvaluationData();
+  }
+
+  getCurrentUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var currentUser = await FirebaseAuth.instance.currentUser;
+
+    setState(() {
+      uid = currentUser.uid;
+      firstName = prefs.getString('firstName');
+      lastName =  prefs.getString('lastName');
+      email = prefs.getString('email');
+    });
   }
   
   getEvaluationData() async {
+    DateTime _now = DateTime.now();
+    DateTime _dateTime = DateTime(_now.year, _now.month, _now.day, 0, 0);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var evalData = await FirebaseFirestore.instance.collection('peerEvaluation')
-        .where('evaluationDate', isEqualTo: DateTime.now())
-    .where('activity', whereIn: ['Lead Lab'])
+        .where('email', isEqualTo: email)
     .get().then((docSnapshot){
       docSnapshot.docs.forEach((element) {
 
-        //evalActivity.add(element.data()['activity'].toString());
+        test.add(element.data()['activity']);
         evalPoints.add(element.data()['leadershipValue'].toString());
         evalPoints.add(element.data()['executionValue'].toString());
         evalPoints.add(element.data()['planningValue'].toString());
@@ -81,7 +102,7 @@ class _BarGraphv2State extends State<BarGraphv2 > {
               ),
               Text(
                 //evalActivity?.elementAt(0) ?? " ",
-                'test',
+                test[0].toString(),
                 style: TextStyle(
                   color: Colors.white60,
                   fontSize: 25,
