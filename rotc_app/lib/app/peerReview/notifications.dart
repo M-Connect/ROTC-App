@@ -156,7 +156,7 @@ String selectedUserString = "";
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Peer Review Confirmation'),
+        title: Text('Evaluation Confirmation'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
