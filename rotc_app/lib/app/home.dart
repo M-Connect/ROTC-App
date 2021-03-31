@@ -37,7 +37,7 @@ class _HomeView extends State<HomeView> {
     Dashboard(),
     PeerReviewForm(),
     CalendarTasks(),
-    messages(),
+   // messages(),
     Profile(),
   ];
 
@@ -52,12 +52,21 @@ class _HomeView extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: isCadre ? Colors.blue : Color(0xFF031f72),
         //toolbarHeight: 70.0,
-        title: const Text("ROTC Control Panel",
+        title: isCadre ? Text("Det-390: Cadet",
         style: TextStyle(
             fontWeight: FontWeight.bold,
           fontSize: 25.0,
+          letterSpacing: 0.5,
         ),
+        ): Text(
+          "Det-390: Cadre",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25.0,
+                letterSpacing: 0.5,
+              ),
         ),
         automaticallyImplyLeading: false,
         actions: <Widget>[
@@ -87,10 +96,10 @@ class _HomeView extends State<HomeView> {
             icon: Icon(Icons.calendar_today_sharp),
             label: 'Schedule',
           ),
-          BottomNavigationBarItem(
+          /*BottomNavigationBarItem(
             icon: Icon(Icons.message),
             label: 'Messages',
-          ),
+          ),*/
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_sharp),
             label: 'Account',
