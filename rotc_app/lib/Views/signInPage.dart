@@ -155,9 +155,9 @@ class _SignInViewState extends State<SignInView> {
                 ),
 
                 //added forgot password button - MRU
-                SizedBox(height: 1.0),
+                SizedBox(height: 10.0),
                 Container(
-                    child: Row(
+                    child: Column(
                       children: [
                         TextButton(
                           child: Text(
@@ -171,9 +171,6 @@ class _SignInViewState extends State<SignInView> {
                             Navigator.pushNamed(
                                 context, '/forgotPassword');
                           },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 95.0),
                         ),
                         TextButton(
                           child: Text(

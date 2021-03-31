@@ -54,10 +54,6 @@ class PeerReviewFormState extends State<PeerReviewForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(
-              height: 20.0,
-            ),
-
             //Cadre View
             Center(
               child: Visibility(
@@ -118,7 +114,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                 ),
             ),
             SizedBox(
-              height: 30.0,
+              height: 20.0,
             ),
             Center(
               child: Visibility(
@@ -150,7 +146,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     navigation.currentState.pushNamed('/peerReview');
                   },
                   width: 350,
-                  height: 100,
+                  height: 90,
                   shadowDegree: ShadowDegree.dark,
                   duration: 100,
                 ),
@@ -187,7 +183,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     navigation.currentState.pushNamed('/peerReviewRequest');
                   },
                   width: 350,
-                  height: 100,
+                  height: 90,
                   shadowDegree: ShadowDegree.dark,
                   duration: 100,
                 ),
@@ -223,7 +219,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     navigation.currentState.pushNamed('/lineGraph');
                   },
                   width: 350,
-                  height: 100,
+                  height: 90,
                   shadowDegree: ShadowDegree.dark,
                   duration: 100,
                 ),
@@ -259,7 +255,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     navigation.currentState.pushNamed('/notifications');
                   },
                   width: 350,
-                  height: 100,
+                  height: 90,
                   shadowDegree: ShadowDegree.dark,
                   duration: 100,
                 ),
