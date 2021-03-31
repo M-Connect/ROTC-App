@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,14 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:rotc_app/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 /*
   Author: Christine Thomas
   Description: CRUD Operations on User Profile Data for User Customization.
  */
 
 class Profile extends StatefulWidget {
-
   TextEditingController email;
 
 /*  Profile(TextEditingController email){
@@ -32,10 +29,8 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   /// adding reference to database for profile collection path use
-  CollectionReference profiles = FirebaseFirestore.instance.collection('profiles');
-
-
-
+  CollectionReference profiles =
+      FirebaseFirestore.instance.collection('profiles');
 
   Map<String, dynamic> biography;
   Map profileData;
@@ -45,74 +40,69 @@ class _ProfileState extends State<Profile> {
   ///
   /// This function gives a user a blank biography upon registration.
   Future<void> createBio() async {
-
     /// Referencing the cadre collection to get number of documents
     /// to create custom document name for user to be able to update
     /// their own biography.
     CollectionReference cadre = FirebaseFirestore.instance.collection('cadres');
-    cadre.snapshots().listen((snapshot){
+    cadre.snapshots().listen((snapshot) {
       List docs;
       docs = snapshot.docs;
       int numberOfDocs = docs.length;
-     print('$numberOfDocs');
+      print('$numberOfDocs');
     });
 
     /// TODO: add bio via custom doc name and setting fields
     Map<String, dynamic> bioText = {'biography': 'Add a bio'};
-    CollectionReference profiles = FirebaseFirestore.instance.collection('profiles');
+    CollectionReference profiles =
+        FirebaseFirestore.instance.collection('profiles');
     profiles.add(bioText);
-
-
   }
 
-  readBio(){
+  readBio() {
     /// make Biography public
-    CollectionReference profiles = FirebaseFirestore.instance.collection('profiles');
+    CollectionReference profiles =
+        FirebaseFirestore.instance.collection('profiles');
     profiles.snapshots().listen((snapshot) {
-
       setState(() {
-       // QueryDocumentSnapshot data = snapshot.docs[0];
+        // QueryDocumentSnapshot data = snapshot.docs[0];
         profileData = snapshot.docs[0].data();
       });
-
     });
     //profileCollection['biography'].toString();
-
   }
 
-
-  updateBio({Map<String, dynamic> biography}){
+  updateBio({Map<String, dynamic> biography}) {
     /// update Biography in database
-    CollectionReference profiles = FirebaseFirestore.instance.collection('profiles');
+    CollectionReference profiles =
+        FirebaseFirestore.instance.collection('profiles');
     String docId;
 
-    profiles.doc().set({'biography': 'sup homie'})
-    .then((value) => print('Profile updated')).catchError((error) => print('Failed to update'));
-
+    profiles
+        .doc()
+        .set({'biography': 'sup homie'})
+        .then((value) => print('Profile updated'))
+        .catchError((error) => print('Failed to update'));
   }
-
-
 
   /// May need to update Firestore plugin...
   deleteBio() async {
     /// delete Biography from database
-    CollectionReference profiles = FirebaseFirestore.instance.collection('profiles');
-
-
+    CollectionReference profiles =
+        FirebaseFirestore.instance.collection('profiles');
   }
 
-
-
-  updateEmail(){
+  updateEmail() {
     /// update Email in database
     /// TODO: add if statement to determine if cadet or cadre
-    CollectionReference cadres = FirebaseFirestore.instance.collection('cadres');
+    CollectionReference cadres =
+        FirebaseFirestore.instance.collection('cadres');
   }
 
-  fetchEmail(){
+  fetchEmail() {
     /// make Email public
     /// TODO: add if statement to determine if cadet or cadre
-    CollectionReference cadres = FirebaseFirestore.instance.collection('cadres');
+    CollectionReference cadres =
+        FirebaseFirestore.instance.collection('cadres');
   }
 
   final TextStyle tabTextStyle =
@@ -126,26 +116,22 @@ class _ProfileState extends State<Profile> {
   String nName = '';
   static String email = '';
 
-
   bool iconPressed = false;
-@override
-void initState() {
+  @override
+  void initState() {
     super.initState();
     getUserInfo();
   }
 
-  getUserInfo() async{
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  setState(() {
-    fName = prefs.getString('firstName');
-    lName = prefs.getString('lastName');
-    nName = prefs.getString('nickname');
-    email = prefs.getString('email');
-
-  });
-}
-
-
+  getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      fName = prefs.getString('firstName');
+      lName = prefs.getString('lastName');
+      nName = prefs.getString('nickname');
+      email = prefs.getString('email');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,20 +158,46 @@ void initState() {
                 ),
               ),
             ),*/
-            Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Center(
-                child: Text(
-                  '$fName' + ' $lName',
-                  style: tabTextStyle,
+              Center(
+                child: Container(
+                    padding: EdgeInsets.only(bottom: 20, top: 30, ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(70.0),
+                          bottomLeft: Radius.circular(70.0),
+                        ),
+                        color: Colors.blue.shade900,
+                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+                      Text(
+                        '$fName' + ' $lName',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        )
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.bar_chart,
+                          size: 30,
+                          color: Colors.cyan,
+                        ),
+                        onPressed: () {
+                          navigation.currentState.pushNamed('/barGraph');
+                        },
+                        tooltip: 'Click here to view your stats.',
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Divider(
-              thickness: 1,
-            ),
             Container(
-              padding: EdgeInsets.only(left: 20, right: 20, top: 8.0),
+              padding: EdgeInsets.only(left: 20, right: 20, top: 16.0),
               child: Column(
                 //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -193,9 +205,9 @@ void initState() {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Ranking:',
+                      'Ranking',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.cyan,
                         fontWeight: FontWeight.w500,
                         fontSize: 25,
                       ),
@@ -204,19 +216,19 @@ void initState() {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                        'Technical Sergeant',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
+                      'Technical Sergeant',
+                      style: TextStyle(
+                        fontSize: 20,
                       ),
+                    ),
                   ),
                   Divider(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Nickname:',
+                      'Nickname',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.cyan,
                         fontWeight: FontWeight.w500,
                         fontSize: 25,
                       ),
@@ -237,9 +249,9 @@ void initState() {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Email:',
+                      'Email',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.cyan,
                         fontWeight: FontWeight.w500,
                         fontSize: 25,
                       ),
@@ -257,7 +269,7 @@ void initState() {
                     ),
                   ),
                   Divider(),
-                 /* Row(
+                  /* Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
@@ -280,7 +292,7 @@ void initState() {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                 /* Text(
+                  /* Text(
                     'Biography',
                     style: TextStyle(
                       color: Colors.black,
@@ -306,31 +318,26 @@ void initState() {
                 ],
               ),
             ),
-            Container(
+            /*Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(40.0, 0.0, 255.0, 0.0),
+                      padding: const EdgeInsets.fromLTRB(40.0, 0.0, 255.0, 0.0),
                       child: IconButton(
                         icon: Icon(
                           Icons.bar_chart,
                         ),
-                        onPressed: (){
+                        onPressed: () {
                           navigation.currentState.pushNamed('/barGraph');
                         },
-                      )
-                  ),
-
+                      )),
                 ],
               ),
-            ),
+            ),*/
           ],
         ),
       ),
     );
   }
 }
-
-
-
