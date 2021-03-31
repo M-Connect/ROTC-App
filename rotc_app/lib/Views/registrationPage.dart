@@ -75,8 +75,25 @@ class RegistrationView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                  child: Text(
-                    'First Name *',
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'First Name',
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: ' *',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 TextFormField(
@@ -100,8 +117,25 @@ class RegistrationView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Last Name *',
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Last Name',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     TextFormField(
@@ -126,8 +160,25 @@ class RegistrationView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Nickname ',
+                      child: RichText(
+                        text: TextSpan(
+                          text: ' Nickname',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     TextFormField(
@@ -152,8 +203,25 @@ class RegistrationView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Email  *',
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Email',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     TextFormField(
@@ -178,8 +246,25 @@ class RegistrationView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Password *',
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Password',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     TextFormField(
@@ -204,8 +289,25 @@ class RegistrationView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Confirm Password *',
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Confirm Password',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     TextFormField(

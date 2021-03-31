@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animated_button/animated_button.dart';
@@ -48,82 +49,13 @@ class PeerReviewFormState extends State<PeerReviewForm> {
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(25.0),
+        padding: EdgeInsets.only(top: 50, right: 20, left: 20, bottom: 50),
         //color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(
-              height: 20.0,
-            ),
 
-            //Cadre View
-
-              Center(
-                child: Visibility(
-                  visible: isCadre == true,
-                 child: Row(
-                   mainAxisAlignment: MainAxisAlignment.center,
-                   children: <Widget>[
-                    Text(
-                      '    Cadre View    ',
-                      style: TextStyle(
-                        fontSize: 50.0,
-                        color: Colors.black45,
-                        fontWeight: FontWeight.bold,
-                        //decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
-                  ),
-                ),
-              ),
-
-
-
-            //Cadet View
-            SizedBox(
-            child: Center(
-              child: Visibility(
-                visible: isCadre == false,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      '    Cadet View    ',
-                      style: TextStyle(
-                        fontSize: 50.0,
-                        color: Colors.black45,
-                        fontWeight: FontWeight.bold,
-                        //decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            ),
-            //Underline
-            Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      '                                                                                          ', //length of underline
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.black45,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
-                ),
-            ),
-            SizedBox(
-              height: 30.0,
-            ),
             Center(
               child: Visibility(
                 visible: isCadre == true,

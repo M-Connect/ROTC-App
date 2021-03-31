@@ -3,8 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../main.dart';
+
+/*
+Where the user finds and accepts their requested evaluations,
+once the user selects their designated evaluation that specific
+evaluation will be completed and disappear.
+ */
 
 class Notifications extends StatefulWidget {
   @override
@@ -117,16 +122,6 @@ String selectedUserString = "";
             userList.add(evaluatee);
             statusList.add(status);
           }
-        /*
-        var evaluators = List.from(element.data()['usersToDoEvaluation']);
-
-        if(evaluators.contains(userName)) {
-          var usersToEvaluate = List.from(element.data()['usersToEvaluate']);
-          usersToEvaluate.forEach((element) {userList.add(element);});
-          *//*for(var user in usersToEvaluate) {
-            userList.add(user.toString());
-          }*//*
-        }*/
       });
     });
     setState(() {});
@@ -135,7 +130,12 @@ String selectedUserString = "";
   List<Widget> makeButtonsList(){
     for (int i = 0; i < userList.length; i++) {
       userButtonList
-          .add(new ElevatedButton(onPressed: () async {
+          .add(
+        new ElevatedButton(
+          style: ButtonStyle(
+
+          ),
+        onPressed: () async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
         var userKey =  uid + userList[i] + i.toString();
@@ -146,7 +146,27 @@ String selectedUserString = "";
         selectUsersList.add(userList[i]);
         await getEvaluationFromDb(currentEvaluationId);
         navigation.currentState.pushNamed('/peerReviewLLAB2FT');
+
       }, child: Text(userList[i] + "-" + statusList[i])));
+
+
+        },
+          child: Container(
+            width: 250,
+            height: 44,
+            child: new Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:<Widget>[
+                Text(userList[i],
+                  style: TextStyle(
+                  fontSize: 17.0,
+                ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 
     }
     return userButtonList;
@@ -157,6 +177,7 @@ String selectedUserString = "";
     return Scaffold(
       appBar: AppBar(
         title: Text('Evaluation Confirmation'),
+
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
@@ -168,16 +189,35 @@ String selectedUserString = "";
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
+        child: Container(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Container(
+                    child: Text('  Select Cadet    ',
+                      style: TextStyle(
+                        fontSize: 45.0,
+                        color: Colors.black45,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Column(
+                    children: makeButtonsList(),
+                  ),
+                ),
 
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-
-          children: makeButtonsList(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                ),
+              ]),
         ),
-
       ),
-
     );
   }
 }

@@ -1,6 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:rotc_app/app/peerReview/lllab2FT/confirmation.dart';
+import 'package:rotc_app/app/profile/profile.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BarGraphv2  extends StatefulWidget {
@@ -9,58 +14,18 @@ class BarGraphv2  extends StatefulWidget {
 }
 
 class _BarGraphv2State extends State<BarGraphv2 > {
-  final List<double> sectionData = [10.0, 17.0, 20.0, 9.0, 5.0];
+ // final List<double> sectionData = [10.0, 17.0, 20.0, 9.0, 5.0];
+  var evalActivity = new List<String>();
+  List<String> test = List<String>.empty(growable: true);
+  var evalPoints = new List<String>();
+  var evalComments = new List<String>();
+  String firstName = "";
+  String lastName = "";
+  String uid = "";
+  String email = "";
+  Map evaluationMap = new Map();
+
   int barIndex;
-
-  String planning = "";
-  String communication = "";
-  String execution = "";
-  String leadership = "";
-  String debrief = "";
-  String planningValue = "";
-  String communicationValue = "";
-  String executionValue = "";
-  String leadershipValue = "";
-  String debriefValue = "";
-
-  @override
-  void initState() {
-    super.initState();
-    getEvaluationSections();
-    //getEvaluationData();
-  }
-
-  getEvaluationSections() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      planning = prefs.getString("planning");
-      communication = prefs.getString("communication");
-      execution = prefs.getString("execution");
-      leadership = prefs.getString("leadership");
-      debrief = prefs.getString("debrief");
-      planningValue = prefs.getString("planningValue");
-      communicationValue = prefs.getString("communicationValue");
-      executionValue = prefs.getString("executionValue");
-      leadershipValue = prefs.getString("leadershipValue");
-      debriefValue = prefs.getString("debriefValue");
-    });
-  }
-/*
-  getEvaluationData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var data = await FirebaseFirestore.instance
-        .collection('peerEvaluation')
-        .get()
-        .then((docSnapshot) {
-      docSnapshot.docs.forEach((element) {
-        activityList.add(element.data()['activity'].toString());
-      });
-    });
-    setState(() {
-      searchList("");
-    });
-  }*/
-
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +56,8 @@ class _BarGraphv2State extends State<BarGraphv2 > {
                 height: 5,
               ),
               Text(
-                'LeadLab Week 2',
+                //evalActivity?.elementAt(0) ?? " ",
+                test[0].toString(),
                 style: TextStyle(
                   color: Colors.white60,
                   fontSize: 25,
@@ -164,19 +130,19 @@ class _BarGraphv2State extends State<BarGraphv2 > {
           String section;
           switch (group.x.toInt()){
             case 0:
-              section = 'Leadership:\n \' Demonstrated good leadership skills.\'';
+              section = evalComments[0];
               break;
             case 1:
-              section = 'Execution:\n \'Execution left something to be desired.\'';
+              section = evalComments[1];
               break;
             case 2:
-              section = 'Planning: \n \'Seemed like they planned really well.\'';
+              section = evalComments[2];
               break;
             case 3:
-              section = 'Debrief: \n \'Confused by debrief.\'';
+              section = evalComments[3];
               break;
             case 4:
-              section = 'Communication: \n \'Communication wasnt always clear.\'';
+              section = evalComments[4];
               break;
           }
           return BarTooltipItem(section + '\n' + (rod.y).toString() + ' Points', TextStyle(
@@ -244,7 +210,8 @@ class _BarGraphv2State extends State<BarGraphv2 > {
    }
 
   List<BarChartGroupData> _bgGroups() {
-    return List.generate(sectionData.length, (index) => _bgRods(index, sectionData[index],
+    List<double> sectionData = evalPoints.map(double.parse).toList();
+    return List.generate(evalPoints.length, (index) => _bgRods(index, sectionData[index],
     touched: index == barIndex),
     );
   }

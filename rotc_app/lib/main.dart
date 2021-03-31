@@ -1,7 +1,9 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rotc_app/Views/addGCEvent.dart';
 import 'package:rotc_app/app/peerReview/activityToBeEvaluated.dart';
 import 'package:rotc_app/app/peerReview/graphs/graphActivitySelector.dart';
 
@@ -70,7 +72,7 @@ class MConnect extends StatelessWidget {
         title: 'Firebase Authentication',
         navigatorKey: navigation,
         home: Authenticate(),
-    initialRoute: '/',
+    initialRoute: '/signIn',
     routes: {
       '/signIn': (context) => SignInView(),
       '/welcomePage': (context) => WelcomeView(),
@@ -104,8 +106,8 @@ class MConnect extends StatelessWidget {
       '/usersToDoEvaluation':(context) => UsersToDoEvaluation(),
       '/multipleUserActivityToBeEvaluated':(context) => MultipleUserActivityToBeEvaluated(),
       '/notifications':(context) => Notifications(),
-      '/barGraphy2':(context) => BarGraphv2(),
-    //  '/barGraph': (context) => BarGraph(),
+     '/barGraph': (context) => BarGraphv2(),
+      '/addGCEvent': (context) => AddGCEvent(),
     //  '/lineGraph': (context) => LineGraph(),
 
     } ),
@@ -124,4 +126,5 @@ class Authenticate extends StatelessWidget {
     return SignInView();
   }
 }
+
 
