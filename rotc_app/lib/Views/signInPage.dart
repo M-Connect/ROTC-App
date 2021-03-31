@@ -50,9 +50,15 @@ class _SignInViewState extends State<SignInView> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+                /// Tried to add an image, but wont load -CT
+                /*Center(
+                  child: Image(
+                    image: AssetImage('assets/logo.png'),
+                  ),
+                ),*/
                 Padding(
                   padding: const EdgeInsets.only(top: 100.0, bottom: 100.0),
-                  child: Text('ROTC App',
+                  child: Text('M-Connect',
                     style: TextStyle(fontSize: 40.0,
                       color: Colors.blueAccent,
                       fontWeight: FontWeight.bold,
