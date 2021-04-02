@@ -1,4 +1,4 @@
-import 'dart:math';
+/*import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:sa_v1_migration/simple_animations/controlled_animation.dart';
@@ -62,3 +62,4 @@ class CurvePainter extends CustomPainter {
     return true;
   }
 }
+*/

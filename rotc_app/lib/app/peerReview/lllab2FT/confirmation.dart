@@ -23,26 +23,35 @@ class _ConfirmationState extends State<Confirmation> {
   String firstName = "";
   String lastName ="";
   String email = "";
+  String activity = "";
+  var selectedUserList = new List<String>();
+  var selectedActivityList = new List<String>();
+  String selectedActivityString;
+  String selectedUserString;
+  String evalDate= "";
+  String evaluationId="";
 
 
   CollectionReference evaluation =
-  FirebaseFirestore.instance.collection('peerEvaluation');
+      FirebaseFirestore.instance.collection('peerEvaluation');
 
   CollectionReference evaluationRequests = FirebaseFirestore.instance.collection('userEvaluationRequests');
 
   Future<void> markEvaluationComplete() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var evaluationId = prefs.getString("currentEvaluationId");
+    evaluationId = prefs.getString("currentEvaluationId");
     evaluationRequests.doc(evaluationId).update({
       "status":"Complete"
     });
   }
 
   Future<void> peerEvaluation() {
-    return evaluation.add({
+    evaluation.doc(evaluationId).set({
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
+      "evaluationDate": DateTime.now().toString(),
+      "activity":selectedActivityString,
       "planning": planning,
       "planningValue": planningValue,
       "communication": communication,
@@ -53,36 +62,57 @@ class _ConfirmationState extends State<Confirmation> {
       "leadershipValue": leadershipValue,
       "debrief": debrief,
       "debriefValue":debriefValue,
+
     });
   }
 
   @override
   void initState() {
     getUserData();
+    getSelectedUser();
+    getSelectedActivity();
     getPlanningData();
     getCommunicationData();
     getLeadershipData();
     getExecutionData();
     getDebriefData();
-    print("Confirmation" + this.planning);
   }
+
   getUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-
       firstName = prefs.getString("firstName");
       lastName = prefs.getString("lastName");
       email = prefs.getString("email");
+      evalDate = prefs.get("evaluationDate");
+
     });
   }
 
+  getSelectedActivity() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedActivityString = prefs.getString("activity");
+      /*selectedActivityList = prefs.getStringList("selectedActivityList".toString());
+      selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);*/
+    });
+  }
+
+  getSelectedUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedUserString = prefs.getString("evaluatee");
+     /*selectedUserList = prefs.getStringList("selectedUserList".toString());
+      selectedUserString = prefs
+          .getStringList("selectedUserList")
+          .reduce((value, element) => value + element);*/
+    });
+  }
   getExecutionData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       execution = prefs.getString("execution");
       executionValue = prefs.getString("executionValue");
-      firstName = prefs.getString("firstName");
-      lastName = prefs.getString("lastName");
     });
   }
 
@@ -124,7 +154,7 @@ class _ConfirmationState extends State<Confirmation> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Peer Review Confirmation'),
+        title: Text('Evaluation Confirmation'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
@@ -139,11 +169,22 @@ class _ConfirmationState extends State<Confirmation> {
         child: Container(
           child: Column(
             children: [
-              /*Row(
+              Row(
                 children: [
-                  Text('Evaluatee:  $selectedUserList',style: TextStyle(fontSize: 20.0),),
+                  Text('Evaluator:  $firstName $lastName', style: TextStyle(fontSize: 20.0),),
                 ],
-              ),*/
+              ),
+              Row(
+                children: [
+                  Text('Evaluatee:  $selectedUserString',style: TextStyle(fontSize: 20.0),),
+                ],
+              ),
+              Row(
+                children: [
+                  Text('Activity:  $selectedActivityString', style: TextStyle(fontSize: 20.0),),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(bottom: 20.0),),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -303,6 +344,8 @@ class _ConfirmationState extends State<Confirmation> {
                     ElevatedButton(
                       child: Text('Submit'),
                       onPressed: () async {
+
+
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                         await markEvaluationComplete();
                         await peerEvaluation();
@@ -317,9 +360,10 @@ class _ConfirmationState extends State<Confirmation> {
                         await prefs.remove("leadershipValue");
                         await prefs.remove("debriefValue");
                         await prefs.remove("currentEvaluationId");
-                        await prefs.remove("firstName");
-                        await prefs.remove("lastName");
-                        await prefs.remove("email");
+                        await prefs.remove("selectedActivityList");
+                        await prefs.remove("activity");
+                        await prefs.remove("evaluationDate");
+
 
                         navigation.currentState.pushNamed('/homePage');
                       },

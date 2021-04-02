@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
@@ -21,29 +20,31 @@ class CommunicationState extends State<Communication> {
 
   double communicationValue;
   String defaultCommunicationValue = "10";
+  var currentEvaluationId = "";
 
   @override
   void initState() {
     super.initState();
     initControllers();
     getUserInfo();
-    initSliderValue();
+   // initSliderValue();
   }
 
   initControllers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+      currentEvaluationId = prefs.getString("currentEvaluationId");
       var communicationValue = prefs.getString("communication");
       communication = TextEditingController(text: communicationValue);
     });
   }
 
-  initSliderValue() async {
+ /* initSliderValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       sliderChange(communicationValue);
     });
-  }
+  }*/
   void sliderChange(double test) {
     setState(() {
       if(test != null){
@@ -60,13 +61,34 @@ class CommunicationState extends State<Communication> {
     });
   }
 
+  Future<void> saveProgress() async {
+    CollectionReference evaluation =
+    FirebaseFirestore.instance.collection('peerEvaluation');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    evaluation.doc(currentEvaluationId).set({
+      "evaluationDate": DateTime.now().toString(),
+      "planning": prefs.getString(("planning")),
+      "planningValue": prefs.getString("planningValue"),
+      "communication": communication.text,
+      "communicationValue": communicationValue.round().toString(),
+      "execution": prefs.getString("execution"),
+      "executionValue":prefs.getString("executionValue"),
+      "leadership": prefs.getString("leadership"),
+      "leadershipValue": prefs.getString("leadershipValue"),
+      "debrief": prefs.getString("debrief"),
+      "debriefValue":prefs.getString("debriefValue"),
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
+          onPressed: ()async {
+            await saveProgress();
             navigation.currentState.pushNamed('/peerReviewLLAB2FT');
           },
         ),
@@ -198,6 +220,7 @@ class CommunicationState extends State<Communication> {
                         prefs.setString('communication', communication.text);
                         prefs.setString(
                             'communicationValue', communicationValue.round().toString());
+                        await saveProgress();
                         navigation.currentState.pushNamed('/planning');
                       },
                     ),
@@ -220,6 +243,7 @@ class CommunicationState extends State<Communication> {
                         prefs.setString('communication', communication.text);
                         prefs.setString(
                             'communicationValue', communicationValue.round().toString());
+                       await saveProgress();
                         navigation.currentState.pushNamed('/execution');
                       },
                     ),

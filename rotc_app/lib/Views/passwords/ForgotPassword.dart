@@ -1,15 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:googleapis/cloudsearch/v1.dart';
+
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
-import 'package:rotc_app/Views/passwords/enterResetPin.dart';
 import 'package:rotc_app/Views/passwords/resetfunction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../main.dart';
-import 'ConfirmEmail.dart';
+
 
 getPin() {
   String pin = getRandomTempPassword();
@@ -28,7 +25,6 @@ class ForgotPasswordView extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPasswordView> {
-  final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   //String _email;
 
@@ -75,7 +71,7 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
   }
 
   CollectionReference resetpassword =
-      FirebaseFirestore.instance.collection('resetpassword');
+  FirebaseFirestore.instance.collection('resetpassword');
   Future<void> resetRegistration() {
     return resetpassword.add({
       'email': _email.text,
@@ -91,7 +87,7 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
       } else {
         filteredUserList = userList
             .where((element) =>
-                element.toLowerCase().contains(filter.toLowerCase()))
+            element.toLowerCase().contains(filter.toLowerCase()))
             .toList();
       }
     });
@@ -134,8 +130,9 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
     }
   }
 
+
   _passwordReset() async {
-    if (_formKey.currentState.validate()) {
+    if(_formKey.currentState.validate()) {
       _formKey.currentState.save();
     }
 
@@ -143,10 +140,12 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
       _formKey.currentState.save();
       //await _auth.sendPasswordResetEmail(email: _email);
 
+
       Navigator.of(context).pop();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
+
           return AlertDialog(
             title: Text("Password Reset"),
             content: Text("An email has been sent to you,\n"
@@ -161,9 +160,6 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
               ),
             ],
           );
-          /*ConfirmEmailView(
-            message: widget.message,
-          );*/
         }),
       );
     } catch (e) {
@@ -174,6 +170,7 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         leading: IconButton(
@@ -184,6 +181,7 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
         ),
       ),
       backgroundColor: Colors.white,
+
       body: Form(
         autovalidateMode: AutovalidateMode.always,
         key: _formKey,
@@ -192,6 +190,7 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,6 +200,7 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
                     child: Text(
                       'Enter email to reset password *',
                     ),
+
                   ),
                   TextFormField(
                     controller: _email,

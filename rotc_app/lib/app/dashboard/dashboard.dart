@@ -8,7 +8,6 @@ import 'package:form_field_validator/form_field_validator.dart';
 
 /*
 Author: Mac-Rufus O. Umeokolo
-
 **/
 
 class Dashboard extends StatefulWidget {
@@ -42,7 +41,7 @@ class _DashboardState extends State<Dashboard> {
   createTasks() async {
     var url = userURLInput.toString();
     DocumentReference docRef =
-        FirebaseFirestore.instance.collection('dashboardUrls').doc(userInput);
+    FirebaseFirestore.instance.collection('dashboardUrls').doc(userInput);
     Map<String, dynamic> tasks = {
       "DocumentName": userInput,
       "DocumentURL": url,
@@ -70,7 +69,6 @@ class _DashboardState extends State<Dashboard> {
     if (await canLaunch(url)) {
       await launch(
         url,
-        forceWebView: true,
         enableJavaScript: true,
       );
     } else {
@@ -165,34 +163,34 @@ class _DashboardState extends State<Dashboard> {
                   DocumentSnapshot docSnap = snapshots.data.docs[index];
 
                   if (isCadre == true) {
-                  return Dismissible(
-                    onDismissed: (swipe) {
-                      if (isCadre == true) {
-                        deleteTasks(docSnap['DocumentName']);
-                        deleteTasks(docSnap['DocumentURL']);
-                      }
-                    },
-                    direction: DismissDirection.endToStart,
-                    key: Key(docSnap['DocumentName']),
-                    child: Card(
-                      color: Colors.lightBlueAccent,
-                      elevation: 2,
-                      margin: EdgeInsets.all(8),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
+                    return Dismissible(
+                      onDismissed: (swipe) {
+                        if (isCadre == true) {
+                          deleteTasks(docSnap['DocumentName']);
+                          deleteTasks(docSnap['DocumentURL']);
+                        }
+                      },
+                      direction: DismissDirection.endToStart,
+                      key: Key(docSnap['DocumentName']),
+                      child: Card(
+                        color: Colors.lightBlueAccent,
+                        elevation: 2,
+                        margin: EdgeInsets.all(8),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: ListTile(
+                          title: Text(docSnap['DocumentName']),
+                          onTap: () {
+                            _launchURL(docSnap['DocumentURL']);
+                          },
+                        ),
                       ),
-                      child: ListTile(
-                        title: Text(docSnap['DocumentName']),
-                        onTap: () {
-                          _launchURL(docSnap['DocumentURL']);
-                        },
+                      background: Container(
+                        color: Colors.lightBlueAccent,
+                        child: Icon(Icons.cancel),
                       ),
-                    ),
-                    background: Container(
-                      color: Colors.lightBlueAccent,
-                      child: Icon(Icons.cancel),
-                    ),
-                  );
+                    );
                   }
                   else
                     return Dismissible(

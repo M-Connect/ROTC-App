@@ -165,7 +165,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       validator: MultiValidator([
                         MinLengthValidator(5,
                             errorText:
-                                "Password must be at least 5 characters."),
+                            "Password must be at least 5 characters."),
                       ]),
                     ),
                   ],
@@ -194,7 +194,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     Container(
                       child: Padding(
                         padding:
-                            const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
+                        const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
                         child: ElevatedButton(
                           child: Text('Reset'),
                           onPressed: () async {

@@ -13,12 +13,17 @@ class Notifications extends StatefulWidget {
 
 class _NotificationsState extends State<Notifications> {
   var userList = new List<String>();
+  var statusList = new List<String>();
   List<ElevatedButton> userButtonList = new List<ElevatedButton>();
   var selectUsersList = new List<String>();
+
 String firstName = "";
 String lastName = "";
 String uid = "";
 Map evaluationMap = new Map();
+String status = "";
+String selectedActivityString = "";
+String selectedUserString = "";
 
   @override
   void initState() {
@@ -26,6 +31,57 @@ Map evaluationMap = new Map();
   getUserToEvaluateData();
     getUserInfo();
 
+  }
+  CollectionReference evaluation =
+  FirebaseFirestore.instance.collection('peerEvaluation');
+  CollectionReference evaluationRequests =
+  FirebaseFirestore.instance.collection('userEvaluationRequests');
+
+  getEvaluationFromDb(String evaluationId)async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    evaluationRequests.doc(evaluationId).get().then((DocumentSnapshot documentSnapshot) {
+      if(documentSnapshot.exists){
+       var activity = documentSnapshot.data()["activity"]?? " ";
+       prefs.setString('activity', activity);
+       var evaluatee = documentSnapshot.data()["evaluatee"]?? " ";
+       prefs.setString('evaluatee', evaluatee);
+      }
+    });
+    evaluation.doc(evaluationId).get().then((DocumentSnapshot documentSnapshot){
+      if(documentSnapshot.exists){
+       var debrief = documentSnapshot.data()["debrief"]?? " ";
+       var debriefValue = documentSnapshot.data()["debriefValue"]?? "10";
+       var communication = documentSnapshot.data()["communication"]?? " ";
+       var communicationValue = documentSnapshot.data()["communicationValue"]?? "10";
+       var execution = documentSnapshot.data()["execution"]?? " ";
+       var executionValue = documentSnapshot.data()["executionValue"]?? "10";
+       var leadership = documentSnapshot.data()["leadership"]?? " ";
+       var leadershipValue = documentSnapshot.data()["leadershipValue"]?? "10";
+       var planning = documentSnapshot.data()["planning"]?? " ";
+       var planningValue = documentSnapshot.data()["planningValue"]?? "10";
+       prefs.setString('debrief', debrief);
+       prefs.setString('debriefValue', debriefValue);
+       prefs.setString('communication', communication);
+       prefs.setString('communicationValue', communicationValue);
+       prefs.setString('execution', execution);
+       prefs.setString('executionValue', executionValue);
+       prefs.setString('leadership', leadership);
+       prefs.setString('leadershipValue', leadershipValue);
+       prefs.setString('planning', planning);
+       prefs.setString('planningValue', planningValue);
+      } else {
+        prefs.setString('debrief', "");
+        prefs.setString('debriefValue', "10");
+        prefs.setString('communication', "");
+        prefs.setString('communicationValue', "10");
+        prefs.setString('execution', "");
+        prefs.setString('executionValue', "10");
+        prefs.setString('leadership', "");
+        prefs.setString('leadershipValue', "10");
+        prefs.setString('planning', "");
+        prefs.setString('planningValue', "10");
+      }
+    });
   }
 
   getUserToEvaluateData() async {
@@ -36,6 +92,7 @@ Map evaluationMap = new Map();
       uid = currentUser.uid;
       firstName = prefs.getString('firstName');
       lastName =  prefs.getString('lastName');
+      status = prefs.getString('status');
     });
   }
 
@@ -47,17 +104,18 @@ Map evaluationMap = new Map();
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
-        var userName = firstName + lastName;
+        var userName = firstName + " " + lastName;
         var evaluator = element.data()['evaluator'].toString();
         var evaluatee = element.data()['evaluatee'].toString();
         var status = element.data()['status'].toString();
 
-        if(evaluator == userName && status == "Pending")
+        if(evaluator == userName)
           {
-           // var userKey = uid + evaluatee;
-            var userKey = userName + evaluatee;
+            var userKey = uid + evaluatee + userList.length.toString();
+            //var userKey = userName + evaluatee;
             evaluationMap[userKey] = element.id;
             userList.add(evaluatee);
+            statusList.add(status);
           }
         /*
         var evaluators = List.from(element.data()['usersToDoEvaluation']);
@@ -80,14 +138,16 @@ Map evaluationMap = new Map();
           .add(new ElevatedButton(onPressed: () async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
-        //var userKey =  uid + userList[i];
+        var userKey =  uid + userList[i] + i.toString();
 
-        var userKey =  firstName + lastName + userList[i];
+        //var userKey =  firstName + lastName + userList[i];
         var currentEvaluationId = evaluationMap[userKey];
         prefs.setString("currentEvaluationId", currentEvaluationId);
         selectUsersList.add(userList[i]);
+        await getEvaluationFromDb(currentEvaluationId);
         navigation.currentState.pushNamed('/peerReviewLLAB2FT');
-      }, child: Text(userList[i])));
+      }, child: Text(userList[i] + "-" + statusList[i])));
+
     }
     return userButtonList;
   }
@@ -96,7 +156,7 @@ Map evaluationMap = new Map();
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Peer Review Confirmation'),
+        title: Text('Evaluation Confirmation'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),

@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,33 +26,17 @@ class RegistrationView extends StatelessWidget {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  userRegistration(String emailUID) async {
 
-    DocumentReference docRef =
-    FirebaseFirestore.instance.collection('users').doc(emailUID);
-    /*return users.doc(id).set({
+
+  Future<void> userRegistration(String id)  {
+    return users.doc(id).set({
       'firstName': fName.text,
       'lastName': lName.text,
       'nickName': nName.text,
       'email': email.text,
       'password': password.text,
       'isCadre': false,
-    });*/
-
-    Map<String, dynamic> tasks = {
-      'firstName': fName.text,
-      'lastName': lName.text,
-      'nickName': nName.text,
-      'email': email.text,
-      'password': password.text,
-      'isCadre': false,
-    };
-
-    await docRef.set(tasks).whenComplete(() {
-      print("$emailUID sent");
     });
-
-
   }
 
   String pass;
@@ -59,6 +44,34 @@ class RegistrationView extends StatelessWidget {
   // variables
   static final SizedBox spaceBetweenFields = SizedBox(height: 20.0);
 
+
+  Future<void> _verifyEmailAlertDialog(BuildContext context) async {
+    Widget button = FlatButton(
+      child: Text("close"),
+      onPressed: () {
+        Navigator.pushNamed(context, '/signIn');
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text("Verify Email"),
+      content: Text("An email has been sent to you. \n"
+          "Don't forget to verify your email to continue in sign-in."),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          }, child: null,
+        ),
+        button,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,14 +84,14 @@ class RegistrationView extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(25.0, 19.0, 35.0, 8.0),
           width: MediaQuery.of(context).size.width,
           child: Form(
-            autovalidateMode: AutovalidateMode.always,
-
+            // ignore: deprecated_member_use
+            autovalidate: true,
+            //  key: key,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-
                   padding: const EdgeInsets.only(left: 3.0, bottom: 18.0),
                   child: Text(
                     '* indicates a required field.',
@@ -90,8 +103,25 @@ class RegistrationView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                  child: Text(
-                    'First Name *',
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'First Name',
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: ' *',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 TextFormField(
@@ -101,7 +131,8 @@ class RegistrationView extends StatelessWidget {
                     hintText: 'John',
                   ),
                   onSaved: (String value) {},
-                  validator: MultiValidator([
+                  validator:
+                  MultiValidator([
                     RequiredValidator(errorText: "First name is required."),
                     PatternValidator(r'([a-zA-Z])',
                         errorText: 'First name can only contain letters.'),
@@ -114,8 +145,25 @@ class RegistrationView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Last Name *',
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Last Name',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     TextFormField(
@@ -127,8 +175,8 @@ class RegistrationView extends StatelessWidget {
                       onSaved: (String value) {},
                       validator: MultiValidator([
                         RequiredValidator(errorText: "Last name is required."),
-                        PatternValidator(r'([a-zA-Z])',
-                            errorText: 'Last name can only contain letters.'),
+                        PatternValidator(r'([a-zA-Z])', errorText: 'Last name can only contain letters.'),
+
                       ]),
                     ),
                   ],
@@ -140,8 +188,25 @@ class RegistrationView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Nickname ',
+                      child: RichText(
+                        text: TextSpan(
+                          text: ' Nickname',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     TextFormField(
@@ -166,8 +231,25 @@ class RegistrationView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Email  *',
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Email',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     TextFormField(
@@ -180,6 +262,7 @@ class RegistrationView extends StatelessWidget {
                       validator: MultiValidator([
                         RequiredValidator(errorText: "Required"),
                         EmailValidator(errorText: "Not a valid email"),
+
                       ]),
                     ),
                   ],
@@ -191,8 +274,25 @@ class RegistrationView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Password *',
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Password',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     TextFormField(
@@ -204,9 +304,8 @@ class RegistrationView extends StatelessWidget {
                       onSaved: (String value) {},
                       onChanged: (value) => pass = value,
                       validator: MultiValidator([
-                        MinLengthValidator(5,
-                            errorText:
-                                "Password must be at least 5 characters."),
+                        MinLengthValidator(5, errorText: "Password must be at least 5 characters."),
+
                       ]),
                     ),
                   ],
@@ -218,8 +317,25 @@ class RegistrationView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 3.0, bottom: 6.0),
-                      child: Text(
-                        'Confirm Password *',
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Confirm Password',
+                          style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' *',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     TextFormField(
@@ -228,40 +344,31 @@ class RegistrationView extends StatelessWidget {
                       ),
                       obscureText: true,
                       onSaved: (String value) {},
-                      validator: (value) =>
-                          MatchValidator(errorText: "Passwords do not match")
-                              .validateMatch(value, pass),
+                      validator: (value) => MatchValidator(errorText: "Passwords do not match").validateMatch(value, pass),
+
                     ),
                     Container(
                       child: Padding(
                         padding:
-                            const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
+                        const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
                         child: ElevatedButton(
                           child: Text('Register'),
                           onPressed: () async {
+                            // try {
+                            final newUser = await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                email: email.text, password: password.text);
+                            var currentUser = await FirebaseAuth.instance
+                                .currentUser;
 
-                              try {
-
-                                final newUser = await FirebaseAuth.instance
-                                    .createUserWithEmailAndPassword(
-                                    email: email.text,
-                                    password: password.text);
-                                var currentUser =
-                                await FirebaseAuth.instance.currentUser;
-
-                                await userRegistration(email.text.trim());
-                                await newUser.user.sendEmailVerification();
-
-                                ///Sending to signInPage instead of welcomePage -Christine
-                                if (newUser != null) {
-                                  _verifyEmailAlertDialog(context);
-                                }
-                              } catch (e) {
-                                alertDialog(context);
-                                print(e);
-                              }
-                            },
-
+                            await userRegistration(currentUser.uid);
+                            await newUser.user.sendEmailVerification();
+                            _verifyEmailAlertDialog(context);
+                            ///Sending to signInPage instead of welcomePage -Christine
+                            /*   } catch (e) {
+                              alertDialog(context);
+                             }*/
+                          },
                         ),
                       ),
                     ),
@@ -276,17 +383,16 @@ class RegistrationView extends StatelessWidget {
   }
 }
 
-Future<void> alertDialog(BuildContext context) {
+Future <void> alertDialog(BuildContext context) {
   Widget button = FlatButton(
     child: Text("OK"),
     onPressed: () {
-      Navigator.of(context).pop();
+      Navigator.pushNamed(context, '/register');
     },
   );
   AlertDialog alert = AlertDialog(
     title: Text("Error"),
-    content: Text(
-        "Email address is already taken.  Please use another email eddress."),
+    content: Text("Email Address is Already Taken.  Please Use Another Email Address."),
     actions: [
       button,
     ],
@@ -299,30 +405,4 @@ Future<void> alertDialog(BuildContext context) {
   );
 }
 
-Future<void> _verifyEmailAlertDialog(BuildContext context) async {
-  Widget button = FlatButton(
-    child: Text("close"),
-    onPressed: () {
-      Navigator.pushNamed(context, '/signIn');
-    },
-  );
-  AlertDialog alert = AlertDialog(
-    title: Text("Verify Email"),
-    content: Text("An email has been sent to you. \n"
-        "Don't forget to verify your email to continue in sign-in."),
-    actions: [
-      TextButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
-      button,
-    ],
-  );
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
+
