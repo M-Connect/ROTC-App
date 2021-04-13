@@ -1,7 +1,7 @@
-/*import 'dart:math';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:sa_v1_migration/simple_animations/controlled_animation.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 class AnimatedWave extends StatelessWidget {
   final double height;
@@ -62,4 +62,3 @@ class CurvePainter extends CustomPainter {
     return true;
   }
 }
-*/

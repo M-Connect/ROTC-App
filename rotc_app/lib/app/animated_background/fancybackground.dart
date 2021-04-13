@@ -1,4 +1,4 @@
-/*import 'dart:math';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -25,7 +25,7 @@ class FancyBackgroundApp extends StatelessWidget {
           speed: 1.2,
           offset: pi / 2,
         )),
-        Positioned.fill(child: Text('')),
+       // Positioned.fill(child: CenteredText()),
       ],
     );
   }
@@ -36,4 +36,4 @@ class FancyBackgroundApp extends StatelessWidget {
       child: child,
     ),
   );
-}*/
+}

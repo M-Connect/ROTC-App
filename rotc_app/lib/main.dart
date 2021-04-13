@@ -26,6 +26,7 @@ import 'Views/signInPage.dart';
 import 'Views/welcomePage.dart';
 import 'app/Schedule/CalendarTasks.dart';
 import 'app/Schedule/evaluationCalendarTasks.dart';
+import 'app/dashboard/notifications.dart';
 import 'app/home.dart';
 import 'app/peerReview/lllab2FT/communication.dart';
 import 'app/peerReview/lllab2FT/confirmation.dart';
@@ -72,7 +73,7 @@ class MConnect extends StatelessWidget {
           title: 'Firebase Authentication',
           navigatorKey: navigation,
           home: Authenticate(),
-          initialRoute: '/signIn',
+          initialRoute: '/LocalNotifications',
           routes: {
             '/signIn': (context) => SignInView(),
             '/welcomePage': (context) => WelcomeView(),
@@ -107,7 +108,7 @@ class MConnect extends StatelessWidget {
             '/multipleUserActivityToBeEvaluated':(context) => MultipleUserActivityToBeEvaluated(),
             '/notifications':(context) => Notifications(),
 
-            // '/barGraph': (context) => BarGraph(),
+            '/LocalNotifications': (context) => LocalNotifications(),
             // '/lineGraph': (context) => LineGraph(),
             '/ResetPasswordPage': (context) => ResetPasswordPage(),
             '/ProcessPin': (context) => ProcessPin(),
