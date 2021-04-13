@@ -1,5 +1,4 @@
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -20,13 +19,15 @@ class _BarGraphv2State extends State<BarGraphv2 > {
   String evaluationId = "6p0Bjgwhe06rXhzQGuXM";
 
   String evalSection = "";
+  String evaluationNotes = "";
+  String activity = "";
 
   double debriefValue = 10.0 ;
   double communicationValue = 10.0;
   double executionValue = 10.0;
   double leadershipValue = 10.0;
   double planningValue = 10.0;
-
+  double evaluationScore = 10.0;
 
   @override
   void initState() {
@@ -52,6 +53,7 @@ class _BarGraphv2State extends State<BarGraphv2 > {
         var leadershipValue = documentSnapshot.data()["leadershipValue"]?? "10";
         var planning = documentSnapshot.data()["planning"]?? " ";
         var planningValue = documentSnapshot.data()["planningValue"]?? "10";
+        var activity = documentSnapshot.data()["activity"]?? " ";
         prefs.setString('debrief', debrief);
         prefs.setString('debriefValue', debriefValue);
         prefs.setString('communication', communication);
@@ -62,11 +64,13 @@ class _BarGraphv2State extends State<BarGraphv2 > {
         prefs.setString('leadershipValue', leadershipValue);
         prefs.setString('planning', planning);
         prefs.setString('planningValue', planningValue);
+        prefs.setString('activity', activity);
         this.debriefValue = double.parse(debriefValue);
         this.communicationValue = double.parse(communicationValue);
         this.executionValue = double.parse(executionValue);
         this.leadershipValue = double.parse(leadershipValue);
         this.planningValue = double.parse(planningValue);
+
 
 /*        debriefValue = double.parse(documentSnapshot.data()["debriefValue"]?? "10");
         communicationValue = double.parse(documentSnapshot.data()["communicationValue"]?? "10");
@@ -94,6 +98,12 @@ class _BarGraphv2State extends State<BarGraphv2 > {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            navigation.currentState.pushNamed('/homePage');
+          },
+        ),
         title: Text('Evaluation Confirmation'),
         actions: <Widget>[
           new IconButton(
@@ -129,7 +139,7 @@ class _BarGraphv2State extends State<BarGraphv2 > {
                 height: 5,
               ),
               Text(
-                'LeadLab Week 2',
+                activity,
                 style: TextStyle(
                   color: Colors.white60,
                   fontSize: 25,
@@ -183,7 +193,7 @@ class _BarGraphv2State extends State<BarGraphv2 > {
   }
 
 
-  BarChartData myBarChart() {
+  BarChartData myBarChart(){
     return BarChartData(
       barTouchData: _bgTouchData(),
       titlesData: _bgTitlesData(),
@@ -194,7 +204,7 @@ class _BarGraphv2State extends State<BarGraphv2 > {
     );
   }
 
-  BarTouchData _bgTouchData() {
+  BarTouchData _bgTouchData()  {
     return BarTouchData(
         touchTooltipData: BarTouchTooltipData(
             tooltipBgColor: Colors.black,
@@ -202,24 +212,34 @@ class _BarGraphv2State extends State<BarGraphv2 > {
               String section;
               switch (group.x.toInt()){
                 case 0:
-                  section = 'Leadership:\n \' Demonstrated good leadership skills.\'';
-                  evalSection = "/leadership";
+                 // section = 'Leadership:\n \' Demonstrated good leadership skills.\'';
+                  evalSection = "/leadershipGraphViewPage";
+                  evaluationNotes = "leadership";
+                  evaluationScore = leadershipValue;
                   break;
                 case 1:
-                  section = 'Execution:\n \'Execution left something to be desired.\'';
-                  evalSection = "/execution";
+                 // section = 'Execution:\n \'Execution left something to be desired.\'';
+                  evalSection = "/executionGraphViewPage";
+                  evaluationNotes = "execution";
+                  evaluationScore = executionValue;
                   break;
                 case 2:
-                  section = 'Planning: \n \'Seemed like they planned really well.\'';
-                  evalSection = "/planning";
+                 // section = 'Planning: \n \'Seemed like they planned really well.\'';
+                  evalSection = "/planningGraphViewPage";
+                  evaluationNotes = "planning";
+                  evaluationScore = planningValue;
                   break;
                 case 3:
-                  section = 'Debrief: \n \'Confused by debrief.\'';
-                  evalSection = "/debrief";
+                 // section = 'Debrief: \n \'Confused by debrief.\'';
+                  evalSection = "/debriefGraphViewPage";
+                  evaluationNotes = "debrief";
+                  evaluationScore = debriefValue;
                   break;
                 case 4:
-                  section = 'Communication: \n \'Communication wasnt always clear.\'';
-                  evalSection = "/communication";
+                  //section = "communication";
+                  evalSection = "/communicationGraphViewPage";
+                  evaluationNotes = "communication";
+                  evaluationScore = communicationValue;
                   break;
               }
               return BarTooltipItem(section + '\n' + (rod.y).toString() + ' Points', TextStyle(
@@ -227,19 +247,22 @@ class _BarGraphv2State extends State<BarGraphv2 > {
               ));
             }
         ),
-        touchCallback: (btr) {
+        touchCallback: (btr) async {
+
           setState(() {
-            if(btr.spot != null &&
+            /*if(btr.spot != null &&
                 btr.touchInput is !FlPanEnd &&
                 btr.touchInput is !FlLongPressEnd) {
-              barIndex = btr.spot.touchedBarGroupIndex;
+              barIndex = btr.spot.touchedBarGroupIndex;*/
               if(evalSection != "") {
+                evaluationScore;
+                evaluationNotes;
                 navigation.currentState.pushNamed(evalSection);
               }
-            }
+            /*}
             else {
               barIndex = -1;
-            }
+            }*/
           });
         }
     );
