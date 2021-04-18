@@ -1,62 +1,86 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../main.dart';
-import '../peerReviewLanding.dart';
+
 /*
  Author: Kyle Serruys
-  This class is the Execution page of our peer review
+  This class is the Debrief page of our peer review
  */
-
-class Execution extends StatefulWidget {
-  Execution() : super();
+class Debrief extends StatefulWidget {
+  Debrief() : super();
 
   @override
-  ExecutionState createState() => ExecutionState();
+  DebriefState createState() => DebriefState();
 }
 
-class ExecutionState extends State<Execution> {
-  TextEditingController execution;
-double executionValue;
-String defaultExecutionValue = "10";
+class DebriefState extends State<Debrief> {
+  TextEditingController debrief;
+
+double debriefValue;
+String defaultDebriefValue = "10";
+var currentEvaluationId = "";
   @override
   void initState() {
     super.initState();
     getUserInfo();
+    initSliderValue();
     initControllers();
   }
 
   initControllers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var executionValue = prefs.getString("execution");
-      execution = TextEditingController(text: executionValue);
+      currentEvaluationId = prefs.getString("currentEvaluationId");
+      var debriefValue = prefs.getString("debrief");
+      debrief = TextEditingController(text: debriefValue);
     });
   }
 
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var executionSliderValue = prefs.getString('executionValue') ?? defaultExecutionValue;
-      executionValue = double.parse(executionSliderValue);
+      var debriefSliderValue = prefs.getString('debriefValue') ?? defaultDebriefValue;
+      debriefValue = double.parse(debriefSliderValue);
     });
   }
+
   initSliderValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      sliderChange(executionValue);
+      sliderChange(debriefValue);
     });
   }
   void sliderChange(double test) {
     setState(() {
       if(test != null){
-        test = executionValue;
+        test = debriefValue;
       }
     });
   }
+  Future<void> saveProgress() async {
+    CollectionReference evaluation =
+    FirebaseFirestore.instance.collection('peerEvaluation');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    evaluation.doc(currentEvaluationId).set({
+      "evaluationDate": DateTime.now().toString(),
+      "planning": prefs.getString(("planning")),
+      "planningValue": prefs.getString("planningValue"),
+      "communication": prefs.getString("communication"),
+      "communicationValue": prefs.getString("communicationValue"),
+      "execution": prefs.getString("execution"),
+      "executionValue":prefs.getString("executionValue"),
+      "leadership": prefs.getString("leadership"),
+      "leadershipValue": prefs.getString("leadershipValue"),
+      "debrief": debrief.text,
+      "debriefValue":debriefValue.round().toString(),
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,17 +88,16 @@ String defaultExecutionValue = "10";
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
+          onPressed: () async {
+            await saveProgress();
             navigation.currentState.pushNamed('/peerReviewLLAB2FT');
           },
         ),
-        title: Text('Execution'),
+        title: Text('Debrief'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () {
-              alertSignOut(context);
-            },
+            onPressed: () { alertSignOut(context);},
           ),
         ],
       ),
@@ -104,7 +127,7 @@ String defaultExecutionValue = "10";
                       children: [
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(executionValue.round().toString(),style: TextStyle(fontSize: 25.0, ),),
+                          child: Text(debriefValue.round().toString(),style: TextStyle(fontSize: 25.0, ),),
                         ),
                       ],
                     ),
@@ -121,9 +144,9 @@ String defaultExecutionValue = "10";
                     ),
                     Expanded(
                       child: Slider(
-                        value: executionValue,
+                        value: debriefValue,
                         onChanged: (newSliderValue) {
-                          setState(() => executionValue = newSliderValue);
+                          setState(() => debriefValue = newSliderValue);
                         },
                         min: 0,
                         max: 20,
@@ -137,6 +160,7 @@ String defaultExecutionValue = "10";
                   ],
                 ),
               ),
+
 
               SizedBox(
                 height: 20.0,
@@ -159,11 +183,11 @@ String defaultExecutionValue = "10";
                   maxLength: 160,
                   maxLengthEnforced: true,
                   maxLines: 10,
-                  controller: execution,
+                  controller: debrief,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     contentPadding:
-
+                        // const EdgeInsets.symmetric(vertical: 75.0),
 
                         EdgeInsets.all(10.0),
                   ),
@@ -177,7 +201,7 @@ String defaultExecutionValue = "10";
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Text("Hint:\n-Time Management\n-Resource Management\n-Flexibility\n-Mission Success",style: TextStyle(fontSize: 18.0, ),),
+                      child: Text("Hint:\n-Adheres to Debrief Format\n-Receptive to Feedback\n-Improvement Oriented\n",style: TextStyle(fontSize: 18.0, ),),
                       flex:8,
                     ),
                   ],
@@ -195,22 +219,22 @@ String defaultExecutionValue = "10";
                       onPressed: () async {
                         SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                        prefs.setString('execution', execution.text);
-                        prefs.setString(
-                            'executionValue', executionValue.round().toString());
-                        navigation.currentState.pushNamed('/communication');
+                        prefs.setString('debrief', debrief.text);
+                        prefs.setString('debriefValue', debriefValue.round().toString());
+                        await saveProgress();
+                        navigation.currentState.pushNamed('/leadership');
                       },
                     ),
 
                     ElevatedButton(
-                      child: Text('Next'),
+                      child: Text('Confirm'),
                       onPressed: () async {
                         SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                        prefs.setString('execution', execution.text);
-                        prefs.setString(
-                            'executionValue', executionValue.round().toString());
-                        navigation.currentState.pushNamed('/leadership');
+                        prefs.setString('debrief', debrief.text);
+                        prefs.setString('debriefValue', debriefValue.round().toString());
+                        await saveProgress();
+                        navigation.currentState.pushNamed('/confirmation');
                       },
                     ),
                   ],
@@ -223,3 +247,4 @@ String defaultExecutionValue = "10";
     );
   }
 }
+

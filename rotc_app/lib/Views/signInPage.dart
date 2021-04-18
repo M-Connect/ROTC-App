@@ -3,9 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:googleapis/doubleclickbidmanager/v1_1.dart';
-import 'package:rotc_app/services/auth.dart';
-import 'package:provider/provider.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
@@ -224,3 +222,4 @@ alertDialog(BuildContext context) {
       return alert;
     },
   );
+}

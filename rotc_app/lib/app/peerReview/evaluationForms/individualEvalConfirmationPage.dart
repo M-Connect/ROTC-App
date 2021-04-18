@@ -1,29 +1,40 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 
-import 'package:intl/intl.dart';
+/*
+Author:  Kyle Serruys
+After the user to be evaluated is selected you get sent to this page.
+This will allow the user to choose a date for the evaluation as well as
+the type of evaluation to be performed.  Upon clicking the start evaluation
+button it will send you to the evaluation form.
+*/
 
-class MultipleEvalConfirmationPage extends StatefulWidget {
+CollectionReference evaluationRequests =
+    FirebaseFirestore.instance.collection('userEvaluationRequests');
+
+class IndividualEvalConfirmationPage extends StatefulWidget {
   @override
-  _MultipleEvalConfirmationPageState createState() => _MultipleEvalConfirmationPageState();
+  _IndividualEvalConfirmationPageState createState() =>
+      _IndividualEvalConfirmationPageState();
 }
 
-class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationPage> {
-  var usersToEvaluate = new List<String>();
-  String userDisplayString;
+class _IndividualEvalConfirmationPageState
+    extends State<IndividualEvalConfirmationPage> {
+  var selectedUserList = new List<String>();
   var selectedActivityList = new List<String>();
   String selectedActivityString;
-
-  DateTime evaluationCompletionDate = DateTime.now();
+  String selectedUserString;
   String text;
   String tempString = "";
   String evalDate = "";
 
   TextEditingController chooseDate = TextEditingController();
   TextEditingController chooseActivity = TextEditingController();
-
 
   @override
   void initState() {
@@ -35,11 +46,14 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
     getEvaluationDate();
   }
 
-  makeTextBlank(){
-    if(selectedActivityString == null){
-      selectedActivityString = tempString;
-    }
+  getEvaluationDate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      evalDate = prefs.getString('evaluationDate') ?? " ";
+  //DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
+});
   }
+
   getSelectedActivity() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -48,20 +62,25 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
     });
   }
 
+  makeTextBlank(){
+    if(selectedActivityString == null){
+      selectedActivityString = tempString;
+    }
+  }
+
   getSelectedUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+      selectedUserList = prefs.getStringList("selectedUserList".toString());
+      selectedUserString = prefs
+          .getStringList("selectedUserList")
+          .reduce((value, element) => value + element);
+    });
+  }
 
-      userDisplayString = prefs.getStringList("usersToEvaluate").join(", ");
-    });
-  }
-  getEvaluationDate() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      evalDate = prefs.getString('evaluationDate') ?? " ";
-      DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
-    });
-  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +93,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
             navigation.currentState.pushNamed('/peerReview');
           },
         ),
-        title: Text('Request'),
+        title: Text('Request Confirmation'),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.logout),
@@ -90,17 +109,17 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
               Container(
                 height: 75,
                 padding: (EdgeInsets.all(5.0)),
-                decoration: BoxDecoration(
+                /*decoration: BoxDecoration(
                   border: (Border.all(color: Colors.black87)),
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
+                ),*/
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                 // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       child: Container(
-                        child: Text('$userDisplayString to be under evaluation',
+                        child: Text(
+                          '$selectedUserString Evaluation',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20.0,
@@ -121,15 +140,15 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                   children: [
                     Center(
                       child: Container(
-                        padding: EdgeInsets.only(left: 25.0),
+                    padding: EdgeInsets.only(left: 25.0),
 
-                        child: Text(
-                          'Evaluation Date:',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                          ),
+                      child: Text(
+                        'Evaluation Date:',
+                        style: TextStyle(
+                          fontSize: 20.0,
                         ),
                       ),
+                    ),
                     ),
                   ],
                 ),
@@ -148,6 +167,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                             readOnly: true,
                             controller: chooseDate,
                             decoration: InputDecoration(
+
                               hintText: (evalDate),
                               hintStyle: TextStyle(
                                   fontSize: 20.0, color: Colors.black87),
@@ -160,9 +180,10 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                                 ),
                               ),
                             ),
-                            onTap: () async{
+                            onTap: () async {
                               await navigation.currentState.pushNamed('/evaluationCalendarTasks');
                               getEvaluationDate();
+                              //getEvaluationCompletionDate(context);
                             },
                           ),
                         ),
@@ -216,7 +237,8 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                                 ),
                               ),
                               onTap: () {
-                                navigation.currentState.pushNamed('/multipleUserActivityToBeEvaluated');
+
+                                navigation.currentState.pushNamed('/activityToBeEvaluated');
                               },
                               //  onChanged: chooseDate,
                             ),
@@ -229,18 +251,38 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                 padding: const EdgeInsets.only(bottom: 20.0),
               ),
               Container(
-                width: 200,
-                height: 40,
                 child: ElevatedButton(
-                  child: Text('Next'),
-                  onPressed: () {
-                    navigation.currentState.pushNamed('/usersToDoEvaluation');
+                  child: Text('Start Evaluation'),
+                  onPressed: () async {
+                    /*
+                    * Insert into the userEvaluationRequests collection the evaluator name and the status*/
+                    //get the user info to save and add it.
+
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+
+                    var userToEvaluate = selectedUserList.first;
+                    var firstName = prefs.getString('firstName');
+                    var lastName = prefs.getString('lastName');
+                    var evaluator = firstName + lastName;
+                    var docRef = await evaluationRequests.add({
+                      "evaluator": evaluator,
+                      "evaluatee": userToEvaluate,
+                      "status": "Pending"
+                    });
+
+                    //save id into shared prefs
+                    var docId = docRef.id;
+                    prefs.setString("currentEvaluationId", docId);
+                    navigation.currentState.pushNamed('/peerReviewLLAB2FT');
                   },
                 ),
               ),
             ],
+
           ),
         ),
+
       ),
     );
   }

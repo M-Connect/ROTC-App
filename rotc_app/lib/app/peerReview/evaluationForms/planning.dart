@@ -3,51 +3,59 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../main.dart';
 /*
  Author: Kyle Serruys
-  This class is the Communication page of our peer review
+  This class is the Planning page of our peer review
  */
 
-class Communication extends StatefulWidget {
-  Communication() : super();
+class Planning extends StatefulWidget {
+  Planning() : super();
 
   @override
-  CommunicationState createState() => CommunicationState();
+  PlanningState createState() => PlanningState();
 }
 
-class CommunicationState extends State<Communication> {
-  TextEditingController communication;
+class PlanningState extends State<Planning> {
+  TextEditingController planning;
 
-  double communicationValue;
-  String defaultCommunicationValue = "10";
+  String firstName = "";
+  String lastName = "";
+  String emailAddress = "";
+  String nickname = "";
+  bool isCadre;
+  double planningValue;
+  String defaultPlanningValue = "10";
+  var currentEvaluationId = "";
 
   @override
   void initState() {
     super.initState();
     initControllers();
     getUserInfo();
-   // initSliderValue();
+    initSliderValue();
   }
 
   initControllers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var communicationValue = prefs.getString("communication");
-      communication = TextEditingController(text: communicationValue);
+      currentEvaluationId = prefs.getString("currentEvaluationId");
+      var planningTextValue = prefs.getString("planning");
+      planning = TextEditingController(text: planningTextValue);
     });
   }
 
- /* initSliderValue() async {
+  initSliderValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      sliderChange(communicationValue);
+      sliderChange(planningValue);
     });
-  }*/
+  }
   void sliderChange(double test) {
     setState(() {
       if(test != null){
-        test = communicationValue;
+        test = planningValue;
       }
     });
   }
@@ -55,8 +63,35 @@ class CommunicationState extends State<Communication> {
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var communicationSliderValue = prefs.getString('communicationValue') ?? defaultCommunicationValue;
-      communicationValue = double.parse(communicationSliderValue);
+      firstName = prefs.getString("firstName");
+      lastName = prefs.getString("lastName");
+      emailAddress = prefs.getString("email");
+      nickname = prefs.getString('nickname');
+      isCadre = prefs.getString('isCadre') == 'true';
+
+      var planningSliderValue = prefs.getString('planningValue') ?? defaultPlanningValue;
+      planningValue = double.parse(planningSliderValue);
+    });
+  }
+
+  Future<void> saveProgress() async{
+    CollectionReference evaluation =
+    FirebaseFirestore.instance.collection('peerEvaluation');
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    evaluation.doc(currentEvaluationId).set({
+      "evaluationDate": DateTime.now().toString(),
+      "planning": planning.text,
+      "planningValue": planningValue.round().toString(),
+      "communication": prefs.getString("communication"),
+      "communicationValue": prefs.getString("communicationValue"),
+      "execution": prefs.getString("execution"),
+      "executionValue":prefs.getString("executionValue"),
+      "leadership": prefs.getString("leadership"),
+      "leadershipValue": prefs.getString("leadershipValue"),
+      "debrief": prefs.getString("debrief"),
+      "debriefValue":prefs.getString("debriefValue"),
     });
   }
 
@@ -66,11 +101,13 @@ class CommunicationState extends State<Communication> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            navigation.currentState.pushNamed('/peerReviewLLAB2FT');
+          onPressed: () async {
+           await saveProgress();
+            //navigation.currentState.pushNamed('/peerReviewLLAB2FT');
+            Navigator.of(context, rootNavigator: true).pop();
           },
         ),
-        title: Text('Communication'),
+        title: Text('Planning'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
@@ -83,7 +120,6 @@ class CommunicationState extends State<Communication> {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Center(
-
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -106,7 +142,7 @@ class CommunicationState extends State<Communication> {
                       children: [
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(communicationValue.round().toString(),style: TextStyle(fontSize: 25.0, ),),
+                          child: Text(planningValue.round().toString(),style: TextStyle(fontSize: 25.0, ),),
                         ),
                       ],
                     ),
@@ -123,9 +159,9 @@ class CommunicationState extends State<Communication> {
                     ),
                     Expanded(
                       child: Slider(
-                        value: communicationValue,
+                        value: planningValue,
                         onChanged: (newSliderValue) {
-                          setState(() => communicationValue = newSliderValue);
+                          setState(() => planningValue = newSliderValue);
                         },
                         min: 0,
                         max: 20,
@@ -139,20 +175,19 @@ class CommunicationState extends State<Communication> {
                   ],
                 ),
               ),
-
               SizedBox(
                 height: 20.0,
               ),
               Container(
                   child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: Text('Evaluator Notes:',style: TextStyle(fontSize: 25.0, ),),
+                    child: Text('Evaluator Notes:', style: TextStyle(fontSize: 25.0, ),),
                   ),
                 ],
-              ),),
+              )),
               Container(
                 width: 200.0,
                 child: TextFormField(
@@ -160,16 +195,12 @@ class CommunicationState extends State<Communication> {
                   maxLength: 160,
                   maxLengthEnforced: true,
                   maxLines: 10,
-                  controller: communication,
+                  controller: planning,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
-                    contentPadding:
-                        // const EdgeInsets.symmetric(vertical: 75.0),
-
-                        EdgeInsets.all(10.0),
+                    contentPadding: EdgeInsets.all(10.0),
                   ),
                   onSaved: (String value) {},
-
                 ),
               ),
               Container(
@@ -177,7 +208,7 @@ class CommunicationState extends State<Communication> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Text("Hint:\n-Use of Chain of Command\n-Maintains Team's Situational Awareness\n\n",style: TextStyle(fontSize: 18.0),),
+                      child: Text("Hint:\n-Team Organization\n-Outside Preparation\n-Mission Focus\n-Creativity", style: TextStyle(fontSize: 18.0),),
                       flex:8,
                     ),
                   ],
@@ -189,38 +220,25 @@ class CommunicationState extends State<Communication> {
               Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      child: Text('Prev'),
-                      onPressed: () async {
-                        SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                        prefs.setString('communication', communication.text);
-                        prefs.setString(
-                            'communicationValue', communicationValue.round().toString());
-                        navigation.currentState.pushNamed('/planning');
-                      },
+                  children: <Widget>[
+                    Opacity(
+                      opacity: 0.0,
+                      child: ElevatedButton(
+                        child: Text('Prev'),
+                        onPressed: () async {
+                        },
+                      ),
                     ),
-                    /*ElevatedButton(
-                      child: Text('Save'),
-                      onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        prefs.setString('communication', communication.text);
-                        prefs.setString(
-                            'communicationValue', communicationValue.round().toString());
-                        saveNotification(context);
-                      },
-                    ),*/
                     ElevatedButton(
                       child: Text('Next'),
                       onPressed: () async {
                         SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                        prefs.setString('communication', communication.text);
+                            await SharedPreferences.getInstance();
+                        prefs.setString('planning', planning.text);
                         prefs.setString(
-                            'communicationValue', communicationValue.round().toString());
-                        navigation.currentState.pushNamed('/execution');
+                            'planningValue', planningValue.round().toString());
+                        await saveProgress();
+                        navigation.currentState.pushNamed('/communication');
                       },
                     ),
                   ],
@@ -234,24 +252,3 @@ class CommunicationState extends State<Communication> {
   }
 }
 
-saveNotification(BuildContext context) {
-  Widget button = FlatButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-  AlertDialog alert = AlertDialog(
-    //  title: Text("Saved"),
-    content: Text("Input is saved"),
-    actions: [
-      button,
-    ],
-  );
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}

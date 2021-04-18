@@ -1,62 +1,84 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../main.dart';
-
 /*
  Author: Kyle Serruys
-  This class is the Debrief page of our peer review
+  This class is the Communication page of our peer review
  */
-class Debrief extends StatefulWidget {
-  Debrief() : super();
+
+class Communication extends StatefulWidget {
+  Communication() : super();
 
   @override
-  DebriefState createState() => DebriefState();
+  CommunicationState createState() => CommunicationState();
 }
 
-class DebriefState extends State<Debrief> {
-  TextEditingController debrief;
+class CommunicationState extends State<Communication> {
+  TextEditingController communication;
 
-double debriefValue;
-String defaultDebriefValue = "10";
+  double communicationValue;
+  String defaultCommunicationValue = "10";
+  var currentEvaluationId = "";
+
   @override
   void initState() {
     super.initState();
-    getUserInfo();
-    initSliderValue();
     initControllers();
+    getUserInfo();
+   // initSliderValue();
   }
 
   initControllers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var debriefValue = prefs.getString("debrief");
-      debrief = TextEditingController(text: debriefValue);
+      currentEvaluationId = prefs.getString("currentEvaluationId");
+      var communicationValue = prefs.getString("communication");
+      communication = TextEditingController(text: communicationValue);
+    });
+  }
+
+ /* initSliderValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      sliderChange(communicationValue);
+    });
+  }*/
+  void sliderChange(double test) {
+    setState(() {
+      if(test != null){
+        test = communicationValue;
+      }
     });
   }
 
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var debriefSliderValue = prefs.getString('debriefValue') ?? defaultDebriefValue;
-      debriefValue = double.parse(debriefSliderValue);
+      var communicationSliderValue = prefs.getString('communicationValue') ?? defaultCommunicationValue;
+      communicationValue = double.parse(communicationSliderValue);
     });
   }
 
-  initSliderValue() async {
+  Future<void> saveProgress() async {
+    CollectionReference evaluation =
+    FirebaseFirestore.instance.collection('peerEvaluation');
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      sliderChange(debriefValue);
-    });
-  }
-  void sliderChange(double test) {
-    setState(() {
-      if(test != null){
-        test = debriefValue;
-      }
+
+    evaluation.doc(currentEvaluationId).set({
+      "evaluationDate": DateTime.now().toString(),
+      "planning": prefs.getString(("planning")),
+      "planningValue": prefs.getString("planningValue"),
+      "communication": communication.text,
+      "communicationValue": communicationValue.round().toString(),
+      "execution": prefs.getString("execution"),
+      "executionValue":prefs.getString("executionValue"),
+      "leadership": prefs.getString("leadership"),
+      "leadershipValue": prefs.getString("leadershipValue"),
+      "debrief": prefs.getString("debrief"),
+      "debriefValue":prefs.getString("debriefValue"),
     });
   }
 
@@ -66,15 +88,18 @@ String defaultDebriefValue = "10";
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
+          onPressed: ()async {
+            await saveProgress();
             navigation.currentState.pushNamed('/peerReviewLLAB2FT');
           },
         ),
-        title: Text('Debrief'),
+        title: Text('Communication'),
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: () { alertSignOut(context);},
+            onPressed: () {
+              alertSignOut(context);
+            },
           ),
         ],
       ),
@@ -104,7 +129,7 @@ String defaultDebriefValue = "10";
                       children: [
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(debriefValue.round().toString(),style: TextStyle(fontSize: 25.0, ),),
+                          child: Text(communicationValue.round().toString(),style: TextStyle(fontSize: 25.0, ),),
                         ),
                       ],
                     ),
@@ -121,9 +146,9 @@ String defaultDebriefValue = "10";
                     ),
                     Expanded(
                       child: Slider(
-                        value: debriefValue,
+                        value: communicationValue,
                         onChanged: (newSliderValue) {
-                          setState(() => debriefValue = newSliderValue);
+                          setState(() => communicationValue = newSliderValue);
                         },
                         min: 0,
                         max: 20,
@@ -138,21 +163,19 @@ String defaultDebriefValue = "10";
                 ),
               ),
 
-
               SizedBox(
                 height: 20.0,
               ),
               Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: Text('Evaluator Notes:',style: TextStyle(fontSize: 25.0, ),),
-                    ),
-                  ],
-                ),
-              ),
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: Text('Evaluator Notes:',style: TextStyle(fontSize: 25.0, ),),
+                  ),
+                ],
+              ),),
               Container(
                 width: 200.0,
                 child: TextFormField(
@@ -160,7 +183,7 @@ String defaultDebriefValue = "10";
                   maxLength: 160,
                   maxLengthEnforced: true,
                   maxLines: 10,
-                  controller: debrief,
+                  controller: communication,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     contentPadding:
@@ -169,8 +192,7 @@ String defaultDebriefValue = "10";
                         EdgeInsets.all(10.0),
                   ),
                   onSaved: (String value) {},
-                  validator: RequiredValidator(
-                      errorText: "Chain of Command is required"),
+
                 ),
               ),
               Container(
@@ -178,7 +200,7 @@ String defaultDebriefValue = "10";
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Text("Hint:\n-Adheres to Debrief Format\n-Receptive to Feedback\n-Improvement Oriented\n",style: TextStyle(fontSize: 18.0, ),),
+                      child: Text("Hint:\n-Use of Chain of Command\n-Maintains Team's Situational Awareness\n\n",style: TextStyle(fontSize: 18.0),),
                       flex:8,
                     ),
                   ],
@@ -196,20 +218,34 @@ String defaultDebriefValue = "10";
                       onPressed: () async {
                         SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                        prefs.setString('debrief', debrief.text);
-                        prefs.setString('debriefValue', debriefValue.round().toString());
-                        navigation.currentState.pushNamed('/leadership');
+                        prefs.setString('communication', communication.text);
+                        prefs.setString(
+                            'communicationValue', communicationValue.round().toString());
+                        await saveProgress();
+                        navigation.currentState.pushNamed('/planning');
                       },
                     ),
-
+                    /*ElevatedButton(
+                      child: Text('Save'),
+                      onPressed: () async {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setString('communication', communication.text);
+                        prefs.setString(
+                            'communicationValue', communicationValue.round().toString());
+                        saveNotification(context);
+                      },
+                    ),*/
                     ElevatedButton(
-                      child: Text('Confirm'),
+                      child: Text('Next'),
                       onPressed: () async {
                         SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                        prefs.setString('debrief', debrief.text);
-                        prefs.setString('debriefValue', debriefValue.round().toString());
-                        navigation.currentState.pushNamed('/confirmation');
+                        prefs.setString('communication', communication.text);
+                        prefs.setString(
+                            'communicationValue', communicationValue.round().toString());
+                       await saveProgress();
+                        navigation.currentState.pushNamed('/execution');
                       },
                     ),
                   ],
@@ -223,3 +259,24 @@ String defaultDebriefValue = "10";
   }
 }
 
+saveNotification(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    //  title: Text("Saved"),
+    content: Text("Input is saved"),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

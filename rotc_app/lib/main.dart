@@ -1,17 +1,23 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rotc_app/Views/addGCEvent.dart';
 import 'package:rotc_app/app/peerReview/activityToBeEvaluated.dart';
+import 'package:rotc_app/app/peerReview/evaluationForms/executionGraphViewPage.dart';
+import 'package:rotc_app/app/peerReview/evaluationForms/leadershipGraphViewPage.dart';
+import 'package:rotc_app/app/peerReview/evaluationForms/planningGraphViewPage.dart';
 import 'package:rotc_app/app/peerReview/graphs/graphActivitySelector.dart';
 
-import 'package:rotc_app/app/peerReview/lllab2FT/debrief.dart';
-import 'package:rotc_app/app/peerReview/lllab2FT/execution.dart';
-import 'package:rotc_app/app/peerReview/lllab2FT/individualEvalConfirmationPage.dart';
-import 'package:rotc_app/app/peerReview/lllab2FT/multipleEvalConfirmationPage.dart';
-import 'package:rotc_app/app/peerReview/lllab2FT/multipleUserActivityToBeEvaluated.dart';
-import 'package:rotc_app/app/peerReview/lllab2FT/usersToDoEvaluation.dart';
+import 'package:rotc_app/app/peerReview/evaluationForms/debrief.dart';
+import 'package:rotc_app/app/peerReview/evaluationForms/communicationGraphViewPage.dart';
+import 'package:rotc_app/app/peerReview/evaluationForms/debriefGraphViewPage.dart';
+import 'package:rotc_app/app/peerReview/evaluationForms/execution.dart';
+import 'package:rotc_app/app/peerReview/evaluationForms/individualEvalConfirmationPage.dart';
+import 'package:rotc_app/app/peerReview/evaluationForms/multipleEvalConfirmationPage.dart';
+import 'package:rotc_app/app/peerReview/evaluationForms/multipleUserActivityToBeEvaluated.dart';
+import 'package:rotc_app/app/peerReview/evaluationForms/usersToDoEvaluation.dart';
 import 'package:rotc_app/app/peerReview/peerReviewRequest.dart';
 import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
 import 'package:rotc_app/app/profile/editProfile.dart';
@@ -26,17 +32,15 @@ import 'app/Schedule/evaluationCalendarTasks.dart';
 import 'app/home.dart';
 import 'app/peerReview/graphs/barGraphs.dart';
 import 'app/peerReview/graphs/lineGraphs.dart';
-import 'app/peerReview/lllab2FT/communication.dart';
-import 'app/peerReview/lllab2FT/confirmation.dart';
-import 'app/peerReview/lllab2FT/leadership.dart';
-import 'app/peerReview/lllab2FT/peerReviewLLAB2FT.dart';
-import 'app/peerReview/lllab2FT/planning.dart';
-import 'app/peerReview/lllab2FT/execution.dart';
-import 'app/peerReview/lllab2FT/debrief.dart';
+import 'app/peerReview/evaluationForms/communication.dart';
+import 'app/peerReview/evaluationForms/confirmation.dart';
+import 'app/peerReview/evaluationForms/leadership.dart';
+import 'app/peerReview/evaluationForms/peerReviewLLAB2FT.dart';
+import 'app/peerReview/evaluationForms/planning.dart';
+import 'app/peerReview/evaluationForms/execution.dart';
+import 'app/peerReview/evaluationForms/debrief.dart';
 import 'app/peerReview/notifications.dart';
 import 'app/peerReview/peerReview.dart';
-import 'app/peerReview/commissioning/peerReviewCommissioning.dart';
-import 'app/peerReview/flxflight/peerReviewFLXFlight.dart';
 import 'app/peerReview/peerReviewLanding.dart';
 import 'app/profile/profile.dart';
 /*
@@ -89,9 +93,6 @@ class MConnect extends StatelessWidget {
       '/peerReviewRequest': (context) => PeerReviewRequest(),
       '/peerReviewStats': (context) => PeerReviewStats(),
       '/peerReviewLLAB2FT': (context) => PeerReviewLLAB2FT(),
-      '/peerReviewFLXFlight': (context) => PeerReviewFLXFlight(),
-
-      '/peerReviewCommissioning': (context) => PeerReviewCommissioning(),
 
       '/planning': (context) => Planning(),
       '/communication': (context) => Communication(),
@@ -107,6 +108,11 @@ class MConnect extends StatelessWidget {
       '/notifications':(context) => Notifications(),
      '/barGraph': (context) => BarGraphv2(),
       '/addGCEvent': (context) => AddGCEvent(),
+      '/communicationGraphViewPage':(context) => CommunicationGraphViewPage(),
+      '/debriefGraphViewPage':(context) => DebriefGraphViewPage(),
+      '/leadershipGraphViewPage':(context) => LeadershipGraphViewPage(),
+      '/executionGraphViewPage':(context) => ExecutionGraphViewPage(),
+      '/planningGraphViewPage':(context) => PlanningGraphViewPage(),
     //  '/lineGraph': (context) => LineGraph(),
 
     } ),
@@ -125,4 +131,5 @@ class Authenticate extends StatelessWidget {
     return SignInView();
   }
 }
+
 

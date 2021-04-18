@@ -29,8 +29,8 @@ class CalendarTasks extends StatefulWidget {
 }
 
 class _CalendarTasksState extends State<CalendarTasks> {
-GCEventCRUD eventCRUD = GCEventCRUD();
-CalendarController _calendarController = CalendarController();
+  GCEventCRUD eventCRUD = GCEventCRUD();
+  CalendarController _calendarController = CalendarController();
   Map<DateTime, List<dynamic>> _tasks;
   List<dynamic> _tasksChosen;
   TextEditingController _taskController;
@@ -55,17 +55,17 @@ CalendarController _calendarController = CalendarController();
     //getEvaluationDate();
   }
 
-getBool() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  setState(() {
-    isCadre = prefs.getString('isCadre') == 'true';
-  });
-}
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
 
   getEvaluationDate()async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-     evaluationDate = prefs.getString('evaluationDate');
+      evaluationDate = prefs.getString('evaluationDate');
     });
   }
   sharedPrefsData() async {
@@ -117,6 +117,7 @@ getBool() async {
 
   @override
   Widget build(BuildContext context) {
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -270,6 +271,7 @@ getBool() async {
                       ),
                     ),
                   ),
+
                   // Padding(
                   // padding: const EdgeInsets.only(left: 20.0, right: 20.0),
 
@@ -336,8 +338,10 @@ getBool() async {
                         ),
 
 
-                      ],
-                    ),
+
+                ],
+              ),
+
 
                   ),
                   ),
@@ -347,6 +351,7 @@ getBool() async {
             GCEventsList(),
             ToDoList(),
             //Navigator.of(context).pushNamed('/GCEventsList');
+
           ],
         ),
 
@@ -358,6 +363,7 @@ getBool() async {
           onPressed: _addTaskDialog,
         ),*/
       ),
+
     );
   }
 
@@ -365,14 +371,22 @@ getBool() async {
     await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              backgroundColor: Colors.white,
-              title: Text("Add a new task"),
-              content: TextField(
-              /*  decoration: InputDecoration(
+          backgroundColor: Colors.white,
+          title: Text("Add a new task"),
+          content: TextField(
+            /*  decoration: InputDecoration(
                   hintText: 'Title'
                 ),*/
-                controller: _taskController,
+            controller: _taskController,
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                "ADD",
+                style: TextStyle(
+                    color: Colors.purpleAccent, fontWeight: FontWeight.bold),
               ),
+
               actions: <Widget>[
                 FlatButton(
                   child: Text(
