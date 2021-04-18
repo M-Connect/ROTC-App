@@ -12,6 +12,9 @@ After the user to be evaluated is selected you get sent to this page.
 This will allow the user to choose a date for the evaluation as well as
 the type of evaluation to be performed.  Upon clicking the start evaluation
 button it will send you to the evaluation form.
+  Co-Author: Christine Thomas
+  added the isCadre check to change the appBar Color depending on which
+  type of user is signed in.
 */
 
 CollectionReference evaluationRequests =
@@ -32,6 +35,7 @@ class _IndividualEvalConfirmationPageState
   String text;
   String tempString = "";
   String evalDate = "";
+  bool isCadre = false;
 
   TextEditingController chooseDate = TextEditingController();
   TextEditingController chooseActivity = TextEditingController();
@@ -44,6 +48,7 @@ class _IndividualEvalConfirmationPageState
     getSelectedUser();
     getSelectedActivity();
     getEvaluationDate();
+    getBool();
   }
 
   getEvaluationDate() async {
@@ -78,6 +83,12 @@ class _IndividualEvalConfirmationPageState
     });
   }
 
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
 
 
 
@@ -85,6 +96,7 @@ class _IndividualEvalConfirmationPageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () async {

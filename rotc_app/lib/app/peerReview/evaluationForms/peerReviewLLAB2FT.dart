@@ -7,6 +7,8 @@ import '../peerReviewLanding.dart';
 /*
  Author: Kyle Serruys
   This class is the home page for our LLAB2FT peer review
+   Co-author: Christine Thomas
+  fixed padding.
  */
 
 class PeerReviewLLAB2FT extends StatelessWidget {

@@ -8,6 +8,10 @@ import '../../../main.dart';
 /*
  Author: Kyle Serruys
   This class is the Planning page of our peer review
+     Co-Author: Christine Thomas
+  added the isCadre check to change the appBar Color depending on which
+  type of user is signed in.
+
  */
 
 class Planning extends StatefulWidget {
@@ -24,7 +28,7 @@ class PlanningState extends State<Planning> {
   String lastName = "";
   String emailAddress = "";
   String nickname = "";
-  bool isCadre;
+  bool isCadre = false;
   double planningValue;
   String defaultPlanningValue = "10";
   var currentEvaluationId = "";
@@ -35,6 +39,7 @@ class PlanningState extends State<Planning> {
     initControllers();
     getUserInfo();
     initSliderValue();
+    getBool();
   }
 
   initControllers() async {
@@ -73,6 +78,13 @@ class PlanningState extends State<Planning> {
       planningValue = double.parse(planningSliderValue);
     });
   }
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
+
 
   Future<void> saveProgress() async{
     CollectionReference evaluation =
@@ -99,6 +111,7 @@ class PlanningState extends State<Planning> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () async {

@@ -4,6 +4,12 @@ import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 
+/*
+Author: Kyle Serruys
+  Co-Author: Christine Thomas
+  added the isCadre check to change the appBar Color depending on which
+  type of user is signed in.
+ */
 class Confirmation extends StatefulWidget {
   @override
   _ConfirmationState createState() => _ConfirmationState();
@@ -30,6 +36,7 @@ class _ConfirmationState extends State<Confirmation> {
   String selectedUserString;
   String evalDate= "";
   String evaluationId="";
+  bool isCadre = false;
 
 
   CollectionReference evaluation =
@@ -76,6 +83,7 @@ class _ConfirmationState extends State<Confirmation> {
     getLeadershipData();
     getExecutionData();
     getDebriefData();
+    getBool();
   }
 
   getUserData() async {
@@ -147,12 +155,18 @@ class _ConfirmationState extends State<Confirmation> {
       debriefValue = prefs.getString("debriefValue");
     });
   }
-
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
   static final SizedBox spaceBetweenFields = SizedBox(height: 20.0);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         automaticallyImplyLeading: false,
         title: Text('Evaluation Confirmation'),
         actions: <Widget>[
