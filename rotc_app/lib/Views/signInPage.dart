@@ -42,7 +42,15 @@ class _SignInViewState extends State<SignInView> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      body: SingleChildScrollView(
+      body:/* DecoratedBox(
+        decoration: BoxDecoration(
+        image: DecorationImage(
+        // image:NetworkImage("https://flutter-examples.com/wp-content/uploads/2020/02/dice.jpg"),
+        image: AssetImage("assets/images/DET390_symbol.jpeg"),
+
+    ),
+    ),
+    child: */SingleChildScrollView(
           padding: EdgeInsets.all(25.0),
           child: Form(
             // ignore: deprecated_member_use
@@ -59,7 +67,7 @@ class _SignInViewState extends State<SignInView> {
                     ),
                   ),*/
                   Padding(
-                    padding: const EdgeInsets.only(top: 100.0, bottom: 100.0),
+                    padding: const EdgeInsets.only(top: 100.0, bottom: 1.0),
                     child: Text(
                       'M-Connect',
                       style: TextStyle(
@@ -69,7 +77,17 @@ class _SignInViewState extends State<SignInView> {
                       ),
                     ),
                   ),
-
+                  Container(
+                    decoration: BoxDecoration(),
+                    child: Image.asset(
+                      'assets/images/DET390_symbol.jpeg',
+                      fit: BoxFit.fill,
+                      height: 100, // set your height
+                      width: 100,
+                       // and width here
+                    ),
+                  ),
+                  SizedBox(height: 7),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,7 +244,7 @@ class _SignInViewState extends State<SignInView> {
                         },
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 95.0),
+                        padding: const EdgeInsets.only(right: 80.0),
                       ),
                       TextButton(
                         child: SingleChildScrollView(
@@ -238,7 +256,7 @@ class _SignInViewState extends State<SignInView> {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/register');
+                          Navigator.pushNamed(context, '/ConfirmToRegister');
                         },
                       ),
                     ],
@@ -246,7 +264,7 @@ class _SignInViewState extends State<SignInView> {
                 ]),
           ),
         ),
-      );
+    );
   }
 }
 

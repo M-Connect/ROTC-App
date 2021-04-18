@@ -18,6 +18,7 @@ import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
 import 'package:rotc_app/app/profile/editProfile.dart';
 import 'package:rotc_app/common_widgets/barGraphWidget2.0.dart';
 import 'package:rotc_app/services/auth.dart';
+import 'Views/confirmToRegister.dart';
 import 'Views/passwords/ForgotPassword.dart';
 import 'Views/passwords/enterResetPin.dart';
 import 'Views/passwords/resetPasswordPage.dart';
@@ -27,6 +28,7 @@ import 'Views/welcomePage.dart';
 import 'app/Schedule/CalendarTasks.dart';
 import 'app/Schedule/evaluationCalendarTasks.dart';
 import 'app/dashboard/notifications.dart';
+import 'app/dashboard/testPage.dart';
 import 'app/home.dart';
 import 'app/peerReview/lllab2FT/communication.dart';
 import 'app/peerReview/lllab2FT/confirmation.dart';
@@ -73,7 +75,7 @@ class MConnect extends StatelessWidget {
           title: 'Firebase Authentication',
           navigatorKey: navigation,
           home: Authenticate(),
-          initialRoute: '/LocalNotifications',
+          initialRoute: '/',
           routes: {
             '/signIn': (context) => SignInView(),
             '/welcomePage': (context) => WelcomeView(),
@@ -109,10 +111,10 @@ class MConnect extends StatelessWidget {
             '/notifications':(context) => Notifications(),
 
             '/LocalNotifications': (context) => LocalNotifications(),
-            // '/lineGraph': (context) => LineGraph(),
+            '/MyApp': (context) => MyApp(),
             '/ResetPasswordPage': (context) => ResetPasswordPage(),
             '/ProcessPin': (context) => ProcessPin(),
-            // '/': (context) => (),
+            '/ConfirmToRegister': (context) => ConfirmToRegister(),
             // '/': (context) => (),
 
             '/barGraph': (context) => BarGraphv2(),

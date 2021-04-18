@@ -59,6 +59,7 @@ dependencies:
   fl_chart: ^0.12.0
   googleapis_auth: any
   simple_animations: ^1.0.0
+  flutter_launcher_icons: ^0.9.0
 
 
 dev_dependencies:
@@ -83,6 +84,8 @@ flutter:
 
   assets:
     - assets/images/landscape_in_mountains.jpeg
+    - assets/images/DET390_and_jet.jpeg
+    - assets/images/DET390_symbol.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
