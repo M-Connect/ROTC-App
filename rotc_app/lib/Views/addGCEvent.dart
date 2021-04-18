@@ -6,15 +6,28 @@ import 'package:rotc_app/app/Schedule/Models/gc_event_model.dart';
 import 'package:rotc_app/app/Schedule/ViewModels/gc_event_ops.dart';
 import 'package:rotc_app/services/gc_event_crud.dart';
 
+/*
+Author: Christine Thomas
+Updated: 4/17/21
+These classes allow for adding Google Calendar Events via a Form for the user
+to fill out.
+ */
 class AddGCEvent extends StatefulWidget {
   @override
   _AddGCEventState createState() => _AddGCEventState();
 }
 
 class _AddGCEventState extends State<AddGCEvent> {
+
+  /*
+  Creating instances of GCEventCRUD and GCEventOps to be used
+   */
   GCEventCRUD eventCRUD = GCEventCRUD();
   GCEventOps eventOps = GCEventOps();
 
+  /*
+  Defining the TextEditingControllers for each field
+   */
   TextEditingController dateController;
   TextEditingController startTimeController;
   TextEditingController endTimeController;
@@ -23,15 +36,23 @@ class _AddGCEventState extends State<AddGCEvent> {
   TextEditingController locationController;
   TextEditingController userController;
 
+  /* Defining the focusNodes for each field */
+
   FocusNode titleFNode;
   FocusNode detailsFNode;
   FocusNode locationFNode;
   FocusNode userFNode;
 
+  /*
+  Setting the intial date, start and end time to now.
+   */
   DateTime dateChosen = DateTime.now();
   TimeOfDay startTimeChosen = TimeOfDay.now();
   TimeOfDay endTimeChosen = TimeOfDay.now();
 
+  /*
+  Initializing the each field, the error text and the arrays of users relevant to the event.
+   */
   String titleGiven;
   String detailsGiven;
   String locationGiven;
@@ -39,6 +60,9 @@ class _AddGCEventState extends State<AddGCEvent> {
   String errorText = '';
   List<schedule.EventAttendee> users = [];
 
+  /*
+  Setting each field modification value to false to start with.
+   */
   bool isModifyingTitle = false;
   bool isModifyingDetails = false;
   bool isModifyingDateStartTime = false;
@@ -50,29 +74,50 @@ class _AddGCEventState extends State<AddGCEvent> {
   bool isErrorTime = false;
   bool isDataWriting = false;
 
+  /*
+  This function takes the context of type BuildContext and has an asynchronous body that
+  awaits for the user's input in the showDatePicker to be set to the datePicked variable,
+  the context is the context parameter passed in, the initial date is the current date,
+  the first date year is 2021, the last year is 2077.
+
+  it then checks if the datePicked is not null and the datePicked is not the same as the dateChosen
+  which is the current date, DateTime.now(),
+  if so the state is set to the dateChosen now being the datePicked and the dateController's text
+  is set to the dateChosen but formatted to look like Month Date, Year format.
+   */
   _setDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime datePicked = await showDatePicker(
       context: context,
       initialDate: dateChosen,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2050),
+      firstDate: DateTime(2021),
+      lastDate: DateTime(2077),
     );
-    if (picked != null && picked != dateChosen) {
+    if (datePicked != null && datePicked != dateChosen) {
       setState(() {
-        dateChosen = picked;
+        dateChosen = datePicked;
         dateController.text = DateFormat.yMMMMd().format(dateChosen);
       });
     }
   }
 
+  /*
+  This function takes the context of type BuildContext and has an asynchronous body that
+  awaits the showTimePicker for the user's input and sets the context to the context parameter
+  passed in and the intialTime to the startTimeChosen which is the current time.
+  it then checks to see if the startTimePicked is not null and not the same as the startTimeChosen
+  which is the current time, if these conditions are met the state is set so that the
+  startTimeChosen is now the startTimePicked by the user and the startTimeController's text is set
+  to the startTimeChosen which is formatted into localized time.
+  Else the state is set to the current time and then formatted into localized time.
+   */
   _selectStartTime(BuildContext context) async {
-    final TimeOfDay picked = await showTimePicker(
+    final TimeOfDay startTimePicked = await showTimePicker(
       context: context,
       initialTime: startTimeChosen,
     );
-    if (picked != null && picked != startTimeChosen) {
+    if (startTimePicked != null && startTimePicked != startTimeChosen) {
       setState(() {
-        startTimeChosen = picked;
+        startTimeChosen = startTimePicked;
         startTimeController.text = startTimeChosen.format(context);
       });
     } else {
@@ -82,14 +127,25 @@ class _AddGCEventState extends State<AddGCEvent> {
     }
   }
 
+  /*
+  This function takes the context of type BuildContext and has an asynchronous body that
+  awaits the showTimePicker for the user's input and sets the context to the context parameter
+  passed in and the initialTime to the endTimeChosen which is the current time.
+  it then checks to see if the startTimePicked is not null and not the same as the endTimeChosen
+  which is the current time, if these conditions are met the state is set so that the
+  endTimeChosen is now the endTimePicked by the user and the endTimeController's text is set
+  to the endTimeChosen which is formatted into localized time.
+  Else the state is set to the current time and then formatted into localized time.
+   */
+
   _selectEndTime(BuildContext context) async {
-    final TimeOfDay picked = await showTimePicker(
+    final TimeOfDay endTimePicked = await showTimePicker(
       context: context,
       initialTime: endTimeChosen,
     );
-    if (picked != null && picked != endTimeChosen) {
+    if (endTimePicked != null && endTimePicked != endTimeChosen) {
       setState(() {
-        endTimeChosen = picked;
+        endTimeChosen = endTimePicked;
         endTimeController.text = endTimeChosen.format(context);
       });
     } else {
@@ -99,14 +155,21 @@ class _AddGCEventState extends State<AddGCEvent> {
     }
   }
 
+  /*
+  This function takes a value of type String and checks if the value is not null, if this
+  condition is met it will again check if it not null and trim it.
+  If the value is empty it will return a string saying that the title is required.
+  Else if the value is null it will also return a string saying that the title is required.
+  Otherwise it will return nothing and the title is valid.
+   */
   String _validateTitle(String value) {
     if (value != null) {
       value = value?.trim();
       if (value.isEmpty) {
-        return 'Title can\'t be empty';
+        return 'Must add a title';
       }
     } else {
-      return 'Title can\'t be empty';
+      return 'Title is required';
     }
 
     return null;
@@ -117,7 +180,7 @@ class _AddGCEventState extends State<AddGCEvent> {
       value = value.trim();
 
       if (value.isEmpty) {
-        return 'Can\'t add an empty email';
+        return 'Must add an email.';
       } else {
         final regex = RegExp(
             r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
@@ -129,14 +192,18 @@ class _AddGCEventState extends State<AddGCEvent> {
         }
       }
     } else {
-      return 'Can\'t add an empty email';
+      return 'Email is required';
     }
 
-    return 'Invalid email';
+    return 'Not a valid email';
   }
 
+  /*
+  Initializing the state to of the page to have defined textEditingControllers and FocusNodes.
+   */
   @override
   void initState() {
+    super.initState();
     dateController = TextEditingController();
     startTimeController = TextEditingController();
     endTimeController = TextEditingController();
@@ -150,7 +217,6 @@ class _AddGCEventState extends State<AddGCEvent> {
     locationFNode = FocusNode();
     userFNode = FocusNode();
 
-    super.initState();
   }
 
   @override
@@ -204,6 +270,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                       titleGiven = value;
                     });
                   },
+                  /// ONCE THE FIELD IS SUBMITTED UNFOCUS THE NODE AND SEND FOCUS TO THE NEXT ONE.
                   onFieldSubmitted: (value) {
                     titleFNode.unfocus();
                     FocusScope.of(context).requestFocus(detailsFNode);
@@ -234,11 +301,10 @@ class _AddGCEventState extends State<AddGCEvent> {
                         Radius.circular(20.0),
                       ),
                     ),
-                    contentPadding: EdgeInsets.only(
-                      left: 16,
-                      bottom: 16,
-                      top: 16,
-                      right: 16,
+                    contentPadding: EdgeInsets.all(16.0),
+                    hintText: 'Lead Lab',
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
                     ),
                     errorText:
                         isModifyingTitle ? _validateTitle(titleGiven) : null,
@@ -262,6 +328,10 @@ class _AddGCEventState extends State<AddGCEvent> {
                   ),
                 ),
                 SizedBox(height: 8),
+                /// SETTING THE CONTROLLER TO THE DETAILSCONTROLLER,
+                /// THE FOCUS NODE TO THE DETAILSFOCUSNODE,
+                /// AND SETTING THE VALUE OF THE CONTROLLER'S
+                /// TEXT TO THE DETAILSGIVEN
                 TextFormField(
                   controller: detailsController,
                   focusNode: detailsFNode,
@@ -270,6 +340,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                       detailsGiven = value;
                     });
                   },
+                  /// ONCE THE FIELD IS SUBMITTED UNFOCUS THE NODE AND SEND FOCUS TO THE NEXT ONE.
                   onFieldSubmitted: (value){
                     detailsFNode.unfocus();
                     FocusScope.of(context).requestFocus(locationFNode);
@@ -306,6 +377,10 @@ class _AddGCEventState extends State<AddGCEvent> {
                       top: 16,
                       right: 16,
                     ),
+                    hintText: 'Some information about the Lead Lab',
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
                 SizedBox(height: 16.0),
@@ -322,6 +397,11 @@ class _AddGCEventState extends State<AddGCEvent> {
                   ),
                 ),
                 SizedBox(height: 8),
+
+                /// SETTING THE CONTROLLER TO THE LOCATIONCONTROLLER,
+                /// THE FOCUS NODE TO THE LOCATIONFOCUSNODE,
+                /// AND SETTING THE VALUE OF THE CONTROLLER'S
+                /// TEXT TO THE LOCATION GIVEN
                 TextFormField(
                   controller: locationController,
                   focusNode: locationFNode,
@@ -331,6 +411,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                       locationGiven = value;
                     });
                   },
+                  /// ONCE THE FIELD IS SUBMITTED UNFOCUS THE NODE AND SEND FOCUS TO THE NEXT ONE.
                   onFieldSubmitted: (value) {
                     locationFNode.unfocus();
                     FocusScope.of(context).requestFocus(userFNode);
@@ -361,11 +442,10 @@ class _AddGCEventState extends State<AddGCEvent> {
                         Radius.circular(20.0),
                       ),
                     ),
-                    contentPadding: EdgeInsets.only(
-                      left: 16,
-                      bottom: 16,
-                      top: 16,
-                      right: 16,
+                    contentPadding: EdgeInsets.all(16.0),
+                    hintText: 'Online',
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
                     ),
                   ),
                 ),
@@ -395,7 +475,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                 SizedBox(height: 8.0),
             ListView.builder(
               shrinkWrap: true,
-              physics: PageScrollPhysics(),
+              // setting the count to the length of the users array
               itemCount: users.length,
               itemBuilder: (context, index) {
                 return Padding(
@@ -404,6 +484,8 @@ class _AddGCEventState extends State<AddGCEvent> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
+                        /// ACCESSING THE USER LIST AT THE CURRENT INDEX AND DISPLAYING THE EMAIL
+                        /// AS  A STRING
                         users[index].email,
                         style: TextStyle(
                           color: Colors.cyan,
@@ -414,6 +496,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                       IconButton(
                         icon: Icon(Icons.close),
                         onPressed: () {
+                          /// IF THE USER HITS THE RED X BUTTON REMOVE THE INPUT AT THE INDEX
                           setState(() {
                             users.removeAt(index);
                           });
@@ -430,6 +513,10 @@ class _AddGCEventState extends State<AddGCEvent> {
               children: [
             Expanded(
             child: TextField(
+              /// SET THE CONTROLLER TO THE USERCONTROLLER,
+              /// SET THE FOCUSNODE TO THE USERFOCUSNODE,
+              /// SET THE VALUE OF THE USERCONTROLLER'S TEXT
+              /// TO THE EMAILGIVEN
             controller: userController,
               focusNode: userFNode,
               textCapitalization: TextCapitalization.none,
@@ -439,6 +526,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                   emailGiven = value;
                 });
               },
+              /// ONCE THE FIELD IS SUBMITTED UNFOCUS THE NODE AND SEND FOCUS TO THE NEXT ONE.
               onSubmitted: (value) {
                 userFNode.unfocus();
               },
@@ -475,10 +563,9 @@ class _AddGCEventState extends State<AddGCEvent> {
       ),
       hintText: 'johndoe@rotc.com',
       hintStyle: TextStyle(
-        color: Colors.grey.withOpacity(0.6),
-        fontWeight: FontWeight.bold,
-        letterSpacing: 0.5,
+        color: Colors.grey,
       ),
+      /// SHOW ERROR TEXT IF MODIFYING AND THE EMAIL GIVEN IS INVALID OTHERWISE SHOW NOTHING
       errorText: isModifyingEmail ? _validateEmail(emailGiven) : null,
       errorStyle: TextStyle(
         fontSize: 14,
@@ -494,9 +581,18 @@ class _AddGCEventState extends State<AddGCEvent> {
                     size: 30,
                   ),
                   onPressed: () {
+                    /// EMAIL IS BEING MODIFIED
                     setState(() {
                       isModifyingEmail = true;
                     });
+                    /// CHECK TO SEE IF IT IS A VALID EMAIL, IF SO UNFOCUS THE USERFNODE
+                    /// AND CREATE AN INSTANCE OF AN EVENT ATTENDEE AND SET THE EVENTATTENDEE'S EMAIL
+                    /// TO THE EMAILGIVEN BY THE USER
+                    /// ADD THE EVENTATTENDEE TO THE USERS LIST
+                    /// RESET THE USERCONTROLLER TEXT TO ''
+                    /// EMAILGIVEN IS RESET TO NULL
+                    /// AND ISMODIFYING EMAIL IS RESET TO FALSE TO ALLOW FOR ADDING MORE THAN ONE
+                    /// RELEVANT USER / EVENT ATTENDEE
                     if (_validateEmail(emailGiven) == null) {
                       setState(() {
                         userFNode.unfocus();
@@ -514,6 +610,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                 ),
               ],
             ),
+                /// SHOWN IF THE USER ADDS AN EMAIL TO THE RELEVANT USERS SECTION
                 Visibility(
                   visible: users.isNotEmpty,
                   child: Column(
@@ -605,6 +702,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                       top: 16,
                       right: 16,
                     ),
+                    /// CHECKING TO SEE IF A DATE IS ENTERED AS IT IS REQUIRED
                     errorText: isModifyingDate && DatePickerMode.values != null
                         ? dateController.text.isNotEmpty
                             ? null
@@ -670,16 +768,14 @@ class _AddGCEventState extends State<AddGCEvent> {
                         Radius.circular(20.0),
                       ),
                     ),
-                    contentPadding: EdgeInsets.only(
-                      left: 16,
-                      bottom: 16,
-                      top: 16,
-                      right: 16,
-                    ),
+                    contentPadding: EdgeInsets.all (16.0),
+                    /// CHECKING TO SEE IF THE STARTTIME IS BEING MODIFIED AND IF IT IS NOT NULL
+                    /// OR IF IT IS NOT EMPTY, THEN NOTHING
+                    /// ELSE LET THE USER KNOW IT IS REQUIRED
+                    /// ELSE NOTHING.
                     errorText: isModifyingDateStartTime &&
                             startTimeController.text != null
-                        ? startTimeController.text.isNotEmpty
-                            ? null
+                        ? startTimeController.text.isNotEmpty ? null
                             : 'Start time required.'
                         : null,
                     errorStyle: TextStyle(
@@ -742,12 +838,12 @@ class _AddGCEventState extends State<AddGCEvent> {
                         Radius.circular(20.0),
                       ),
                     ),
-                    contentPadding: EdgeInsets.only(
-                      left: 16,
-                      bottom: 16,
-                      top: 16,
-                      right: 16,
-                    ),
+                    contentPadding: EdgeInsets.all(16.0),
+                    /// CHECKING TO SEE IF THE ENDTIME IS BEING MODIFIED AND IF
+                    /// THE ENDTIMECONTROLLER'S TEXT IS NOT NULL
+                    /// OR IF IT IS NOT EMPTY, THEN NOTHING
+                    /// ELSE LET THE USER KNOW IT IS REQUIRED
+                    /// ELSE NOTHING.
                     errorText:
                         isModifyingDateEndTime && endTimeController.text != null
                             ? endTimeController.text.isNotEmpty
@@ -769,6 +865,8 @@ class _AddGCEventState extends State<AddGCEvent> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       OutlinedButton(
+                        /// IF DATING ISNT WRITING, RETURN NULL
+                        /// ELSE SET STATE AS BELOW
                         onPressed: isDataWriting ? null : () async {
                           setState(() {
                             isErrorTime = false;
@@ -780,15 +878,17 @@ class _AddGCEventState extends State<AddGCEvent> {
                           locationFNode.unfocus();
                           userFNode.unfocus();
 
+                          /// if stated fields are filled
                           if (dateChosen != null &&
                               startTimeChosen != null &&
                               endTimeChosen != null &&
                               titleGiven != null) {
+
                             int epochStartTime = DateTime(
                               dateChosen.year,
                               dateChosen.month,
                               dateChosen.day,
-                              startTimeChosen.hour,
+                              startTimeChosen.hour ,
                               startTimeChosen.minute,
                             ).millisecondsSinceEpoch;
 
@@ -800,7 +900,9 @@ class _AddGCEventState extends State<AddGCEvent> {
                               endTimeChosen.minute,
                             ).millisecondsSinceEpoch;
 
-
+                            /// IF THE TIME IS VALID AND THE TITLE IS VALID
+                            /// SET EVENT MODEL FIELDS AS GIVEN BY USER INPUT
+                            /// BY USING THE CREATE METHOD
                             if (epochEndTime - epochStartTime > 0) {
                               if (_validateTitle(titleGiven) == null) {
                                 await eventOps.insert(
@@ -812,33 +914,41 @@ class _AddGCEventState extends State<AddGCEvent> {
                                     startTime: DateTime.fromMillisecondsSinceEpoch(epochStartTime),
                                     endTime: DateTime.fromMillisecondsSinceEpoch(epochEndTime))
                                     .then((eventData) async {
+
                                   String eventId = eventData['id'];
 
                                   List<String> emails = [];
 
-                                  for (int i = 0; i < users.length; i++)
-                                    emails.add(users[i].email);
+                                  /// adding the users email at each index to the emails list
+                                  for (int index = 0; index < users.length; index++)
+                                    emails.add(users[index].email);
 
                                   GCEventModel eventInfo = GCEventModel(
                                     id: eventId,
                                     title: titleGiven,
                                     details: detailsGiven ?? '',
-                                    location: locationGiven,
+                                    location: locationGiven ?? '',
                                     userEmails: emails,
                                     shouldNotifyUsers: sendNotification,
                                     startTime: epochStartTime,
                                     endTime: epochEndTime,
                                   );
 
+                                  /// once event has successfully been created in database
+                                  /// pop context
+                                  /// otherwise
+                                  /// catch and print the error
                                   await eventCRUD.createGCEvent(eventInfo)
                                       .whenComplete(() => Navigator.of(context).pop())
                                       .catchError(
-                                        (e) => print(e),
+                                        (error) => print(error),
                                   );
                                 }).catchError(
-                                      (e) => print(e),
+                                      (error) => print(error),
                                 );
 
+                                /// reset isDataWriting to false on complete
+                                /// else set isModifyingTitle to true
                                 setState(() {
                                   isDataWriting = false;
                                 });
@@ -848,13 +958,19 @@ class _AddGCEventState extends State<AddGCEvent> {
 
                                 });
                               }
-                            } else {
+                            }
+                            /// ELSE IF EPOCHENDTIME - EPOCHSTARTTIME IS LESS THAN 0
+                            /// TIME ISN'T POSSIBLE
+                            else {
                               setState(() {
                                 isErrorTime = true;
                                 errorText = 'Times aren\'t proabable';
                               });
                             }
-                          } else {
+
+                          }
+                          /// ELSE IF GIVEN VALUES ARE NULL USER IS MODIFYING
+                          else {
                             setState(() {
                               isModifyingDate = true;
                               isModifyingDateStartTime = true;
@@ -869,15 +985,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                         },
                         child: Padding(
                           padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                          child: isDataWriting ? SizedBox(
-                            height: 28,
-                            width: 28,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
-                            ),
-                          )
-                              : Text(
+                         child: Text(
                             'ADD EVENT ',
                             style: TextStyle(
                               fontSize: 22,
