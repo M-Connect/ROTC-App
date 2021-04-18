@@ -119,7 +119,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
   Widget build(BuildContext context) {
 
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(50.0),
@@ -134,9 +134,6 @@ class _CalendarTasksState extends State<CalendarTasks> {
               Tab(
                 text: 'Upcoming',
               ),
-              Tab(
-                text: 'To-Dos'
-              )
             ],
           ),
           ),
@@ -349,7 +346,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
               ),
             ),
             GCEventsList(),
-            ToDoList(),
+
             //Navigator.of(context).pushNamed('/GCEventsList');
 
           ],
@@ -380,14 +377,6 @@ class _CalendarTasksState extends State<CalendarTasks> {
             controller: _taskController,
           ),
           actions: <Widget>[
-            FlatButton(
-              child: Text(
-                "ADD",
-                style: TextStyle(
-                    color: Colors.purpleAccent, fontWeight: FontWeight.bold),
-              ),
-
-              actions: <Widget>[
                 FlatButton(
                   child: Text(
                     "ADD",
@@ -412,7 +401,9 @@ class _CalendarTasksState extends State<CalendarTasks> {
                   },
                 )
               ],
-            ));
+            ),
+
+    );
   }
 }
 
@@ -452,4 +443,8 @@ void message(String url) async {
   } else {
     throw 'Failure launching $url';
   }
+}
+
+void gcEvents(ListView list) {
+
 }
