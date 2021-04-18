@@ -138,206 +138,222 @@ class _CalendarTasksState extends State<CalendarTasks> {
         ),
         body: TabBarView(
           children: [
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Card(
-                        shape: Border.all(
-                          color: Colors.black26,
-                        ),
-                        shadowColor: Colors.black54,
-                        elevation: 8,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Column(
-                            children: [
-                              TableCalendar(
-                                events: _tasks,
-                                availableCalendarFormats: const {
-                                  CalendarFormat.month: 'Month'
-                                },
-                                headerStyle: HeaderStyle(
-                                  //headerPadding: EdgeInsets.only(bottom: 1),
-                                  decoration: BoxDecoration(
-                                    color: Colors.cyan.shade500,
-                                  ),
-                                  centerHeaderTitle: true,
-                                  titleTextStyle: TextStyle(
-                                    fontSize: 30,
-                                    letterSpacing: 1.5,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                  leftChevronIcon: Icon(
-                                    Icons.arrow_back_ios_outlined,
-                                    size: 30,
-                                    color: Colors.white,
-                                  ),
-                                  rightChevronIcon: Icon(
-                                    Icons.arrow_forward_ios_outlined,
-                                    size: 30,
-                                    color: Colors.white,
-                                  ),
-                                  headerMargin: EdgeInsets.only(bottom: 8.0),
-                                  formatButtonVisible: false,
-                                ),
-                                startingDayOfWeek: StartingDayOfWeek.sunday,
-                                onDaySelected: (date, events, holidays) {
-                                  setState(() {
-                                    _tasksChosen = events;
-                                  });
-                                },
-                                daysOfWeekStyle: DaysOfWeekStyle(
-                                  weekdayStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  weekendStyle: TextStyle(
-                                    color: Colors.cyanAccent.shade700,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                calendarStyle: CalendarStyle(
-                                  canEventMarkersOverflow: true,
-                                  todayColor: Colors.amberAccent,
-                                  weekendStyle: TextStyle(
-                                    color: Colors.cyanAccent.shade700,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  outsideWeekendStyle: TextStyle(
-                                    color: Colors.grey,
-                                  ),
-                                  outsideStyle: TextStyle(
-                                    color: Colors.grey,
-                                  ),
-                                  outsideDaysVisible: true,
-                                  selectedColor: Colors.cyan.shade500,
-                                  markersMaxAmount: 3,
-                                  markersColor: Colors.cyanAccent,
-                                  cellMargin: EdgeInsets.all(5),
-                                  todayStyle: TextStyle(
-                                      fontSize: 20.0, color: Colors.black),
-                                ),
-                                calendarController: _calendarController,
-                              ),
-                              Row(
-                                mainAxisAlignment: isCadre
-                                    ? MainAxisAlignment.spaceAround
-                                    : MainAxisAlignment.end,
-                                children: [
-                                  Visibility(
-                                    visible: isCadre == true,
-                                    child: OutlinedButton(
-                                      onPressed: () {
-                                        launchGC();
-                                        navigation.currentState
-                                            .pushNamed('/addGCEvent');
-                                      },
-                                      child: Text(
-                                        'ADD A GOOGLE CALENDAR EVENT',
-                                        style: TextStyle(
-                                          color: Colors.purpleAccent,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 16.0),
-                                    child: OutlinedButton(
-                                      onPressed: () {
-                                        _addTaskDialog();
-                                      },
-                                      child: Text(
-                                        'ADD A TASK',
-                                        style: TextStyle(
-                                          color: Colors.purpleAccent,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+            Container(
+              decoration: BoxDecoration(
+                // Box decoration takes a gradient
+                gradient: LinearGradient(
+                  // Where the linear gradient begins and ends
+                  begin: Alignment.topRight,
+                  end: Alignment(0.3, 0),
+                  tileMode: TileMode.repeated, // repeats the gradient over the canvas
+                  colors: [
+                    // Colors are easy thanks to Flutter's Colors class.
+                    Colors.white,
+                    Colors.lightBlue,
+                  ],
+                ),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Card(
+                          shape: Border.all(
+                            color: Colors.black26,
                           ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Padding(
-                  // padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-
-                  // ),
-                  ..._tasksChosen.map(
-                    (task) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Card(
-                            color: Colors.cyan.shade400,
-                            shadowColor: Colors.black54,
-                            elevation: 8,
-                            clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ListTile(
-                                  title: Text(
-                                    task,
-                                    style: TextStyle(
+                          shadowColor: Colors.black54,
+                          elevation: 8,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Column(
+                              children: [
+                                TableCalendar(
+                                  events: _tasks,
+                                  availableCalendarFormats: const {
+                                    CalendarFormat.month: 'Month'
+                                  },
+                                  headerStyle: HeaderStyle(
+                                    //headerPadding: EdgeInsets.only(bottom: 1),
+                                    decoration: BoxDecoration(
+                                      color: Colors.cyan.shade500,
+                                    ),
+                                    centerHeaderTitle: true,
+                                    titleTextStyle: TextStyle(
+                                      fontSize: 30,
+                                      letterSpacing: 1.5,
                                       color: Colors.white,
                                       fontWeight: FontWeight.w500,
-                                      letterSpacing: 1,
                                     ),
-                                  ),
-                                  leading: IconButton(
-                                    icon: Icon(
-                                      Icons.close,
-                                      color: Colors.redAccent,
+                                    leftChevronIcon: Icon(
+                                      Icons.arrow_back_ios_outlined,
                                       size: 30,
+                                      color: Colors.white,
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _tasks[_calendarController.selectedDay]
-                                            .remove(task);
-                                        prefs.setString("tasks",
-                                            json.encode(encode(_tasks)));
-                                        _taskController.clear();
-                                      });
-                                    },
+                                    rightChevronIcon: Icon(
+                                      Icons.arrow_forward_ios_outlined,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                    headerMargin: EdgeInsets.only(bottom: 8.0),
+                                    formatButtonVisible: false,
                                   ),
-
-                                  /* trailing: IconButton(
-                                        icon: Icon(
-                                          Icons.check_circle_outline,
-                                          color: Colors.grey,
-
-                                        ),
-
+                                  startingDayOfWeek: StartingDayOfWeek.sunday,
+                                  onDaySelected: (date, events, holidays) {
+                                    setState(() {
+                                      _tasksChosen = events;
+                                    });
+                                  },
+                                  daysOfWeekStyle: DaysOfWeekStyle(
+                                    weekdayStyle: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    weekendStyle: TextStyle(
+                                      color: Colors.cyanAccent.shade700,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  calendarStyle: CalendarStyle(
+                                    canEventMarkersOverflow: true,
+                                    todayColor: Colors.amberAccent,
+                                    weekendStyle: TextStyle(
+                                      color: Colors.cyanAccent.shade700,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    outsideWeekendStyle: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                    outsideStyle: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                    outsideDaysVisible: true,
+                                    selectedColor: Colors.cyan.shade500,
+                                    markersMaxAmount: 3,
+                                    markersColor: Colors.cyanAccent,
+                                    cellMargin: EdgeInsets.all(5),
+                                    todayStyle: TextStyle(
+                                        fontSize: 20.0, color: Colors.black),
+                                  ),
+                                  calendarController: _calendarController,
+                                ),
+                                Row(
+                                  mainAxisAlignment: isCadre
+                                      ? MainAxisAlignment.spaceAround
+                                      : MainAxisAlignment.end,
+                                  children: [
+                                    Visibility(
+                                      visible: isCadre == true,
+                                      child: OutlinedButton(
                                         onPressed: () {
-                                          setState(() {
-                                            _savedBoolValue();
-                                          });
+                                          launchGC();
+                                          navigation.currentState
+                                              .pushNamed('/addGCEvent');
+                                        },
+                                        child: Text(
+                                          'ADD A GOOGLE CALENDAR EVENT',
+                                          style: TextStyle(
+                                            color: Colors.purpleAccent,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 16.0),
+                                      child: OutlinedButton(
+                                        onPressed: () {
+                                          _addTaskDialog();
+                                        },
+                                        child: Text(
+                                          'ADD A TASK',
+                                          style: TextStyle(
+                                            color: Colors.purpleAccent,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
 
-                                        }
-                                        ),*/
+                    // Padding(
+                    // padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+
+                    // ),
+                    ..._tasksChosen.map(
+                      (task) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Card(
+                              color: Colors.cyan.shade400,
+                              shadowColor: Colors.black54,
+                              elevation: 8,
+                              clipBehavior: Clip.antiAlias,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ListTile(
+                                    title: Text(
+                                      task,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 1,
+                                      ),
+                                    ),
+                                    leading: IconButton(
+                                      icon: Icon(
+                                        Icons.close,
+                                        color: Colors.redAccent,
+                                        size: 30,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _tasks[_calendarController.selectedDay]
+                                              .remove(task);
+                                          prefs.setString("tasks",
+                                              json.encode(encode(_tasks)));
+                                          _taskController.clear();
+                                        });
+                                      },
+                                    ),
+
+                                    /* trailing: IconButton(
+                                          icon: Icon(
+                                            Icons.check_circle_outline,
+                                            color: Colors.grey,
+
+                                          ),
+
+                                          onPressed: () {
+                                            setState(() {
+                                              _savedBoolValue();
+                                            });
+
+                                          }
+                                          ),*/
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             GCEventsList(),
