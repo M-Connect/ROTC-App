@@ -222,11 +222,13 @@ class _LineGraphState extends State<LineGraph> {
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: SideTitles(
+
           showTitles: true,
           reservedSize: 22,
           getTextStyles: (value) => const TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
           getTitles: (value) {
+
             switch (value.toInt()) {
               case 0:
                 return getTitleOfActivity(0);
@@ -272,6 +274,8 @@ class _LineGraphState extends State<LineGraph> {
                 return '80';
               case 90:
                 return '90';
+              case 100:
+                return '100';
             }
             return '';
           },

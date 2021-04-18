@@ -18,7 +18,6 @@ import 'package:rotc_app/app/peerReview/evaluationForms/individualEvalConfirmati
 import 'package:rotc_app/app/peerReview/evaluationForms/multipleEvalConfirmationPage.dart';
 import 'package:rotc_app/app/peerReview/evaluationForms/multipleUserActivityToBeEvaluated.dart';
 import 'package:rotc_app/app/peerReview/evaluationForms/usersToDoEvaluation.dart';
-import 'package:rotc_app/app/peerReview/peerReviewRequest.dart';
 import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
 import 'package:rotc_app/app/profile/editProfile.dart';
 import 'package:rotc_app/common_widgets/barGraphWidget2.0.dart';
@@ -92,7 +91,6 @@ class MConnect extends StatelessWidget {
             '/peerReviewLanding': (context) => PeerReviewForm(),
             '/graphActivitySelector': (context) => GraphActivitySelector(),
             '/peerReview': (context) => SingleUserToEvaluate(),
-            '/peerReviewRequest': (context) => PeerReviewRequest(),
             '/peerReviewStats': (context) => PeerReviewStats(),
             '/peerReviewLLAB2FT': (context) => PeerReviewLLAB2FT(),
             '/planning': (context) => Planning(),

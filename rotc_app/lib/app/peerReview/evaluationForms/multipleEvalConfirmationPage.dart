@@ -3,8 +3,6 @@ import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 
-import 'package:intl/intl.dart';
-
 class MultipleEvalConfirmationPage extends StatefulWidget {
   @override
   _MultipleEvalConfirmationPageState createState() => _MultipleEvalConfirmationPageState();
@@ -59,7 +57,8 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       evalDate = prefs.getString('evaluationDate') ?? " ";
-      DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
+      var formattedEvalDate = evalDate.substring(0,10);
+      evalDate = formattedEvalDate;
     });
   }
   @override

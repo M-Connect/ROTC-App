@@ -8,10 +8,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /*
- Author: Sawyer Kisha
- Co-author: Kyle Serruys
-  This class is the home page for our peer review request page
-  Needs functionality
+ Author:  Kyle Serruys
+ This is our Evaluation Request page for a single evaluation.  Any Cadre will be
+ able to select a Cadet/Cadre to evaluate.
  */
 
 class SingleUserToEvaluate extends StatefulWidget {
@@ -28,7 +27,7 @@ class SingleUserToEvaluateState extends State<SingleUserToEvaluate> {
 
   TextEditingController userSearch = TextEditingController();
   ScrollController scrollController;
-
+  SharedPreferences prefs;
 
   List<ElevatedButton> userButtonList = new List<ElevatedButton>();
   String firstName = "";
@@ -39,14 +38,9 @@ class SingleUserToEvaluateState extends State<SingleUserToEvaluate> {
 
   bool loading = false;
 
-/*
-Author:  Kyle Serruys
-This sets the state for the functions getCadetNames and getUserInfo.  We put
-them in this initState becuase both functions need to be async, and you can't
-make initState an async function.
-  */
   @override
   void initState() {
+    initSharedPreferences();
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
     super.initState();
@@ -57,8 +51,15 @@ make initState an async function.
   //  getPagedUsers();
   }
 
+  /*
+  This 
+   */
+  initSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
   getCadetNames() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     setState(() {
       firstName = prefs.getString("firstName");
       lastName = prefs.getString("lastName");
@@ -71,7 +72,7 @@ This is the function used to take a snapshot of our collection and import the
 first and last name of the users in the users collection.
   */
   getUserInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     var data = await FirebaseFirestore.instance
         .collection('users').orderBy("firstName")
         .get()
@@ -184,7 +185,7 @@ first and last name of the users in the users collection.
           new ElevatedButton(
             key: Key("pressButton"),
               onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
+
                 selectedUserList.add(filteredUserList[i]);
                 prefs.setStringList('selectedUserList', selectedUserList);
                 navigation.currentState
@@ -202,6 +203,10 @@ first and last name of the users in the users collection.
     return userButtonList;
   }
 
+  /*
+  This widget shows a loading circle progress indicator when you scroll up to get more
+  users from the database.
+   */
   Widget showProgressIndicator(bool show) {
     return Container(
         height:  show ? 150 : 0,

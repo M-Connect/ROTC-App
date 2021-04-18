@@ -32,6 +32,7 @@ class _IndividualEvalConfirmationPageState
   String text;
   String tempString = "";
   String evalDate = "";
+  SharedPreferences prefs;
 
 
 
@@ -41,6 +42,7 @@ class _IndividualEvalConfirmationPageState
   @override
   void initState() {
     // TODO: implement initState
+    initSharedPreferences();
     super.initState();
     makeTextBlank();
     getSelectedUser();
@@ -48,9 +50,11 @@ class _IndividualEvalConfirmationPageState
     getEvaluationDate();
   }
 
-  getEvaluationDate() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
+  initSharedPreferences() async{
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  getEvaluationDate() async {setState(() {
       evalDate = prefs.getString('evaluationDate') ?? " ";
       var formattedEvalDate = evalDate.substring(0,10);
       evalDate = formattedEvalDate;
@@ -58,7 +62,6 @@ class _IndividualEvalConfirmationPageState
   }
 
   getSelectedActivity() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       selectedActivityList = prefs.getStringList("selectedActivityList".toString());
       selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
@@ -72,7 +75,6 @@ class _IndividualEvalConfirmationPageState
   }
 
   getSelectedUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       selectedUserList = prefs.getStringList("selectedUserList".toString());
       selectedUserString = prefs
@@ -91,7 +93,6 @@ class _IndividualEvalConfirmationPageState
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.remove('selectedUserList');
             navigation.currentState.pushNamed('/peerReview');
           },
@@ -257,13 +258,6 @@ class _IndividualEvalConfirmationPageState
                 child: ElevatedButton(
                   child: Text('Start Evaluation'),
                   onPressed: () async {
-                    /*
-                    * Insert into the userEvaluationRequests collection the evaluator name and the status*/
-                    //get the user info to save and add it.
-
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-
                     var userToEvaluate = selectedUserList.first;
                     var firstName = prefs.getString('firstName');
                     var lastName = prefs.getString('lastName');
