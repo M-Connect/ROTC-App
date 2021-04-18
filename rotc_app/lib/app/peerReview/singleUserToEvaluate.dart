@@ -1,7 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 
 import '../../main.dart';
@@ -15,12 +14,12 @@ import 'package:shared_preferences/shared_preferences.dart';
   Needs functionality
  */
 
-class PeerReview extends StatefulWidget {
+class SingleUserToEvaluate extends StatefulWidget {
   @override
-  PeerReviewState createState() => PeerReviewState();
+  SingleUserToEvaluateState createState() => SingleUserToEvaluateState();
 }
 
-class PeerReviewState extends State<PeerReview> {
+class SingleUserToEvaluateState extends State<SingleUserToEvaluate> {
   var userList = new List<String>();
   var filteredUserList = new List<String>();
   var selectedUserList = new List<String>();
@@ -51,6 +50,7 @@ make initState an async function.
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
     super.initState();
+
     getCadetNames();
     getPagedUsersV2();
     //getUserInfo();
@@ -182,6 +182,7 @@ first and last name of the users in the users collection.
     for (int i = 0; i < filteredUserList.length; i++) {
       userButtonList.add(
           new ElevatedButton(
+            key: Key("pressButton"),
               onPressed: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 selectedUserList.add(filteredUserList[i]);
@@ -216,6 +217,7 @@ first and last name of the users in the users collection.
   }
 
   searchList(String value) {
+
     var filter = userSearch.value.text;
     setState(() {
       if(filter == "" || filter == null)
@@ -278,6 +280,7 @@ first and last name of the users in the users collection.
 
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
@@ -317,6 +320,7 @@ first and last name of the users in the users collection.
                     )),
                 TextField(
                   controller: userSearch,
+                    key: Key("searchBox"),
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(

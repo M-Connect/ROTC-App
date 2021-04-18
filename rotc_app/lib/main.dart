@@ -1,7 +1,7 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rotc_app/Views/addGCEvent.dart';
 import 'package:rotc_app/app/peerReview/activityToBeEvaluated.dart';
@@ -40,7 +40,7 @@ import 'app/peerReview/evaluationForms/planning.dart';
 import 'app/peerReview/evaluationForms/execution.dart';
 import 'app/peerReview/evaluationForms/debrief.dart';
 import 'app/peerReview/notifications.dart';
-import 'app/peerReview/peerReview.dart';
+import 'app/peerReview/singleUserToEvaluate.dart';
 import 'app/peerReview/peerReviewLanding.dart';
 import 'app/profile/profile.dart';
 /*
@@ -54,10 +54,11 @@ final GlobalKey<NavigatorState> navigation = new GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
-  runApp(MConnect());
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(MConnect());
+  });
 }
-
 
 class MConnect extends StatelessWidget {
   @override
@@ -68,54 +69,56 @@ class MConnect extends StatelessWidget {
           create: (_) => Auth(FirebaseAuth.instance),
         ),
         StreamProvider(
-          create: (context) => context.read<Auth>().authState, initialData: null,
+          create: (context) => context.read<Auth>().authState,
+          initialData: null,
         )
       ],
       child: MaterialApp(
-        title: 'Firebase Authentication',
-        navigatorKey: navigation,
-        home: Authenticate(),
-    initialRoute: '/signIn',
-    routes: {
-      '/signIn': (context) => SignInView(),
-      '/welcomePage': (context) => WelcomeView(),
-      '/register': (context) => RegistrationView(),
-      '/homePage': (context) => HomeView(),
-      '/forgotPassword': (context) => ForgotPasswordView(),
-      '/profile': (context) => Profile(),
-      '/editProfile': (context) => EditProfile(),
-      '/calendar': (context) => CalendarTasks(),
-      '/evaluationCalendarTasks': (context) => EvaluationCalendarTasks(),
-      '/activityToBeEvaluated': (context) => ActivityToBeEvaluated(),
-      '/peerReviewLanding': (context) => PeerReviewForm(),
-      '/graphActivitySelector': (context) => GraphActivitySelector(),
-      '/peerReview': (context) => PeerReview(),
-      '/peerReviewRequest': (context) => PeerReviewRequest(),
-      '/peerReviewStats': (context) => PeerReviewStats(),
-      '/peerReviewLLAB2FT': (context) => PeerReviewLLAB2FT(),
-
-      '/planning': (context) => Planning(),
-      '/communication': (context) => Communication(),
-      '/execution': (context) => Execution(),
-      '/leadership': (context) => Leadership(),
-      '/debrief': (context) => Debrief(),
-
-      '/confirmation': (context) => Confirmation(),
-      '/individualEvalConfirmationPage': (context) => IndividualEvalConfirmationPage(),
-      '/multipleEvalConfirmationPage':(context) => MultipleEvalConfirmationPage(),
-      '/usersToDoEvaluation':(context) => UsersToDoEvaluation(),
-      '/multipleUserActivityToBeEvaluated':(context) => MultipleUserActivityToBeEvaluated(),
-      '/notifications':(context) => Notifications(),
-     '/barGraph': (context) => BarGraphv2(),
-      '/addGCEvent': (context) => AddGCEvent(),
-      '/communicationGraphViewPage':(context) => CommunicationGraphViewPage(),
-      '/debriefGraphViewPage':(context) => DebriefGraphViewPage(),
-      '/leadershipGraphViewPage':(context) => LeadershipGraphViewPage(),
-      '/executionGraphViewPage':(context) => ExecutionGraphViewPage(),
-      '/planningGraphViewPage':(context) => PlanningGraphViewPage(),
-    //  '/lineGraph': (context) => LineGraph(),
-
-    } ),
+          title: 'Firebase Authentication',
+          navigatorKey: navigation,
+          home: Authenticate(),
+          initialRoute: '/signIn',
+          routes: {
+            '/signIn': (context) => SignInView(),
+            '/welcomePage': (context) => WelcomeView(),
+            '/register': (context) => RegistrationView(),
+            '/homePage': (context) => HomeView(),
+            '/forgotPassword': (context) => ForgotPasswordView(),
+            '/profile': (context) => Profile(),
+            '/editProfile': (context) => EditProfile(),
+            '/calendar': (context) => CalendarTasks(),
+            '/evaluationCalendarTasks': (context) => EvaluationCalendarTasks(),
+            '/activityToBeEvaluated': (context) => ActivityToBeEvaluated(),
+            '/peerReviewLanding': (context) => PeerReviewForm(),
+            '/graphActivitySelector': (context) => GraphActivitySelector(),
+            '/peerReview': (context) => SingleUserToEvaluate(),
+            '/peerReviewRequest': (context) => PeerReviewRequest(),
+            '/peerReviewStats': (context) => PeerReviewStats(),
+            '/peerReviewLLAB2FT': (context) => PeerReviewLLAB2FT(),
+            '/planning': (context) => Planning(),
+            '/communication': (context) => Communication(),
+            '/execution': (context) => Execution(),
+            '/leadership': (context) => Leadership(),
+            '/debrief': (context) => Debrief(),
+            '/confirmation': (context) => Confirmation(),
+            '/individualEvalConfirmationPage': (context) =>
+                IndividualEvalConfirmationPage(),
+            '/multipleEvalConfirmationPage': (context) =>
+                MultipleEvalConfirmationPage(),
+            '/usersToDoEvaluation': (context) => UsersToDoEvaluation(),
+            '/multipleUserActivityToBeEvaluated': (context) =>
+                MultipleUserActivityToBeEvaluated(),
+            '/notifications': (context) => Notifications(),
+            '/barGraph': (context) => BarGraphv2(),
+            '/addGCEvent': (context) => AddGCEvent(),
+            '/communicationGraphViewPage': (context) =>
+                CommunicationGraphViewPage(),
+            '/debriefGraphViewPage': (context) => DebriefGraphViewPage(),
+            '/leadershipGraphViewPage': (context) => LeadershipGraphViewPage(),
+            '/executionGraphViewPage': (context) => ExecutionGraphViewPage(),
+            '/planningGraphViewPage': (context) => PlanningGraphViewPage(),
+            '/lineGraph': (context) => LineGraph(),
+          }),
     );
   }
 }
@@ -131,5 +134,3 @@ class Authenticate extends StatelessWidget {
     return SignInView();
   }
 }
-
-

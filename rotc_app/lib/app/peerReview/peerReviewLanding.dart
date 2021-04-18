@@ -156,7 +156,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     ),
                   ),
                   onPressed: () {
-                    navigation.currentState.pushNamed('/barGraph');
+                    navigation.currentState.pushNamed('/lineGraph');
                   },
                   width: 350,
                   height: 100,

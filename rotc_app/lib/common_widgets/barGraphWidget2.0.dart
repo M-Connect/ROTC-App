@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
@@ -16,7 +17,7 @@ class _BarGraphv2State extends State<BarGraphv2 > {
   List<double> sectionData = [10.0, 10.0, 10.0, 10.0, 10.0];
   int barIndex;
 
-  String evaluationId = "6p0Bjgwhe06rXhzQGuXM";
+  String evaluationId;// = "6p0Bjgwhe06rXhzQGuXM";
 
   String evalSection = "";
   String evaluationNotes = "";
@@ -29,16 +30,31 @@ class _BarGraphv2State extends State<BarGraphv2 > {
   double planningValue = 10.0;
   double evaluationScore = 10.0;
 
+
+
   @override
   void initState() {
-    getEvaluationFromDb(evaluationId);
+    getEvaluationId();
+    getEvaluationFromDb();
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      //  DeviceOrientation.landscapeRight,
+    ]);
   }
 
   CollectionReference evaluation =
   FirebaseFirestore.instance.collection('peerEvaluation');
 
-  getEvaluationFromDb(String evaluationId)async {
+  getEvaluationId()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+setState(() {
+   evaluationId = prefs.getString("barChartEvalId");
+});
+
+  }
+
+  getEvaluationFromDb()async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await evaluation.doc(evaluationId).get().then((DocumentSnapshot documentSnapshot){
@@ -72,6 +88,7 @@ class _BarGraphv2State extends State<BarGraphv2 > {
         this.planningValue = double.parse(planningValue);
 
 
+
 /*        debriefValue = double.parse(documentSnapshot.data()["debriefValue"]?? "10");
         communicationValue = double.parse(documentSnapshot.data()["communicationValue"]?? "10");
         executionValue = double.parse(documentSnapshot.data()["executionValue"]?? "10");
@@ -101,7 +118,7 @@ class _BarGraphv2State extends State<BarGraphv2 > {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            navigation.currentState.pushNamed('/homePage');
+            navigation.currentState.pushNamed('/lineGraph');
           },
         ),
         title: Text('Evaluation Confirmation'),
@@ -283,15 +300,15 @@ class _BarGraphv2State extends State<BarGraphv2 > {
           getTitles: (double value) {
             switch (value.toInt()) {
               case 0:
-                return 'L';
+                return 'Leadership';
               case 1:
-                return 'E';
+                return 'Execution';
               case 2:
-                return 'P';
+                return 'Planning';
               case 3:
-                return 'D';
+                return 'Debrief';
               case 4:
-                return 'C';
+                return 'Communication';
               default:
                 return '';
             }

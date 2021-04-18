@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
@@ -20,6 +21,7 @@ class _LeadershipGraphViewPageState extends State<LeadershipGraphViewPage> {
     super.initState();
     initControllers();
     getUserInfo();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     // initSliderValue();
   }
 
