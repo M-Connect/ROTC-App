@@ -14,7 +14,8 @@ the following features:
 2. Requesting a user's evaluation
 3. Viewing the user's evaluation profile
 4. Viewing the user's pending requests
-
+ Co-author: Christine Thomas
+ fixed padding issues.
 */
 
 class PeerReviewForm extends StatefulWidget {

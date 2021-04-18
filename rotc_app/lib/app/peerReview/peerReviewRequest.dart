@@ -12,6 +12,10 @@ import '../../main.dart';
  Co-author: Kyle Serruys
   This class is the home page for our peer review request page
   Needs functionality
+   Co-Author: Christine Thomas
+  added the isCadre check to change the appBar Color depending on which
+  type of user is signed in.
+
  */
 
 class PeerReviewRequest extends StatefulWidget {
@@ -34,11 +38,13 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   List<ElevatedButton> userButtonList = new List<ElevatedButton>();
   String firstName = "";
   String lastName = "";
+  bool isCadre = false;
 
   @override
   void initState() {
     super.initState();
     getUserInfo();
+    getBool();
   }
 
   getUserInfo() async {
@@ -116,9 +122,17 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
     });
   }
 
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () async {
