@@ -5,6 +5,11 @@ import '../../../main.dart';
 
 import 'package:intl/intl.dart';
 
+/*
+  Co-Author: Christine Thomas
+  added the isCadre check to change the appBar Color depending on which
+  type of user is signed in.
+   */
 class MultipleEvalConfirmationPage extends StatefulWidget {
   @override
   _MultipleEvalConfirmationPageState createState() => _MultipleEvalConfirmationPageState();
@@ -20,6 +25,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
   String text;
   String tempString = "";
   String evalDate = "";
+  bool isCadre = false;
 
   TextEditingController chooseDate = TextEditingController();
   TextEditingController chooseActivity = TextEditingController();
@@ -33,6 +39,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
     getSelectedUser();
     getSelectedActivity();
     getEvaluationDate();
+    getBool();
   }
 
   makeTextBlank(){
@@ -62,10 +69,20 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
       DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
     });
   }
+
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
+        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () async {
@@ -100,7 +117,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                   children: [
                     Expanded(
                       child: Container(
-                        child: Text('$userDisplayString to be under evaluation',
+                        child: Text('$userDisplayString \n selected to be evaluated',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20.0,

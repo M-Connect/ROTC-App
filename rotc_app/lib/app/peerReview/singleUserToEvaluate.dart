@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
@@ -25,10 +24,8 @@ class SingleUserToEvaluateState extends State<SingleUserToEvaluate> {
   var selectedUserList = new List<String>();
   var pagedUserList = new List<String>();
 
-
   TextEditingController userSearch = TextEditingController();
   ScrollController scrollController;
-
 
   List<ElevatedButton> userButtonList = new List<ElevatedButton>();
   String firstName = "";
@@ -54,7 +51,7 @@ make initState an async function.
     getCadetNames();
     getPagedUsersV2();
     //getUserInfo();
-  //  getPagedUsers();
+    //  getPagedUsers();
   }
 
   getCadetNames() async {
@@ -73,7 +70,8 @@ first and last name of the users in the users collection.
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await FirebaseFirestore.instance
-        .collection('users').orderBy("firstName")
+        .collection('users')
+        .orderBy("firstName")
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
@@ -88,11 +86,11 @@ first and last name of the users in the users collection.
     });
   }
 
-  getPagedUsers()  {
+  getPagedUsers() {
     // And also if there are no more users to pull, do not increment.
-   // loading = true;
+    // loading = true;
 
-   /* showDialog(
+    /* showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -114,8 +112,9 @@ first and last name of the users in the users collection.
      // _login();
     });*/
 
-    var newUsers = userList.skip((page - 1) * namesPerPage).take(namesPerPage).toList();
-    if(newUsers.length > 0) {
+    var newUsers =
+        userList.skip((page - 1) * namesPerPage).take(namesPerPage).toList();
+    if (newUsers.length > 0) {
       //showProgressIndicator(loading);
       // Duration(seconds:5);
       pagedUserList.addAll(newUsers);
@@ -125,11 +124,10 @@ first and last name of the users in the users collection.
   }
 
   getPagedUsersV2() async {
-
-    if(page == 1)
-    {
+    if (page == 1) {
       var data = await FirebaseFirestore.instance
-          .collection('users').orderBy("firstName")
+          .collection('users')
+          .orderBy("firstName")
           .limit(namesPerPage)
           .get()
           .then((docSnapshot) {
@@ -140,14 +138,17 @@ first and last name of the users in the users collection.
         });
       });
     } else {
-      var skipThese = await FirebaseFirestore.instance.collection('users')
+      var skipThese = await FirebaseFirestore.instance
+          .collection('users')
           .orderBy("firstName")
           .limit((page - 1) * namesPerPage)
-          .get().then((documentSnapshots) async {
-        var startAfterThis = documentSnapshots.docs[documentSnapshots.docs
-            .length - 1];
+          .get()
+          .then((documentSnapshots) async {
+        var startAfterThis =
+            documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
-        var nextPage = await FirebaseFirestore.instance.collection('users')
+        var nextPage = await FirebaseFirestore.instance
+            .collection('users')
             .orderBy("firstName")
             .startAfterDocument(startAfterThis)
             .limit(namesPerPage)
@@ -181,54 +182,49 @@ first and last name of the users in the users collection.
     userButtonList.clear();
     for (int i = 0; i < filteredUserList.length; i++) {
       userButtonList.add(
-          new ElevatedButton(
-            key: Key("pressButton"),
-              onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                selectedUserList.add(filteredUserList[i]);
-                prefs.setStringList('selectedUserList', selectedUserList);
-                navigation.currentState
-                    .pushNamed('/individualEvalConfirmationPage');
-              },
-              child: Container(
-                  width: 200,
-                  height: 40,
-                  child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[Text(filteredUserList[i])])),
-            ),
-        );
-      }
+        new ElevatedButton(
+          key: Key("pressButton"),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            selectedUserList.add(filteredUserList[i]);
+            prefs.setStringList('selectedUserList', selectedUserList);
+            navigation.currentState
+                .pushNamed('/individualEvalConfirmationPage');
+          },
+          child: Container(
+              width: 200,
+              height: 40,
+              child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[Text(filteredUserList[i])])),
+        ),
+      );
+    }
     return userButtonList;
   }
 
   Widget showProgressIndicator(bool show) {
     return Container(
-        height:  show ? 150 : 0,
-        width : show ? 150 : 0,
-
+        height: show ? 150 : 0,
+        width: show ? 150 : 0,
         color: Colors.transparent,
         child: Center(
           child: new CircularProgressIndicator(
             backgroundColor: Colors.red,
           ),
-        )
-    );
+        ));
   }
 
   searchList(String value) {
-
     var filter = userSearch.value.text;
     setState(() {
-      if(filter == "" || filter == null)
-        {
-          filteredUserList = pagedUserList;
-        }
-      else{
-      filteredUserList = pagedUserList
-          .where(
-              (element) => element.toLowerCase().contains(filter.toLowerCase()))
-          .toList();
+      if (filter == "" || filter == null) {
+        filteredUserList = pagedUserList;
+      } else {
+        filteredUserList = pagedUserList
+            .where((element) =>
+                element.toLowerCase().contains(filter.toLowerCase()))
+            .toList();
       }
     });
   }
@@ -236,38 +232,36 @@ first and last name of the users in the users collection.
   _scrollListener() {
     if (scrollController.offset > 0.0 &&
         scrollController.position.maxScrollExtent > 0.0) {
-      if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+      if (scrollController.offset >=
+              scrollController.position.maxScrollExtent &&
           !scrollController.position.outOfRange) {
         if (++bottomOutOfRange >= 2) {
           bottomOutOfRange = 0;
 
           setState(() {
-           // loading = true;
-             showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return Dialog(
-                    child: new Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        showProgressIndicator(true),
-                        new Text("Loading"),
-                      ],
-                    ),
-                  );
-                },
-              );
+            // loading = true;
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return Dialog(
+                  child: new Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      showProgressIndicator(true),
+                      new Text("Loading"),
+                    ],
+                  ),
+                );
+              },
+            );
 
-
-
-              new Future.delayed(new Duration(milliseconds: 1500), () {
-                 getPagedUsersV2();
-                 searchList("");
-                 makeButtonsList();
-                  Navigator.pop(context); //pop dialog
-              });
-
+            new Future.delayed(new Duration(milliseconds: 1500), () {
+              getPagedUsersV2();
+              searchList("");
+              makeButtonsList();
+              Navigator.pop(context); //pop dialog
+            });
           });
         } else {
           scrollController.animateTo(scrollController.offset - 5,
@@ -277,17 +271,13 @@ first and last name of the users in the users collection.
     }
   }
 
-
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-
             navigation.currentState.pushNamed('/homePage');
-
           },
         ),
         title: Text('Evaluation Request'),
@@ -308,8 +298,7 @@ first and last name of the users in the users collection.
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                   padding: const EdgeInsets.only(
-                       top: 80.0, bottom: 20.0),
+                    padding: const EdgeInsets.only(top: 80.0, bottom: 20.0),
                     child: Container(
                       child: Text(
                         'Select Person to Evaluate:',
@@ -320,7 +309,7 @@ first and last name of the users in the users collection.
                     )),
                 TextField(
                   controller: userSearch,
-                    key: Key("searchBox"),
+                  key: Key("searchBox"),
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
@@ -332,25 +321,18 @@ first and last name of the users in the users collection.
                   onChanged: searchList,
                 ),
                 Center(
-                  child: Column(
-                    children: [
-                      showProgressIndicator(loading),
-                      Column(
-                       children: makeButtonsList(),
-                      )
-
-                      ]
+                    child: Column(children: [
+                  showProgressIndicator(loading),
+                  Column(
+                    children: makeButtonsList(),
                   )
-                ),
-
+                ])),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                 ),
-
               ]),
         ),
       ),
-
     );
   }
 }

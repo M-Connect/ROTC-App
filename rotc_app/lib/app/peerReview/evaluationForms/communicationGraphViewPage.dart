@@ -13,10 +13,12 @@ class CommunicationGraphViewPage extends StatefulWidget {
   CommunicationGraphViewPage() : super();
 
   @override
-  CommunicationGraphViewPageState createState() => CommunicationGraphViewPageState();
+  CommunicationGraphViewPageState createState() =>
+      CommunicationGraphViewPageState();
 }
 
-class CommunicationGraphViewPageState extends State<CommunicationGraphViewPage> {
+class CommunicationGraphViewPageState
+    extends State<CommunicationGraphViewPage> {
   TextEditingController communication;
 
   double communicationValue;
@@ -53,7 +55,6 @@ class CommunicationGraphViewPageState extends State<CommunicationGraphViewPage> 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title: Text('Communication'),
         actions: <Widget>[
           new IconButton(
@@ -146,7 +147,6 @@ class CommunicationGraphViewPageState extends State<CommunicationGraphViewPage> 
                 child: Text('Okay'),
                 onPressed: () {
                   navigation.currentState.pushNamed("/barGraph");
-
                 },
               ),
             ],

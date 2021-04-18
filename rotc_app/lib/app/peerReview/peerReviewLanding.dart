@@ -61,7 +61,8 @@ class PeerReviewFormState extends State<PeerReviewForm> {
         child: Column(
           children: [
             SingleChildScrollView(
-              padding: EdgeInsets.only(top: 50, right: 20, left: 20, bottom: 50),
+              padding:
+                  EdgeInsets.only(top: 50, right: 20, left: 20, bottom: 50),
               //color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -131,7 +132,8 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                           ),
                         ),
                         onPressed: () {
-                          navigation.currentState.pushNamed('/peerReviewRequest');
+                          navigation.currentState
+                              .pushNamed('/peerReviewRequest');
                         },
                         width: 350,
                         height: 100,

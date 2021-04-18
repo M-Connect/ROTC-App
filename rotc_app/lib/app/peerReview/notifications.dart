@@ -6,6 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../main.dart';
 
+/*
+  Co-Author: Christine Thomas
+  added the isCadre check to change the appBar Color depending on which
+  type of user is signed in.
+
+ */
 class Notifications extends StatefulWidget {
   @override
   _NotificationsState createState() => _NotificationsState();
@@ -24,12 +30,14 @@ Map evaluationMap = new Map();
 String status = "";
 String selectedActivityString = "";
 String selectedUserString = "";
+bool isCadre = false;
 
   @override
   void initState() {
     super.initState();
   getUserToEvaluateData();
     getUserInfo();
+    getBool();
 
   }
   CollectionReference evaluation =
@@ -152,10 +160,19 @@ String selectedUserString = "";
     return userButtonList;
   }
 
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         title: Text('Evaluation Confirmation'),
         actions: <Widget>[
           new IconButton(

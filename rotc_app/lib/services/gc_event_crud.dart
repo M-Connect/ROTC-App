@@ -31,7 +31,7 @@ class GCEventCRUD {
   }
 
   Stream<QuerySnapshot> readAllGCEvents() {
-    Stream<QuerySnapshot> qs = documentReference.collection('GCEvents').orderBy('start').snapshots();
+    Stream<QuerySnapshot> qs = documentReference.collection('GCEvents').orderBy('startTime').snapshots();
 
     return qs;
   }

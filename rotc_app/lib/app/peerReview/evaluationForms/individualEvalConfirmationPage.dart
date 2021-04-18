@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -33,8 +32,6 @@ class _IndividualEvalConfirmationPageState
   String tempString = "";
   String evalDate = "";
 
-
-
   TextEditingController chooseDate = TextEditingController();
   TextEditingController chooseActivity = TextEditingController();
 
@@ -52,21 +49,24 @@ class _IndividualEvalConfirmationPageState
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       evalDate = prefs.getString('evaluationDate') ?? " ";
-      var formattedEvalDate = evalDate.substring(0,10);
+      var formattedEvalDate = evalDate.substring(0, 10);
       evalDate = formattedEvalDate;
-});
-  }
-
-  getSelectedActivity() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      selectedActivityList = prefs.getStringList("selectedActivityList".toString());
-      selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
     });
   }
 
-  makeTextBlank(){
-    if(selectedActivityString == null){
+  getSelectedActivity() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedActivityList =
+          prefs.getStringList("selectedActivityList".toString());
+      selectedActivityString = prefs
+          .getStringList("selectedActivityList")
+          .reduce((value, element) => value + element);
+    });
+  }
+
+  makeTextBlank() {
+    if (selectedActivityString == null) {
       selectedActivityString = tempString;
     }
   }
@@ -80,9 +80,6 @@ class _IndividualEvalConfirmationPageState
           .reduce((value, element) => value + element);
     });
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +114,7 @@ class _IndividualEvalConfirmationPageState
                 ),*/
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                 // crossAxisAlignment: CrossAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
                       child: Container(
@@ -143,15 +140,14 @@ class _IndividualEvalConfirmationPageState
                   children: [
                     Center(
                       child: Container(
-                    padding: EdgeInsets.only(left: 25.0),
-
-                      child: Text(
-                        'Evaluation Date:',
-                        style: TextStyle(
-                          fontSize: 20.0,
+                        padding: EdgeInsets.only(left: 25.0),
+                        child: Text(
+                          'Evaluation Date:',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
                         ),
                       ),
-                    ),
                     ),
                   ],
                 ),
@@ -170,7 +166,6 @@ class _IndividualEvalConfirmationPageState
                             readOnly: true,
                             controller: chooseDate,
                             decoration: InputDecoration(
-
                               hintText: (evalDate),
                               hintStyle: TextStyle(
                                   fontSize: 20.0, color: Colors.black87),
@@ -184,7 +179,8 @@ class _IndividualEvalConfirmationPageState
                               ),
                             ),
                             onTap: () async {
-                              await navigation.currentState.pushNamed('/evaluationCalendarTasks');
+                              await navigation.currentState
+                                  .pushNamed('/evaluationCalendarTasks');
                               getEvaluationDate();
                               //getEvaluationCompletionDate(context);
                             },
@@ -193,14 +189,12 @@ class _IndividualEvalConfirmationPageState
                       ),
                     ]),
               ),
-
               Container(
                 child: Row(
                   children: [
                     Center(
                       child: Container(
                         padding: EdgeInsets.only(left: 25.0),
-
                         child: Text(
                           'Evaluation Activity:',
                           style: TextStyle(
@@ -209,7 +203,6 @@ class _IndividualEvalConfirmationPageState
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -221,7 +214,6 @@ class _IndividualEvalConfirmationPageState
                       Expanded(
                         child: SizedBox(
                           child: Container(
-
                             padding: EdgeInsets.all(25.0),
                             child: TextField(
                               readOnly: true,
@@ -240,8 +232,8 @@ class _IndividualEvalConfirmationPageState
                                 ),
                               ),
                               onTap: () {
-
-                                navigation.currentState.pushNamed('/activityToBeEvaluated');
+                                navigation.currentState
+                                    .pushNamed('/activityToBeEvaluated');
                               },
                               //  onChanged: chooseDate,
                             ),
@@ -282,10 +274,8 @@ class _IndividualEvalConfirmationPageState
                 ),
               ),
             ],
-
           ),
         ),
-
       ),
     );
   }

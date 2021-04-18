@@ -5,7 +5,6 @@ import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 
-
 class DebriefGraphViewPage extends StatefulWidget {
   DebriefGraphViewPage() : super();
 
@@ -40,8 +39,7 @@ class DebriefGraphViewPageState extends State<DebriefGraphViewPage> {
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var debriefSliderValue =
-          prefs.getString('debriefValue') ?? 10;
+      var debriefSliderValue = prefs.getString('debriefValue') ?? 10;
       debriefValue = double.parse(debriefSliderValue);
     });
   }
@@ -129,9 +127,9 @@ class DebriefGraphViewPageState extends State<DebriefGraphViewPage> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     contentPadding:
-                    // const EdgeInsets.symmetric(vertical: 75.0),
+                        // const EdgeInsets.symmetric(vertical: 75.0),
 
-                    EdgeInsets.all(10.0),
+                        EdgeInsets.all(10.0),
                   ),
                   onSaved: (String value) {},
                 ),
