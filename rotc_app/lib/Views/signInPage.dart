@@ -225,29 +225,27 @@ class _SignInViewState extends State<SignInView> {
                       },
                     ),
                   ),
+                ),
 
-                  //added forgot password button - MRU
-                  SizedBox(height: 1.0),
-                  Container(
-                      child: Row(
-                    children: [
-                      TextButton(
-                        child: Text(
-                          "Forgot password?",
-                          style: TextStyle(
-                            color: Colors.blueAccent,
-                            //decoration: TextDecoration.underline,
+                //added forgot password button - MRU
+                SizedBox(height: 1.0),
+                Container(
+                    child: Column(
+                      children: [
+                        TextButton(
+                          child: Text(
+                            "Forgot password?",
+                            style: TextStyle(
+                              color: Colors.blueAccent,
+                              //decoration: TextDecoration.underline,
+                            ),
                           ),
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, '/forgotPassword');
+                          },
                         ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/forgotPassword');
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 80.0),
-                      ),
-                      TextButton(
-                        child: SingleChildScrollView(
+                        TextButton(
                           child: Text(
                             "New user? Sign up",
                             style: TextStyle(
