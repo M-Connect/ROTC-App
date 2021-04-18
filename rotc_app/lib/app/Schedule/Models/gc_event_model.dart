@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+/*
+Author: Christine Thomas
+This class creates the model for the Google Calendar Event Data.
+
+ */
 class GCEventModel {
   final String id;
   final String title;
@@ -21,16 +26,24 @@ class GCEventModel {
     @required this.endTime,
   });
 
-  GCEventModel.mapData(Map snapshot)
-      : id = snapshot['id'] ?? '',
-        title = snapshot['name'] ?? '',
-        details = snapshot['desc'],
-        location = snapshot['loc'],
-        userEmails = snapshot['emails'] ?? '',
-        shouldNotifyUsers = snapshot['should_notify'],
-        startTime = snapshot['start'],
-        endTime = snapshot['end'];
+  /*
+  This function takes a snapshot of type Map and
+  maps the data fields from the database into a readable format
+   */
+  GCEventModel.mapData(Map snapshot) :
+        id = snapshot['id'] ?? '',
+        title = snapshot['title'] ?? '',
+        details = snapshot['details'],
+        location = snapshot['location'],
+        userEmails = snapshot['userEmails'],
+        shouldNotifyUsers = snapshot['shouldNotifyUsers'],
+        startTime = snapshot['startTime'],
+        endTime = snapshot['endTime'];
 
+  /*
+  This function returns the converted event field data into JSON
+  that can then be uploaded to the database
+   */
   convertToJSON() {
     return {
       'id': id,
