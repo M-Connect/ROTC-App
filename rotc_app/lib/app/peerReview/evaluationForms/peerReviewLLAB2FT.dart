@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:animated_button/animated_button.dart';
 import '../../../main.dart';
@@ -10,7 +9,6 @@ import '../peerReviewLanding.dart';
  */
 
 class PeerReviewLLAB2FT extends StatelessWidget {
-
   static final SizedBox spaceBetweenFields = SizedBox(height: 40.0);
   @override
   Widget build(BuildContext context) {
@@ -19,8 +17,8 @@ class PeerReviewLLAB2FT extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-           // Navigator.pop(context);
-           //navigation.currentState.pop();
+            // Navigator.pop(context);
+            //navigation.currentState.pop();
             navigation.currentState.pushNamed('/homePage');
           },
         ),
@@ -28,7 +26,7 @@ class PeerReviewLLAB2FT extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.logout),
-            onPressed: (){},
+            onPressed: () {},
           ),
         ],
       ),
@@ -36,11 +34,9 @@ class PeerReviewLLAB2FT extends StatelessWidget {
         padding: EdgeInsets.all(19.0),
         color: Colors.white,
         child: Column(
-
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-
             Center(
               child: AnimatedButton(
                 child: Padding(
@@ -255,4 +251,3 @@ class PeerReviewLLAB2FT extends StatelessWidget {
     );
   }
 }
-

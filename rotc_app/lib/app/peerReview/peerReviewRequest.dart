@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:rotc_app/app/peerReview/singleUserToEvaluate.dart';
+import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
@@ -25,7 +27,7 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   var selectUsersList = new List<String>();
   var filteredUserList = new List<String>();
   var tempList = new List<String>();
-  var usersSelected = new Map<String,bool>();
+  var usersSelected = new Map<String, bool>();
 
   TextEditingController userSearch = TextEditingController();
 
@@ -42,17 +44,19 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await FirebaseFirestore.instance
-        .collection('users').orderBy("firstName")
+        .collection('users')
+        .orderBy("firstName")
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
-        userList.add(element.data()['firstName'].toString() + " " +
+        userList.add(element.data()['firstName'].toString() +
+            " " +
             element.data()['lastName'].toString());
       });
     });
     setState(() {
-      for(int i = 0; i <  userList.length; i++) {
-        if(!usersSelected.containsKey(userList[i].toString())) {
+      for (int i = 0; i < userList.length; i++) {
+        if (!usersSelected.containsKey(userList[i].toString())) {
           usersSelected[userList[i].toString()] = false;
         }
       }
@@ -64,9 +68,8 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
     return usersSelected[userName];
   }
 
-  void toggleUser(String userName)
-  {
-    var selectedValue =  usersSelected[userName];
+  void toggleUser(String userName) {
+    var selectedValue = usersSelected[userName];
     usersSelected[userName] = !selectedValue;
   }
 
@@ -80,35 +83,35 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
               toggleUser(filteredUserList[i]);
             });
           },
-          style: ElevatedButton.styleFrom(side : BorderSide(width: usersSelected[filteredUserList[i]] ? 5.0 : 1.0,
-          color: usersSelected[filteredUserList[i]] ?Colors.amber : Colors.black87)),
+          style: ElevatedButton.styleFrom(
+              side: BorderSide(
+                  width: usersSelected[filteredUserList[i]] ? 5.0 : 1.0,
+                  color: usersSelected[filteredUserList[i]]
+                      ? Colors.amber
+                      : Colors.black87)),
           child: Container(
               width: 200,
               height: 40,
               child: new Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children:<Widget>[
+                  children: <Widget>[
                     Text(filteredUserList[i]),
-                  ]
-              )
-          ),
+                  ])),
         ),
-    );
-  }
+      );
+    }
     return userButtonList;
   }
 
   searchList(String value) {
     var filter = userSearch.value.text;
     setState(() {
-      if(filter == "" || filter == null)
-      {
+      if (filter == "" || filter == null) {
         filteredUserList = userList;
-      }
-      else{
+      } else {
         filteredUserList = userList
-            .where(
-                (element) => element.toLowerCase().contains(filter.toLowerCase()))
+            .where((element) =>
+                element.toLowerCase().contains(filter.toLowerCase()))
             .toList();
       }
     });
@@ -134,7 +137,7 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
               }),
         ],
       ),
-        body: SingleChildScrollView(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Container(
           child: Column(
@@ -143,8 +146,10 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 50.0, bottom: 50.0),
-                  child: Container(alignment: Alignment.center,
-                    child: Text('Select at Least One User to Be Evaluated:',
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Select at Least One User to Be Evaluated:',
                       style: TextStyle(
                         fontSize: 18.0,
                       ),
@@ -172,8 +177,10 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
                         return ListTile(
                           title: Text(value),
                           onTap: () async {
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            prefs.setStringList('selectUsersList', selectUsersList);
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setStringList(
+                                'selectUsersList', selectUsersList);
                             navigation.currentState
                                 .pushNamed('/individualEvalConfirmationPage');
                           },
@@ -186,11 +193,10 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
                     children: makeButtonsList(),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                 ),
-               /* Row(
+                /* Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(padding: EdgeInsets.only(bottom: 150.0)),
@@ -230,13 +236,14 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
               onPressed: () async {
                 SharedPreferences prefs = await SharedPreferences.getInstance();
                 usersSelected.forEach((key, value) {
-                  if(value){
+                  if (value) {
                     usersToEvaluate.add(key);
                   }
                 });
 
                 prefs.setStringList('usersToEvaluate', usersToEvaluate);
-                navigation.currentState.pushNamed('/multipleEvalConfirmationPage');
+                navigation.currentState
+                    .pushNamed('/multipleEvalConfirmationPage');
               },
             ),
           ],

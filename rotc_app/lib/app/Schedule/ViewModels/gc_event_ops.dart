@@ -8,7 +8,7 @@ class GCEventOps {
     @required String title,
     @required String details,
     @required String location,
-    @required List<EventAttendee> userEmails,
+    List<EventAttendee> userEmails,
     @required bool shouldNotifyAttendees,
     @required DateTime startTime,
     @required DateTime endTime,
@@ -17,7 +17,6 @@ class GCEventOps {
 
     String calendarId = "primary";
     Event event = Event();
-
     event.summary = title;
     event.description = details;
     event.attendees = userEmails;
@@ -26,11 +25,11 @@ class GCEventOps {
 
     EventDateTime start = new EventDateTime();
     start.dateTime = startTime;
-    start.timeZone = "GMT+05:30";
+    start.timeZone = "GMT-04:00";
     event.start = start;
 
     EventDateTime end = new EventDateTime();
-    end.timeZone = "GMT+05:30";
+    end.timeZone = "GMT-04:00";
     end.dateTime = endTime;
     event.end = end;
 
@@ -51,13 +50,13 @@ class GCEventOps {
         }
       });
     } catch (e) {
-      print('Error creating event $e');
+      print('Creation failed, Error code: $e');
     }
 
     return eventData;
   }
 
-  Future<Map<String, String>> modify({
+  Future<Map<String, String>> update({
     @required String id,
     @required String title,
     @required String details,
@@ -79,11 +78,11 @@ class GCEventOps {
 
     EventDateTime start = new EventDateTime();
     start.dateTime = startTime;
-    start.timeZone = "GMT-4";
+    start.timeZone = "GMT-04:00";
     event.start = start;
 
     EventDateTime end = new EventDateTime();
-    end.timeZone = "GMT-4";
+    end.timeZone = "GMT-04:00";
     end.dateTime = endTime;
     event.end = end;
 
@@ -102,11 +101,11 @@ class GCEventOps {
 
           print('Event updated in google calendar');
         } else {
-          print("Unable to update event in google calendar");
+          print("Unable to update event in Google Calendar");
         }
       });
     } catch (e) {
-      print('Error updating event $e');
+      print('\nUpdate failed, error code: $e');
     }
 
     return eventData;
@@ -120,7 +119,7 @@ class GCEventOps {
         print('Event deleted from Google Calendar');
       });
     } catch (e) {
-      print('Error deleting event: $e');
+      print('Error occurred while trying to delete. \nDeletion failed, error code: $e');
     }
   }
 }

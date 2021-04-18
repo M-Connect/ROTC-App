@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:googleapis/fcm/v1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -26,6 +27,7 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     super.initState();
     getBool();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     //  initSliderValue();
   }
 

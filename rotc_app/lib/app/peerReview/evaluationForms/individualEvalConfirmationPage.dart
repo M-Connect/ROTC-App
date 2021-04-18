@@ -33,6 +33,8 @@ class _IndividualEvalConfirmationPageState
   String tempString = "";
   String evalDate = "";
 
+
+
   TextEditingController chooseDate = TextEditingController();
   TextEditingController chooseActivity = TextEditingController();
 
@@ -50,7 +52,8 @@ class _IndividualEvalConfirmationPageState
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       evalDate = prefs.getString('evaluationDate') ?? " ";
-  //DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
+      var formattedEvalDate = evalDate.substring(0,10);
+      evalDate = formattedEvalDate;
 });
   }
 

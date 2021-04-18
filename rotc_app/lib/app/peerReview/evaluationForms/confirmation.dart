@@ -93,19 +93,19 @@ class _ConfirmationState extends State<Confirmation> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       selectedActivityString = prefs.getString("activity");
-      /*selectedActivityList = prefs.getStringList("selectedActivityList".toString());
-      selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);*/
+      selectedActivityList = prefs.getStringList("selectedActivityList".toString());
+      selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
     });
   }
 
   getSelectedUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      selectedUserString = prefs.getString("evaluatee");
-     /*selectedUserList = prefs.getStringList("selectedUserList".toString());
+     selectedUserString = prefs.getString("evaluatee");
+     selectedUserList = prefs.getStringList("selectedUserList".toString());
       selectedUserString = prefs
           .getStringList("selectedUserList")
-          .reduce((value, element) => value + element);*/
+          .reduce((value, element) => value + element);
     });
   }
   getExecutionData() async {
