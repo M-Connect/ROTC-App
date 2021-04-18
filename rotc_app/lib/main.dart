@@ -130,9 +130,9 @@ class MConnect extends StatelessWidget {
 
             // '/LocalNotifications': (context) => LocalNotifications(),
             // '/MyApp': (context) => MyApp(),
-            // '/ResetPasswordPage': (context) => ResetPasswordPage(),
-            // '/ProcessPin': (context) => ProcessPin(),
-            // '/ConfirmToRegister': (context) => ConfirmToRegister(),
+             '/ResetPasswordPage': (context) => ResetPasswordPage(),
+             '/ProcessPin': (context) => ProcessPin(),
+             '/ConfirmToRegister': (context) => ConfirmToRegister(),
             // // '/': (context) => (),
 
             // '/barGraph': (context) => BarGraphv2(),
