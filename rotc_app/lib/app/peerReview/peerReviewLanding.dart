@@ -9,12 +9,10 @@ import '../../main.dart';
 /*
 The main peer review page for the user to access any of
 the following features:
-
 1. Starting the user's evaluation
 2. Requesting a user's evaluation
 3. Viewing the user's evaluation profile
 4. Viewing the user's pending requests
-
 */
 
 class PeerReviewForm extends StatefulWidget {
@@ -50,6 +48,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
     //  initSliderValue();
   }
 
+
   CollectionReference evaluation =
   FirebaseFirestore.instance.collection('peerEvaluation');
   CollectionReference evaluationRequests =
@@ -67,6 +66,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
     });
   }
 
+
   getBool() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var currentUser = await FirebaseAuth.instance.currentUser;
@@ -75,6 +75,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
       isCadre = prefs.getString('isCadre') == 'true';
     });
   }
+
 
   getUserToEvaluateData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -114,6 +115,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
     );
     setState(() {});
   }
+
 
   @override
   Widget build(BuildContext context) {

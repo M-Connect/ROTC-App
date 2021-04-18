@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rotc_app/main.dart';
@@ -31,6 +29,18 @@ class _ProfileState extends State<Profile> {
   /// adding reference to database for profile collection path use
   CollectionReference profiles =
       FirebaseFirestore.instance.collection('profiles');
+
+  bool isCadre;
+
+
+
+
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
 
   Map<String, dynamic> biography;
   Map profileData;
@@ -121,6 +131,7 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     getUserInfo();
+    getBool();
   }
 
   getUserInfo() async {
@@ -135,8 +146,34 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    String rank;
+    if(isCadre == true){
+      rank = "Cadre";
+    }
+    else
+      rank = "Cadet";
+
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+          // Box decoration takes a gradient
+          gradient: LinearGradient(
+            // Where the linear gradient begins and ends
+            begin: Alignment.topRight,
+            end: Alignment(0.3, 0),
+            tileMode: TileMode.repeated, // repeats the gradient over the canvas
+            colors: [
+              // Colors are easy thanks to Flutter's Colors class.
+              /*olors.blue[200],
+              Colors.white70,
+              Colors.amber[100],
+              Colors.white70,
+              Colors.blue[200],*/
+              Colors.white,
+              Colors.lightBlue,
+            ],
+          ),
+        ),
         child: Column(
           children: [
             /*Padding(
@@ -207,7 +244,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       'Ranking',
                       style: TextStyle(
-                        color: Colors.cyan,
+                        color: Colors.black87,
                         fontWeight: FontWeight.w500,
                         fontSize: 25,
                       ),
@@ -216,7 +253,8 @@ class _ProfileState extends State<Profile> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Technical Sergeant',
+                      //'Technical Sergeant',
+                      rank,
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -228,7 +266,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       'Nickname',
                       style: TextStyle(
-                        color: Colors.cyan,
+                        color: Colors.black87,
                         fontWeight: FontWeight.w500,
                         fontSize: 25,
                       ),
@@ -251,7 +289,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       'Email',
                       style: TextStyle(
-                        color: Colors.cyan,
+                        color: Colors.black87,
                         fontWeight: FontWeight.w500,
                         fontSize: 25,
                       ),

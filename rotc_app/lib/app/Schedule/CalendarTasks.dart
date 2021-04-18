@@ -59,12 +59,13 @@ class _CalendarTasksState extends State<CalendarTasks> {
     });
   }
 
-  getEvaluationDate()async {
+  getEvaluationDate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       evaluationDate = prefs.getString('evaluationDate');
     });
   }
+
   sharedPrefsData() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -96,7 +97,6 @@ class _CalendarTasksState extends State<CalendarTasks> {
     return theMapping;
   }
 
-
   _loadButtonPressed() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -111,10 +111,8 @@ class _CalendarTasksState extends State<CalendarTasks> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -124,18 +122,16 @@ class _CalendarTasksState extends State<CalendarTasks> {
             backgroundColor: Colors.white,
             bottom: TabBar(
               labelColor: Colors.blue.shade900,
-            tabs: [
-              Tab(
-                text: 'Calendar',
-              ),
-              Tab(
-                text: 'Upcoming',
-              ),
-              Tab(
-                text: 'To-Dos'
-              )
-            ],
-          ),
+              tabs: [
+                Tab(
+                  text: 'Calendar',
+                ),
+                Tab(
+                  text: 'Upcoming',
+                ),
+                Tab(text: 'To-Dos')
+              ],
+            ),
           ),
         ),
         body: TabBarView(
@@ -159,7 +155,9 @@ class _CalendarTasksState extends State<CalendarTasks> {
                             children: [
                               TableCalendar(
                                 events: _tasks,
-                                availableCalendarFormats: const {CalendarFormat.month: 'Month'},
+                                availableCalendarFormats: const {
+                                  CalendarFormat.month: 'Month'
+                                },
                                 headerStyle: HeaderStyle(
                                   //headerPadding: EdgeInsets.only(bottom: 1),
                                   decoration: BoxDecoration(
@@ -219,21 +217,22 @@ class _CalendarTasksState extends State<CalendarTasks> {
                                   markersColor: Colors.cyanAccent,
                                   cellMargin: EdgeInsets.all(5),
                                   todayStyle: TextStyle(
-
-                                      fontSize: 20.0,
-                                      color: Colors.black),
+                                      fontSize: 20.0, color: Colors.black),
                                 ),
                                 calendarController: _calendarController,
                               ),
                               Row(
-                                mainAxisAlignment: isCadre ? MainAxisAlignment.spaceAround : MainAxisAlignment.end,
+                                mainAxisAlignment: isCadre
+                                    ? MainAxisAlignment.spaceAround
+                                    : MainAxisAlignment.end,
                                 children: [
                                   Visibility(
                                     visible: isCadre == true,
                                     child: OutlinedButton(
-                                      onPressed: (){
+                                      onPressed: () {
                                         launchGC();
-                                        navigation.currentState.pushNamed('/addGCEvent');
+                                        navigation.currentState
+                                            .pushNamed('/addGCEvent');
                                       },
                                       child: Text(
                                         'ADD A GOOGLE CALENDAR EVENT',
@@ -247,7 +246,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
                                   Padding(
                                     padding: const EdgeInsets.only(right: 16.0),
                                     child: OutlinedButton(
-                                      onPressed: (){
+                                      onPressed: () {
                                         _addTaskDialog();
                                       },
                                       child: Text(
@@ -263,7 +262,6 @@ class _CalendarTasksState extends State<CalendarTasks> {
                               ),
                             ],
                           ),
-
                         ),
                       ),
                     ),
@@ -273,49 +271,49 @@ class _CalendarTasksState extends State<CalendarTasks> {
                   // padding: const EdgeInsets.only(left: 20.0, right: 20.0),
 
                   // ),
-                  ..._tasksChosen.map((task) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Card(
-                          color: Colors.cyan.shade400,
-                          shadowColor: Colors.black54,
-                          elevation: 8,
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                title: Text(
-                                  task,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 1,
+                  ..._tasksChosen.map(
+                    (task) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Card(
+                            color: Colors.cyan.shade400,
+                            shadowColor: Colors.black54,
+                            elevation: 8,
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  title: Text(
+                                    task,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: 1,
+                                    ),
                                   ),
-                                ),
-                                leading: IconButton(
-                                  icon: Icon(
-                                    Icons.close,
-                                    color: Colors.redAccent,
-                                    size: 30,
-
+                                  leading: IconButton(
+                                    icon: Icon(
+                                      Icons.close,
+                                      color: Colors.redAccent,
+                                      size: 30,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _tasks[_calendarController.selectedDay]
+                                            .remove(task);
+                                        prefs.setString("tasks",
+                                            json.encode(encode(_tasks)));
+                                        _taskController.clear();
+                                      });
+                                    },
                                   ),
-                                  onPressed: (){
-                                    setState(() {
-                                      _tasks[_calendarController.selectedDay]
-                                          .remove(task);
-                                      prefs.setString("tasks", json.encode(encode(_tasks)));
-                                      _taskController.clear();
-                                    });
-                                  },
-                                ),
 
-                                /* trailing: IconButton(
+                                  /* trailing: IconButton(
                                         icon: Icon(
                                           Icons.check_circle_outline,
                                           color: Colors.grey,
@@ -329,18 +327,13 @@ class _CalendarTasksState extends State<CalendarTasks> {
 
                                         }
                                         ),*/
+                                ),
                               ),
                             ),
                           ),
-                        ),
-
-
-
-                ],
-              ),
-
-
-                  ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -348,11 +341,10 @@ class _CalendarTasksState extends State<CalendarTasks> {
             GCEventsList(),
             ToDoList(),
             //Navigator.of(context).pushNamed('/GCEventsList');
-
           ],
         ),
 
-       /* floatingActionButton: FloatingActionButton(
+        /* floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blue,
           child: Icon(
             Icons.add,
@@ -360,7 +352,6 @@ class _CalendarTasksState extends State<CalendarTasks> {
           onPressed: _addTaskDialog,
         ),*/
       ),
-
     );
   }
 
@@ -368,19 +359,18 @@ class _CalendarTasksState extends State<CalendarTasks> {
     await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          backgroundColor: Colors.white,
-          title: Text("Add a new task"),
-          content: TextField(
-
-            controller: _taskController,
-          ),
-
+              backgroundColor: Colors.white,
+              title: Text("Add a new task"),
+              content: TextField(
+                controller: _taskController,
+              ),
               actions: <Widget>[
                 FlatButton(
                   child: Text(
                     "ADD",
                     style: TextStyle(
-                        color: Colors.purpleAccent, fontWeight: FontWeight.bold),
+                        color: Colors.purpleAccent,
+                        fontWeight: FontWeight.bold),
                   ),
                   onPressed: () {
                     if (_taskController.text.isEmpty) return;
@@ -400,8 +390,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
                   },
                 )
               ],
-            )
-     );
+            ));
   }
 }
 
@@ -419,24 +408,25 @@ at accesses the getCodes method and returns the platform client ID.
    account the user gives the app access to.
  */
 
-Future <void> launchGC() async {
+Future<void> launchGC() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   var _clientId = new ClientId(GCClientCodes.getCodes(), "");
   const _scope = const [schedules.CalendarApi.calendarScope];
-  await clientViaUserConsent(_clientId, _scope, message).then((AuthClient client) async {
+  await clientViaUserConsent(_clientId, _scope, message)
+      .then((AuthClient client) async {
     GCEventOps.schedule = schedules.CalendarApi(client);
   });
-
 }
+
 /*
 * this method takes a url of type String and checks if the url
 * parameter can be launched by the app.
 * If it can it parses the url string parameter and lets the platform handle it as it will.
   Else if canLaunch returns false a PlatformException error code will be thrown*/
 void message(String url) async {
-  if (await canLaunch(url)){
+  if (await canLaunch(url)) {
     await launch(url);
   } else {
     throw 'Failure launching $url';

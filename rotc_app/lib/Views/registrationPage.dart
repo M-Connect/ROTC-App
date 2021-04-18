@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,33 @@ class RegistrationView extends StatelessWidget {
   static final SizedBox spaceBetweenFields = SizedBox(height: 20.0);
 
 
+  Future<void> _verifyEmailAlertDialog(BuildContext context) async {
+    Widget button = FlatButton(
+      child: Text("close"),
+      onPressed: () {
+        Navigator.pushNamed(context, '/signIn');
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text("Verify Email"),
+      content: Text("An email has been sent to you. \n"
+          "Don't forget to verify your email to continue in sign-in."),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          }, child: null,
+        ),
+        button,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +86,7 @@ class RegistrationView extends StatelessWidget {
           child: Form(
             // ignore: deprecated_member_use
             autovalidate: true,
-          //  key: key,
+            //  key: key,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -322,22 +350,22 @@ class RegistrationView extends StatelessWidget {
                     Container(
                       child: Padding(
                         padding:
-                            const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
+                        const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
                         child: ElevatedButton(
                           child: Text('Register'),
                           onPressed: () async {
-                           // try {
-                              await FirebaseAuth.instance
-                                  .createUserWithEmailAndPassword(
-                                  email: email.text, password: password.text);
-                              var currentUser = await FirebaseAuth.instance
-                                  .currentUser;
+                            // try {
+                            final newUser = await FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                email: email.text, password: password.text);
+                            var currentUser = await FirebaseAuth.instance
+                                .currentUser;
 
-                              await userRegistration(currentUser.uid);
-
-                              ///Sending to signInPage instead of welcomePage -Christine
-                              Navigator.pushNamed(context, '/signIn');
-                         /*   } catch (e) {
+                            await userRegistration(currentUser.uid);
+                            await newUser.user.sendEmailVerification();
+                            _verifyEmailAlertDialog(context);
+                            ///Sending to signInPage instead of welcomePage -Christine
+                            /*   } catch (e) {
                               alertDialog(context);
                              }*/
                           },
@@ -376,3 +404,5 @@ Future <void> alertDialog(BuildContext context) {
     },
   );
 }
+
+
