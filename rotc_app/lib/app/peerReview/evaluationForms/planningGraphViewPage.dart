@@ -36,8 +36,7 @@ class _PlanningGraphViewPageState extends State<PlanningGraphViewPage> {
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var planningSliderValue =
-          prefs.getString('planningValue') ?? 10;
+      var planningSliderValue = prefs.getString('planningValue') ?? 10;
       planningValue = double.parse(planningSliderValue);
     });
   }
@@ -46,7 +45,7 @@ class _PlanningGraphViewPageState extends State<PlanningGraphViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
         title: Text('Planning'),
         actions: <Widget>[
           new IconButton(
@@ -125,9 +124,9 @@ automaticallyImplyLeading: false,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     contentPadding:
-                    // const EdgeInsets.symmetric(vertical: 75.0),
+                        // const EdgeInsets.symmetric(vertical: 75.0),
 
-                    EdgeInsets.all(10.0),
+                        EdgeInsets.all(10.0),
                   ),
                   onSaved: (String value) {},
                 ),
@@ -139,8 +138,6 @@ automaticallyImplyLeading: false,
                 child: Text('Okay'),
                 onPressed: () {
                   navigation.currentState.pushNamed("/barGraph");
-
-
                 },
               ),
             ],
@@ -150,4 +147,3 @@ automaticallyImplyLeading: false,
     );
   }
 }
-

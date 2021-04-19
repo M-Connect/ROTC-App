@@ -108,25 +108,25 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
     }
   }
 
-  String _validateTitle(String value) {
+  String _titleValidator(String value) {
     if (value != null) {
       value = value?.trim();
       if (value.isEmpty) {
-        return 'Title cannot be empty';
+        return 'Must add a title.';
       }
     } else {
-      return 'Title cannot be empty';
+      return 'Title is required';
     }
 
     return null;
   }
 
-  String _validateEmail(String value) {
+  String _userEmailValidator(String value) {
     if (value != null) {
       value = value.trim();
 
       if (value.isEmpty) {
-        return 'Can\'t add an empty email';
+        return 'Must add an email';
       } else {
         final regex = RegExp(
             r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
@@ -197,14 +197,23 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
         child: Container(
           child: SingleChildScrollView(
             child: Column(
+
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 8),
+                Text(
+                  '* indicates a required field.',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+                SizedBox(height: 16),
                 RichText(
                   text: TextSpan(
                     text: 'Title',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
@@ -242,43 +251,34 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                   /// CHANGE THIS
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.cyan,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.red,
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                     ),
                     contentPadding: EdgeInsets.all(16.0),
                     errorText:
-                    isModifyingTitle ? _validateTitle(titleGiven) : null,
+                    isModifyingTitle ? _titleValidator(titleGiven) : null,
                     errorStyle: TextStyle(
                       fontSize: 14,
                       color: Colors.red,
                     ),
                   ),
                 ),
-
-                SizedBox(height: 8),
-
+                SizedBox(height: 16.0),
+                Divider(),
+                SizedBox(height: 16.0),
                 RichText(
                   text: TextSpan(
                     text: 'Details',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
@@ -306,40 +306,28 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                   /// CHANGE THIS
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.cyan,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.red,
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                     ),
-                    contentPadding: EdgeInsets.only(
-                      left: 16,
-                      bottom: 16,
-                      top: 16,
-                      right: 16,
-                    ),
+                    contentPadding: EdgeInsets.all(16.0),
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 16.0),
+                Divider(),
+                SizedBox(height: 16.0),
                 RichText(
                   text: TextSpan(
                     text: 'Location',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
@@ -365,40 +353,28 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                   ),
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.cyan,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.red,
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                     ),
-                    contentPadding: EdgeInsets.only(
-                      left: 16,
-                      bottom: 16,
-                      top: 16,
-                      right: 16,
-                    ),
+                    contentPadding: EdgeInsets.all(16.0),
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 16.0),
+                Divider(),
+                SizedBox(height: 16.0),
                 RichText(
                   text: TextSpan(
                     text: 'Relevant Users',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
@@ -417,7 +393,6 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                 SizedBox(height: 8),
                 ListView.builder(
                   shrinkWrap: true,
-                  physics: PageScrollPhysics(),
                   itemCount: users.length,
                   itemBuilder: (context, index) {
                     return Padding(
@@ -470,25 +445,16 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                         ),
                         decoration: new InputDecoration(
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20.0),
-                            ),
                             borderSide: BorderSide(
                               color: Colors.cyan,
                             ),
                           ),
                           errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20.0),
-                            ),
                             borderSide: BorderSide(
                               color: Colors.red,
                             ),
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20.0),
-                            ),
                           ),
                           contentPadding: EdgeInsets.all(16),
                           hintText: 'johndoe@rotc.com',
@@ -496,7 +462,7 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                             color: Colors.grey,
                             fontWeight: FontWeight.bold,
                           ),
-                          errorText: isModifyingEmail ? _validateEmail(emailGiven) : null,
+                          errorText: isModifyingEmail ? _userEmailValidator(emailGiven) : null,
                           errorStyle: TextStyle(
                             fontSize: 14,
                             color: Colors.red,
@@ -514,7 +480,7 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                         setState(() {
                           isModifyingEmail = true;
                         });
-                        if (_validateEmail(emailGiven) == null) {
+                        if (_userEmailValidator(emailGiven) == null) {
                           setState(() {
                             userFNode.unfocus();
                             schedule.EventAttendee eventAttendee = schedule.EventAttendee();
@@ -542,7 +508,7 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                           Text(
                             'Notify users',
                             style: TextStyle(
-                              color: Colors.indigo.shade700,
+                              color: Colors.blueAccent,
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                             ),
@@ -561,12 +527,14 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                     ],
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 16.0),
+                Divider(),
+                SizedBox(height: 16.0),
                 RichText(
                   text: TextSpan(
                     text: 'Set Date',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
@@ -594,32 +562,18 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                   ),
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.cyan,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.red,
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                     ),
-                    contentPadding: EdgeInsets.only(
-                      left: 16,
-                      bottom: 16,
-                      top: 16,
-                      right: 16,
-                    ),
+                    contentPadding: EdgeInsets.all(16.0),
                     errorText: isModifyingDate && DatePickerMode.values != null
                         ? dateController.text.isNotEmpty
                         ? null
@@ -631,12 +585,14 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 16.0),
+                Divider(),
+                SizedBox(height: 16.0),
                 RichText(
                   text: TextSpan(
                     text: 'Start Time',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
@@ -663,32 +619,19 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                   ),
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.cyan,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.red,
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
+
                     ),
-                    contentPadding: EdgeInsets.only(
-                      left: 16,
-                      bottom: 16,
-                      top: 16,
-                      right: 16,
-                    ),
+                    contentPadding: EdgeInsets.all(16.0),
                     errorText: isModifyingDateStartTime &&
                         startTimeController.text != null
                         ? startTimeController.text.isNotEmpty
@@ -701,12 +644,14 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 16.0),
+                Divider(),
+                SizedBox(height: 16.0),
                 RichText(
                   text: TextSpan(
                     text: 'End Time',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
@@ -733,32 +678,18 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
                   ),
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.cyan,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.red,
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                     ),
-                    contentPadding: EdgeInsets.only(
-                      left: 16,
-                      bottom: 16,
-                      top: 16,
-                      right: 16,
-                    ),
+                    contentPadding: EdgeInsets.all(16.0),
                     errorText:
                     isModifyingDateEndTime && endTimeController.text != null
                         ? endTimeController.text.isNotEmpty
@@ -846,7 +777,7 @@ class _UpdateGCEventState extends State<UpdateGCEvent> {
 
 
                           if (epochEndTime - epochStartTime > 0) {
-                            if (_validateTitle(titleGiven) == null) {
+                            if (_titleValidator(titleGiven) == null) {
                               await eventOps.update(
                                   id: eventId,
                                   title: titleGiven,

@@ -8,6 +8,9 @@ import '../peerReviewLanding.dart';
 /*
  Author: Kyle Serruys
   This class is the Execution page of our peer review
+  Co-Author: Christine Thomas
+  added the isCadre check to change the appBar Color depending on which
+  type of user is signed in.
  */
 
 class Execution extends StatefulWidget {
@@ -22,11 +25,14 @@ class ExecutionState extends State<Execution> {
 double executionValue;
 String defaultExecutionValue = "10";
 var currentEvaluationId = "";
+bool isCadre = false;
+
   @override
   void initState() {
     super.initState();
     getUserInfo();
     initControllers();
+    getBool();
   }
 
   initControllers() async {
@@ -78,11 +84,18 @@ var currentEvaluationId = "";
       "debriefValue":prefs.getString("debriefValue"),
     });
   }
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () async {

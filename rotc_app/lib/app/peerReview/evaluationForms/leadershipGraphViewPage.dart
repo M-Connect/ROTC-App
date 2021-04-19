@@ -6,7 +6,8 @@ import '../../../main.dart';
 
 class LeadershipGraphViewPage extends StatefulWidget {
   @override
-  _LeadershipGraphViewPageState createState() => _LeadershipGraphViewPageState();
+  _LeadershipGraphViewPageState createState() =>
+      _LeadershipGraphViewPageState();
 }
 
 class _LeadershipGraphViewPageState extends State<LeadershipGraphViewPage> {
@@ -36,8 +37,7 @@ class _LeadershipGraphViewPageState extends State<LeadershipGraphViewPage> {
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      var leadershipSliderValue =
-          prefs.getString('leadershipValue') ?? 10;
+      var leadershipSliderValue = prefs.getString('leadershipValue') ?? 10;
       leadershipValue = double.parse(leadershipSliderValue);
     });
   }
@@ -46,7 +46,7 @@ class _LeadershipGraphViewPageState extends State<LeadershipGraphViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
         title: Text('Leadership'),
         actions: <Widget>[
           new IconButton(
@@ -125,9 +125,9 @@ automaticallyImplyLeading: false,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     contentPadding:
-                    // const EdgeInsets.symmetric(vertical: 75.0),
+                        // const EdgeInsets.symmetric(vertical: 75.0),
 
-                    EdgeInsets.all(10.0),
+                        EdgeInsets.all(10.0),
                   ),
                   onSaved: (String value) {},
                 ),
@@ -139,7 +139,6 @@ automaticallyImplyLeading: false,
                 child: Text('Okay'),
                 onPressed: () {
                   navigation.currentState.pushNamed("/barGraph");
-
                 },
               ),
             ],

@@ -10,6 +10,9 @@ import '../../../main.dart';
 /*
  Author: Kyle Serruys
   This class is the Debrief page of our peer review
+  Co-Author: Christine Thomas
+  added the isCadre check to change the appBar Color depending on which
+  type of user is signed in.
  */
 class Debrief extends StatefulWidget {
   Debrief() : super();
@@ -24,12 +27,15 @@ class DebriefState extends State<Debrief> {
 double debriefValue;
 String defaultDebriefValue = "10";
 var currentEvaluationId = "";
+bool isCadre = false;
+
   @override
   void initState() {
     super.initState();
     getUserInfo();
     initSliderValue();
     initControllers();
+    getBool();
   }
 
   initControllers() async {
@@ -82,10 +88,18 @@ var currentEvaluationId = "";
     });
   }
 
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () async {

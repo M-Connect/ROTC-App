@@ -5,6 +5,11 @@ import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 
+/*
+  Co-Author: Christine Thomas
+  added the isCadre check to change the appBar Color depending on which
+  type of user is signed in.
+ */
 class UsersToDoEvaluation extends StatefulWidget {
   @override
   _UsersToDoEvaluationState createState() => _UsersToDoEvaluationState();
@@ -21,6 +26,7 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
   var selectedActivityList = new List<String>();
   String selectedActivityString;
   String evalDate = "";
+  bool isCadre = false;
 
 
   TextEditingController userSearch = TextEditingController();
@@ -70,6 +76,7 @@ Author:  Kyle Serruys
     getUsersToEvaluate();
     getSelectedActivity();
     getEvaluationDate();
+    getBool();
   }
 
   getSelectedActivity() async{
@@ -169,10 +176,18 @@ Author:  Kyle Serruys
       }
     });
   }
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
+
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         title: Text('Request Evaluator'),
         actions: <Widget>[
           new IconButton(

@@ -9,6 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
  This class allows the evaluator to evaluate the evaluatee on a certain activity.
  It pulls from all activites listed in the database, as well as gives the option
  to add a new activity.
+    Co-Author: Christine Thomas
+  added the isCadre check to change the appBar Color depending on which
+  type of user is signed in.
+
  */
 
 class MultipleUserActivityToBeEvaluated extends StatefulWidget {
@@ -23,6 +27,7 @@ class MultipleUserActivityToBeEvaluatedState extends State<MultipleUserActivityT
   var tempList = new List<String>();
 
   bool isListEmpty = true;
+  bool isCadre = false;
 
   TextEditingController activitySearch = TextEditingController();
 
@@ -43,6 +48,7 @@ class MultipleUserActivityToBeEvaluatedState extends State<MultipleUserActivityT
     super.initState();
     getActivity();
     getActivityInfo();
+    getBool();
   }
 
   getActivity() async {
@@ -116,10 +122,18 @@ first and last name of the users in the users collection.
     });
   }
 
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
+
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () async {
