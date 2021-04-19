@@ -14,7 +14,6 @@ class GCEventModel {
   final bool shouldNotifyUsers;
   final int startTime;
   final int endTime;
-
   GCEventModel({
     @required this.id,
     @required this.title,
@@ -28,11 +27,12 @@ class GCEventModel {
 
   /*
   This function takes a snapshot of type Map and
-  maps the data fields from the database into a readable format
+  maps the data fields from the database and sets them to
+  their string equivalent to be used within the app.
    */
   GCEventModel.mapData(Map snapshot) :
-        id = snapshot['id'] ?? '',
-        title = snapshot['title'] ?? '',
+        id = snapshot['id'],
+        title = snapshot['title'],
         details = snapshot['details'],
         location = snapshot['location'],
         userEmails = snapshot['userEmails'],

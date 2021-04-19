@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:rotc_app/Views/GCEventsList.dart';
 import 'package:rotc_app/app/Schedule/Models/gc_event_model.dart';
 import 'package:rotc_app/app/Schedule/ViewModels/gc_event_ops.dart';
-import 'package:rotc_app/app/Schedule/toDoList.dart';
 import 'package:rotc_app/services/gc_client_codes.dart';
 import 'package:rotc_app/services/gc_event_crud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,12 +34,12 @@ class _CalendarTasksState extends State<CalendarTasks> {
   List<dynamic> _tasksChosen;
   TextEditingController _taskController;
   SharedPreferences prefs;
-  String evaluationDate = "";
+ // String evaluationDate = "";
   bool isCadre = false;
 
   /*
   This method initializes the state of the CalendarController,
-  the TextEditingController, the _tasks map, the array of _tasksChosen.
+  the TextEditingController, the _tasks map, the list of _tasksChosen.
   * */
   @override
   void initState() {
@@ -55,6 +54,11 @@ class _CalendarTasksState extends State<CalendarTasks> {
     //getEvaluationDate();
   }
 
+  /*
+  This function gets an instance of SharedPreferences object called prefs and
+  checks if the isCadre field in the database is true and sets isCadre to
+  true if so.
+   */
   getBool() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -62,18 +66,25 @@ class _CalendarTasksState extends State<CalendarTasks> {
     });
   }
 
-  getEvaluationDate() async {
+  // Unused code that can be utilized in the future.
+  // Author: Kyle Serruys
+ /* getEvaluationDate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       evaluationDate = prefs.getString('evaluationDate');
     });
-  }
+  }*/
 
+  /*
+  This method gets the instance of the SharedPreferences object called prefs and
+  sets the state by setting the _tasks declared at the top of the class to the the
+  decoded map of tasks.
+   */
   sharedPrefsData() async {
     prefs = await SharedPreferences.getInstance();
     setState(() {
       _tasks = Map<DateTime, List<dynamic>>.from(
-          decode(json.decode(prefs.getString("tasks") ?? "{}")));
+          decode(json.decode(prefs.getString("events") ?? "{}")));
     });
   }
 
@@ -92,27 +103,40 @@ class _CalendarTasksState extends State<CalendarTasks> {
     return theMapping;
   }
 
-  Map<DateTime, dynamic> decode(Map<String, dynamic> mapping) {
+  /*
+  This method takes as a parameter a map of type Map<DateTime, dynamic>
+  Within this method is a Map that maps a String key with a dynamic value
+  of any type, called theMapping.
+  For each key-value pair of the map parameter, theMapping takes the map's DateTime key
+  and parses it.
+
+  * */
+  Map<DateTime, dynamic> decode(Map<String, dynamic> map) {
     Map<DateTime, dynamic> theMapping = {};
-    mapping.forEach((key, value) {
-      theMapping[DateTime.parse(key)] = mapping[key];
+    map.forEach((key, value) {
+      theMapping[DateTime.parse(key)] = map[key];
     });
     return theMapping;
   }
 
-  _loadButtonPressed() async {
+
+// Unused code that can be utilized in the future
+  // Author: Kyle Serruys
+/*  _loadButtonPressed() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+
+
       final completed = (prefs.getBool('completed') ?? false);
     });
   }
-
+// Author: Kyle Serruys
   _savedBoolValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       prefs.setBool('completed', true);
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -288,6 +312,12 @@ class _CalendarTasksState extends State<CalendarTasks> {
                     // padding: const EdgeInsets.only(left: 20.0, right: 20.0),
 
                     // ),
+                    /*
+                    Using the spread operator to spread the map of the
+                    list of _tasksChosen at the selected day underneath the calendar into a
+                    styled ListTile of Cards with the tasks.
+
+                     */
                     ..._tasksChosen.map(
                       (task) => Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -319,11 +349,14 @@ class _CalendarTasksState extends State<CalendarTasks> {
                                         color: Colors.redAccent,
                                         size: 30,
                                       ),
+                                      // If red X is pressed the task will be removed at the selected day
+                                      // and shared preferences will save this change
+                                      // and clear the _taskController.
                                       onPressed: () {
                                         setState(() {
                                           _tasks[_calendarController.selectedDay]
                                               .remove(task);
-                                          prefs.setString("tasks",
+                                          prefs.setString("events",
                                               json.encode(encode(_tasks)));
                                           _taskController.clear();
                                         });
@@ -373,6 +406,10 @@ class _CalendarTasksState extends State<CalendarTasks> {
     );
   }
 
+  /*
+  This method displays a dialog to add tasks to the calendar upon hitting
+  ' ADD TASKS' button underneath calendar.
+   */
   _addTaskDialog() async {
     await showDialog(
       context: context,
@@ -392,19 +429,32 @@ class _CalendarTasksState extends State<CalendarTasks> {
               style: TextStyle(
                   color: Colors.purpleAccent, fontWeight: FontWeight.bold),
             ),
+
+            // If no text return
             onPressed: () {
               if (_taskController.text.isEmpty) return;
+
+              // if there are tasks already present on the day selected
+              // add the next task to the list at that selected day
               setState(() {
                 if (_tasks[_calendarController.selectedDay] != null) {
                   _tasks[_calendarController.selectedDay]
                       .add(_taskController.text);
-                } else {
+                }
+                // else there's nothing there, so add the user input to the list
+                // at that selected day
+                else {
                   _tasks[_calendarController.selectedDay] = [
                     _taskController.text
                   ];
                 }
-                prefs.setString("tasks", json.encode(encode(_tasks)));
+                // Saving to shared preferences
+                prefs.setString("events", json.encode(encode(_tasks)));
+
+                // clearing the controller
                 _taskController.clear();
+
+                // popping the addTaskDialog off and displaying the Calendar Page
                 Navigator.pop(context);
               });
             },
@@ -454,4 +504,3 @@ void message(String url) async {
   }
 }
 
-void gcEvents(ListView list) {}

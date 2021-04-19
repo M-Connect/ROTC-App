@@ -4,6 +4,13 @@ import 'package:intl/intl.dart';
 import 'package:rotc_app/Views/updateGCEvent.dart';
 import 'package:rotc_app/app/Schedule/Models/gc_event_model.dart';
 import 'package:rotc_app/services/gc_event_crud.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+/*
+Author: Christine Thomas
+These classes retrieve and display events from the database
+on the app. The ability to edit events is reserved strictly for Cadre.
+ */
 
 class GCEventsList extends StatefulWidget {
   @override
@@ -11,7 +18,27 @@ class GCEventsList extends StatefulWidget {
 }
 
 class _GCEventsListState extends State<GCEventsList> {
+  // Creating a GCEventCrud Object called eventCrud for use
   GCEventCRUD eventCRUD = GCEventCRUD();
+
+  bool isCadre = false;
+/*
+Initializing the state of the app to get the bool value of the
+current user.
+ */
+@override
+void initState() {
+  super.initState();
+  getBool();
+}
+
+  getBool() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isCadre = prefs.getString('isCadre') == 'true';
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,19 +83,22 @@ class _GCEventsListState extends State<GCEventsList> {
                                             fontSize: 25,
                                           ),
                                         ),
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.edit_sharp,
-                                            size: 25,
-                                            color: Colors.amber,
+                                        Visibility(
+                                          visible: isCadre == true,
+                                          child: IconButton(
+                                            icon: Icon(
+                                              Icons.edit_sharp,
+                                              size: 25,
+                                              color: Colors.amber,
+                                            ),
+                                            onPressed: (){
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) => UpdateGCEvent(event: event)
+                                                ),
+                                              );
+                                            },
                                           ),
-                                          onPressed: (){
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (context) => UpdateGCEvent(event: event)
-                                              ),
-                                            );
-                                          },
                                         ),
                                        /* IconButton(
                                           icon: Icon(
