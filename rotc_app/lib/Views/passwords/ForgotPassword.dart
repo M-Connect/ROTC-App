@@ -7,7 +7,15 @@ import 'package:mailer/smtp_server/gmail.dart';
 import 'package:rotc_app/Views/passwords/resetfunction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/*
+* Author: Mac-Rufus Umeokolo
+* This page request the user to enter the email that would be used to reset the
+* password.
+* afterwords, an email will be sent to them to assisting them resetting
+* the password.
+* */
 
+//this method gets the random password to use for the password reset.
 getPin() {
   String pin = getRandomTempPassword();
   return pin;
@@ -26,7 +34,7 @@ class ForgotPasswordView extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPasswordView> {
   final _formKey = GlobalKey<FormState>();
-  //String _email;
+
 
   TextEditingController _email = TextEditingController();
 
@@ -247,6 +255,11 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
   }
 }
 
+/*
+* Once the user inputs there email, this link send the user a random pin so
+* they can us it to verify there email. before given the chance to reset the
+* password.
+* */
 String mailingEmail = "testplaceholder";
 getEmail(String value) {
   mailingEmail = value;

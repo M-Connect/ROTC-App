@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 /*
-Author: Mac-Rufus O. Umeokolo
-**/
+* Author: Mac-Rufus O. Umeokolo
+* This page is for the bashboard UI.
+* it has all the codes for the dashboard UI and all the posting features
+* */
 
 class Dashboard extends StatefulWidget {
   @override
@@ -208,7 +210,7 @@ class _DashboardState extends State<Dashboard> {
                             direction: DismissDirection.none,
                             key: Key(docSnap['DocumentName']),
                              child: Card(
-                              color: Colors.lightBlueAccent,
+                              color: Colors.lightBlue[50],
                               elevation: 2,
                               margin: EdgeInsets.all(8),
                               shape: RoundedRectangleBorder(

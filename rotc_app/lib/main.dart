@@ -60,6 +60,7 @@ import 'app/profile/profile.dart';
   created main and MConnect class.
   Co-Author: Christine Thomas
   created routes and added more Theme colors.
+  Co-Author: Mac-Rufus Umeokolo
  */
 
 final GlobalKey<NavigatorState> navigation = new GlobalKey<NavigatorState>();

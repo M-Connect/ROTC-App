@@ -5,8 +5,9 @@ import 'package:rotc_app/Views/signInPage.dart';
 import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 
 /*
-Directs the user to the Sign-in page
- */
+* Author: Mac-Rufus Umeokolo
+* Directs the user to the Sign-in page
+* */
 class LandingPage extends StatefulWidget {
   @override
   _LandingPageState createState() => _LandingPageState();

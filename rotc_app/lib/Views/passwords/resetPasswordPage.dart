@@ -8,29 +8,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ForgotPassword.dart';
 
+/*
+* Author: Mac-Rufus Umeokolo
+* This page will be used for the password reset. it create the needed UI for the
+* reset password page but it's not being used at the moment
+* */
+
 class ResetPasswordPage extends StatefulWidget {
-  /* CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-
-  Future<void> updatePassword() async {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    var newPassword = pref.getString("currentEvaluationId");
-    users.doc(newPassword).update({
-      'password': password.text,
-    });
-  }
-
-  Future<void> userRegistration(String id) {
-    return users.doc(id).set({
-      'email': email.text,
-      'password': password.text,
-      'isCadre': false,
-    });
-  }
-*/
   static final SizedBox spaceBetweenFields = SizedBox(height: 20.0);
 
   @override
@@ -70,48 +55,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
       },
     );
-
-
-
-    /* user.doc(email).get().then((docD) {
-      docD.data().forEach((result) {
-        var pas = element.data()['password'].toString();
-      });
-    });*/
-    String pwd;
-    /*
-    * DocumentReference docRef =
-    FirebaseFirestore.instance.collection('users').doc(email).get().then((docSnap) {
-      docSnap.docs.forEach((result) {
-        var pas = element.data()['password'].toString();
-      });
-    });
-    * */
-
-    // String pwd = docRef.get();
-
-    // print(docRef);
-    /*String doc = docRef. as String;
-//await FirebaseAuth.instance.signInWithEmailAndPassword(email: newEmail, password: newPassword);
-    var event1;
-    event1 = FirebaseFirestore.instance
-        .collection("users")
-        .where(email, isEqualTo: 1)
-        .snapshots().toList();
-      /*  .listen((event) {
-      print(event.docs);
-    });*/
-*/
-
-//.get();
-    /* user.updatePassword(newPassword);
-    FirebaseFirestore.instance
-        .collection("user")
-        .doc(user.uid)
-        .update({"password": newPassword}).then(
-            (value) => print("password database update was successful"));
-
-   _auth.signOut().then((value) => print("user successfully signed out "));*/
   }
 
   @override

@@ -9,6 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ForgotPassword.dart';
 
+/*
+* Author: Mac-Rufus Umeokolo
+* This page requests the user to enter the pin sent to there email
+* before they can register
+* */
+
 class ProcessPin extends StatefulWidget {
   @override
   _ProcessPinState createState() => _ProcessPinState();
