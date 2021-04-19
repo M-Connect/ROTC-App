@@ -6,21 +6,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /*
   Author: Christine Thomas
-  Description: CRUD Operations on User Profile Data for User Customization.
+  These classes fetch the currently signed in user info and display it
+  on the user's profile page. There is also a button
+  next to their name to route them to their evaluation data.
  */
 
 class Profile extends StatefulWidget {
   TextEditingController email;
-
-/*  Profile(TextEditingController email){
-    this.email = email;
-    CollectionReference cadets = FirebaseFirestore.instance.collection('cadets');
-    cadets.where('email', isEqualTo: email).snapshots();
-
-
-
-  }*/
-
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -32,9 +24,11 @@ class _ProfileState extends State<Profile> {
 
   bool isCadre;
 
-
-
-
+  /*
+  This function gets an instance of SharedPreferences object called prefs and
+  checks if the isCadre field in the database is true and sets isCadre to
+  true if so.
+   */
   getBool() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -42,11 +36,10 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  Map<String, dynamic> biography;
+  // Unused code that could be utilized in the future
+/*  Map<String, dynamic> biography;
   Map profileData;
 
-  /// TODO: ADD BIO SHOULD BE CALLED UPON REGISTRATION
-  /// TO ENSURE ONLY ONE BIO IS CREATED PER USER -CT
   ///
   /// This function gives a user a blank biography upon registration.
   Future<void> createBio() async {
@@ -61,7 +54,6 @@ class _ProfileState extends State<Profile> {
       print('$numberOfDocs');
     });
 
-    /// TODO: add bio via custom doc name and setting fields
     Map<String, dynamic> bioText = {'biography': 'Add a bio'};
     CollectionReference profiles =
         FirebaseFirestore.instance.collection('profiles');
@@ -103,30 +95,39 @@ class _ProfileState extends State<Profile> {
 
   updateEmail() {
     /// update Email in database
-    /// TODO: add if statement to determine if cadet or cadre
     CollectionReference cadres =
         FirebaseFirestore.instance.collection('cadres');
   }
 
   fetchEmail() {
     /// make Email public
-    /// TODO: add if statement to determine if cadet or cadre
     CollectionReference cadres =
         FirebaseFirestore.instance.collection('cadres');
-  }
+  }*/
 
+  // Creating variables for easier styling
   final TextStyle tabTextStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final TextStyle ranking =
       TextStyle(fontSize: 18, fontWeight: FontWeight.normal);
   final _textController = TextEditingController();
 
+  /* Declaring and initializing needed fields related to user info:
+  Their first name = fName
+  Last name = lName
+  Nickname (if they gave one) = nName
+  and email.
+   */
   String fName = '';
   String lName = '';
   String nName = '';
   static String email = '';
 
-  bool iconPressed = false;
+  //bool iconPressed = false;
+
+  /*
+  Initializing the state of the application
+   */
   @override
   void initState() {
     super.initState();
@@ -134,6 +135,12 @@ class _ProfileState extends State<Profile> {
     getBool();
   }
 
+  /*
+  This function gets the currently signed-in user's firstName,
+  lastName, nickName (if they have one) and email from the database
+  and sets it to the string variables fName, lName, nName, and email
+  respectively.
+   */
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -144,6 +151,11 @@ class _ProfileState extends State<Profile> {
     });
   }
 
+  /*
+  The build function then displays the fetched data and sets the rank to Cadet or
+  Cadre depending on the signed-in user's access / credential type. i.e,
+  if they are a Cadet they are listed as such and same goes for Cadre.
+   */
   @override
   Widget build(BuildContext context) {
     String rank;
@@ -325,12 +337,13 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
             ),
-            Container(
+          // Unused code that can be utilized in the future.
+          /*  Container(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  /* Text(
+                  *//* Text(
                     'Biography',
                     style: TextStyle(
                       color: Colors.black,
@@ -352,10 +365,10 @@ class _ProfileState extends State<Profile> {
                         },
                       ),
                     ],
-                  ),*/
+                  ),*//*
                 ],
               ),
-            ),
+            ),*/
             /*Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
