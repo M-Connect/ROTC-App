@@ -6,6 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
+/*
+Author: Christine Thomas
+Created the UI for the BarChart.
+Co-Author: Kyle Serruys
+Added database support.
+ */
 class BarGraphv2 extends StatefulWidget {
   @override
   _BarGraphv2State createState() => _BarGraphv2State();
