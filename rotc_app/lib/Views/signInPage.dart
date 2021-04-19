@@ -202,12 +202,13 @@ class _SignInViewState extends State<SignInView> {
             style: TextStyle(
               color: Colors.blueAccent,
             ),
+
           ),
+
+          onPressed: () {
+            Navigator.pushNamed(context, '/ConfirmToRegister');
+          },
         ),
-        onPressed: () {
-          Navigator.pushNamed(context, '/ConfirmToRegister');
-        },
-      ),
       ],
     ))
                 ]),
