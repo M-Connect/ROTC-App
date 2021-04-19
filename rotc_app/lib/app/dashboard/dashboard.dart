@@ -9,7 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 
 /*
 * Author: Mac-Rufus O. Umeokolo
-* This page is for the bashboard UI.
+* This page is for the dashboard UI.
 * it has all the codes for the dashboard UI and all the posting features
 * */
 

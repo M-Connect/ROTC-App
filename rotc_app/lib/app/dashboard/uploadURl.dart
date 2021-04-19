@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:rotc_app/services/auth.dart';
 
-import 'package:provider/provider.dart';
+/*
+* Author: Mac-Rufus O. Umeokolo
+* This page is for the dashboard UI to upload their url
+* */
 
 class UploadUrl extends StatelessWidget {
   CollectionReference dashboardUrls =

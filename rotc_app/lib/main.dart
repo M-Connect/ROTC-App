@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rotc_app/Views/addGCEvent.dart';
+import 'package:rotc_app/Views/passwords/enterResetPin.dart';
 import 'package:rotc_app/app/peerReview/activityToBeEvaluated.dart';
 import 'package:rotc_app/app/peerReview/evaluationForms/executionGraphViewPage.dart';
 import 'package:rotc_app/app/peerReview/evaluationForms/leadershipGraphViewPage.dart';
@@ -18,10 +19,9 @@ import 'package:rotc_app/app/peerReview/evaluationForms/individualEvalConfirmati
 import 'package:rotc_app/app/peerReview/evaluationForms/multipleEvalConfirmationPage.dart';
 import 'package:rotc_app/app/peerReview/evaluationForms/multipleUserActivityToBeEvaluated.dart';
 import 'package:rotc_app/app/peerReview/evaluationForms/usersToDoEvaluation.dart';
-//import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
-import 'package:rotc_app/app/profile/editProfile.dart';
 import 'package:rotc_app/common_widgets/barGraphWidget2.0.dart';
 import 'package:rotc_app/services/auth.dart';
+import 'Views/ConfirmToRegister.dart';
 import 'Views/passwords/ForgotPassword.dart';
 import 'Views/registrationPage.dart';
 import 'Views/signInPage.dart';
@@ -86,7 +86,6 @@ class MConnect extends StatelessWidget {
             '/homePage': (context) => HomeView(),
             '/forgotPassword': (context) => ForgotPasswordView(),
             '/profile': (context) => Profile(),
-            '/editProfile': (context) => EditProfile(),
             '/calendar': (context) => CalendarTasks(),
             '/evaluationCalendarTasks': (context) => EvaluationCalendarTasks(),
             '/activityToBeEvaluated': (context) => ActivityToBeEvaluated(),
@@ -119,6 +118,8 @@ class MConnect extends StatelessWidget {
             '/executionGraphViewPage': (context) => ExecutionGraphViewPage(),
             '/planningGraphViewPage': (context) => PlanningGraphViewPage(),
             '/lineGraph': (context) => LineGraph(),
+            '/ProcessPin': (context) => ProcessPin(),
+            '/ConfirmToRegister': (context) => ConfirmToRegister(),
           }),
     );
   }

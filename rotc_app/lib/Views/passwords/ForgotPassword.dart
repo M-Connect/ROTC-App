@@ -156,7 +156,7 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
 
           return AlertDialog(
             title: Text("Password Reset"),
-            content: Text("An email has been sent to you,\n"
+            content: Text("An email will be sent to you within 15 minutes,\n"
                 "Use the Pin to continue on the next page"),
             actions: [
               TextButton(
@@ -279,7 +279,7 @@ sendMail() async {
   // final smtpServer = SmtpServer('smtp.domain.com');
   // See the named arguments of SmtpServer for further configuration
   // options.
-
+print("$pin");
   // Create our message.
   final message = Message()
     ..from = Address(username, 'DET 390 Mobile')
