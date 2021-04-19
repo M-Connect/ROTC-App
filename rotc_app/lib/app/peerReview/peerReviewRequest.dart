@@ -11,16 +11,27 @@ import '../../main.dart';
  Author: Sawyer Kisha
  Co-author: Kyle Serruys
   This class is the home page for our peer review request page
-  Needs functionality
  */
 
+/*
+Creating the request state -SK
+ */
 class PeerReviewRequest extends StatefulWidget {
   PeerReviewRequest() : super();
 
   @override
   PeerReviewRequestState createState() => PeerReviewRequestState();
 }
-
+/*
+Strings for the following data:
+userList
+usersToEval
+selectusers
+filteredUsers
+tempList
+usersSelected
+-SK
+ */
 class PeerReviewRequestState extends State<PeerReviewRequest> {
   var userList = new List<String>();
   var usersToEvaluate = new List<String>();
@@ -35,12 +46,18 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
   String firstName = "";
   String lastName = "";
 
+/*
+inting -SK
+ */
   @override
   void initState() {
     super.initState();
     getUserInfo();
   }
 
+  /*
+  Getting user data from the database -SK
+   */
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await FirebaseFirestore.instance
@@ -73,6 +90,9 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
     usersSelected[userName] = !selectedValue;
   }
 
+  /*
+  Creating the buttons and the associated users that come with them -KS / SK
+   */
   List<Widget> makeButtonsList() {
     userButtonList.clear();
     for (int i = 0; i < filteredUserList.length; i++) {
@@ -103,6 +123,9 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
     return userButtonList;
   }
 
+  /*
+  Search functionality -KS
+   */
   searchList(String value) {
     var filter = userSearch.value.text;
     setState(() {
@@ -117,6 +140,9 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
     });
   }
 
+  /*
+  Building the UI -Sk / KS
+   */
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -156,6 +182,9 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
                     ),
                   ),
                 ),
+                /*
+                Search functionality
+                 */
                 TextField(
                   controller: userSearch,
                   decoration: InputDecoration(
@@ -169,6 +198,9 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
                   onChanged: searchList,
                 ),
                 if (tempList != null)
+                  /*
+                  The list of users
+                   */
                   SizedBox(
                     child: ListView(
                       shrinkWrap: true,
@@ -196,32 +228,6 @@ class PeerReviewRequestState extends State<PeerReviewRequest> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                 ),
-                /* Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(padding: EdgeInsets.only(bottom: 150.0)),
-                    Container(
-                      width: 230,
-                      height: 40,
-                      child: ElevatedButton(
-
-                        child: Text('Next'),
-
-                        onPressed: () async {
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                          usersSelected.forEach((key, value) {
-                            if(value){
-                              usersToEvaluate.add(key);
-                            }
-                          });
-
-                          prefs.setStringList('usersToEvaluate', usersToEvaluate);
-                          navigation.currentState.pushNamed('/multipleEvalConfirmationPage');
-                        },
-                      ),
-                    ),
-                  ],
-                ),*/
               ]),
         ),
       ),

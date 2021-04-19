@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 
 /*
+Author: Sawyer Kisha
 The main peer review page for the user to access any of
 the following features:
 1. Starting the user's evaluation
@@ -14,6 +15,9 @@ the following features:
 4. Viewing the user's pending requests
 */
 
+/*
+Creating peer review form state -SK
+ */
 class PeerReviewForm extends StatefulWidget {
   PeerReviewForm() : super();
 
@@ -21,23 +25,143 @@ class PeerReviewForm extends StatefulWidget {
   PeerReviewFormState createState() => PeerReviewFormState();
 }
 
+/*
+Database data such as
+firstName
+lastName
+status
+uid
+selected user
+selected string
+ */
 class PeerReviewFormState extends State<PeerReviewForm> {
+
+  var userList = new List<String>();
+  Map evaluationMap = new Map();
+  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
+  var selectUsersList = new List<String>();
+  String selectedActivityString = "";
+  String selectedUserString = "";
+
+  var statusList = new List<String>();
+  String firstName = "";
+  String lastName = "";
+  String status = "";
+  String uid = "";
+
   bool isCadre;
 
+  /*
+  initing evaluation and user data from database -SK
+   */
   @override
   void initState() {
     super.initState();
     getBool();
+    getUserToEvaluateData();
+    getUserInfo();
     //  initSliderValue();
   }
 
+  /*
+  Firebase peereval and evalrequest collections -SK
+   */
+  CollectionReference evaluation =
+  FirebaseFirestore.instance.collection('peerEvaluation');
+  CollectionReference evaluationRequests =
+  FirebaseFirestore.instance.collection('userEvaluationRequests');
+
+  /*
+  Getting the evaluation data from database. -SK
+   */
+  getEvaluationFromDb(String evaluationId)async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    evaluationRequests.doc(evaluationId).get().then((DocumentSnapshot documentSnapshot) {
+      if(documentSnapshot.exists){
+        var activity = documentSnapshot.data()["activity"]?? " ";
+        prefs.setString('activity', activity);
+        var evaluatee = documentSnapshot.data()["evaluatee"]?? " ";
+        prefs.setString('evaluatee', evaluatee);
+      }
+    });
+  }
+
+  /*
+  If user is cadre or cadet -SK
+   */
   getBool() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var currentUser = await FirebaseAuth.instance.currentUser;
+
     setState(() {
       isCadre = prefs.getString('isCadre') == 'true';
     });
   }
 
+  /*
+  getting evaluation data from the database such as:
+  currentUser
+  uid
+  firstName
+  lastName
+  status
+  -SK
+   */
+  getUserToEvaluateData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var currentUser = await FirebaseAuth.instance.currentUser;
+
+    setState((){
+      uid = currentUser.uid;
+      firstName = prefs.getString('firstName');
+      lastName =  prefs.getString('lastName');
+      status = prefs.getString('status');
+    });
+  }
+/*
+Getting evaluation information from database such as:
+userName
+evaluator
+evaluatee
+status
+-SK
+ */
+  getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var data = await FirebaseFirestore.instance
+        .collection('userEvaluationRequests')
+        .get()
+        .then((docSnapshot) {
+      docSnapshot.docs.forEach((element) {
+        var userName = firstName + " " + lastName;
+        var evaluator = element.data()['evaluator'].toString();
+        var evaluatee = element.data()['evaluatee'].toString();
+        var status = element.data()['status'].toString();
+
+        /*
+        Checks the number of pending requests current
+        in the database for the current user -SK
+         */
+        if(evaluator == userName) {
+          var userKey = uid + evaluatee + userList.length.toString();
+          evaluationMap[userKey] = element.id;
+          userList.add(evaluatee);
+          if(status == "Pending"){
+            statusList.add(status);
+          }
+        }
+      }
+      );
+    }
+    );
+    //setting the state -SK
+    setState(() {});
+  }
+
+
+  /*
+  UI / building the page -SK
+   */
   @override
   Widget build(BuildContext context) {
     const TextStyle tabTextStyle =
@@ -61,12 +185,15 @@ class PeerReviewFormState extends State<PeerReviewForm> {
         child: Column(
           children: [
             SingleChildScrollView(
-              padding: EdgeInsets.only(top: 50, right: 20, left: 20, bottom: 50),
-              //color: Colors.white,
+              padding:
+                  EdgeInsets.only(top: 50, right: 5, left: 5, bottom: 50),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
+                  /*
+                  Starting the evaluation -SK
+                   */
                   Center(
                     child: Visibility(
                       visible: isCadre == true,
@@ -104,6 +231,9 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     ),
                   ),
                   SizedBox(height: 10),
+                  /*
+                  Requesting evaluation -SK
+                   */
                   Center(
                     child: Visibility(
                       visible: isCadre == true,
@@ -131,7 +261,8 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                           ),
                         ),
                         onPressed: () {
-                          navigation.currentState.pushNamed('/peerReviewRequest');
+                          navigation.currentState
+                              .pushNamed('/peerReviewRequest');
                         },
                         width: 350,
                         height: 100,
@@ -141,6 +272,14 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     ),
                   ),
                   SizedBox(height: 10),
+                  /*
+                  Viewing the current user's profile
+                  that consists of their evaluation
+                  data -SK
+
+                  Sends to the line graph and the bar
+                  graph -SK
+                   */
                   Center(
                     child: Container(
                       child: AnimatedButton(
@@ -177,6 +316,15 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                     ),
                   ),
                   SizedBox(height: 10),
+                  /*
+                  Viewing the pending requests which
+                  is where the current user is able
+                  to complete their requested
+                  evaluations -SK
+
+                  Shows the number of the currently
+                  pending requests -SK
+                   */
                   Center(
                     child: Container(
                       child: AnimatedButton(
@@ -192,9 +340,9 @@ class PeerReviewFormState extends State<PeerReviewForm> {
                               ),
                               SizedBox(width: 6),
                               Text(
-                                ' View Pending Requests',
+                                '    View ' + statusList.length.toString() +  ' Pending Requests',
                                 style: TextStyle(
-                                  fontSize: 25,
+                                  fontSize: 23,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
                                 ),
