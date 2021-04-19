@@ -3,13 +3,12 @@ import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 
-import 'package:intl/intl.dart';
 
 /*
-  Co-Author: Christine Thomas
-  added the isCadre check to change the appBar Color depending on which
-  type of user is signed in.
-   */
+  Author:  Kyle Serruys
+ This page has the user select which evaluation date and evaluation activity to use for the
+ evaluation.
+  */
 class MultipleEvalConfirmationPage extends StatefulWidget {
   @override
   _MultipleEvalConfirmationPageState createState() => _MultipleEvalConfirmationPageState();
@@ -21,11 +20,10 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
   var selectedActivityList = new List<String>();
   String selectedActivityString;
 
-  DateTime evaluationCompletionDate = DateTime.now();
+  //DateTime evaluationCompletionDate = DateTime.now();
   String text;
   String tempString = "";
   String evalDate = "";
-  bool isCadre = false;
 
   TextEditingController chooseDate = TextEditingController();
   TextEditingController chooseActivity = TextEditingController();
@@ -39,14 +37,17 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
     getSelectedUser();
     getSelectedActivity();
     getEvaluationDate();
-    getBool();
   }
 
+  //Author:  Kyle Serruys
+  //Sets the evalDate and Eval activity to a blank box if nothing is selected
   makeTextBlank(){
     if(selectedActivityString == null){
       selectedActivityString = tempString;
     }
   }
+//Author:  Kyle Serruys
+  //gets the activity name from shared preferences
   getSelectedActivity() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -54,7 +55,8 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
       selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
     });
   }
-
+//Author:  Kyle Serruys
+  //gets the user name from shared preferences
   getSelectedUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -62,32 +64,27 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
       userDisplayString = prefs.getStringList("usersToEvaluate").join(", ");
     });
   }
+  //Author:  Kyle Serruys
+  //gets the evaluation date from shared preferences
   getEvaluationDate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       evalDate = prefs.getString('evaluationDate') ?? " ";
-      DateTime evaluationDate = new DateFormat("MM-dd-yyyy").parse(evalDate);
+      var formattedEvalDate = evalDate.substring(0,10);
+      evalDate = formattedEvalDate;
     });
   }
-
-  getBool() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      isCadre = prefs.getString('isCadre') == 'true';
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
-        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.remove('selectedUserList');
+            prefs.remove('selectedActivityList');
+            prefs.remove('evaluationDate');
             navigation.currentState.pushNamed('/peerReviewRequest');
           },
         ),
@@ -117,7 +114,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                   children: [
                     Expanded(
                       child: Container(
-                        child: Text('$userDisplayString \n selected to be evaluated',
+                        child: Text('$userDisplayString to be under evaluation',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20.0,
@@ -220,7 +217,7 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                               readOnly: true,
                               controller: chooseActivity,
                               decoration: InputDecoration(
-                                hintText: selectedActivityString,
+                                hintText: (selectedActivityString),
                                 hintStyle: TextStyle(
                                     fontSize: 20.0, color: Colors.black87),
                                 isDense: true,
@@ -251,7 +248,12 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
                 child: ElevatedButton(
                   child: Text('Next'),
                   onPressed: () {
-                    navigation.currentState.pushNamed('/usersToDoEvaluation');
+                    if(evalDate.isEmpty || evalDate == null || selectedActivityString==null||selectedActivityString.isEmpty){
+                      alertDialog(context);
+                    }else {
+                      navigation.currentState.pushNamed('/usersToDoEvaluation');
+                    }
+
                   },
                 ),
               ),
@@ -261,4 +263,27 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
       ),
     );
   }
+}
+
+
+Future <void> alertDialog(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("Evaluation Date and Evaluation Activity is Required."),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

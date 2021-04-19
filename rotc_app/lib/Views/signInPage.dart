@@ -50,170 +50,160 @@ class _SignInViewState extends State<SignInView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-          padding: EdgeInsets.all(25.0),
-          child: Form(
-            autovalidate: true,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  /// Tried to add an image, but wont load -CT
-                  Padding(
-                    padding: const EdgeInsets.only(top: 100.0, bottom: 1.0),
-                    child: Text(
-                      'M-Connect',
-                      style: TextStyle(
-                        fontSize: 40.0,
-                        color: Colors.blueAccent,
-                        fontWeight: FontWeight.bold,
-                      ),
+        padding: EdgeInsets.all(25.0),
+        child: Form(
+          autovalidate: true,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                /// Tried to add an image, but wont load -CT
+                Padding(
+                  padding: const EdgeInsets.only(top: 100.0, bottom: 1.0),
+                  child: Text(
+                    'M-Connect',
+                    style: TextStyle(
+                      fontSize: 40.0,
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(),
-                    child: Image.asset(
-                      'assets/images/DET390_symbol.jpeg',
-                      fit: BoxFit.fill,
-                      height: 100, // set your height
-                      width: 100,
-                       //width here
+                ),
+                Container(
+                  decoration: BoxDecoration(),
+                  child: Image.asset(
+                    'assets/images/DET390_symbol.jpeg',
+                    fit: BoxFit.fill,
+                    height: 100, // set your height
+                    width: 100,
+                    //width here
+                  ),
+                ),
+                SizedBox(height: 7),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    //Email input -SK
+                    TextFormField(
+                      controller: email,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Email',
+                      ),
+                      //Validation -SK
+                      validator: MultiValidator([
+                        RequiredValidator(errorText: "Required"),
+                        EmailValidator(errorText: "Not a valid email"),
+                      ]),
                     ),
+                  ],
+                ),
+                //Password input -SK
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    ),
+                    TextFormField(
+                      controller: password,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Password',
+                      ),
+                      obscureText: true,
+                      //Validation -SK
+                      validator: MultiValidator([
+                        MinLengthValidator(5,
+                            errorText:
+                                "Password must be at least 5 characters."),
+                      ]),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                ),
+                Container(
+                  //Sign in button and functionality -SK
+                  child: ElevatedButton(
+                    child: Text('Sign In',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                        )),
+                    onPressed: () async {
+                      try {
+                        UserCredential user = await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: email.text, password: password.text);
+
+                        var currentUser =
+                            await FirebaseAuth.instance.currentUser;
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+
+                        var uid = currentUser.uid;
+
+                        var data = await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(uid)
+                            .get()
+                            .then((docSnapshot) {
+                          return docSnapshot.data();
+                        });
+
+                        await prefs.setString(
+                            'firstName', data['firstName'].toString());
+                        await prefs.setString(
+                            'lastName', data['lastName'].toString());
+                        await prefs.setString(
+                            'nickname', data['nickName'].toString());
+                        await prefs.setString('email', currentUser.email);
+                        await prefs.setString(
+                            'isCadre', data['isCadre'].toString());
+                      } catch (e) {
+                        alertDialog(context);
+                      }
+                    },
                   ),
-                  SizedBox(height: 7),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      //Email input -SK
-                      TextFormField(
-                        controller: email,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Email',
+                ),
+
+                //added forgot password button - MRU
+                SizedBox(height: 1.0),
+                Container(
+                    child: Column(
+                  children: [
+                    // Forgot password button -SK
+                    TextButton(
+                      child: Text(
+                        "Forgot password?",
+                        style: TextStyle(
+                          color: Colors.blueAccent,
                         ),
-                        //Validation -SK
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: "Required"),
-                          EmailValidator(errorText: "Not a valid email"),
-                        ]),
                       ),
-                    ],
-                  ),
-                  //Password input -SK
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      ),
-                      TextFormField(
-                        controller: password,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: 'Password',
-                        ),
-                        obscureText: true,
-                        //Validation -SK
-                        validator: MultiValidator([
-                          MinLengthValidator(5,
-                              errorText:
-                                  "Password must be at least 5 characters."),
-                        ]),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                  ),
-                  Container(
-                    //Sign in button and functionality -SK
-                    child: ElevatedButton(
-                      child: Text('Sign In',
-                          style: TextStyle(
-                            fontSize: 15.0,
-                          )),
-                      onPressed: () async {
-                        try {
-                          UserCredential user = await FirebaseAuth.instance
-                              .signInWithEmailAndPassword(
-                                  email: email.text, password: password.text);
-
-                          var currentUser =
-                              await FirebaseAuth.instance.currentUser;
-                          SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-
-                          var uid = currentUser.uid;
-
-                          var data = await FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(uid)
-                              .get()
-                              .then((docSnapshot) {
-                            return docSnapshot.data();
-                          });
-
-                          await prefs.setString(
-                              'firstName', data['firstName'].toString());
-                          await prefs.setString(
-                              'lastName', data['lastName'].toString());
-                          await prefs.setString(
-                              'nickname', data['nickName'].toString());
-                          await prefs.setString('email', currentUser.email);
-                          await prefs.setString(
-                              'isCadre', data['isCadre'].toString());
-
-                          if (user.user.emailVerified) {
-                            Navigator.pushNamed(context, '/homePage');
-                          } else {
-                            _verifyEmailAlertDialog(context);
-                          }
-
-                        } catch (e) {
-                          alertDialog(context);
-                        }
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/forgotPassword');
                       },
                     ),
-                  ),
-
-                  //added forgot password button - MRU
-                  SizedBox(height: 1.0),
-        Container(
-          child: Column(
-            children: [
-              // Forgot password button -SK
-          TextButton(
-          child: Text(
-          "Forgot password?",
-            style: TextStyle(
-              color: Colors.blueAccent,
-            ),
-          ),
-          onPressed: () {
-            Navigator.pushNamed(
-                context, '/forgotPassword');
-          },
+                    //Sign up button -SK
+                    TextButton(
+                      child: Text(
+                        "New user? Sign up",
+                        style: TextStyle(
+                          color: Colors.blueAccent,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/ConfirmToRegister');
+                      },
+                    ),
+                  ],
+                ))
+              ]),
         ),
-        //Sign up button -SK
-        TextButton(
-          child: Text(
-            "New user? Sign up",
-            style: TextStyle(
-              color: Colors.blueAccent,
-            ),
-
-          ),
-
-          onPressed: () {
-            Navigator.pushNamed(context, '/ConfirmToRegister');
-          },
-        ),
-      ],
-    ))
-                ]),
-          ),
-        ),
+      ),
     );
   }
 }
@@ -266,7 +256,6 @@ sendMail() async {
       print('Problem: ${p.code}: ${p.msg}');
     }
   }
-
 }
 
 /*

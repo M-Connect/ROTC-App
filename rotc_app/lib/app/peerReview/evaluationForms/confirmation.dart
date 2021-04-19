@@ -1,9 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rotc_app/Views/signInPage.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 
+
+/*
+  Author:  Kyle Serruys
+  This page is the confirmation page of our evaluation.  It shows the user, the evaluator,
+  evaluatee, and the activity.  It also shows the values and scores for communication, debrief, execution, leadership,
+  and planning.  Upon hitting Edit the user can go back and edit each form.
+  Upon hitting submit it saves to the database and removes the appropriate
+  items from shared preferences.
+
+  */
 class Confirmation extends StatefulWidget {
   @override
   _ConfirmationState createState() => _ConfirmationState();
@@ -47,6 +58,7 @@ class _ConfirmationState extends State<Confirmation> {
     evaluation.doc(evaluationId).set({
       "firstName": firstName,
       "lastName": lastName,
+      "selectedEvaluatee": selectedUserString,
       "email": email,
       "evaluationDate": DateTime.now().toString(),
       "activity": selectedActivityString,
@@ -352,31 +364,37 @@ class _ConfirmationState extends State<Confirmation> {
                         navigation.currentState.pushNamed('/peerReviewLLAB2FT');
                       },
                     ),
-                    ElevatedButton(
-                      child: Text('Submit'),
-                      onPressed: () async {
-                        SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
-                        await markEvaluationComplete();
-                        await peerEvaluation();
-                        await prefs.remove("planning");
-                        await prefs.remove("communication");
-                        await prefs.remove("execution");
-                        await prefs.remove("leadership");
-                        await prefs.remove("debrief");
-                        await prefs.remove("planningValue");
-                        await prefs.remove("communicationValue");
-                        await prefs.remove("executionValue");
-                        await prefs.remove("leadershipValue");
-                        await prefs.remove("debriefValue");
-                        await prefs.remove("currentEvaluationId");
-                        await prefs.remove("selectedActivityList");
-                        await prefs.remove("activity");
-                        await prefs.remove("evaluationDate");
+                   ElevatedButton(
+                        child: Text('Submit'),
+                        onPressed: () async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          if(planning.isEmpty || communication.isEmpty||execution.isEmpty||leadership.isEmpty||debrief.isEmpty){
+                            alertDialog(context);
+                          }else {
+                            await markEvaluationComplete();
+                            await peerEvaluation();
+                            await prefs.remove("planning");
+                            await prefs.remove("communication");
+                            await prefs.remove("execution");
+                            await prefs.remove("leadership");
+                            await prefs.remove("debrief");
+                            await prefs.remove("planningValue");
+                            await prefs.remove("communicationValue");
+                            await prefs.remove("executionValue");
+                            await prefs.remove("leadershipValue");
+                            await prefs.remove("debriefValue");
+                            await prefs.remove("currentEvaluationId");
+                            await prefs.remove("selectedActivityList");
+                            await prefs.remove("selectedEvaluatee");
+                            await prefs.remove("activity");
+                            await prefs.remove("evaluationDate");
 
-                        navigation.currentState.pushNamed('/homePage');
-                      },
-                    ),
+                            navigation.currentState.pushNamed('/homePage');
+                          }
+                        },
+                      ),
+
                   ],
                 ),
               ),
@@ -386,4 +404,26 @@ class _ConfirmationState extends State<Confirmation> {
       ),
     );
   }
+}
+
+Future <void> alertDialog(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("Every Section of the Evaluation Must Be Filled Out In Order to Submit."),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

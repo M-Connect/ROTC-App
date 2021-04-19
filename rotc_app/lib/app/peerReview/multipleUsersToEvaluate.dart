@@ -1,27 +1,30 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:rotc_app/common_widgets/buttonWidgets.dart';
-
-import '../../main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../main.dart';
 
 /*
- Author: Kyle Serruys
- Co-Author:  Sawyer Kisha
-
- The page allows the signed in user to select a Cadet or a Cadre to perform an evaluation.
+ Author: Sawyer Kisha
+ Co-author: Kyle Serruys
+  This page is to select the multiple users to evaluate a cadet/cadre.
  */
 
-class SingleUserToEvaluate extends StatefulWidget {
+class MultipleUsersToEvaluate extends StatefulWidget {
+  MultipleUsersToEvaluate() : super();
+
   @override
-  SingleUserToEvaluateState createState() => SingleUserToEvaluateState();
+  MultipleUsersToEvaluateState createState() => MultipleUsersToEvaluateState();
 }
 
-class SingleUserToEvaluateState extends State<SingleUserToEvaluate> {
+class MultipleUsersToEvaluateState extends State<MultipleUsersToEvaluate> {
   var userList = new List<String>();
+  var usersToEvaluate = new List<String>();
+  var selectUsersList = new List<String>();
   var filteredUserList = new List<String>();
-  var selectedUserList = new List<String>();
+  //var tempList = new List<String>();
+  var usersSelected = new Map<String, bool>();
   var pagedUserList = new List<String>();
 
   TextEditingController userSearch = TextEditingController();
@@ -36,67 +39,24 @@ class SingleUserToEvaluateState extends State<SingleUserToEvaluate> {
 
   bool loading = false;
 
-
   @override
   void initState() {
     scrollController = ScrollController();
     scrollController.addListener(_scrollListener);
     super.initState();
-    getCadetNames();
     getPagedUsersV2();
   }
 
-  /*
- Author: Kyle Serruys
- This puts first name and last name into shared preferences.
- */
-  getCadetNames() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      firstName = prefs.getString("firstName");
-      lastName = prefs.getString("lastName");
-    });
+  bool isSelected(String userName) {
+    return usersSelected[userName];
   }
 
-/*
-Author:  Kyle Serruys
-This is the function used to take a snapshot of our collection and import the
-first and last name of the users in the users collection.
-  */
-  getUserInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var data = await FirebaseFirestore.instance
-        .collection('users')
-        .orderBy("firstName")
-        .get()
-        .then((docSnapshot) {
-      docSnapshot.docs.forEach((element) {
-        userList.add(element.data()['firstName'].toString() +
-            " " +
-            element.data()['lastName'].toString());
-      });
-      getPagedUsers();
-    });
-    setState(() {
-      searchList("");
-    });
+  void toggleUser(String userName) {
+    var selectedValue = usersSelected[userName];
+    usersSelected[userName] = !selectedValue;
   }
 
   /*
- Author: Kyle Serruys
- This method takes users and adds them to pages for our pagination.  In other words,
- everytime the user scrolls up, a new page gets made and shows new names.
- */
-  getPagedUsers() {
-    var newUsers =
-        userList.skip((page - 1) * namesPerPage).take(namesPerPage).toList();
-    if (newUsers.length > 0) {
-      pagedUserList.addAll(newUsers);
-      page = page + 1;
-    }
-    loading = false;
-  }
-/*
  Author: Kyle Serruys
  This method orders the users on the page by their first name.
  It also sets up skipping the previous pages names.
@@ -123,7 +83,7 @@ first and last name of the users in the users collection.
           .get()
           .then((documentSnapshots) async {
         var startAfterThis =
-            documentSnapshots.docs[documentSnapshots.docs.length - 1];
+        documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
         var nextPage = await FirebaseFirestore.instance
             .collection('users')
@@ -143,6 +103,11 @@ first and last name of the users in the users collection.
 
     setState(() {
       page = page + 1;
+      for (int i = 0; i < pagedUserList.length; i++) {
+        if (!usersSelected.containsKey(pagedUserList[i].toString())) {
+          usersSelected[pagedUserList[i].toString()] = false;
+        }
+      }
       searchList("");
     });
   }
@@ -156,24 +121,31 @@ first and last name of the users in the users collection.
   Formatted the list of cadets for the interface
 
   */
+
   List<Widget> makeButtonsList() {
     userButtonList.clear();
     for (int i = 0; i < filteredUserList.length; i++) {
       userButtonList.add(
         new ElevatedButton(
           onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            selectedUserList.add(filteredUserList[i]);
-            prefs.setStringList('selectedUserList', selectedUserList);
-            navigation.currentState
-                .pushNamed('/individualEvalConfirmationPage');
+            setState(() {
+              toggleUser(filteredUserList[i]);
+            });
           },
+          style: ElevatedButton.styleFrom(
+              side: BorderSide(
+                  width: usersSelected[filteredUserList[i]] ? 5.0 : 1.0,
+                  color: usersSelected[filteredUserList[i]]
+                      ? Colors.amber
+                      : Colors.black87)),
           child: Container(
               width: 200,
               height: 40,
               child: new Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[Text(filteredUserList[i])])),
+                  children: <Widget>[
+                    Text(filteredUserList[i]),
+                  ])),
         ),
       );
     }
@@ -195,7 +167,6 @@ first and last name of the users in the users collection.
           ),
         ));
   }
-
   /*
  Author: Kyle Serruys
  This method let's the signed in user search through the list of cadets or cadres
@@ -216,6 +187,7 @@ first and last name of the users in the users collection.
       }
     });
   }
+
 /*
  Author: Kyle Serruys
  This is the listener that listens for you scrolling up on the app.
@@ -224,7 +196,7 @@ first and last name of the users in the users collection.
     if (scrollController.offset > 0.0 &&
         scrollController.position.maxScrollExtent > 0.0) {
       if (scrollController.offset >=
-              scrollController.position.maxScrollExtent &&
+          scrollController.position.maxScrollExtent &&
           !scrollController.position.outOfRange) {
         if (++bottomOutOfRange >= 2) {
           bottomOutOfRange = 0;
@@ -267,11 +239,13 @@ first and last name of the users in the users collection.
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove('selectedUserList');
             navigation.currentState.pushNamed('/homePage');
           },
         ),
-        title: Text('Evaluation Request'),
+        title: Text('Evaluatee Request'),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.logout),
@@ -289,16 +263,17 @@ first and last name of the users in the users collection.
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                    padding: const EdgeInsets.only(top: 80.0, bottom: 20.0),
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Select Person to Evaluate:',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                        ),
+                  padding: const EdgeInsets.only(top: 50.0, bottom: 50.0),
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Select at Least One User to Be Evaluated:',
+                      style: TextStyle(
+                        fontSize: 18.0,
                       ),
-                    )),
+                    ),
+                  ),
+                ),
                 TextField(
                   controller: userSearch,
                   decoration: InputDecoration(
@@ -313,17 +288,68 @@ first and last name of the users in the users collection.
                 ),
                 Center(
                     child: Column(children: [
-                  showProgressIndicator(loading),
-                  Column(
-                    children: makeButtonsList(),
-                  )
-                ])),
+                      showProgressIndicator(loading),
+                      Column(
+                        children: makeButtonsList(),
+                      )
+                    ])),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                 ),
+
               ]),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding:
+            EdgeInsets.only(bottom: 40.0, left: 10.0, top: 40.0, right: 10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              child: Text('Next'),
+              onPressed: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                usersSelected.forEach((key, value) {
+                  if (value) {
+                    usersToEvaluate.add(key);
+                  }
+                });
+
+                prefs.setStringList('usersToEvaluate', usersToEvaluate);
+                if(usersToEvaluate.isEmpty){
+                  alertDialog(context);
+                }else {
+                  navigation.currentState
+                      .pushNamed('/multipleEvalConfirmationPage');
+                }
+              },
+            ),
+          ],
         ),
       ),
     );
   }
+}
+
+Future <void> alertDialog(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("You Must Select at Least One Cadet or Cadre to Evaluate."),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

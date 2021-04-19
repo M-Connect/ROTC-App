@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 /*
  Author: Kyle Serruys
-  This class is the Communication page of our peer review
+  This class is the Communication page of our evaluation.  It will show the evalution
+  data as well as score.
  */
 
 class Communication extends StatefulWidget {
@@ -19,7 +21,7 @@ class CommunicationState extends State<Communication> {
   TextEditingController communication;
 
   double communicationValue;
-  String defaultCommunicationValue = "10";
+  String defaultCommunicationValue = "0";
   var currentEvaluationId = "";
 
   @override
@@ -27,9 +29,14 @@ class CommunicationState extends State<Communication> {
     super.initState();
     initControllers();
     getUserInfo();
-    // initSliderValue();
   }
 
+  /*
+  Author:  Kyle Serruys
+  This gets the users evaluation Id, the evaluation data, and the score and value from shared
+  preferences
+
+  */
   initControllers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -39,12 +46,8 @@ class CommunicationState extends State<Communication> {
     });
   }
 
-  /* initSliderValue() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      sliderChange(communicationValue);
-    });
-  }*/
+  //Author:  Kyle Serruys
+  //This allows the value of the score to change when you slide the slider
   void sliderChange(double test) {
     setState(() {
       if (test != null) {
@@ -53,6 +56,11 @@ class CommunicationState extends State<Communication> {
     });
   }
 
+  /*
+  Author:  Kyle Serruys
+  This gets the slider value from shared preferences, if none is selected
+  it sets to the default value
+   */
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -62,6 +70,12 @@ class CommunicationState extends State<Communication> {
     });
   }
 
+  /*
+  Author:  Kyle Serruys
+  This method saves your progress, so if you hit back and forth or even exit out of the app,
+  it will keep the latest information entered saved into the database.
+
+  */
   Future<void> saveProgress() async {
     CollectionReference evaluation =
         FirebaseFirestore.instance.collection('peerEvaluation');
@@ -243,7 +257,11 @@ class CommunicationState extends State<Communication> {
                         prefs.setString('communicationValue',
                             communicationValue.round().toString());
                         await saveProgress();
-                        navigation.currentState.pushNamed('/planning');
+                        if (communication.text.isEmpty) {
+                          alertDialog(context);
+                        } else {
+                          navigation.currentState.pushNamed('/planning');
+                        }
                       },
                     ),
                     /*ElevatedButton(
@@ -266,7 +284,12 @@ class CommunicationState extends State<Communication> {
                         prefs.setString('communicationValue',
                             communicationValue.round().toString());
                         await saveProgress();
-                        navigation.currentState.pushNamed('/execution');
+                        if (communication.text.isEmpty) {
+                          alertDialog(context);
+                        } else {
+                          navigation.currentState.pushNamed('/execution');
+                        }
+
                       },
                     ),
                   ],
@@ -290,6 +313,28 @@ saveNotification(BuildContext context) {
   AlertDialog alert = AlertDialog(
     //  title: Text("Saved"),
     content: Text("Input is saved"),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
+Future<void> alertDialog(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("Communication Notes are Required."),
     actions: [
       button,
     ],

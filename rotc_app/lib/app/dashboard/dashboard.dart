@@ -209,7 +209,7 @@ class _DashboardState extends State<Dashboard> {
                             onDismissed: (none) {},
                             direction: DismissDirection.none,
                             key: Key(docSnap['DocumentName']),
-                             child: Card(
+                            child: Card(
                               color: Colors.lightBlue[50],
                               elevation: 2,
                               margin: EdgeInsets.all(8),

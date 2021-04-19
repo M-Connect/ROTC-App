@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rotc_app/main.dart';
@@ -132,7 +134,6 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     getUserInfo();
-    getBool();
   }
 
   /*
@@ -158,34 +159,8 @@ class _ProfileState extends State<Profile> {
    */
   @override
   Widget build(BuildContext context) {
-    String rank;
-    if(isCadre == true){
-      rank = "Cadre";
-    }
-    else
-      rank = "Cadet";
-
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          // Box decoration takes a gradient
-          gradient: LinearGradient(
-            // Where the linear gradient begins and ends
-            begin: Alignment.topRight,
-            end: Alignment(0.3, 0),
-            tileMode: TileMode.repeated, // repeats the gradient over the canvas
-            colors: [
-              // Colors are easy thanks to Flutter's Colors class.
-              /*olors.blue[200],
-              Colors.white70,
-              Colors.amber[100],
-              Colors.white70,
-              Colors.blue[200],*/
-              Colors.white,
-              Colors.lightBlue,
-            ],
-          ),
-        ),
         child: Column(
           children: [
             /*Padding(
@@ -207,44 +182,44 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
             ),*/
-              Center(
-                child: Container(
-                    padding: EdgeInsets.only(bottom: 20, top: 30, ),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(70.0),
-                          bottomLeft: Radius.circular(70.0),
-                        ),
-                        color: Colors.blue.shade900,
-                    ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-
-                      Text(
-                        '$fName' + ' $lName',
+            Center(
+              child: Container(
+                padding: EdgeInsets.only(
+                  bottom: 20,
+                  top: 30,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(70.0),
+                    bottomLeft: Radius.circular(70.0),
+                  ),
+                  color: Colors.blue.shade900,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('$fName' + ' $lName',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 30,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                        )
+                        )),
+                    IconButton(
+                      icon: Icon(
+                        Icons.bar_chart,
+                        size: 30,
+                        color: Colors.cyan,
                       ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.bar_chart,
-                          size: 30,
-                          color: Colors.cyan,
-                        ),
-                        onPressed: () {
-                          navigation.currentState.pushNamed('/barGraph');
-                        },
-                        tooltip: 'Click here to view your stats.',
-                      ),
-                    ],
-                  ),
+                      onPressed: () {
+                        navigation.currentState.pushNamed('/barGraph');
+                      },
+                      tooltip: 'Click here to view your stats.',
+                    ),
+                  ],
                 ),
               ),
+            ),
             Container(
               padding: EdgeInsets.only(left: 20, right: 20, top: 16.0),
               child: Column(
@@ -256,7 +231,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       'Ranking',
                       style: TextStyle(
-                        color: Colors.black87,
+                        color: Colors.cyan,
                         fontWeight: FontWeight.w500,
                         fontSize: 25,
                       ),
@@ -265,8 +240,7 @@ class _ProfileState extends State<Profile> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      //'Technical Sergeant',
-                      rank,
+                      'Technical Sergeant',
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -278,7 +252,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       'Nickname',
                       style: TextStyle(
-                        color: Colors.black87,
+                        color: Colors.cyan,
                         fontWeight: FontWeight.w500,
                         fontSize: 25,
                       ),
@@ -301,7 +275,7 @@ class _ProfileState extends State<Profile> {
                     child: Text(
                       'Email',
                       style: TextStyle(
-                        color: Colors.black87,
+                        color: Colors.cyan,
                         fontWeight: FontWeight.w500,
                         fontSize: 25,
                       ),
@@ -337,13 +311,13 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
             ),
-          // Unused code that can be utilized in the future.
-          /*  Container(
+            // Unused code that can be utilized in the future.
+            /*  Container(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  *//* Text(
+                  */ /* Text(
                     'Biography',
                     style: TextStyle(
                       color: Colors.black,
@@ -365,7 +339,7 @@ class _ProfileState extends State<Profile> {
                         },
                       ),
                     ],
-                  ),*//*
+                  ),*/ /*
                 ],
               ),
             ),*/

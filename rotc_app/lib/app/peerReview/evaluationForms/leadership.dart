@@ -26,8 +26,8 @@ class LeadershipState extends State<Leadership> {
   TextEditingController leadership;
 
   double leadershipValue;
-  String defaultLeadershipValue = "10";
-  var currentEvaluationId="";
+  String defaultLeadershipValue = "0";
+  var currentEvaluationId = "";
   bool isCadre = false;
 
   @override
@@ -71,9 +71,10 @@ class LeadershipState extends State<Leadership> {
       leadershipValue = double.parse(leadershipSliderValue);
     });
   }
-  Future<void> saveProgress()async {
+
+  Future<void> saveProgress() async {
     CollectionReference evaluation =
-    FirebaseFirestore.instance.collection('peerEvaluation');
+        FirebaseFirestore.instance.collection('peerEvaluation');
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     evaluation.doc(currentEvaluationId).set({
@@ -83,20 +84,20 @@ class LeadershipState extends State<Leadership> {
       "communication": prefs.getString("communication"),
       "communicationValue": prefs.getString("communicationValue"),
       "execution": prefs.getString("execution"),
-      "executionValue":prefs.getString("executionValue"),
+      "executionValue": prefs.getString("executionValue"),
       "leadership": leadership.text,
       "leadershipValue": leadershipValue.round().toString(),
       "debrief": prefs.getString("debrief"),
-      "debriefValue":prefs.getString("debriefValue"),
+      "debriefValue": prefs.getString("debriefValue"),
     });
   }
+
   getBool() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       isCadre = prefs.getString('isCadre') == 'true';
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -263,8 +264,12 @@ class LeadershipState extends State<Leadership> {
                         prefs.setString('leadership', leadership.text);
                         prefs.setString('leadershipValue',
                             leadershipValue.round().toString());
-                       await saveProgress();
-                        navigation.currentState.pushNamed('/execution');
+                        await saveProgress();
+                        if (leadership.text.isEmpty) {
+                          alertDialog(context);
+                        } else {
+                          navigation.currentState.pushNamed('/execution');
+                        }
                       },
                     ),
                     ElevatedButton(
@@ -276,7 +281,11 @@ class LeadershipState extends State<Leadership> {
                         prefs.setString('leadershipValue',
                             leadershipValue.round().toString());
                         await saveProgress();
-                        navigation.currentState.pushNamed('/debrief');
+                        if (leadership.text.isEmpty) {
+                          alertDialog(context);
+                        } else {
+                          navigation.currentState.pushNamed('/debrief');
+                        }
                       },
                     ),
                   ],
@@ -288,4 +297,25 @@ class LeadershipState extends State<Leadership> {
       ),
     );
   }
+}
+Future<void> alertDialog(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("Leadership Notes are Required."),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

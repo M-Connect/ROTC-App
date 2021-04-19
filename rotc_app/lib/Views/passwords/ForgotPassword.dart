@@ -35,10 +35,7 @@ class ForgotPasswordView extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPasswordView> {
   final _formKey = GlobalKey<FormState>();
 
-
   TextEditingController _email = TextEditingController();
-
-
 
   var userList = new List<String>();
   var usersToEvaluate = new List<String>();
@@ -79,7 +76,7 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
   }
 
   CollectionReference resetpassword =
-  FirebaseFirestore.instance.collection('resetpassword');
+      FirebaseFirestore.instance.collection('resetpassword');
   Future<void> resetRegistration() {
     return resetpassword.add({
       'email': _email.text,
@@ -95,7 +92,7 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
       } else {
         filteredUserList = userList
             .where((element) =>
-            element.toLowerCase().contains(filter.toLowerCase()))
+                element.toLowerCase().contains(filter.toLowerCase()))
             .toList();
       }
     });
@@ -138,9 +135,8 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
     }
   }
 
-
   _passwordReset() async {
-    if(_formKey.currentState.validate()) {
+    if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
     }
 
@@ -148,12 +144,10 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
       _formKey.currentState.save();
       //await _auth.sendPasswordResetEmail(email: _email);
 
-
       Navigator.of(context).pop();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) {
-
           return AlertDialog(
             title: Text("Password Reset"),
             content: Text("An email has been sent to you,\n"
@@ -178,7 +172,6 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         leading: IconButton(
@@ -189,7 +182,6 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
         ),
       ),
       backgroundColor: Colors.white,
-
       body: Form(
         autovalidateMode: AutovalidateMode.always,
         key: _formKey,
@@ -198,7 +190,6 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,7 +199,6 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
                     child: Text(
                       'Enter email to reset password *',
                     ),
-
                   ),
                   TextFormField(
                     controller: _email,
@@ -229,11 +219,12 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
                 child: Text('Send Email'),
                 onPressed: () async {
                   try {
-                    if(_email.text != null) {
+                    if (_email.text != null) {
                       getEmail(_email.text);
                       _resetAlert();
                     }
-                    final snackBar = SnackBar(content: Text("Email can't be empty!"));
+                    final snackBar =
+                        SnackBar(content: Text("Email can't be empty!"));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     return 0;
                   } catch (e) {
@@ -264,10 +255,12 @@ String mailingEmail = "testplaceholder";
 getEmail(String value) {
   mailingEmail = value;
 }
-String sendPinAndEmail(){
+
+String sendPinAndEmail() {
   List<String> pinAndEmail = [mailingEmail, pin];
   return pinAndEmail.toString();
 }
+
 sendMail() async {
   String username = 'rotc.application@gmail.com';
   String password = 'Rotc123!';

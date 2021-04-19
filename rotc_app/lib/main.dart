@@ -18,30 +18,17 @@ import 'package:rotc_app/app/peerReview/evaluationForms/individualEvalConfirmati
 import 'package:rotc_app/app/peerReview/evaluationForms/multipleEvalConfirmationPage.dart';
 import 'package:rotc_app/app/peerReview/evaluationForms/multipleUserActivityToBeEvaluated.dart';
 import 'package:rotc_app/app/peerReview/evaluationForms/usersToDoEvaluation.dart';
-import 'package:rotc_app/app/peerReview/peerReviewRequest.dart';
-import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
+//import 'package:rotc_app/app/peerReview/peerReviewStats.dart';
 import 'package:rotc_app/app/profile/editProfile.dart';
 import 'package:rotc_app/common_widgets/barGraphWidget2.0.dart';
 import 'package:rotc_app/services/auth.dart';
-import 'Views/confirmToRegister.dart';
 import 'Views/passwords/ForgotPassword.dart';
-import 'Views/passwords/enterResetPin.dart';
-import 'Views/passwords/resetPasswordPage.dart';
 import 'Views/registrationPage.dart';
 import 'Views/signInPage.dart';
 import 'Views/welcomePage.dart';
 import 'app/Schedule/CalendarTasks.dart';
 import 'app/Schedule/evaluationCalendarTasks.dart';
-import 'app/dashboard/notifications.dart';
-import 'app/dashboard/testPage.dart';
 import 'app/home.dart';
-// import 'app/peerReview/lllab2FT/communication.dart';
-// import 'app/peerReview/lllab2FT/confirmation.dart';
-// import 'app/peerReview/lllab2FT/leadership.dart';
-// import 'app/peerReview/lllab2FT/peerReviewLLAB2FT.dart';
-// import 'app/peerReview/lllab2FT/planning.dart';
-// import 'app/peerReview/lllab2FT/execution.dart';
-// import 'app/peerReview/lllab2FT/debrief.dart';
 import 'app/peerReview/graphs/barGraphs.dart';
 import 'app/peerReview/graphs/lineGraphs.dart';
 import 'app/peerReview/evaluationForms/communication.dart';
@@ -52,6 +39,7 @@ import 'app/peerReview/evaluationForms/planning.dart';
 import 'app/peerReview/evaluationForms/execution.dart';
 import 'app/peerReview/evaluationForms/debrief.dart';
 import 'app/peerReview/notifications.dart';
+import 'app/peerReview/multipleUsersToEvaluate.dart';
 import 'app/peerReview/singleUserToEvaluate.dart';
 import 'app/peerReview/peerReviewLanding.dart';
 import 'app/profile/profile.dart';
@@ -90,7 +78,7 @@ class MConnect extends StatelessWidget {
           title: 'Firebase Authentication',
           navigatorKey: navigation,
           home: Authenticate(),
-          initialRoute: '/',
+          initialRoute: '/signIn',
           routes: {
             '/signIn': (context) => SignInView(),
             '/welcomePage': (context) => WelcomeView(),
@@ -104,43 +92,15 @@ class MConnect extends StatelessWidget {
             '/activityToBeEvaluated': (context) => ActivityToBeEvaluated(),
             '/peerReviewLanding': (context) => PeerReviewForm(),
             '/graphActivitySelector': (context) => GraphActivitySelector(),
-            // '/peerReview': (context) => PeerReview(),
-            // '/peerReviewRequest': (context) => PeerReviewRequest(),
-            // '/peerReviewStats': (context) => PeerReviewStats(),
-            // '/peerReviewLLAB2FT': (context) => PeerReviewLLAB2FT(),
-            // '/peerReviewFLXFlight': (context) => PeerReviewFLXFlight(),
-
-            // '/peerReviewCommissioning': (context) => PeerReviewCommissioning(),
-
             '/peerReview': (context) => SingleUserToEvaluate(),
-            '/peerReviewRequest': (context) => PeerReviewRequest(),
-            '/peerReviewStats': (context) => PeerReviewStats(),
+           // '/peerReviewStats': (context) => PeerReviewStats(),
+            '/peerReviewRequest': (context) => MultipleUsersToEvaluate(),
             '/peerReviewLLAB2FT': (context) => PeerReviewLLAB2FT(),
             '/planning': (context) => Planning(),
             '/communication': (context) => Communication(),
             '/execution': (context) => Execution(),
             '/leadership': (context) => Leadership(),
             '/debrief': (context) => Debrief(),
-
-            // '/confirmation': (context) => Confirmation(),
-            // '/individualEvalConfirmationPage': (context) => IndividualEvalConfirmationPage(),
-            // '/multipleEvalConfirmationPage':(context) => MultipleEvalConfirmationPage(),
-            // '/usersToDoEvaluation':(context) => UsersToDoEvaluation(),
-            // '/multipleUserActivityToBeEvaluated':(context) => MultipleUserActivityToBeEvaluated(),
-            // '/notifications':(context) => Notifications(),
-
-            // '/LocalNotifications': (context) => LocalNotifications(),
-            // '/MyApp': (context) => MyApp(),
-             '/ResetPasswordPage': (context) => ResetPasswordPage(),
-             '/ProcessPin': (context) => ProcessPin(),
-             '/ConfirmToRegister': (context) => ConfirmToRegister(),
-            // // '/': (context) => (),
-
-            // '/barGraph': (context) => BarGraphv2(),
-            // '/addGCEvent': (context) => AddGCEvent(),
-            // //  '/lineGraph': (context) => LineGraph(),
-
-            // } ),
             '/confirmation': (context) => Confirmation(),
             '/individualEvalConfirmationPage': (context) =>
                 IndividualEvalConfirmationPage(),

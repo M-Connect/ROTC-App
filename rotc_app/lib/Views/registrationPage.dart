@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class RegistrationView extends StatelessWidget {
-
   // This is a collection reference to the users collection
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
@@ -29,9 +27,8 @@ class RegistrationView extends StatelessWidget {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-
 // setting the fields in the database to the user's input
-  Future<void> userRegistration(String id)  {
+  Future<void> userRegistration(String id) {
     return users.doc(id).set({
       'firstName': fName.text,
       'lastName': lName.text,
@@ -67,7 +64,8 @@ class RegistrationView extends StatelessWidget {
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
-          }, child: null,
+          },
+          child: null,
         ),
         button,
       ],
@@ -79,6 +77,7 @@ class RegistrationView extends StatelessWidget {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,8 +137,7 @@ class RegistrationView extends StatelessWidget {
                     hintText: 'John',
                   ),
                   onSaved: (String value) {},
-                  validator:
-                  MultiValidator([
+                  validator: MultiValidator([
                     RequiredValidator(errorText: "First name is required."),
                     PatternValidator(r'([a-zA-Z])',
                         errorText: 'First name can only contain letters.'),
@@ -182,8 +180,8 @@ class RegistrationView extends StatelessWidget {
                       onSaved: (String value) {},
                       validator: MultiValidator([
                         RequiredValidator(errorText: "Last name is required."),
-                        PatternValidator(r'([a-zA-Z])', errorText: 'Last name can only contain letters.'),
-
+                        PatternValidator(r'([a-zA-Z])',
+                            errorText: 'Last name can only contain letters.'),
                       ]),
                     ),
                   ],
@@ -269,7 +267,6 @@ class RegistrationView extends StatelessWidget {
                       validator: MultiValidator([
                         RequiredValidator(errorText: "Required"),
                         EmailValidator(errorText: "Not a valid email"),
-
                       ]),
                     ),
                   ],
@@ -311,8 +308,9 @@ class RegistrationView extends StatelessWidget {
                       onSaved: (String value) {},
                       onChanged: (value) => pass = value,
                       validator: MultiValidator([
-                        MinLengthValidator(5, errorText: "Password must be at least 5 characters."),
-
+                        MinLengthValidator(5,
+                            errorText:
+                                "Password must be at least 5 characters."),
                       ]),
                     ),
                   ],
@@ -351,26 +349,28 @@ class RegistrationView extends StatelessWidget {
                       ),
                       obscureText: true,
                       onSaved: (String value) {},
-                      validator: (value) => MatchValidator(errorText: "Passwords do not match").validateMatch(value, pass),
-
+                      validator: (value) =>
+                          MatchValidator(errorText: "Passwords do not match")
+                              .validateMatch(value, pass),
                     ),
                     Container(
                       child: Padding(
                         padding:
-                        const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
+                            const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
                         child: ElevatedButton(
                           child: Text('Register'),
                           onPressed: () async {
                             // try {
                             final newUser = await FirebaseAuth.instance
                                 .createUserWithEmailAndPassword(
-                                email: email.text, password: password.text);
-                            var currentUser = await FirebaseAuth.instance
-                                .currentUser;
+                                    email: email.text, password: password.text);
+                            var currentUser =
+                                await FirebaseAuth.instance.currentUser;
 
                             await userRegistration(currentUser.uid);
                             await newUser.user.sendEmailVerification();
                             _verifyEmailAlertDialog(context);
+
                             ///Sending to signInPage instead of welcomePage -Christine
                             /*   } catch (e) {
                               alertDialog(context);
@@ -389,6 +389,7 @@ class RegistrationView extends StatelessWidget {
     );
   }
 }
+
 /* Author:
 This method shows an alert dialog to the user if their inputted email address is already taken.
 Upon hitting OK they will be routed back to the Registration Page.
@@ -402,7 +403,8 @@ Future<void> alertDialog(BuildContext context) {
   );
   AlertDialog alert = AlertDialog(
     title: Text("Error"),
-    content: Text("Email Address is Already Taken.  Please Use Another Email Address."),
+    content: Text(
+        "Email Address is Already Taken.  Please Use Another Email Address."),
     actions: [
       button,
     ],
@@ -414,5 +416,3 @@ Future<void> alertDialog(BuildContext context) {
     },
   );
 }
-
-

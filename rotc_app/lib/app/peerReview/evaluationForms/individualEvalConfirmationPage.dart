@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:intl/intl.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +32,7 @@ class _IndividualEvalConfirmationPageState
   String text;
   String tempString = "";
   String evalDate = "";
+  SharedPreferences prefs;
 
   TextEditingController chooseDate = TextEditingController();
   TextEditingController chooseActivity = TextEditingController();
@@ -38,11 +40,16 @@ class _IndividualEvalConfirmationPageState
   @override
   void initState() {
     // TODO: implement initState
+    initSharedPreferences();
     super.initState();
     makeTextBlank();
     getSelectedUser();
     getSelectedActivity();
     getEvaluationDate();
+  }
+
+  initSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
   }
 
   getEvaluationDate() async {
@@ -88,8 +95,9 @@ class _IndividualEvalConfirmationPageState
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.remove('selectedUserList');
+            prefs.remove('selectedActivityList');
+            prefs.remove('evaluationDate');
             navigation.currentState.pushNamed('/peerReview');
           },
         ),
@@ -102,7 +110,7 @@ class _IndividualEvalConfirmationPageState
               }),
         ],
       ),
-      body: SingleChildScrollView(
+      body: Form(
         child: Container(
           child: Column(
             children: [
@@ -162,7 +170,7 @@ class _IndividualEvalConfirmationPageState
                       Expanded(
                         child: SizedBox(
                           //  width: 250,
-                          child: TextField(
+                          child: TextFormField(
                             readOnly: true,
                             controller: chooseDate,
                             decoration: InputDecoration(
@@ -215,7 +223,7 @@ class _IndividualEvalConfirmationPageState
                         child: SizedBox(
                           child: Container(
                             padding: EdgeInsets.all(25.0),
-                            child: TextField(
+                            child: TextFormField(
                               readOnly: true,
                               controller: chooseActivity,
                               decoration: InputDecoration(
@@ -249,13 +257,6 @@ class _IndividualEvalConfirmationPageState
                 child: ElevatedButton(
                   child: Text('Start Evaluation'),
                   onPressed: () async {
-                    /*
-                    * Insert into the userEvaluationRequests collection the evaluator name and the status*/
-                    //get the user info to save and add it.
-
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-
                     var userToEvaluate = selectedUserList.first;
                     var firstName = prefs.getString('firstName');
                     var lastName = prefs.getString('lastName');
@@ -269,7 +270,14 @@ class _IndividualEvalConfirmationPageState
                     //save id into shared prefs
                     var docId = docRef.id;
                     prefs.setString("currentEvaluationId", docId);
-                    navigation.currentState.pushNamed('/peerReviewLLAB2FT');
+
+                    if (evalDate.isEmpty || selectedActivityString.isEmpty) {
+                      alertDialog(context);
+                    } else if (evalDate.isEmpty) {
+                      alertDialog(context);
+                    } else {
+                      navigation.currentState.pushNamed('/peerReviewLLAB2FT');
+                    }
                   },
                 ),
               ),
@@ -279,4 +287,26 @@ class _IndividualEvalConfirmationPageState
       ),
     );
   }
+}
+
+Future<void> alertDialog(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("Evaluation Date and Evaluation Activity is Required."),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

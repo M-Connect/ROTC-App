@@ -61,67 +61,67 @@ class _HomeView extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
-          //toolbarHeight: 70.0,
-          title: isCadre ? Text("Det-390: Cadre",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-            fontSize: 25.0,
-            letterSpacing: 0.5,
+      appBar: AppBar(
+        backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
+        //toolbarHeight: 70.0,
+        title: isCadre ? Text("Det-390: Cadre",
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+          fontSize: 25.0,
+          letterSpacing: 0.5,
+        ),
+        ): Text(
+          "Det-390: Cadet",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25.0,
+                letterSpacing: 0.5,
+              ),
+        ),
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          new IconButton(
+              icon: new Icon(Icons.logout),
+              onPressed: () {
+                alertSignOut(context);
+              }),
+        ],
+        centerTitle: true,
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_tabOption),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.indigo,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard_sharp),
+            label: 'Dashboard',
           ),
-          ): Text(
-            "Det-390: Cadet",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0,
-                  letterSpacing: 0.5,
-                ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.ballot_sharp),
+            label: 'Evaluations',
           ),
-          automaticallyImplyLeading: false,
-          actions: <Widget>[
-            new IconButton(
-                icon: new Icon(Icons.logout),
-                onPressed: () {
-                  alertSignOut(context);
-                }),
-          ],
-          centerTitle: true,
-        ),
-        body: Center(
-          child: _widgetOptions.elementAt(_tabOption),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.indigo,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard_sharp),
-              label: 'Dashboard',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.ballot_sharp),
-              label: 'Evaluations',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today_sharp),
-              label: 'Schedule',
-            ),
-            /*BottomNavigationBarItem(
-              icon: Icon(Icons.message),
-              label: 'Messages',
-            ),*/
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_sharp),
-              label: 'Account',
-            ),
-          ],
-          currentIndex: _tabOption,
-          unselectedItemColor: Theme.of(context).primaryColorLight,
-          //unselectedItemColor: Colors.indigo,
-          selectedItemColor: Theme.of(context).accentColor,
-          // selectedItemColor: Colors.black87,
-          onTap: _chosenTab,
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today_sharp),
+            label: 'Schedule',
+          ),
+          /*BottomNavigationBarItem(
+            icon: Icon(Icons.message),
+            label: 'Messages',
+          ),*/
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle_sharp),
+            label: 'Account',
+          ),
+        ],
+        currentIndex: _tabOption,
+        unselectedItemColor: Theme.of(context).primaryColorLight,
+        //unselectedItemColor: Colors.indigo,
+        selectedItemColor: Theme.of(context).accentColor,
+        // selectedItemColor: Colors.black87,
+        onTap: _chosenTab,
+      ),
     );
   }
 }

@@ -8,6 +8,11 @@ import '../../../main.dart';
 
 /*
 Authors: Kyle Serruys and Sawyer Kisha
+Co-Author:  Kyle Serruys
+I added the functionality to connect this graph to the database and to send
+the user to the apropriate evaluation bar chart view.
+
+
 
 The lineGraphs.dart shows the current user's
 evaluation data in the form of a line graph
@@ -33,7 +38,6 @@ class Evaluation {
   DateTime evaluationDate;
   double totalScore;
   String userName;
-
 
   Evaluation(String evaluationId, String activity, DateTime evaluationDate,
       double totalScore, String userName) {
@@ -90,13 +94,17 @@ class _LineGraphState extends State<LineGraph> {
   CollectionReference evaluation =
       FirebaseFirestore.instance.collection('peerEvaluation');
 
-  initSharedPreferences() async{
+  initSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
   }
+
+  /*
+Author:  Kyle Serruys
+Calls the database and sets the current user's UID, first name and last name into
+shared preferences.
+ */
   getUserToEvaluateData() async {
-
     var currentUser = await FirebaseAuth.instance.currentUser;
-
     setState(() {
       uid = currentUser.uid;
       firstName = prefs.getString('firstName');
@@ -105,8 +113,11 @@ class _LineGraphState extends State<LineGraph> {
   }
 
   /*
-  Getting the evaluation data for the current user -SK
-   */
+    Author:  Kyle Serruys
+    Calls the database and and gets the values for the evaluation.  Only pulls the documents
+    associated with the logged in user.
+ */
+
   getEvaluationInfo() async {
     var data = await FirebaseFirestore.instance
         .collection('peerEvaluation')
@@ -114,10 +125,9 @@ class _LineGraphState extends State<LineGraph> {
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
         var userName = firstName + " " + lastName;
-        var evalFirstName = element.data()['firstName'].toString();
-        var evalLastName = element.data()['lastName'].toString();
 
-        if (evalFirstName == firstName && evalLastName == lastName) {
+        var evaluatee = element.data()["selectedEvaluatee"];
+        if (evaluatee == userName) {
           var activity = element.data()["activity"] ?? " ";
           var evaluationDate = element.data()["evaluationDate"] ?? " ";
           var debriefValue = element.data()["debriefValue"] ?? "10";
@@ -145,8 +155,9 @@ class _LineGraphState extends State<LineGraph> {
   }
 
   /*
-  Creating the points on the lien graph -SK
-   */
+Author:  Kyle Serruys
+This creates the five spots on the line graph
+ */
   createSpots() {
     var evalsToUse = evaluationList.take(5).toList();
 
@@ -161,9 +172,12 @@ class _LineGraphState extends State<LineGraph> {
       }
     }
   }
-/*
-getting the activity
+
+  /*
+Author:  Kyle Serruys
+This lists the activity titles along the X axis on the line graph
  */
+
   getTitleOfActivity(int i) {
     if (i < evaluationList.length) {
       return evaluationList.elementAt(i).activity;
@@ -315,6 +329,8 @@ Getting the information into the line graph -KS / SK
                 return '80';
               case 90:
                 return '90';
+              case 100:
+                return '100';
             }
             return '';
           },
@@ -332,6 +348,11 @@ Getting the information into the line graph -KS / SK
         enabled: true,
         fullHeightTouchLine: false,
         handleBuiltInTouches: true,
+
+        /*
+          Author:  Kyle Serruys
+          This lets the spots route the appropriated= data to the bar chart.
+         */
         touchCallback: (LineTouchResponse touchResponse) async {
           var l = touchResponse.lineBarSpots;
 

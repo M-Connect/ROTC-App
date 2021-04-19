@@ -34,7 +34,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
   List<dynamic> _tasksChosen;
   TextEditingController _taskController;
   SharedPreferences prefs;
- // String evaluationDate = "";
+  // String evaluationDate = "";
   bool isCadre = false;
 
   /*
@@ -68,7 +68,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
 
   // Unused code that can be utilized in the future.
   // Author: Kyle Serruys
- /* getEvaluationDate() async {
+  /* getEvaluationDate() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       evaluationDate = prefs.getString('evaluationDate');
@@ -119,7 +119,6 @@ class _CalendarTasksState extends State<CalendarTasks> {
     return theMapping;
   }
 
-
 // Unused code that can be utilized in the future
   // Author: Kyle Serruys
 /*  _loadButtonPressed() async {
@@ -169,7 +168,8 @@ class _CalendarTasksState extends State<CalendarTasks> {
                   // Where the linear gradient begins and ends
                   begin: Alignment.topRight,
                   end: Alignment(0.3, 0),
-                  tileMode: TileMode.repeated, // repeats the gradient over the canvas
+                  tileMode:
+                      TileMode.repeated, // repeats the gradient over the canvas
                   colors: [
                     // Colors are easy thanks to Flutter's Colors class.
                     Colors.white,
@@ -285,7 +285,8 @@ class _CalendarTasksState extends State<CalendarTasks> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(right: 16.0),
+                                      padding:
+                                          const EdgeInsets.only(right: 16.0),
                                       child: OutlinedButton(
                                         onPressed: () {
                                           _addTaskDialog();
@@ -354,7 +355,8 @@ class _CalendarTasksState extends State<CalendarTasks> {
                                       // and clear the _taskController.
                                       onPressed: () {
                                         setState(() {
-                                          _tasks[_calendarController.selectedDay]
+                                          _tasks[_calendarController
+                                                  .selectedDay]
                                               .remove(task);
                                           prefs.setString("events",
                                               json.encode(encode(_tasks)));
@@ -503,4 +505,3 @@ void message(String url) async {
     throw 'Failure launching $url';
   }
 }
-

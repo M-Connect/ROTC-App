@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 
 /*
+Author:  Kyle Serruys
+This page will show the signed in user their pending and completed evaluations
   Co-Author: Christine Thomas
   added the isCadre check to change the appBar Color depending on which
   type of user is signed in.
@@ -45,6 +47,10 @@ bool isCadre = false;
   CollectionReference evaluationRequests =
   FirebaseFirestore.instance.collection('userEvaluationRequests');
 
+  /*
+ Author: Kyle Serruys
+This retrieves the evaluation data from the database and stores into shared preferences
+ */
   getEvaluationFromDb(String evaluationId)async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     evaluationRequests.doc(evaluationId).get().then((DocumentSnapshot documentSnapshot) {
@@ -58,15 +64,15 @@ bool isCadre = false;
     evaluation.doc(evaluationId).get().then((DocumentSnapshot documentSnapshot){
       if(documentSnapshot.exists){
        var debrief = documentSnapshot.data()["debrief"]?? " ";
-       var debriefValue = documentSnapshot.data()["debriefValue"]?? "10";
+       var debriefValue = documentSnapshot.data()["debriefValue"]?? "0";
        var communication = documentSnapshot.data()["communication"]?? " ";
-       var communicationValue = documentSnapshot.data()["communicationValue"]?? "10";
+       var communicationValue = documentSnapshot.data()["communicationValue"]?? "0";
        var execution = documentSnapshot.data()["execution"]?? " ";
-       var executionValue = documentSnapshot.data()["executionValue"]?? "10";
+       var executionValue = documentSnapshot.data()["executionValue"]?? "0";
        var leadership = documentSnapshot.data()["leadership"]?? " ";
-       var leadershipValue = documentSnapshot.data()["leadershipValue"]?? "10";
+       var leadershipValue = documentSnapshot.data()["leadershipValue"]?? "0";
        var planning = documentSnapshot.data()["planning"]?? " ";
-       var planningValue = documentSnapshot.data()["planningValue"]?? "10";
+       var planningValue = documentSnapshot.data()["planningValue"]?? "0";
        prefs.setString('debrief', debrief);
        prefs.setString('debriefValue', debriefValue);
        prefs.setString('communication', communication);
@@ -79,19 +85,22 @@ bool isCadre = false;
        prefs.setString('planningValue', planningValue);
       } else {
         prefs.setString('debrief', "");
-        prefs.setString('debriefValue', "10");
+        prefs.setString('debriefValue', "0");
         prefs.setString('communication', "");
-        prefs.setString('communicationValue', "10");
+        prefs.setString('communicationValue', "0");
         prefs.setString('execution', "");
-        prefs.setString('executionValue', "10");
+        prefs.setString('executionValue', "0");
         prefs.setString('leadership', "");
-        prefs.setString('leadershipValue', "10");
+        prefs.setString('leadershipValue', "0");
         prefs.setString('planning', "");
-        prefs.setString('planningValue', "10");
+        prefs.setString('planningValue', "0");
       }
     });
   }
-
+/*
+ Author: Kyle Serruys
+This gets the UID, first name, last name, and activity from Shared Preferences
+*/
   getUserToEvaluateData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var currentUser = await FirebaseAuth.instance.currentUser;
@@ -104,11 +113,16 @@ bool isCadre = false;
     });
   }
 
+/*
+ Author: Kyle Serruys
+ This gets the user information from the database and adds it to a map to use later
 
+*/
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await FirebaseFirestore.instance
         .collection('userEvaluationRequests')
+    .orderBy("status")
         .get()
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
@@ -120,26 +134,24 @@ bool isCadre = false;
         if(evaluator == userName)
           {
             var userKey = uid + evaluatee + userList.length.toString();
-            //var userKey = userName + evaluatee;
             evaluationMap[userKey] = element.id;
             userList.add(evaluatee);
             statusList.add(status);
           }
-        /*
-        var evaluators = List.from(element.data()['usersToDoEvaluation']);
 
-        if(evaluators.contains(userName)) {
-          var usersToEvaluate = List.from(element.data()['usersToEvaluate']);
-          usersToEvaluate.forEach((element) {userList.add(element);});
-          *//*for(var user in usersToEvaluate) {
-            userList.add(user.toString());
-          }*//*
-        }*/
       });
     });
     setState(() {});
   }
+  /*
+  Author:  Kyle Serruys
+  This list takes the users from our users collection and adds a button with
+  their name on it.  This will populate for each and every user in the users
+  collection.
+  Co-Author: Sawyer Kisha
+  Formatted the list of cadets for the interface
 
+  */
   List<Widget> makeButtonsList(){
     for (int i = 0; i < userList.length; i++) {
       userButtonList
@@ -148,7 +160,6 @@ bool isCadre = false;
 
         var userKey =  uid + userList[i] + i.toString();
 
-        //var userKey =  firstName + lastName + userList[i];
         var currentEvaluationId = evaluationMap[userKey];
         prefs.setString("currentEvaluationId", currentEvaluationId);
         selectUsersList.add(userList[i]);
@@ -160,6 +171,11 @@ bool isCadre = false;
     return userButtonList;
   }
 
+  /*
+  Author:  Kyle Serruys
+  This gets the isCadre value from the database and will be used to allow visibility
+  for certain buttons.
+   */
   getBool() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
