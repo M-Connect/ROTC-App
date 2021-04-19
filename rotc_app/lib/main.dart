@@ -78,7 +78,7 @@ class MConnect extends StatelessWidget {
           title: 'Firebase Authentication',
           navigatorKey: navigation,
           home: Authenticate(),
-          initialRoute: '/signIn',
+          initialRoute: '/',
           routes: {
             '/signIn': (context) => SignInView(),
             '/welcomePage': (context) => WelcomeView(),

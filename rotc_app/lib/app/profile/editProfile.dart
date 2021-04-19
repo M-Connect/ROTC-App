@@ -16,9 +16,9 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final TextStyle tabTextStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final TextStyle ranking =
-      TextStyle(fontSize: 18, fontWeight: FontWeight.normal);
+  TextStyle(fontSize: 18, fontWeight: FontWeight.normal);
   final _textController = TextEditingController();
   String biography;
 
@@ -139,7 +139,7 @@ class _EditProfileState extends State<EditProfile> {
                         padding:  const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
                         child: ElevatedButton(
                           child: Text(
-                            'Done'
+                              'Done'
                           ),
                           onPressed: () {
                             Navigator.pushNamed(context, '/profile');

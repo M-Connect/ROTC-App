@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rotc_app/main.dart';
@@ -41,7 +39,6 @@ class _ProfileState extends State<Profile> {
   // Unused code that could be utilized in the future
 /*  Map<String, dynamic> biography;
   Map profileData;
-
   ///
   /// This function gives a user a blank biography upon registration.
   Future<void> createBio() async {
@@ -55,13 +52,11 @@ class _ProfileState extends State<Profile> {
       int numberOfDocs = docs.length;
       print('$numberOfDocs');
     });
-
     Map<String, dynamic> bioText = {'biography': 'Add a bio'};
     CollectionReference profiles =
         FirebaseFirestore.instance.collection('profiles');
     profiles.add(bioText);
   }
-
   readBio() {
     /// make Biography public
     CollectionReference profiles =
@@ -74,33 +69,28 @@ class _ProfileState extends State<Profile> {
     });
     //profileCollection['biography'].toString();
   }
-
   updateBio({Map<String, dynamic> biography}) {
     /// update Biography in database
     CollectionReference profiles =
         FirebaseFirestore.instance.collection('profiles');
     String docId;
-
     profiles
         .doc()
         .set({'biography': 'sup homie'})
         .then((value) => print('Profile updated'))
         .catchError((error) => print('Failed to update'));
   }
-
   /// May need to update Firestore plugin...
   deleteBio() async {
     /// delete Biography from database
     CollectionReference profiles =
         FirebaseFirestore.instance.collection('profiles');
   }
-
   updateEmail() {
     /// update Email in database
     CollectionReference cadres =
         FirebaseFirestore.instance.collection('cadres');
   }
-
   fetchEmail() {
     /// make Email public
     CollectionReference cadres =
@@ -134,6 +124,7 @@ class _ProfileState extends State<Profile> {
   void initState() {
     super.initState();
     getUserInfo();
+    getBool();
   }
 
   /*
@@ -159,209 +150,144 @@ class _ProfileState extends State<Profile> {
    */
   @override
   Widget build(BuildContext context) {
+    String rank;
+    if (isCadre == true) {
+      rank = "Cadre";
+    } else
+      rank = "Cadet";
+
     return Scaffold(
       body: Container(
-        child: Column(
-          children: [
-            /*Padding(
-              padding: const EdgeInsets.only(top: 25.0, bottom: 15.0),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: CircleAvatar(
-                  backgroundColor: Colors.lightBlueAccent[200],
-                  child: Text(
-                    'JD',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.amber[200],
-                      fontSize: 50.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  radius: 75.0,
-                ),
+        decoration: BoxDecoration(
+          // Box decoration takes a gradient
+          gradient: LinearGradient(
+            // Where the linear gradient begins and ends
+            begin: Alignment.topRight,
+            end: Alignment(0.3, 0),
+            tileMode: TileMode.repeated, // repeats the gradient over the canvas
+            colors: [
+              Colors.white,
+              Colors.lightBlue,
+            ],
+          ),
+        ),
+        child: Column(children: [
+          Center(
+            child: Container(
+              padding: EdgeInsets.only(
+                bottom: 20,
+                top: 30,
               ),
-            ),*/
-            Center(
-              child: Container(
-                padding: EdgeInsets.only(
-                  bottom: 20,
-                  top: 30,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(70.0),
+                  bottomLeft: Radius.circular(70.0),
                 ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(70.0),
-                    bottomLeft: Radius.circular(70.0),
-                  ),
-                  color: Colors.blue.shade900,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('$fName' + ' $lName',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    IconButton(
-                      icon: Icon(
-                        Icons.bar_chart,
-                        size: 30,
-                        color: Colors.cyan,
-                      ),
-                      onPressed: () {
-                        navigation.currentState.pushNamed('/barGraph');
-                      },
-                      tooltip: 'Click here to view your stats.',
-                    ),
-                  ],
-                ),
+                color: Colors.blue.shade900,
               ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 20, right: 20, top: 16.0),
-              child: Column(
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Ranking',
+                  Text('$fName' + ' $lName',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.cyan,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 25,
-                      ),
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  IconButton(
+                    icon: Icon(
+                      Icons.bar_chart,
+                      size: 30,
+                      color: Colors.cyan,
                     ),
+                    onPressed: () {
+                      navigation.currentState.pushNamed('/barGraph');
+                    },
+                    tooltip: 'Click here to view your stats.',
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Technical Sergeant',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Divider(),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Nickname',
-                      style: TextStyle(
-                        color: Colors.cyan,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 25,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      ' $nName',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Divider(),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Email',
-                      style: TextStyle(
-                        color: Colors.cyan,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 25,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      ' $email',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  Divider(),
-                  /* Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.edit_outlined,
-                          color: Colors.amber[200],
-                        ),
-                        onPressed: () {
-                          iconPressed = true;
-                          readBio();
-                        },
-                      ),
-                    ],
-                  ),*/
                 ],
               ),
             ),
-            // Unused code that can be utilized in the future.
-            /*  Container(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  */ /* Text(
-                    'Biography',
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 20, right: 20, top: 16.0),
+            child: Column(
+              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Ranking',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    //'Technical Sergeant',
+                    rank,
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Nickname',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    ' $nName',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w400,
                       fontSize: 20,
                     ),
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.edit_outlined,
-                          color: Colors.amber[200],
-                        ),
-                        onPressed: () {
-                          iconPressed = true;
-                          readBio();
-                        },
-                      ),
-                    ],
-                  ),*/ /*
-                ],
-              ),
-            ),*/
-            /*Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(40.0, 0.0, 255.0, 0.0),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.bar_chart,
-                        ),
-                        onPressed: () {
-                          navigation.currentState.pushNamed('/barGraph');
-                        },
-                      )),
-                ],
-              ),
-            ),*/
-          ],
-        ),
+                ),
+                Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Email',
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    ' $email',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                Divider(),
+              ],
+            ),
+          ),
+        ]),
       ),
     );
   }

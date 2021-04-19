@@ -337,7 +337,7 @@ status
                               ),
                               SizedBox(width: 6),
                               Text(
-                                '    View ' +
+                                'View ' +
                                     statusList.length.toString() +
                                     ' Pending Requests',
                                 style: TextStyle(
