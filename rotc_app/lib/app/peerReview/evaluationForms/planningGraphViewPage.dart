@@ -4,6 +4,14 @@ import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 
+/*
+ Author: Kyle Serruys
+  This class is the planning view for after selecting the planning value on the bar graph.
+  It loads up just like planning.dart, except their is no slider bar, the slider value is not
+  editable, and the evaluation data is not editable.  The only way to leave the page is to press the
+  okay button which will take you back to the bar graph.
+ */
+
 class PlanningGraphViewPage extends StatefulWidget {
   @override
   _PlanningGraphViewPageState createState() => _PlanningGraphViewPageState();

@@ -30,7 +30,7 @@ class PlanningState extends State<Planning> {
   String nickname = "";
   bool isCadre = false;
   double planningValue;
-  String defaultPlanningValue = "10";
+  String defaultPlanningValue = "0";
   var currentEvaluationId = "";
 
   @override
@@ -57,9 +57,10 @@ class PlanningState extends State<Planning> {
       sliderChange(planningValue);
     });
   }
+
   void sliderChange(double test) {
     setState(() {
-      if(test != null){
+      if (test != null) {
         test = planningValue;
       }
     });
@@ -74,10 +75,12 @@ class PlanningState extends State<Planning> {
       nickname = prefs.getString('nickname');
       isCadre = prefs.getString('isCadre') == 'true';
 
-      var planningSliderValue = prefs.getString('planningValue') ?? defaultPlanningValue;
+      var planningSliderValue =
+          prefs.getString('planningValue') ?? defaultPlanningValue;
       planningValue = double.parse(planningSliderValue);
     });
   }
+
   getBool() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -85,10 +88,9 @@ class PlanningState extends State<Planning> {
     });
   }
 
-
-  Future<void> saveProgress() async{
+  Future<void> saveProgress() async {
     CollectionReference evaluation =
-    FirebaseFirestore.instance.collection('peerEvaluation');
+        FirebaseFirestore.instance.collection('peerEvaluation');
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -99,11 +101,11 @@ class PlanningState extends State<Planning> {
       "communication": prefs.getString("communication"),
       "communicationValue": prefs.getString("communicationValue"),
       "execution": prefs.getString("execution"),
-      "executionValue":prefs.getString("executionValue"),
+      "executionValue": prefs.getString("executionValue"),
       "leadership": prefs.getString("leadership"),
       "leadershipValue": prefs.getString("leadershipValue"),
       "debrief": prefs.getString("debrief"),
-      "debriefValue":prefs.getString("debriefValue"),
+      "debriefValue": prefs.getString("debriefValue"),
     });
   }
 
@@ -115,9 +117,8 @@ class PlanningState extends State<Planning> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () async {
-           await saveProgress();
-            //navigation.currentState.pushNamed('/peerReviewLLAB2FT');
-            Navigator.of(context, rootNavigator: true).pop();
+            await saveProgress();
+            navigation.currentState.pushNamed('/peerReviewLLAB2FT');
           },
         ),
         title: Text('Planning'),
@@ -155,7 +156,12 @@ class PlanningState extends State<Planning> {
                       children: [
                         Padding(
                           padding: EdgeInsets.all(5.0),
-                          child: Text(planningValue.round().toString(),style: TextStyle(fontSize: 25.0, ),),
+                          child: Text(
+                            planningValue.round().toString(),
+                            style: TextStyle(
+                              fontSize: 25.0,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -167,7 +173,12 @@ class PlanningState extends State<Planning> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Text('0',style: TextStyle(fontSize: 25.0, ),),
+                      child: Text(
+                        '0',
+                        style: TextStyle(
+                          fontSize: 25.0,
+                        ),
+                      ),
                       flex: 2,
                     ),
                     Expanded(
@@ -182,8 +193,13 @@ class PlanningState extends State<Planning> {
                       flex: 19,
                     ),
                     Expanded(
-                      child: Text("20",style: TextStyle(fontSize: 25.0, ),),
-                      flex:2,
+                      child: Text(
+                        "20",
+                        style: TextStyle(
+                          fontSize: 25.0,
+                        ),
+                      ),
+                      flex: 2,
                     ),
                   ],
                 ),
@@ -197,7 +213,12 @@ class PlanningState extends State<Planning> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: Text('Evaluator Notes:', style: TextStyle(fontSize: 25.0, ),),
+                    child: Text(
+                      'Evaluator Notes:',
+                      style: TextStyle(
+                        fontSize: 25.0,
+                      ),
+                    ),
                   ),
                 ],
               )),
@@ -221,8 +242,11 @@ class PlanningState extends State<Planning> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Text("Hint:\n-Team Organization\n-Outside Preparation\n-Mission Focus\n-Creativity", style: TextStyle(fontSize: 18.0),),
-                      flex:8,
+                      child: Text(
+                        "Hint:\n-Team Organization\n-Outside Preparation\n-Mission Focus\n-Creativity",
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      flex: 8,
                     ),
                   ],
                 ),
@@ -238,8 +262,7 @@ class PlanningState extends State<Planning> {
                       opacity: 0.0,
                       child: ElevatedButton(
                         child: Text('Prev'),
-                        onPressed: () async {
-                        },
+                        onPressed: () async {},
                       ),
                     ),
                     ElevatedButton(
@@ -251,7 +274,11 @@ class PlanningState extends State<Planning> {
                         prefs.setString(
                             'planningValue', planningValue.round().toString());
                         await saveProgress();
-                        navigation.currentState.pushNamed('/communication');
+                        if (planning.text.isEmpty) {
+                          alertDialog(context);
+                        } else {
+                          navigation.currentState.pushNamed('/communication');
+                        }
                       },
                     ),
                   ],
@@ -265,3 +292,24 @@ class PlanningState extends State<Planning> {
   }
 }
 
+Future<void> alertDialog(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("Planning Notes are Required."),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

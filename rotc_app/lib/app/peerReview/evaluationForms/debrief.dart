@@ -25,7 +25,7 @@ class DebriefState extends State<Debrief> {
   TextEditingController debrief;
 
 double debriefValue;
-String defaultDebriefValue = "10";
+String defaultDebriefValue = "0";
 var currentEvaluationId = "";
 bool isCadre = false;
 
@@ -37,7 +37,12 @@ bool isCadre = false;
     initControllers();
     getBool();
   }
+  /*
+  Author:  Kyle Serruys
+  This gets the users evaluation Id, the evaluation data, and the score and value from shared
+  preferences
 
+  */
   initControllers() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -46,7 +51,11 @@ bool isCadre = false;
       debrief = TextEditingController(text: debriefValue);
     });
   }
-
+/*
+  Author:  Kyle Serruys
+  This gets the slider value from shared preferences, if none is selected
+  it sets to the default value
+   */
   getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -61,6 +70,8 @@ bool isCadre = false;
       sliderChange(debriefValue);
     });
   }
+  //Author:  Kyle Serruys
+  //This allows the value of the score to change when you slide the slider
   void sliderChange(double test) {
     setState(() {
       if(test != null){
@@ -68,6 +79,13 @@ bool isCadre = false;
       }
     });
   }
+
+  /*
+  Author:  Kyle Serruys
+  This method saves your progress, so if you hit back and forth or even exit out of the app,
+  it will keep the latest information entered saved into the database.
+
+  */
   Future<void> saveProgress() async {
     CollectionReference evaluation =
     FirebaseFirestore.instance.collection('peerEvaluation');
@@ -236,7 +254,12 @@ bool isCadre = false;
                         prefs.setString('debrief', debrief.text);
                         prefs.setString('debriefValue', debriefValue.round().toString());
                         await saveProgress();
-                        navigation.currentState.pushNamed('/leadership');
+                        if (debrief.text.isEmpty) {
+                          alertDialog(context);
+                        } else {
+                          navigation.currentState.pushNamed('/leadership');
+                        }
+
                       },
                     ),
 
@@ -248,7 +271,11 @@ bool isCadre = false;
                         prefs.setString('debrief', debrief.text);
                         prefs.setString('debriefValue', debriefValue.round().toString());
                         await saveProgress();
-                        navigation.currentState.pushNamed('/confirmation');
+                        if (debrief.text.isEmpty) {
+                          alertDialog(context);
+                        } else {
+                          navigation.currentState.pushNamed('/confirmation');
+                        }
                       },
                     ),
                   ],
@@ -262,3 +289,24 @@ bool isCadre = false;
   }
 }
 
+Future<void> alertDialog(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("Debrief Notes are Required."),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

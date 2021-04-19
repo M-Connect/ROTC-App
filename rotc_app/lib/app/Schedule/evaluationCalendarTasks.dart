@@ -4,13 +4,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 //Author: Christine Thomas
+//Co-Author:  Kyle Serruys
 // Date: 3/6/2021
 // This class lets the user add tasks to a day they choose on the calendar
 // and shows the list of tasks underneath upon clicking the day again.
 
 class EvaluationCalendarTasks extends StatefulWidget {
   @override
-  _EvaluationCalendarTasksState createState() => _EvaluationCalendarTasksState();
+  _EvaluationCalendarTasksState createState() =>
+      _EvaluationCalendarTasksState();
 }
 
 class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
@@ -18,6 +20,7 @@ class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
   Map<DateTime, List<dynamic>> _tasks;
   List<dynamic> _tasksChosen;
   TextEditingController _taskController;
+  DateTime currentDate = DateTime.now();
   SharedPreferences prefs;
 
   @override
@@ -55,7 +58,6 @@ class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
     return theMapping;
   }
 
-
   _loadButtonPressed() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -69,7 +71,6 @@ class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
       prefs.setBool('completed', true);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,6 @@ class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
             TableCalendar(
               events: _tasks,
               availableCalendarFormats: const {CalendarFormat.month: 'Month'},
-
               headerStyle: HeaderStyle(
                 centerHeaderTitle: true,
                 titleTextStyle: TextStyle(
@@ -111,8 +111,8 @@ class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
               },
               daysOfWeekStyle: DaysOfWeekStyle(
                 weekdayStyle: TextStyle(
-                  // fontWeight: FontWeight.bold,
-                ),
+                    // fontWeight: FontWeight.bold,
+                    ),
                 weekendStyle: TextStyle(
                   color: Colors.cyanAccent.shade700,
                   fontWeight: FontWeight.bold,
@@ -144,75 +144,80 @@ class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
               calendarController: _calendarController,
             ),
             ..._tasksChosen.map((event) => Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
-                children: [
-
-                  Card(
-                    shadowColor: Colors.black,
-                    elevation: 6,
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: ListTile(
-                          title: Text(
-                            event,
-                            style: TextStyle(
-                              color: Colors.black,
+                  padding: const EdgeInsets.all(5.0),
+                  child: Column(
+                    children: [
+                      Card(
+                        shadowColor: Colors.black,
+                        elevation: 6,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: ListTile(
+                              title: Text(
+                                event,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              leading: IconButton(
+                                icon: Icon(
+                                  Icons.clear,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _tasks[_calendarController.selectedDay]
+                                        .remove(event);
+                                    prefs.setString("events",
+                                        json.encode(encodeMap(_tasks)));
+                                    _taskController.clear();
+                                  });
+                                },
+                              ),
                             ),
-                          ),
-                          leading: IconButton(
-                            icon: Icon(
-                              Icons.clear,
-                              color: Colors.red,
-                            ),
-                            onPressed: (){
-                              setState(() {
-                                _tasks[_calendarController.selectedDay]
-                                    .remove(event);
-                                prefs.setString("events", json.encode(encodeMap(_tasks)));
-                                _taskController.clear();
-                              });
-                            },
                           ),
                         ),
                       ),
-
-                    ),
+                    ],
                   ),
-
-                ],
-              ),
-
-            )),
+                )),
           ],
-
-
         ),
-
       ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(onPressed: () {
-              Navigator.pop(context);
-            }, child: Text("Cancel")),
-            ElevatedButton(onPressed: () {
-            //  prefs.setString("events", json.encode(encodeMap(_tasks)));
-
-              prefs.setString("evaluationDate",_calendarController.selectedDay.toString());
-              Navigator.pop(context);
-            }, child: Text("Submit")),
-
+            /*
+                  Author:  Kyle Serruys
+                  This allows the user to cancel selection of the date and go back to the previous page.
+                  This also allows the user to push the selected date to the evaluation confirmaiton page.
+                   */
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Cancel")),
+            ElevatedButton(
+                onPressed: () {
+                  if (_calendarController.selectedDay
+                      .isBefore(DateTime.now())) {
+                    alertDialog2(context);
+                    prefs.remove("evaluationDate");
+                  } else {
+                    prefs.setString("evaluationDate",
+                        _calendarController.selectedDay.toString());
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text("Submit")),
           ],
         ),
-
       ),
     );
   }
@@ -221,39 +226,66 @@ class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
     await showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          backgroundColor: Colors.white,
-          title: Text("Add a new task or event"),
-          content: TextField(
-            /*  decoration: InputDecoration(
+              backgroundColor: Colors.white,
+              title: Text("Add a new task or event"),
+              content: TextField(
+                /*  decoration: InputDecoration(
                   hintText: 'Title'
                 ),*/
-            controller: _taskController,
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(
-                "ADD",
-                style: TextStyle(
-                    color: Colors.pinkAccent, fontWeight: FontWeight.bold),
+                controller: _taskController,
               ),
-              onPressed: () {
-                if (_taskController.text.isEmpty) return;
-                setState(() {
-                  if (_tasks[_calendarController.selectedDay] != null) {
-                    _tasks[_calendarController.selectedDay]
-                        .add(_taskController.text);
-                  } else {
-                    _tasks[_calendarController.selectedDay] = [
-                      _taskController.text
-                    ];
-                  }
-                  prefs.setString("events", json.encode(encodeMap(_tasks)));
-                  _taskController.clear();
-                  Navigator.pop(context);
-                });
-              },
-            )
-          ],
-        ));
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(
+                    "ADD",
+                    style: TextStyle(
+                        color: Colors.pinkAccent, fontWeight: FontWeight.bold),
+                  ),
+                  onPressed: () {
+                    if (_taskController.text.isEmpty) return;
+                    setState(() {
+                      if (_tasks[_calendarController.selectedDay] != null) {
+                        _tasks[_calendarController.selectedDay]
+                            .add(_taskController.text);
+                      } else {
+                        _tasks[_calendarController.selectedDay] = [
+                          _taskController.text
+                        ];
+                      }
+
+                      prefs.setString("events", json.encode(encodeMap(_tasks)));
+                      _taskController.clear();
+                      Navigator.pop(context);
+                    });
+                  },
+                )
+              ],
+            ));
   }
+}
+
+/*
+                  Author:  Kyle Serruys
+                  alerts the user if they tried selecting a day in the past
+                   */
+Future<void> alertDialog2(BuildContext context) {
+  Widget button = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+  );
+  AlertDialog alert = AlertDialog(
+    title: Text("Error"),
+    content: Text("You Cannot Select a Day in the Past."),
+    actions: [
+      button,
+    ],
+  );
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

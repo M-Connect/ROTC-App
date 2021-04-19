@@ -6,7 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 /*
  Author: Kyle Serruys
-  This class is the Communication page of our peer review
+  This class is the Communication view for after selecting the commuincation value on the bar graph.
+  It loads up just like commuincation.dart, except their is no slider bar, the slider value is not
+  editable, and the evaluation data is not editable.  The only way to leave the page is to press the
+  okay button which will take you back to the bar graph.
  */
 
 class CommunicationGraphViewPage extends StatefulWidget {

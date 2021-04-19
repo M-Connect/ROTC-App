@@ -1,16 +1,56 @@
 
 import 'package:flutter/material.dart';
 import 'package:animated_button/animated_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
 import '../peerReviewLanding.dart';
 
 /*
  Author: Kyle Serruys
-  This class is the home page for our LLAB2FT peer review
+  This class is the landing page for our evaluation.  It allows the user to select which
+  part of the form to complete.
  */
 
-class PeerReviewLLAB2FT extends StatelessWidget {
+class PeerReviewLLAB2FT extends StatefulWidget {
+  @override
+  _PeerReviewLLAB2FTState createState() => _PeerReviewLLAB2FTState();
+}
 
+class _PeerReviewLLAB2FTState extends State<PeerReviewLLAB2FT> {
+/*
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class PeerReviewLLAB2FT extends StatelessWidget {
+*/
+  var selectedActivityList = new List<String>();
+  String selectedActivityString;
+  String evalDate = "";
+  @override
+  void initState() {
+    super.initState();
+
+    getSelectedActivity();
+    getEvaluationDate();
+  }
+
+  getSelectedActivity() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedActivityList = prefs.getStringList("selectedActivityList".toString());
+      selectedActivityString = prefs.getStringList("selectedActivityList").reduce((value, element) => value + element);
+    });
+  }
+
+  getEvaluationDate() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      evalDate = prefs.getString('evaluationDate') ?? " ";
+    });
+  }
   static final SizedBox spaceBetweenFields = SizedBox(height: 40.0);
   @override
   Widget build(BuildContext context) {
@@ -18,8 +58,11 @@ class PeerReviewLLAB2FT extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
            // Navigator.pop(context);
+            prefs.remove("evalDate");
+            prefs.remove("selectedActivityList");
             navigation.currentState.pushNamed('/homePage');
           },
         ),

@@ -7,6 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
+
+/*
+Co-Author:  Kyle Serruys
+This is the page that shows the bar graph.
+ */
 class BarGraphv2  extends StatefulWidget {
   @override
   _BarGraphv2State createState() => _BarGraphv2State();
@@ -53,9 +58,11 @@ setState(() {
 });
 
   }
-
+/*
+  Author:  Kyle Serruys
+  This method retrieves the evaluation data from the database.
+*/
   getEvaluationFromDb()async {
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await evaluation.doc(evaluationId).get().then((DocumentSnapshot documentSnapshot){
       if(documentSnapshot.exists){
@@ -86,23 +93,16 @@ setState(() {
         this.executionValue = double.parse(executionValue);
         this.leadershipValue = double.parse(leadershipValue);
         this.planningValue = double.parse(planningValue);
-
-
-
-/*        debriefValue = double.parse(documentSnapshot.data()["debriefValue"]?? "10");
-        communicationValue = double.parse(documentSnapshot.data()["communicationValue"]?? "10");
-        executionValue = double.parse(documentSnapshot.data()["executionValue"]?? "10");
-        leadershipValue = double.parse(documentSnapshot.data()["leadershipValue"]?? "10");
-        planningValue = double.parse(documentSnapshot.data()["planningValue"]?? "10");*/
       }
     });
-
     setState(() {
-
       populateSectionData();
     });
   }
-
+/*
+Author:  Kyle Serruys
+This populates the five bars to the apropriate values from the database
+*/
   populateSectionData(){
     sectionData[0] = leadershipValue;
     sectionData[1] = executionValue;
@@ -220,7 +220,11 @@ setState(() {
       barGroups: _bgGroups(),
     );
   }
-
+  /*
+  Co-Author:  Kyle Serruys
+  This routes the user to the appropriate page of the evaluation form, so they can
+  view the evaluation that was performed on them.
+   */
   BarTouchData _bgTouchData()  {
     return BarTouchData(
         touchTooltipData: BarTouchTooltipData(
