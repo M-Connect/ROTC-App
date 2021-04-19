@@ -9,17 +9,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 /*
  Author: Christine Thomas
  This class creates the UI for the RegistrationPage.
- TODO: TextFormFields to be modularized and validation needs to be fixed.
 
   Co-Author:  Kyle Serruys
   This class now has the functionality to connect to our users database.
   This class now has validation on first name, last name, email, and password fields.
+  Co-Author: Mac-Rufus Umeokolo
 */
 
 // ignore: must_be_immutable
 class RegistrationView extends StatelessWidget {
+
+  // This is a collection reference to the users collection
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
+  // Declaring and initializing the text editing controllers to be able to get the user's input
   TextEditingController fName = TextEditingController();
   TextEditingController lName = TextEditingController();
   TextEditingController nName = TextEditingController();
@@ -27,7 +30,7 @@ class RegistrationView extends StatelessWidget {
   TextEditingController password = TextEditingController();
 
 
-
+// setting the fields in the database to the user's input
   Future<void> userRegistration(String id)  {
     return users.doc(id).set({
       'firstName': fName.text,
@@ -41,13 +44,17 @@ class RegistrationView extends StatelessWidget {
 
   String pass;
 
-  // variables
+  // styling variable for between text fields
   static final SizedBox spaceBetweenFields = SizedBox(height: 20.0);
 
-
+  // Author: Mac-Rufus Umeokolo
+// This method displays an alert dialog to the user to verify their email.
+  // It takes as a parameter the context of type BuildContext and returns a type of
+  // Future<void>. Once the user hits close on the alert dialog they will be re-routed to the
+  // Sign-In Page.
   Future<void> _verifyEmailAlertDialog(BuildContext context) async {
     Widget button = FlatButton(
-      child: Text("close"),
+      child: Text("Close"),
       onPressed: () {
         Navigator.pushNamed(context, '/signIn');
       },
@@ -55,7 +62,7 @@ class RegistrationView extends StatelessWidget {
     AlertDialog alert = AlertDialog(
       title: Text("Verify Email"),
       content: Text("An email has been sent to you. \n"
-          "Don't forget to verify your email to continue in sign-in."),
+          "Don't forget to verify your email before signing-in"),
       actions: [
         TextButton(
           onPressed: () {
@@ -382,8 +389,11 @@ class RegistrationView extends StatelessWidget {
     );
   }
 }
-
-Future <void> alertDialog(BuildContext context) {
+/* Author:
+This method shows an alert dialog to the user if their inputted email address is already taken.
+Upon hitting OK they will be routed back to the Registration Page.
+ */
+Future<void> alertDialog(BuildContext context) {
   Widget button = FlatButton(
     child: Text("OK"),
     onPressed: () {

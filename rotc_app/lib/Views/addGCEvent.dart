@@ -44,14 +44,14 @@ class _AddGCEventState extends State<AddGCEvent> {
   FocusNode userFNode;
 
   /*
-  Setting the intial date, start and end time to now.
+  Setting the initial date, start and end time to now.
    */
   DateTime dateChosen = DateTime.now();
   TimeOfDay startTimeChosen = TimeOfDay.now();
   TimeOfDay endTimeChosen = TimeOfDay.now();
 
   /*
-  Initializing the each field, the error text and the arrays of users relevant to the event.
+  Initializing the each field, the error text and the list of users relevant to the event.
    */
   String titleGiven;
   String detailsGiven;
@@ -75,7 +75,8 @@ class _AddGCEventState extends State<AddGCEvent> {
   bool isDataWriting = false;
 
   /*
-  This function takes the context of type BuildContext and has an asynchronous body that
+  This function sets the date.
+  This function takes as a parameter the context of type BuildContext and has an asynchronous body that
   awaits for the user's input in the showDatePicker to be set to the datePicked variable,
   the context is the context parameter passed in, the initial date is the current date,
   the first date year is 2021, the last year is 2077.
@@ -101,9 +102,10 @@ class _AddGCEventState extends State<AddGCEvent> {
   }
 
   /*
-  This function takes the context of type BuildContext and has an asynchronous body that
+  This function sets the start time.
+  This function takes as a parameter the context of type BuildContext and has an asynchronous body that
   awaits the showTimePicker for the user's input and sets the context to the context parameter
-  passed in and the intialTime to the startTimeChosen which is the current time.
+  passed in and the initialTime to the startTimeChosen which is the current time.
   it then checks to see if the startTimePicked is not null and not the same as the startTimeChosen
   which is the current time, if these conditions are met the state is set so that the
   startTimeChosen is now the startTimePicked by the user and the startTimeController's text is set
@@ -128,7 +130,7 @@ class _AddGCEventState extends State<AddGCEvent> {
   }
 
   /*
-  This function takes the context of type BuildContext and has an asynchronous body that
+  This function takes as a parameter the context of type BuildContext and has an asynchronous body that
   awaits the showTimePicker for the user's input and sets the context to the context parameter
   passed in and the initialTime to the endTimeChosen which is the current time.
   it then checks to see if the startTimePicked is not null and not the same as the endTimeChosen
@@ -156,13 +158,13 @@ class _AddGCEventState extends State<AddGCEvent> {
   }
 
   /*
-  This function takes a value of type String and checks if the value is not null, if this
+  This function takes as a parameter a value of type String and checks if the value is not null, if this
   condition is met it will again check if it not null and trim it.
   If the value is empty it will return a string saying that the title is required.
   Else if the value is null it will also return a string saying that the title is required.
   Otherwise it will return nothing and the title is valid.
    */
-  String _validateTitle(String value) {
+  String _titleValidator(String value) {
     if (value != null) {
       value = value?.trim();
       if (value.isEmpty) {
@@ -175,7 +177,7 @@ class _AddGCEventState extends State<AddGCEvent> {
     return null;
   }
 
-  String _validateEmail(String value) {
+  String _userEmailValidator(String value) {
     if (value != null) {
       value = value.trim();
 
@@ -239,24 +241,34 @@ class _AddGCEventState extends State<AddGCEvent> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 8),
-                RichText(
-                  text: TextSpan(
-                    text: 'Title',
-                    style: TextStyle(
-                      color: Colors.indigo.shade700,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: ' *',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w900,
-                        ),
+            Text(
+              '* indicates a required field.',
+              style: TextStyle(
+                color: Colors.red,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+                SizedBox(height: 16),
+                Form(
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Title',
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
                       ),
-                    ],
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: ' *',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(height: 8.0),
@@ -281,25 +293,16 @@ class _AddGCEventState extends State<AddGCEvent> {
                   ),
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.cyan,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.red,
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                     ),
                     contentPadding: EdgeInsets.all(16.0),
                     hintText: 'Lead Lab',
@@ -307,7 +310,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                       color: Colors.grey,
                     ),
                     errorText:
-                        isModifyingTitle ? _validateTitle(titleGiven) : null,
+                        isModifyingTitle ? _titleValidator(titleGiven) : null,
                     errorStyle: TextStyle(
                       fontSize: 14,
                       color: Colors.red,
@@ -321,7 +324,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                   text: TextSpan(
                     text: 'Details',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
@@ -351,32 +354,18 @@ class _AddGCEventState extends State<AddGCEvent> {
                   ),
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.cyan,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.red,
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                     ),
-                    contentPadding: EdgeInsets.only(
-                      left: 16,
-                      bottom: 16,
-                      top: 16,
-                      right: 16,
-                    ),
+                    contentPadding: EdgeInsets.all(16.0),
                     hintText: 'Some information about the Lead Lab',
                     hintStyle: TextStyle(
                       color: Colors.grey,
@@ -390,14 +379,13 @@ class _AddGCEventState extends State<AddGCEvent> {
                   text: TextSpan(
                     text: 'Location',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
                 SizedBox(height: 8),
-
                 /// SETTING THE CONTROLLER TO THE LOCATIONCONTROLLER,
                 /// THE FOCUS NODE TO THE LOCATIONFOCUSNODE,
                 /// AND SETTING THE VALUE OF THE CONTROLLER'S
@@ -422,25 +410,17 @@ class _AddGCEventState extends State<AddGCEvent> {
                   ),
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.cyan,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
+
                       borderSide: BorderSide(
                         color: Colors.red,
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                     ),
                     contentPadding: EdgeInsets.all(16.0),
                     hintText: 'Online',
@@ -456,7 +436,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                   text: TextSpan(
                       text: 'Relevant Users',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
@@ -535,25 +515,18 @@ class _AddGCEventState extends State<AddGCEvent> {
               ),
     decoration: new InputDecoration(
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-              Radius.circular(20.0),
-        ),
         borderSide: BorderSide(
               color: Colors.cyan,
         ),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-              Radius.circular(20.0),
-        ),
+
         borderSide: BorderSide(
             color: Colors.red,
         ),
       ),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-              Radius.circular(20.0),
-        ),
+
       ),
       contentPadding: EdgeInsets.only(
         left: 16,
@@ -565,8 +538,7 @@ class _AddGCEventState extends State<AddGCEvent> {
       hintStyle: TextStyle(
         color: Colors.grey,
       ),
-      /// SHOW ERROR TEXT IF MODIFYING AND THE EMAIL GIVEN IS INVALID OTHERWISE SHOW NOTHING
-      errorText: isModifyingEmail ? _validateEmail(emailGiven) : null,
+      errorText: isModifyingEmail ? _userEmailValidator(emailGiven) : null,
       errorStyle: TextStyle(
         fontSize: 14,
         color: Colors.red,
@@ -593,7 +565,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                     /// EMAILGIVEN IS RESET TO NULL
                     /// AND ISMODIFYING EMAIL IS RESET TO FALSE TO ALLOW FOR ADDING MORE THAN ONE
                     /// RELEVANT USER / EVENT ATTENDEE
-                    if (_validateEmail(emailGiven) == null) {
+                    if (_userEmailValidator(emailGiven) == null) {
                       setState(() {
                         userFNode.unfocus();
                         schedule.EventAttendee eventAttendee = schedule.EventAttendee();
@@ -622,7 +594,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                           Text(
                             'Send Email',
                             style: TextStyle(
-                              color: Colors.indigo.shade700,
+                              color: Colors.blueAccent,
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                             ),
@@ -648,7 +620,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                   text: TextSpan(
                     text: 'Set Date',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
@@ -676,33 +648,19 @@ class _AddGCEventState extends State<AddGCEvent> {
                   ),
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.cyan,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.red,
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                     ),
-                    contentPadding: EdgeInsets.only(
-                      left: 16,
-                      bottom: 16,
-                      top: 16,
-                      right: 16,
+                    contentPadding: EdgeInsets.all(16.0
                     ),
-                    /// CHECKING TO SEE IF A DATE IS ENTERED AS IT IS REQUIRED
                     errorText: isModifyingDate && DatePickerMode.values != null
                         ? dateController.text.isNotEmpty
                             ? null
@@ -721,7 +679,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                   text: TextSpan(
                     text: 'Start Time',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
@@ -748,25 +706,16 @@ class _AddGCEventState extends State<AddGCEvent> {
                   ),
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.cyan,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.red,
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                     ),
                     contentPadding: EdgeInsets.all (16.0),
                     /// CHECKING TO SEE IF THE STARTTIME IS BEING MODIFIED AND IF IT IS NOT NULL
@@ -791,7 +740,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                   text: TextSpan(
                     text: 'End Time',
                     style: TextStyle(
-                      color: Colors.indigo.shade700,
+                      color: Colors.blueAccent,
                       fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
@@ -818,25 +767,16 @@ class _AddGCEventState extends State<AddGCEvent> {
                   ),
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.cyan,
                       ),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                       borderSide: BorderSide(
                         color: Colors.red,
                       ),
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20.0),
-                      ),
                     ),
                     contentPadding: EdgeInsets.all(16.0),
                     /// CHECKING TO SEE IF THE ENDTIME IS BEING MODIFIED AND IF
@@ -865,7 +805,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       OutlinedButton(
-                        /// IF DATING ISNT WRITING, RETURN NULL
+                        /// IF DATA ISNT WRITING, RETURN NULL
                         /// ELSE SET STATE AS BELOW
                         onPressed: isDataWriting ? null : () async {
                           setState(() {
@@ -878,7 +818,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                           locationFNode.unfocus();
                           userFNode.unfocus();
 
-                          /// if stated fields are filled
+                          /// IF STATED FIELDS ARE FILLED
                           if (dateChosen != null &&
                               startTimeChosen != null &&
                               endTimeChosen != null &&
@@ -904,7 +844,7 @@ class _AddGCEventState extends State<AddGCEvent> {
                             /// SET EVENT MODEL FIELDS AS GIVEN BY USER INPUT
                             /// BY USING THE CREATE METHOD
                             if (epochEndTime - epochStartTime > 0) {
-                              if (_validateTitle(titleGiven) == null) {
+                              if (_titleValidator(titleGiven) == null) {
                                 await eventOps.insert(
                                     title: titleGiven,
                                     details: detailsGiven ?? '',
@@ -919,7 +859,7 @@ class _AddGCEventState extends State<AddGCEvent> {
 
                                   List<String> emails = [];
 
-                                  /// adding the users email at each index to the emails list
+                                  /// ADDING THE USERS EMAIL AT EACH INDEX TO THE EMAILS LIST
                                   for (int index = 0; index < users.length; index++)
                                     emails.add(users[index].email);
 
@@ -934,10 +874,10 @@ class _AddGCEventState extends State<AddGCEvent> {
                                     endTime: epochEndTime,
                                   );
 
-                                  /// once event has successfully been created in database
-                                  /// pop context
-                                  /// otherwise
-                                  /// catch and print the error
+                                  /// ONCE EVENT HAS SUCCESSFULLY BEEN CREATED IN DATABASE
+                                  /// POP CONTEXT
+                                  /// OTHERWISE
+                                  /// CATCH AND PRINT THE ERROR
                                   await eventCRUD.createGCEvent(eventInfo)
                                       .whenComplete(() => Navigator.of(context).pop())
                                       .catchError(
@@ -947,8 +887,8 @@ class _AddGCEventState extends State<AddGCEvent> {
                                       (error) => print(error),
                                 );
 
-                                /// reset isDataWriting to false on complete
-                                /// else set isModifyingTitle to true
+                                /// RESET ISDATAWRITING TO FALSE ON COMPLETE
+                                /// ELSE SET ISMODIFYINGTITLE TO TRUE
                                 setState(() {
                                   isDataWriting = false;
                                 });
