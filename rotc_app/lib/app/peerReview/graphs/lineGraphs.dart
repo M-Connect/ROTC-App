@@ -97,10 +97,9 @@ shared preferences.
         .then((docSnapshot) {
       docSnapshot.docs.forEach((element) {
         var userName = firstName + " " + lastName;
-        var evalFirstName = element.data()['firstName'].toString();
-        var evalLastName = element.data()['lastName'].toString();
+
         var evaluatee = element.data()["selectedEvaluatee"];
-        if (evaluatee == firstName + " " + lastName) {
+        if (evaluatee == userName) {
           var activity = element.data()["activity"] ?? " ";
           var evaluationDate = element.data()["evaluationDate"] ?? " ";
           var debriefValue = element.data()["debriefValue"] ?? "10";
