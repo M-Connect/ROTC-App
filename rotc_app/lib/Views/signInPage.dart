@@ -6,7 +6,6 @@ import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
 import 'package:rotc_app/Views/passwords/ForgotPassword.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../main.dart';
 
 /*
