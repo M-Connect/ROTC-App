@@ -5,7 +5,7 @@ import 'package:rotc_app/app/peerReview/singleUserToEvaluate.dart';
 
 void main(){
   testWidgets("Select a single user to evaluate", (WidgetTester tester) async {
-    /*final searchBox = find.byKey(ValueKey("searchBox"));
+    final searchBox = find.byKey(ValueKey("searchBox"));
     final pressButton = find.byKey(ValueKey("pressButton"));
     
     await tester.pumpWidget(MaterialApp(home: SingleUserToEvaluate()));
@@ -14,6 +14,6 @@ void main(){
     await tester.pump();
 
     expect(find.text("Kyle Serruys"),findsOneWidget);
-*/
+
   });
 }
