@@ -6,13 +6,34 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../main.dart';
 
+/*
+Authors: Kyle Serruys and Sawyer Kisha
 
+The lineGraphs.dart shows the current user's
+evaluation data in the form of a line graph
+which can then be selected to show each of the
+specific evaluations information,
+
+Adds up the evaluations score for a total score
+and pairs it with the activity associated with
+it.
+ */
+
+/*
+evaluation class that contains:
+evaluationId
+activity
+evaluationDate
+totalScore
+username
+ */
 class Evaluation {
   String evaluationId;
   String activity;
   DateTime evaluationDate;
   double totalScore;
   String userName;
+
 
   Evaluation(String evaluationId, String activity, DateTime evaluationDate,
       double totalScore, String userName) {
@@ -24,6 +45,9 @@ class Evaluation {
   }
 }
 
+/*
+creating the lineGraph state
+ */
 class LineGraph extends StatefulWidget {
   @override
   _LineGraphState createState() => _LineGraphState();
@@ -37,6 +61,9 @@ class _LineGraphState extends State<LineGraph> {
   String lastName = "";
   String uid = "";
 
+  /*
+  the line graph points -SK
+   */
   List<FlSpot> spots = [
     new FlSpot(0, 0),
     new FlSpot(1, 0),
@@ -45,6 +72,10 @@ class _LineGraphState extends State<LineGraph> {
     new FlSpot(4, 0),
   ];
 
+  /*
+  getting database data
+  initing -SK
+   */
   @override
   void initState() {
     super.initState();
@@ -73,6 +104,9 @@ class _LineGraphState extends State<LineGraph> {
     });
   }
 
+  /*
+  Getting the evaluation data for the current user -SK
+   */
   getEvaluationInfo() async {
     var data = await FirebaseFirestore.instance
         .collection('peerEvaluation')
@@ -110,6 +144,9 @@ class _LineGraphState extends State<LineGraph> {
     setState(() {});
   }
 
+  /*
+  Creating the points on the lien graph -SK
+   */
   createSpots() {
     var evalsToUse = evaluationList.take(5).toList();
 
@@ -124,7 +161,9 @@ class _LineGraphState extends State<LineGraph> {
       }
     }
   }
-
+/*
+getting the activity
+ */
   getTitleOfActivity(int i) {
     if (i < evaluationList.length) {
       return evaluationList.elementAt(i).activity;
@@ -132,6 +171,9 @@ class _LineGraphState extends State<LineGraph> {
     return "";
   }
 
+  /*
+  Building the Ui of the linegraph
+   */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -199,8 +241,9 @@ class _LineGraphState extends State<LineGraph> {
     );
   }
 
-  //LINE GRAPH DOWN BELOW ;)
-
+/*
+Getting the information into the line graph -KS / SK
+ */
   LineChartData myLineChart() {
     return LineChartData(
       gridData: FlGridData(
