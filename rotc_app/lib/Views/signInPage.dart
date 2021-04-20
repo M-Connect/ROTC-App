@@ -136,12 +136,12 @@ class _SignInViewState extends State<SignInView> {
                       try {
                         UserCredential user = await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
-                                email: email.text, password: password.text);
+                            email: email.text, password: password.text);
 
                         var currentUser =
-                            await FirebaseAuth.instance.currentUser;
+                        await FirebaseAuth.instance.currentUser;
                         SharedPreferences prefs =
-                            await SharedPreferences.getInstance();
+                        await SharedPreferences.getInstance();
 
                         var uid = currentUser.uid;
 
@@ -162,6 +162,12 @@ class _SignInViewState extends State<SignInView> {
                         await prefs.setString('email', currentUser.email);
                         await prefs.setString(
                             'isCadre', data['isCadre'].toString());
+
+                        if (user.user.emailVerified) {
+                          Navigator.pushNamed(context, '/homePage');
+                        } else {
+                          _verifyEmailAlertDialog(context);
+                        }
                       } catch (e) {
                         alertDialog(context);
                       }

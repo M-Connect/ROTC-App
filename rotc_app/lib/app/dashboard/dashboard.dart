@@ -200,7 +200,7 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             background: Container(
-                              color: Colors.lightBlue[50],
+                              color: Colors.red[200],
                               child: Icon(Icons.cancel),
                             ),
                           );
