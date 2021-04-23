@@ -102,7 +102,6 @@ class _ProfileState extends State<Profile> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final TextStyle ranking =
       TextStyle(fontSize: 18, fontWeight: FontWeight.normal);
-  final _textController = TextEditingController();
 
   /* Declaring and initializing needed fields related to user info:
   Their first name = fName

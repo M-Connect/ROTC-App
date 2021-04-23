@@ -58,7 +58,7 @@ class LineGraph extends StatefulWidget {
 }
 
 class _LineGraphState extends State<LineGraph> {
-  var evaluationList = new List<Evaluation>();
+  var evaluationList = <Evaluation>[];
 
   SharedPreferences prefs;
   String firstName = "";

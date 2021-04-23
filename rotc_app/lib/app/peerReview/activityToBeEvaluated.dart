@@ -18,18 +18,18 @@ class ActivityToBeEvaluated extends StatefulWidget {
 }
 
 class ActivityToBeEvaluatedState extends State<ActivityToBeEvaluated> {
-  var activityList = new List<String>();
-  var filteredActivityList = new List<String>();
-  var selectedActivityList = new List<String>();
+  var activityList = <String>[];
+  var filteredActivityList = <String>[];
+  var selectedActivityList = <String>[];
   // var tempList = new List<String>();
-  var pagedActivityList = new List<String>();
+  var pagedActivityList = <String>[];
 
   bool isListEmpty = true;
   bool loading = false;
 
   TextEditingController activitySearch = TextEditingController();
 
-  List<ElevatedButton> activityButtonList = new List<ElevatedButton>();
+  List<ElevatedButton> activityButtonList = <ElevatedButton>[];
   String activity = "";
   int activitesPerPage = 12;
   int page = 1;

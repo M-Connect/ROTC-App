@@ -50,7 +50,6 @@ class _ProcessPinState extends State<ProcessPin> {
   }
 
   String pass;
-  final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
   TextEditingController _emailPin = TextEditingController();
   _passwordReset(String mail) async {

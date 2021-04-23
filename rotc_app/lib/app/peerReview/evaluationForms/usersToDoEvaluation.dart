@@ -17,15 +17,15 @@ class UsersToDoEvaluation extends StatefulWidget {
 }
 
 class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
-  var userList = new List<String>();
-  var usersToEvaluate = new List<String>();
-  var usersToDoEvaluation = new List<String>();
-  var selectUsersList = new List<String>();
-  var filteredUserList = new List<String>();
-  var tempList = new List<String>();
+  var userList = <String>[];
+  var usersToEvaluate = <String>[];
+  var usersToDoEvaluation = <String>[];
+  var selectUsersList = <String>[];
+  var filteredUserList = <String>[];
+  var tempList = <String>[];
   var usersSelected = new Map<String,bool>();
-  var selectedActivityList = new List<String>();
-  var pagedUserList = new List<String>();
+  var selectedActivityList = <String>[];
+  var pagedUserList = <String>[];
   String selectedActivityString;
   String evalDate = "";
 
@@ -36,7 +36,7 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
   TextEditingController userSearch = TextEditingController();
   ScrollController scrollController;
 
-  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
+  List<ElevatedButton> userButtonList = <ElevatedButton>[];
   String firstName = "";
   String lastName = "";
 
@@ -49,8 +49,8 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
   Author:  Kyle Serruys
   This adds the appropriate information to our userEvaluationRequests database.
   */
-  Future<void> userEvaluationRequests() {
-    var selectedUsers = new List<String>();
+  Future<void> userEvaluationRequests() async {
+    var selectedUsers = <String>[];
     usersSelected.entries.forEach((entry) {
       if(entry.value) {
         selectedUsers.add(entry.key);

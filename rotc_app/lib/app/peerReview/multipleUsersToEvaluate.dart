@@ -19,18 +19,18 @@ class MultipleUsersToEvaluate extends StatefulWidget {
 }
 
 class MultipleUsersToEvaluateState extends State<MultipleUsersToEvaluate> {
-  var userList = new List<String>();
-  var usersToEvaluate = new List<String>();
-  var selectUsersList = new List<String>();
-  var filteredUserList = new List<String>();
+  var userList = <String>[];
+  var usersToEvaluate = <String>[];
+  var selectUsersList = <String>[];
+  var filteredUserList = <String>[];
   //var tempList = new List<String>();
   var usersSelected = new Map<String, bool>();
-  var pagedUserList = new List<String>();
+  var pagedUserList = <String>[];
 
   TextEditingController userSearch = TextEditingController();
   ScrollController scrollController;
 
-  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
+  List<ElevatedButton> userButtonList = <ElevatedButton>[];
   String firstName = "";
   String lastName = "";
   int namesPerPage = 12;

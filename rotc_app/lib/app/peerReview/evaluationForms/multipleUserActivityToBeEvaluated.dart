@@ -21,12 +21,12 @@ class MultipleUserActivityToBeEvaluated extends StatefulWidget {
 }
 
 class MultipleUserActivityToBeEvaluatedState extends State<MultipleUserActivityToBeEvaluated> {
-  var activityList = new List<String>();
-  var filteredActivityList = new List<String>();
-  var selectedActivityList = new List<String>();
-  var tempList = new List<String>();
+  var activityList = <String>[];
+  var filteredActivityList = <String>[];
+  var selectedActivityList = <String>[];
+  var tempList = <String>[];
 
-  var pagedActivityList = new List<String>();
+  var pagedActivityList = <String>[];
 
   bool isListEmpty = true;
   bool isCadre = false;
@@ -34,7 +34,7 @@ class MultipleUserActivityToBeEvaluatedState extends State<MultipleUserActivityT
 
   TextEditingController activitySearch = TextEditingController();
 
-  List<ElevatedButton> activityButtonList = new List<ElevatedButton>();
+  List<ElevatedButton> activityButtonList = <ElevatedButton>[];
   String activity = "";
   int activitesPerPage = 12;
   int page = 1;
@@ -75,8 +75,9 @@ This is the function used to take a snapshot of our collection and import the
 first and last name of the users in the users collection.
   */
   getActivityInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var data = await FirebaseFirestore.instance
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+    //var data =
+    await FirebaseFirestore.instance
         .collection('activity').orderBy("activity")
         .get()
         .then((docSnapshot) {
@@ -105,7 +106,8 @@ first and last name of the users in the users collection.
 
   getPagedActivitiesV2() async {
     if (page == 1) {
-      var data = await FirebaseFirestore.instance
+      //var data =
+      await FirebaseFirestore.instance
           .collection("activity")
           .limit(activitesPerPage)
           .get()
@@ -115,7 +117,8 @@ first and last name of the users in the users collection.
         });
       });
     } else {
-      var skipThese = await FirebaseFirestore.instance
+      //var skipThese =
+      await FirebaseFirestore.instance
           .collection('activity')
           .orderBy("activity")
           .limit((page - 1) * activitesPerPage)
@@ -124,7 +127,8 @@ first and last name of the users in the users collection.
         var startAfterThis =
         documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
-        var nextPage = await FirebaseFirestore.instance
+        //var nextPage =
+        await FirebaseFirestore.instance
             .collection('activity')
             .orderBy("activity")
             .startAfterDocument(startAfterThis)

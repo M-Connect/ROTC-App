@@ -35,14 +35,14 @@ selected user
 selected string
  */
 class PeerReviewFormState extends State<PeerReviewForm> {
-  var userList = new List<String>();
+  var userList = <String>[];
   Map evaluationMap = new Map();
-  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
-  var selectUsersList = new List<String>();
+  List<ElevatedButton> userButtonList = <ElevatedButton>[];
+  var selectUsersList = <String>[];
   String selectedActivityString = "";
   String selectedUserString = "";
 
-  var statusList = new List<String>();
+  var statusList = <String>[];
   String firstName = "";
   String lastName = "";
   String status = "";

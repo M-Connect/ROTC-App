@@ -38,12 +38,12 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
 
 
 
-  var userList = new List<String>();
-  var usersToEvaluate = new List<String>();
-  var usersToDoEvaluation = new List<String>();
-  var selectUsersList = new List<String>();
-  var filteredUserList = new List<String>();
-  var tempList = new List<String>();
+  var userList = <String>[];
+  var usersToEvaluate = <String>[];
+  var usersToDoEvaluation = <String>[];
+  var selectUsersList = <String>[];
+  var filteredUserList = <String>[];
+  var tempList = <String>[];
   var usersSelected = new Map<String, bool>();
   var emailCheck;
 

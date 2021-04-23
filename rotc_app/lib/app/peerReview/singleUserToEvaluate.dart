@@ -19,15 +19,15 @@ class SingleUserToEvaluate extends StatefulWidget {
 }
 
 class SingleUserToEvaluateState extends State<SingleUserToEvaluate> {
-  var userList = new List<String>();
-  var filteredUserList = new List<String>();
-  var selectedUserList = new List<String>();
-  var pagedUserList = new List<String>();
+  var userList = <String>[];
+  var filteredUserList = <String>[];
+  var selectedUserList = <String>[];
+  var pagedUserList = <String>[];
 
   TextEditingController userSearch = TextEditingController();
   ScrollController scrollController;
 
-  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
+  List<ElevatedButton> userButtonList = <ElevatedButton>[];
   String firstName = "";
   String lastName = "";
   int namesPerPage = 12;

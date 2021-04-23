@@ -34,8 +34,8 @@ class _ConfirmationState extends State<Confirmation> {
   String lastName = "";
   String email = "";
   String activity = "";
-  var selectedUserList = new List<String>();
-  var selectedActivityList = new List<String>();
+  var selectedUserList = <String>[];
+  var selectedActivityList = <String>[];
   String selectedActivityString;
   String selectedUserString;
   String evalDate = "";
@@ -53,7 +53,7 @@ class _ConfirmationState extends State<Confirmation> {
     evaluationRequests.doc(evaluationId).update({"status": "Complete"});
   }
 
-  Future<void> peerEvaluation() {
+  Future<void> peerEvaluation() async {
     evaluation.doc(evaluationId).set({
       "firstName": firstName,
       "lastName": lastName,
@@ -405,8 +405,8 @@ class _ConfirmationState extends State<Confirmation> {
   }
 }
 
-Future <void> alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+Future <void> alertDialog(BuildContext context) async {
+  Widget button = ElevatedButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pop(context);

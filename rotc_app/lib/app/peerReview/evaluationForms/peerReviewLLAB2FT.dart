@@ -25,7 +25,7 @@ class _PeerReviewLLAB2FTState extends State<PeerReviewLLAB2FT> {
 
 class PeerReviewLLAB2FT extends StatelessWidget {
 */
-  var selectedActivityList = new List<String>();
+  var selectedActivityList = <String>[];
   String selectedActivityString;
   String evalDate = "";
   @override

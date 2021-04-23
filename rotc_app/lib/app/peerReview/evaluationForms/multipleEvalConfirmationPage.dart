@@ -15,9 +15,9 @@ class MultipleEvalConfirmationPage extends StatefulWidget {
 }
 
 class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationPage> {
-  var usersToEvaluate = new List<String>();
+  var usersToEvaluate = <String>[];
   String userDisplayString;
-  var selectedActivityList = new List<String>();
+  var selectedActivityList = <String>[];
   String selectedActivityString;
 
   //DateTime evaluationCompletionDate = DateTime.now();

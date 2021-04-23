@@ -20,10 +20,10 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
-  var userList = new List<String>();
-  var statusList = new List<String>();
-  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
-  var selectUsersList = new List<String>();
+  var userList = <String>[];
+  var statusList = <String>[];
+  List<ElevatedButton> userButtonList = <ElevatedButton>[];
+  var selectUsersList = <String>[];
 
 String firstName = "";
 String lastName = "";
