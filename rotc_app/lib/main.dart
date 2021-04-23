@@ -29,7 +29,6 @@ import 'Views/welcomePage.dart';
 import 'app/Schedule/CalendarTasks.dart';
 import 'app/Schedule/evaluationCalendarTasks.dart';
 import 'app/home.dart';
-import 'app/peerReview/graphs/barGraphs.dart';
 import 'app/peerReview/graphs/lineGraphs.dart';
 import 'app/peerReview/evaluationForms/communication.dart';
 import 'app/peerReview/evaluationForms/confirmation.dart';

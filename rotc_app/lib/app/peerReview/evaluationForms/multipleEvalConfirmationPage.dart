@@ -266,8 +266,8 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
 }
 
 
-Future <void> alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+Future <void> alertDialog(BuildContext context) async {
+  Widget button = ElevatedButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pop(context);

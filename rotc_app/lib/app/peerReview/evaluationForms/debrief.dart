@@ -289,8 +289,8 @@ bool isCadre = false;
   }
 }
 
-Future<void> alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+Future<void> alertDialog(BuildContext context) async {
+  Widget button = ElevatedButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pop(context);

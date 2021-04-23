@@ -5,8 +5,6 @@ import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../main.dart';
-import '../../home.dart';
-import '../peerReviewLanding.dart';
 /*
  Author: Kyle Serruys
   This class is the Leadership page of our peer review
@@ -298,8 +296,8 @@ class LeadershipState extends State<Leadership> {
     );
   }
 }
-Future<void> alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+Future<void> alertDialog(BuildContext context) async {
+  Widget button = ElevatedButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pop(context);

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:animated_button/animated_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
-import '../peerReviewLanding.dart';
 
 /*
  Author: Kyle Serruys

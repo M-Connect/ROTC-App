@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-import 'passwords/ForgotPassword.dart';
 
 class ConfirmToRegister extends StatefulWidget {
   @override
@@ -12,8 +10,6 @@ class ConfirmToRegister extends StatefulWidget {
 
 class _ConfirmToRegisterState extends State<ConfirmToRegister> {
   String pass;
-  final _formKey = GlobalKey<FormState>();
-  final _auth = FirebaseAuth.instance;
   TextEditingController _emailPin = TextEditingController();
   String pin;
   _registrationPin() async {

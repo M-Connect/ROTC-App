@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 /*
  Author: Christine Thomas
@@ -50,7 +48,7 @@ class RegistrationView extends StatelessWidget {
   // Future<void>. Once the user hits close on the alert dialog they will be re-routed to the
   // Sign-In Page.
   Future<void> _verifyEmailAlertDialog(BuildContext context) async {
-    Widget button = FlatButton(
+    Widget button = ElevatedButton(
       child: Text("Close"),
       onPressed: () {
         Navigator.pushNamed(context, '/signIn');
@@ -394,8 +392,8 @@ class RegistrationView extends StatelessWidget {
 This method shows an alert dialog to the user if their inputted email address is already taken.
 Upon hitting OK they will be routed back to the Registration Page.
  */
-Future<void> alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+Future<void> alertDialog(BuildContext context) async {
+  Widget button = ElevatedButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pushNamed(context, '/register');

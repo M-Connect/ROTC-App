@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis_auth/auth.dart';
 import 'package:googleapis_auth/auth_io.dart';
-import 'package:intl/intl.dart';
 import 'package:rotc_app/Views/GCEventsList.dart';
-import 'package:rotc_app/app/Schedule/Models/gc_event_model.dart';
 import 'package:rotc_app/app/Schedule/ViewModels/gc_event_ops.dart';
 import 'package:rotc_app/services/gc_client_codes.dart';
 import 'package:rotc_app/services/gc_event_crud.dart';
@@ -425,7 +422,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
           controller: _taskController,
         ),
         actions: <Widget>[
-          FlatButton(
+          ElevatedButton(
             child: Text(
               "ADD",
               style: TextStyle(

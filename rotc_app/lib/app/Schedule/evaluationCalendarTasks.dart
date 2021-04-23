@@ -235,7 +235,7 @@ class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
                 controller: _taskController,
               ),
               actions: <Widget>[
-                FlatButton(
+                ElevatedButton(
                   child: Text(
                     "ADD",
                     style: TextStyle(
@@ -268,8 +268,8 @@ class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
                   Author:  Kyle Serruys
                   alerts the user if they tried selecting a day in the past
                    */
-Future<void> alertDialog2(BuildContext context) {
-  Widget button = FlatButton(
+Future<void> alertDialog2(BuildContext context) async {
+  Widget button = ElevatedButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pop(context);

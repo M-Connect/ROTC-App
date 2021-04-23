@@ -4,7 +4,6 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../main.dart';
-import '../peerReviewLanding.dart';
 /*
  Author: Kyle Serruys
   This class is the Execution page of our peer review
@@ -287,8 +286,8 @@ bool isCadre = false;
     );
   }
 }
-Future<void> alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+Future<void> alertDialog(BuildContext context) async {
+  Widget button = ElevatedButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pop(context);
