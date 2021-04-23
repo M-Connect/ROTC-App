@@ -47,7 +47,7 @@ class LeadershipState extends State<Leadership> {
   }
 
   initSliderValue() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  /*  SharedPreferences prefs = */ await SharedPreferences.getInstance();
     setState(() {
       sliderChange(leadershipValue);
     });

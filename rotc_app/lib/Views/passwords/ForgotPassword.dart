@@ -56,8 +56,8 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
   }
 
   getUserInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var data = await FirebaseFirestore.instance
+   /* SharedPreferences prefs =*/ await SharedPreferences.getInstance();
+   /*var data = */await FirebaseFirestore.instance
         .collection('users')
         .orderBy("email")
         .get()

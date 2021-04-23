@@ -61,7 +61,7 @@ bool isCadre = false;
     });
   }
   initSliderValue() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  /*  SharedPreferences prefs = */ await SharedPreferences.getInstance();
     setState(() {
       sliderChange(executionValue);
     });

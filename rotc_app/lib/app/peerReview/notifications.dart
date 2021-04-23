@@ -119,8 +119,8 @@ This gets the UID, first name, last name, and activity from Shared Preferences
 
 */
   getUserInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var data = await FirebaseFirestore.instance
+/*    SharedPreferences prefs = */ await SharedPreferences.getInstance();
+  /*  var data = */ await FirebaseFirestore.instance
         .collection('userEvaluationRequests')
     .orderBy("status")
         .get()

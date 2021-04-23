@@ -119,7 +119,7 @@ shared preferences.
  */
 
   getEvaluationInfo() async {
-    var data = await FirebaseFirestore.instance
+await FirebaseFirestore.instance
         .collection('peerEvaluation')
         .get()
         .then((docSnapshot) {

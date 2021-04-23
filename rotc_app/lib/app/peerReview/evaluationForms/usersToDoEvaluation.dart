@@ -187,7 +187,7 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
  */
   getPagedUsersV2() async {
     if (page == 1) {
-      var data = await FirebaseFirestore.instance
+     /* var data = */ await FirebaseFirestore.instance
           .collection('users')
           .orderBy("firstName")
           .limit(namesPerPage)
@@ -200,7 +200,7 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
         });
       });
     } else {
-      var skipThese = await FirebaseFirestore.instance
+   /*   var skipThese = */ await FirebaseFirestore.instance
           .collection('users')
           .orderBy("firstName")
           .limit((page - 1) * namesPerPage)
@@ -209,7 +209,7 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
         var startAfterThis =
         documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
-        var nextPage = await FirebaseFirestore.instance
+/*        var nextPage = */ await FirebaseFirestore.instance
             .collection('users')
             .orderBy("firstName")
             .startAfterDocument(startAfterThis)

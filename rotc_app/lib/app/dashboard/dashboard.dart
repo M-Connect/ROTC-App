@@ -53,7 +53,7 @@ class _DashboardState extends State<Dashboard> {
 
   deleteTasks(task) {
     try {
-      var url = userURLInput.toString();
+      /*var url = userURLInput.toString();*/
       DocumentReference docRef =
           FirebaseFirestore.instance.collection('dashboardUrls').doc(task);
 

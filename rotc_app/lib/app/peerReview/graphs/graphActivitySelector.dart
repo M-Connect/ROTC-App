@@ -59,8 +59,8 @@ This is the function used to take a snapshot of our collection and import the
 first and last name of the users in the users collection.
   */
   getActivityInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var data = await FirebaseFirestore.instance
+/*    SharedPreferences prefs = */ await SharedPreferences.getInstance();
+/*    var data = */ await FirebaseFirestore.instance
         .collection('peerEvaluation')
         .get()
         .then((docSnapshot) {

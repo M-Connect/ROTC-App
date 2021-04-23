@@ -93,7 +93,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
    */
   getBool() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var currentUser = await FirebaseAuth.instance.currentUser;
+   /* var currentUser = await FirebaseAuth.instance.currentUser; */
 
     setState(() {
       isCadre = prefs.getString('isCadre') == 'true';
@@ -130,8 +130,8 @@ status
 -SK
  */
   getUserInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var data = await FirebaseFirestore.instance
+/*    SharedPreferences prefs = */ await SharedPreferences.getInstance();
+  /*  var data = */await FirebaseFirestore.instance
         .collection('userEvaluationRequests')
         .get()
         .then((docSnapshot) {

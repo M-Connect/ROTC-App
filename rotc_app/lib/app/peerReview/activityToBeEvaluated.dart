@@ -76,8 +76,8 @@ This is the function used to take a snapshot of our collection and import the
 first and last name of the users in the users collection.
   */
   getActivityInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var data = await FirebaseFirestore.instance
+/*    SharedPreferences prefs = */ await SharedPreferences.getInstance();
+/*    var data = */ await FirebaseFirestore.instance
         .collection('activity')
         .orderBy("activity")
         .get()
@@ -116,7 +116,7 @@ first and last name of the users in the users collection.
  */
   getPagedActivitiesV2() async {
     if (page == 1) {
-      var data = await FirebaseFirestore.instance
+    /*  var data = */ await FirebaseFirestore.instance
           .collection("activity")
           .limit(activitesPerPage)
           .get()
@@ -126,7 +126,7 @@ first and last name of the users in the users collection.
         });
       });
     } else {
-      var skipThese = await FirebaseFirestore.instance
+    /*  var skipThese = */ await FirebaseFirestore.instance
           .collection('activity')
           .orderBy("activity")
           .limit((page - 1) * activitesPerPage)
@@ -135,7 +135,7 @@ first and last name of the users in the users collection.
         var startAfterThis =
             documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
-        var nextPage = await FirebaseFirestore.instance
+    /*    var nextPage = */ await FirebaseFirestore.instance
             .collection('activity')
             .orderBy("activity")
             .startAfterDocument(startAfterThis)
