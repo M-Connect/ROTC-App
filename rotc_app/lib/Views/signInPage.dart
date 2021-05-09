@@ -138,7 +138,7 @@ class _SignInViewState extends State<SignInView> {
                                 email: email.text, password: password.text);
 
                         var currentUser =
-                            await FirebaseAuth.instance.currentUser;
+                            FirebaseAuth.instance.currentUser;
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
 

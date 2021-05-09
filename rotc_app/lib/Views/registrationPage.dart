@@ -363,7 +363,7 @@ class RegistrationView extends StatelessWidget {
                                 .createUserWithEmailAndPassword(
                                     email: email.text, password: password.text);
                             var currentUser =
-                                await FirebaseAuth.instance.currentUser;
+                                FirebaseAuth.instance.currentUser;
 
                             await userRegistration(currentUser.uid);
                             await newUser.user.sendEmailVerification();

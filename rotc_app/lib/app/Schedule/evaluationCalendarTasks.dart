@@ -65,12 +65,6 @@ class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
     });
   }
 
-  _savedBoolValue() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      prefs.setBool('completed', true);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -222,46 +216,6 @@ class _EvaluationCalendarTasksState extends State<EvaluationCalendarTasks> {
     );
   }
 
-  _addTaskDialog() async {
-    await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              backgroundColor: Colors.white,
-              title: Text("Add a new task or event"),
-              content: TextField(
-                /*  decoration: InputDecoration(
-                  hintText: 'Title'
-                ),*/
-                controller: _taskController,
-              ),
-              actions: <Widget>[
-                ElevatedButton(
-                  child: Text(
-                    "ADD",
-                    style: TextStyle(
-                        color: Colors.pinkAccent, fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () {
-                    if (_taskController.text.isEmpty) return;
-                    setState(() {
-                      if (_tasks[_calendarController.selectedDay] != null) {
-                        _tasks[_calendarController.selectedDay]
-                            .add(_taskController.text);
-                      } else {
-                        _tasks[_calendarController.selectedDay] = [
-                          _taskController.text
-                        ];
-                      }
-
-                      prefs.setString("events", json.encode(encodeMap(_tasks)));
-                      _taskController.clear();
-                      Navigator.pop(context);
-                    });
-                  },
-                )
-              ],
-            ));
-  }
 }
 
 /*

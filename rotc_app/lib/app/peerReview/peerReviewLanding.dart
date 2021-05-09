@@ -111,7 +111,7 @@ class PeerReviewFormState extends State<PeerReviewForm> {
    */
   getUserToEvaluateData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var currentUser = await FirebaseAuth.instance.currentUser;
+    var currentUser = FirebaseAuth.instance.currentUser;
 
     setState(() {
       uid = currentUser.uid;

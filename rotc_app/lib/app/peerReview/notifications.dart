@@ -103,7 +103,7 @@ This gets the UID, first name, last name, and activity from Shared Preferences
 */
   getUserToEvaluateData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var currentUser = await FirebaseAuth.instance.currentUser;
+    var currentUser = FirebaseAuth.instance.currentUser;
 
     setState(() {
       uid = currentUser.uid;

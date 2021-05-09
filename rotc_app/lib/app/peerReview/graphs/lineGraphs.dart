@@ -104,7 +104,7 @@ Calls the database and sets the current user's UID, first name and last name int
 shared preferences.
  */
   getUserToEvaluateData() async {
-    var currentUser = await FirebaseAuth.instance.currentUser;
+    var currentUser = FirebaseAuth.instance.currentUser;
     setState(() {
       uid = currentUser.uid;
       firstName = prefs.getString('firstName');
