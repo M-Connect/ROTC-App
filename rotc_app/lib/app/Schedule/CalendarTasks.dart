@@ -291,7 +291,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
                                         child: Text(
                                           'ADD A TASK',
                                           style: TextStyle(
-                                            color: Colors.purpleAccent,
+                                            color: Colors.black,
                                             fontSize: 12,
                                           ),
                                         ),
@@ -426,7 +426,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
             child: Text(
               "ADD",
               style: TextStyle(
-                  color: Colors.purpleAccent, fontWeight: FontWeight.bold),
+                  color: Colors.white, fontWeight: FontWeight.bold),
             ),
 
             // If no text return
