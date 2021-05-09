@@ -200,10 +200,13 @@ class _ProfileState extends State<Profile> {
                       size: 30,
                       color: Colors.cyan,
                     ),
+
+
+                    //TODO I disabled until the graph error can be fixed. - MRU
                     onPressed: () {
-                      navigation.currentState.pushNamed('/barGraph');
+                      /*navigation.currentState.pushNamed('/barGraph'); */
                     },
-                    tooltip: 'Click here to view your stats.',
+                    //tooltip: 'Click here to view your stats.',
                   ),
                 ],
               ),
