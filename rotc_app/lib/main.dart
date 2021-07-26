@@ -38,7 +38,6 @@ import 'app/peerReview/evaluationForms/peerReviewLLAB2FT.dart';
 import 'app/peerReview/evaluationForms/planning.dart';
 import 'app/peerReview/evaluationForms/execution.dart';
 import 'app/peerReview/evaluationForms/debrief.dart';
-import 'app/peerReview/graphs/lineTest.dart';
 import 'app/peerReview/notifications.dart';
 import 'app/peerReview/multipleUsersToEvaluate.dart';
 import 'app/peerReview/singleUserToEvaluate.dart';
@@ -79,7 +78,7 @@ class MConnect extends StatelessWidget {
           title: 'Firebase Authentication',
           navigatorKey: navigation,
           home: Authenticate(),
-          initialRoute: '/LineTest',
+          initialRoute: '/',
           routes: {
             '/signIn': (context) => SignInView(),
             '/welcomePage': (context) => WelcomeView(),
@@ -93,7 +92,6 @@ class MConnect extends StatelessWidget {
             '/peerReviewLanding': (context) => PeerReviewForm(),
             '/graphActivitySelector': (context) => GraphActivitySelector(),
             '/peerReview': (context) => SingleUserToEvaluate(),
-            '/LineTest': (context) => LineTest(), //for testing line graph
             '/peerReviewRequest': (context) => MultipleUsersToEvaluate(),
             '/peerReviewLLAB2FT': (context) => PeerReviewLLAB2FT(),
             '/planning': (context) => Planning(),
