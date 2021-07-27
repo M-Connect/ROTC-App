@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rotc_app/Views/signInPage.dart';
-//import 'package:rotc_app/Views/welcomePage.dart';
-import 'package:rotc_app/app/peerReview/peerReviewLanding.dart';
 
 /*
 * Author: Mac-Rufus Umeokolo

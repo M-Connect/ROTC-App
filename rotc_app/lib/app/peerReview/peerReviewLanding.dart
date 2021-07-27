@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animated_button/animated_button.dart';
 import 'package:flutter/material.dart';
+import 'package:rotc_app/app/peerReview/graphs/lineGraphs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 
@@ -166,6 +167,8 @@ status
   Widget build(BuildContext context) {
     const TextStyle tabTextStyle =
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
+    final double EvaluationTextSize = 21;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -211,7 +214,7 @@ status
                               Text(
                                 '     Start Evaluation',
                                 style: TextStyle(
-                                  fontSize: 25,
+                                  fontSize: EvaluationTextSize,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -251,7 +254,7 @@ status
                               Text(
                                 '   Request Evaluation',
                                 style: TextStyle(
-                                  fontSize: 25,
+                                  fontSize: EvaluationTextSize,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -295,7 +298,7 @@ status
                               Text(
                                 ' View Evaluation Profile',
                                 style: TextStyle(
-                                  fontSize: 25,
+                                  fontSize: EvaluationTextSize,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -341,7 +344,7 @@ status
                                     statusList.length.toString() +
                                     ' Pending Requests',
                                 style: TextStyle(
-                                  fontSize: 23,
+                                  fontSize: EvaluationTextSize,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
                                 ),

@@ -29,7 +29,6 @@ import 'Views/welcomePage.dart';
 import 'app/Schedule/CalendarTasks.dart';
 import 'app/Schedule/evaluationCalendarTasks.dart';
 import 'app/home.dart';
-import 'app/peerReview/graphs/barGraphs.dart';
 import 'app/peerReview/graphs/lineGraphs.dart';
 import 'app/peerReview/evaluationForms/communication.dart';
 import 'app/peerReview/evaluationForms/confirmation.dart';
@@ -79,7 +78,7 @@ class MConnect extends StatelessWidget {
           title: 'Firebase Authentication',
           navigatorKey: navigation,
           home: Authenticate(),
-          initialRoute: '/LineTest',
+          initialRoute: '/',
           routes: {
             '/signIn': (context) => SignInView(),
             '/welcomePage': (context) => WelcomeView(),
