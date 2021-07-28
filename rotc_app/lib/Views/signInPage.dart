@@ -60,7 +60,7 @@ class _SignInViewState extends State<SignInView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 100.0, bottom: 1.0),
                   child: Text(
-                    'M-Connect',
+                    'Teknụzụ',
                     style: TextStyle(
                       fontSize: 40.0,
                       color: Colors.blueAccent,
