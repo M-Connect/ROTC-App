@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
-import 'package:rotc_app/Views/passwords/ForgotPassword.dart';
 import 'package:rotc_app/Views/passwords/resetfunction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 /*
