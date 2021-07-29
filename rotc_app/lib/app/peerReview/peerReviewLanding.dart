@@ -67,9 +67,9 @@ class PeerReviewFormState extends State<PeerReviewForm> {
   Firebase peereval and evalrequest collections -SK
    */
   CollectionReference evaluation =
-      FirebaseFirestore.instance.collection('peerEvaluation');
+  FirebaseFirestore.instance.collection('peerEvaluation');
   CollectionReference evaluationRequests =
-      FirebaseFirestore.instance.collection('userEvaluationRequests');
+  FirebaseFirestore.instance.collection('userEvaluationRequests');
 
   /*
   Getting the evaluation data from database. -SK
@@ -81,9 +81,9 @@ class PeerReviewFormState extends State<PeerReviewForm> {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        var activity = documentSnapshot.data()["activity"] ?? " ";
+        var activity = documentSnapshot["activity"] ?? " ";
         prefs.setString('activity', activity);
-        var evaluatee = documentSnapshot.data()["evaluatee"] ?? " ";
+        var evaluatee = documentSnapshot["evaluatee"] ?? " ";
         prefs.setString('evaluatee', evaluatee);
       }
     });
@@ -307,7 +307,7 @@ status
                           ),
                         ),
                         onPressed: () {
-                          navigation.currentState.pushNamed('/lineGraph');
+                          navigation.currentState.pushNamed('/lineGraph1');
                         },
                         width: 350,
                         height: 100,

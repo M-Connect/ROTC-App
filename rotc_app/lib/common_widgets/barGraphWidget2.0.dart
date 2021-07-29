@@ -68,19 +68,19 @@ class _BarGraphv2State extends State<BarGraphv2> {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        var debrief = documentSnapshot.data()["debrief"] ?? " ";
-        var debriefValue = documentSnapshot.data()["debriefValue"] ?? "10";
-        var communication = documentSnapshot.data()["communication"] ?? " ";
+        var debrief = documentSnapshot["debrief"] ?? " ";
+        var debriefValue = documentSnapshot["debriefValue"] ?? "10";
+        var communication = documentSnapshot["communication"] ?? " ";
         var communicationValue =
-            documentSnapshot.data()["communicationValue"] ?? "10";
-        var execution = documentSnapshot.data()["execution"] ?? " ";
-        var executionValue = documentSnapshot.data()["executionValue"] ?? "10";
-        var leadership = documentSnapshot.data()["leadership"] ?? " ";
+            documentSnapshot["communicationValue"] ?? "10";
+        var execution = documentSnapshot["execution"] ?? " ";
+        var executionValue = documentSnapshot["executionValue"] ?? "10";
+        var leadership = documentSnapshot["leadership"] ?? " ";
         var leadershipValue =
-            documentSnapshot.data()["leadershipValue"] ?? "10";
-        var planning = documentSnapshot.data()["planning"] ?? " ";
-        var planningValue = documentSnapshot.data()["planningValue"] ?? "10";
-        var activity = documentSnapshot.data()["activity"] ?? " ";
+            documentSnapshot["leadershipValue"] ?? "10";
+        var planning = documentSnapshot["planning"] ?? " ";
+        var planningValue = documentSnapshot["planningValue"] ?? "10";
+        var activity = documentSnapshot["activity"] ?? " ";
         prefs.setString('debrief', debrief);
         prefs.setString('debriefValue', debriefValue);
         prefs.setString('communication', communication);

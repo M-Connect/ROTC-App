@@ -55,24 +55,24 @@ This retrieves the evaluation data from the database and stores into shared pref
     SharedPreferences prefs = await SharedPreferences.getInstance();
     evaluationRequests.doc(evaluationId).get().then((DocumentSnapshot documentSnapshot) {
       if(documentSnapshot.exists){
-       var activity = documentSnapshot.data()["activity"]?? " ";
+       var activity = documentSnapshot["activity"]?? " ";
        prefs.setString('activity', activity);
-       var evaluatee = documentSnapshot.data()["evaluatee"]?? " ";
+       var evaluatee = documentSnapshot["evaluatee"]?? " ";
        prefs.setString('evaluatee', evaluatee);
       }
     });
     evaluation.doc(evaluationId).get().then((DocumentSnapshot documentSnapshot){
       if(documentSnapshot.exists){
-       var debrief = documentSnapshot.data()["debrief"]?? " ";
-       var debriefValue = documentSnapshot.data()["debriefValue"]?? "0";
-       var communication = documentSnapshot.data()["communication"]?? " ";
-       var communicationValue = documentSnapshot.data()["communicationValue"]?? "0";
-       var execution = documentSnapshot.data()["execution"]?? " ";
-       var executionValue = documentSnapshot.data()["executionValue"]?? "0";
-       var leadership = documentSnapshot.data()["leadership"]?? " ";
-       var leadershipValue = documentSnapshot.data()["leadershipValue"]?? "0";
-       var planning = documentSnapshot.data()["planning"]?? " ";
-       var planningValue = documentSnapshot.data()["planningValue"]?? "0";
+       var debrief = documentSnapshot["debrief"]?? " ";
+       var debriefValue = documentSnapshot["debriefValue"]?? "0";
+       var communication = documentSnapshot["communication"]?? " ";
+       var communicationValue = documentSnapshot["communicationValue"]?? "0";
+       var execution = documentSnapshot["execution"]?? " ";
+       var executionValue = documentSnapshot["executionValue"]?? "0";
+       var leadership = documentSnapshot["leadership"]?? " ";
+       var leadershipValue = documentSnapshot["leadershipValue"]?? "0";
+       var planning = documentSnapshot["planning"]?? " ";
+       var planningValue = documentSnapshot["planningValue"]?? "0";
        prefs.setString('debrief', debrief);
        prefs.setString('debriefValue', debriefValue);
        prefs.setString('communication', communication);

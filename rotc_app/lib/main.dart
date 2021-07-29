@@ -29,6 +29,7 @@ import 'Views/welcomePage.dart';
 import 'app/Schedule/CalendarTasks.dart';
 import 'app/Schedule/evaluationCalendarTasks.dart';
 import 'app/home.dart';
+import 'app/peerReview/graphs/lineGraph1.dart';
 import 'app/peerReview/graphs/lineGraphs.dart';
 import 'app/peerReview/evaluationForms/communication.dart';
 import 'app/peerReview/evaluationForms/confirmation.dart';
@@ -118,6 +119,8 @@ class MConnect extends StatelessWidget {
             '/executionGraphViewPage': (context) => ExecutionGraphViewPage(),
             '/planningGraphViewPage': (context) => PlanningGraphViewPage(),
             '/lineGraph': (context) => LineGraph(),
+
+            '/lineGraph1': (context) => LineGraph1(),
             '/ProcessPin': (context) => ProcessPin(),
             '/ConfirmToRegister': (context) => ConfirmToRegister(),
           }),

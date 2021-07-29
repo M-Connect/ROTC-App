@@ -346,7 +346,6 @@ Getting the information into the line graph -KS / SK
       maxY: 100,
       lineTouchData: LineTouchData(
         enabled: true,
-        fullHeightTouchLine: false,
         handleBuiltInTouches: true,
 
         /*
