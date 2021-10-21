@@ -281,8 +281,8 @@ Getting the information into the line graph -KS / SK
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          getTextStyles: (value) => const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+          /*getTextStyles: (value) => const TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),*/
           getTitles: (value) {
             switch (value.toInt()) {
               case 0:
@@ -302,11 +302,11 @@ Getting the information into the line graph -KS / SK
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (value) => const TextStyle(
+          /*getTextStyles: (value) => const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 14,
-          ),
+          ),*/
           getTitles: (value) {
             switch (value.toInt()) {
               case 0:

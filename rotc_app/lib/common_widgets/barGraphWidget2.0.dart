@@ -291,11 +291,11 @@ This populates the five bars to the apropriate values from the database
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 30,
-          getTextStyles: (value) => const TextStyle(
+          /*getTextStyles: (value) => const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 16,
-          ),
+          ),*/
           margin: 16,
           getTitles: (double value) {
             switch (value.toInt()) {
@@ -316,11 +316,11 @@ This populates the five bars to the apropriate values from the database
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (value) => const TextStyle(
+          /*getTextStyles: (value) => const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             fontSize: 16,
-          ),
+          ),*/
           interval: 5,
           getTitles: (double value) => '${value.toInt()}',
           margin: 16,
