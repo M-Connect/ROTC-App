@@ -157,100 +157,104 @@ class _DashboardState extends State<Dashboard> {
             ],
           ),
         ),
-        child: Scrollbar(
-          controller: ScrollController(),
-          child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection("dashboardUrls")
-                  .snapshots(),
-              builder: (context, snapshots) {
-                if (snapshots.connectionState == ConnectionState.active) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: snapshots.data.docs.length,
-                    itemBuilder: (context, index) {
-                      DocumentSnapshot docSnap = snapshots.data.docs[index];
+        child: Column(
+          children: [
+            Scrollbar(
+              controller: ScrollController(),
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection("dashboardUrls")
+                      .snapshots(),
+                  builder: (context, snapshots) {
+                    if (snapshots.connectionState == ConnectionState.active) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshots.data.docs.length,
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot docSnap = snapshots.data.docs[index];
 
-                      if (isCadre == true) {
-                        return Dismissible(
-                          onDismissed: (swipe) {
-                            if (isCadre == true) {
-                              deleteTasks(docSnap['DocumentName']);
-                              deleteTasks(docSnap['DocumentURL']);
-                            }
-                          },
-                          direction: DismissDirection.endToStart,
-                          key: Key(docSnap['DocumentName']),
-                          child: Card(
-                            color: Colors.lightBlue[50],
-                            elevation: 2,
-                            margin: EdgeInsets.all(8),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                docSnap['DocumentName'],
-                              ),
-                              onTap: () {
-                                _launchURL(docSnap['DocumentURL']);
+                          if (isCadre == true) {
+                            return Dismissible(
+                              onDismissed: (swipe) {
+                                if (isCadre == true) {
+                                  deleteTasks(docSnap['DocumentName']);
+                                  deleteTasks(docSnap['DocumentURL']);
+                                }
                               },
-                            ),
-                          ),
-                          background: Container(
-                            color: Colors.red[200],
-                            child: Icon(Icons.cancel),
-                          ),
-                        );
-                      } else
-                        return Dismissible(
-                          onDismissed: (none) {},
-                          direction: DismissDirection.none,
-                          key: Key(docSnap['DocumentName']),
-                          child: Card(
-                            color: Colors.lightBlue[50],
-                            elevation: 2,
-                            margin: EdgeInsets.all(8),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                docSnap['DocumentName'],
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
+                              direction: DismissDirection.endToStart,
+                              key: Key(docSnap['DocumentName']),
+                              child: Card(
+                                color: Colors.lightBlue[50],
+                                elevation: 2,
+                                margin: EdgeInsets.all(8),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: ListTile(
+                                  title: Text(
+                                    docSnap['DocumentName'],
+                                  ),
+                                  onTap: () {
+                                    _launchURL(docSnap['DocumentURL']);
+                                  },
                                 ),
                               ),
-                              onTap: () {
-                                _launchURL(docSnap['DocumentURL']);
-                              },
-                            ),
-                          ),
-                        );
-                    },
-                  );
-                } else if (snapshots.connectionState ==
-                    ConnectionState.waiting) {
-                  return Container(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                } else {
-                  return Container(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.warning_amber_sharp),
+                              background: Container(
+                                color: Colors.red[200],
+                                child: Icon(Icons.cancel),
+                              ),
+                            );
+                          } else
+                            return Dismissible(
+                              onDismissed: (none) {},
+                              direction: DismissDirection.none,
+                              key: Key(docSnap['DocumentName']),
+                              child: Card(
+                                color: Colors.lightBlue[50],
+                                elevation: 2,
+                                margin: EdgeInsets.all(8),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: ListTile(
+                                  title: Text(
+                                    docSnap['DocumentName'],
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    _launchURL(docSnap['DocumentURL']);
+                                  },
+                                ),
+                              ),
+                            );
+                        },
+                      );
+                    } else if (snapshots.connectionState ==
+                        ConnectionState.waiting) {
+                      return Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
                         ),
-                        Text('Error loading tasks.')
-                      ],
-                    ),
-                  );
-                }
-              }),
+                      );
+                    } else {
+                      return Container(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(Icons.warning_amber_sharp),
+                            ),
+                            Text('Error loading tasks.')
+                          ],
+                        ),
+                      );
+                    }
+                  }),
+            ),
+          ],
         ),
       ),
     );
