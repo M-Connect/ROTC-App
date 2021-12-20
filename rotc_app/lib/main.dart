@@ -43,6 +43,7 @@ import 'app/peerReview/notifications.dart';
 import 'app/peerReview/multipleUsersToEvaluate.dart';
 import 'app/peerReview/singleUserToEvaluate.dart';
 import 'app/peerReview/peerReviewLanding.dart';
+import 'app/portal/portalHomePage.dart';
 import 'app/profile/profile.dart';
 /*
   Author: Kyle Serruys
@@ -79,7 +80,7 @@ class MConnect extends StatelessWidget {
           title: 'Firebase Authentication',
           navigatorKey: navigation,
           home: Authenticate(),
-          initialRoute: '/',
+          initialRoute: '/PortalHomePage',
           routes: {
             '/signIn': (context) => SignInView(),
             '/welcomePage': (context) => WelcomeView(),
@@ -123,6 +124,7 @@ class MConnect extends StatelessWidget {
             '/lineGraph1': (context) => LineGraph1(),
             '/ProcessPin': (context) => ProcessPin(),
             '/ConfirmToRegister': (context) => ConfirmToRegister(),
+            '/PortalHomePage': (context) => PortalHomePage(),
           }),
     );
   }

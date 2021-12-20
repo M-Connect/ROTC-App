@@ -53,9 +53,8 @@ class _ProcessPinState extends State<ProcessPin> {
   final _auth = FirebaseAuth.instance;
   TextEditingController _emailPin = TextEditingController();
   _passwordReset(String mail) async {
-
     try {
-     // _formKey.currentState.save();
+      // _formKey.currentState.save();
       await _auth.sendPasswordResetEmail(email: mail.trim());
 
       Navigator.of(context).pop();
@@ -64,9 +63,9 @@ class _ProcessPinState extends State<ProcessPin> {
         MaterialPageRoute(builder: (context) {
           return AlertDialog(
             title: Text("Password Reset"),
-            content: Text("An email has been sent out. Use link to reset password."),
+            content:
+                Text("An email has been sent out. Use link to reset password."),
             actions: [
-
               TextButton(
                 onPressed: () {
                   //Navigator.of(context).pop();
@@ -81,13 +80,11 @@ class _ProcessPinState extends State<ProcessPin> {
             message: widget.message,
           );*/
         }),
-
       );
     } catch (e) {
       print(e);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,16 +92,13 @@ class _ProcessPinState extends State<ProcessPin> {
     var email = pinAndEmail[0].replaceAll("[", "");
     var pin = pinAndEmail[1].replaceAll("]", "");
 
-
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Reset Password Pin Field'),
       ),
       body: Form(
         // ignore: deprecated_member_use
-        autovalidate: true,
-        //  key: key,
+        autovalidateMode: AutovalidateMode.always,
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -158,17 +152,18 @@ class _ProcessPinState extends State<ProcessPin> {
                       child: ElevatedButton(
                         child: Text('Reset'),
                         onPressed: () async {
-                          final snackBar = SnackBar(content: Text('Pin not found!'));
+                          final snackBar =
+                              SnackBar(content: Text('Pin not found!'));
 
                           if (_emailPin.text.trim() == pin.trim()) {
                             print(_emailPin.text);
                             _passwordReset(email);
 
                             return 0;
-                          }
-                          else {
+                          } else {
                             print(_emailPin.text + "a" + pin);
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
                           }
                         },
                       ),

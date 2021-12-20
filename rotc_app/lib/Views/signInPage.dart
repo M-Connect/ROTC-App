@@ -51,7 +51,7 @@ class _SignInViewState extends State<SignInView> {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(25.0),
         child: Form(
-          autovalidate: true,
+          autovalidateMode: AutovalidateMode.always,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -136,12 +136,12 @@ class _SignInViewState extends State<SignInView> {
                       try {
                         UserCredential user = await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
-                            email: email.text, password: password.text);
+                                email: email.text, password: password.text);
 
                         var currentUser =
-                        await FirebaseAuth.instance.currentUser;
+                            await FirebaseAuth.instance.currentUser;
                         SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
+                            await SharedPreferences.getInstance();
 
                         var uid = currentUser.uid;
 

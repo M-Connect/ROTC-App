@@ -91,8 +91,7 @@ class RegistrationView extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Form(
             // ignore: deprecated_member_use
-            autovalidate: true,
-            //  key: key,
+            autovalidateMode: AutovalidateMode.always,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,

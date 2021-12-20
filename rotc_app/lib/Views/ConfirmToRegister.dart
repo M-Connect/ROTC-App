@@ -44,8 +44,7 @@ class _ConfirmToRegisterState extends State<ConfirmToRegister> {
       ),
       body: Form(
         // ignore: deprecated_member_use
-        autovalidate: true,
-        //  key: key,
+        autovalidateMode: AutovalidateMode.always,
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -95,13 +94,13 @@ class _ConfirmToRegisterState extends State<ConfirmToRegister> {
                   Container(
                     child: Padding(
                       padding:
-                      const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
+                          const EdgeInsets.fromLTRB(247.0, 12.0, 0.0, 30.0),
                       child: ElevatedButton(
                         child: Text('Start Registration'),
                         onPressed: () async {
                           _registrationPin();
                           final snackBar =
-                          SnackBar(content: Text('Pin not found!'));
+                              SnackBar(content: Text('Pin not found!'));
 
                           if (_emailPin.text.trim() == pin.trim()) {
                             print("Registration pin match found");
