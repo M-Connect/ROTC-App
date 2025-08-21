@@ -267,7 +267,7 @@ sendMail() async {
 Sending the alert to the user
  */
 alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+  Widget button = TextButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.of(context).pop();
@@ -292,7 +292,7 @@ alertDialog(BuildContext context) {
 Verifying the alert dialog
  */
 Future<void> _verifyEmailAlertDialog(BuildContext context) async {
-  Widget button = FlatButton(
+  Widget button = TextButton(
     child: Text("close"),
     onPressed: () {
       Navigator.pushNamed(context, '/signIn');

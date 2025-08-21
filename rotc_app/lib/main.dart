@@ -51,7 +51,7 @@ import 'app/profile/profile.dart';
   Co-Author: Mac-Rufus Umeokolo
  */
 
-final GlobalKey<NavigatorState> navigation = new GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> navigation = GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

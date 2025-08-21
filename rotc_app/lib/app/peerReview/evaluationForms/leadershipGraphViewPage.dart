@@ -58,8 +58,8 @@ class _LeadershipGraphViewPageState extends State<LeadershipGraphViewPage> {
         automaticallyImplyLeading: false,
         title: Text('Leadership'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: () {
               alertSignOut(context);
             },
@@ -128,7 +128,7 @@ class _LeadershipGraphViewPageState extends State<LeadershipGraphViewPage> {
                   enabled: false,
                   textAlignVertical: TextAlignVertical.top,
                   maxLength: 160,
-                  maxLengthEnforced: true,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   maxLines: 10,
                   controller: leadership,
                   decoration: const InputDecoration(

@@ -17,16 +17,16 @@ class GraphActivitySelector extends StatefulWidget {
 }
 
 class GraphActivitySelectorState extends State<GraphActivitySelector> {
-  var activityList = new List<String>();
-  var filteredActivityList = new List<String>();
-  var selectedActivityList = new List<String>();
-  var tempList = new List<String>();
+  var activityList = <String>[];
+  var filteredActivityList = <String>[];
+  var selectedActivityList = <String>[];
+  var tempList = <String>[];
 
   bool isListEmpty = true;
 
   TextEditingController activitySearch = TextEditingController();
 
-  List<ElevatedButton> activityButtonList = new List<ElevatedButton>();
+  List<ElevatedButton> activityButtonList = <ElevatedButton>[];
   String activity = "";
 
   CollectionReference activities = FirebaseFirestore.instance.collection('activity');
@@ -82,7 +82,7 @@ first and last name of the users in the users collection.
     activityButtonList.clear();
     for (int i = 0; i < filteredActivityList.length; i++) {
       activityButtonList.add(
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             selectedActivityList.add(filteredActivityList[i]);
@@ -93,7 +93,7 @@ first and last name of the users in the users collection.
           child: Container(
               width: 200,
               height: 40,
-              child: new Row(
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[Text(filteredActivityList[i])])),
         ),
@@ -135,8 +135,8 @@ first and last name of the users in the users collection.
         ),
         title: Text('Evaluation Activity'),
         actions: <Widget>[
-          new IconButton(
-              icon: new Icon(Icons.logout),
+          IconButton(
+              icon: Icon(Icons.logout),
               onPressed: () {
                 alertSignOut(context);
               }),

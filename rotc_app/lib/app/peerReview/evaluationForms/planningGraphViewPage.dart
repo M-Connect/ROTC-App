@@ -56,8 +56,8 @@ class _PlanningGraphViewPageState extends State<PlanningGraphViewPage> {
         automaticallyImplyLeading: false,
         title: Text('Planning'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: () {
               alertSignOut(context);
             },
@@ -126,7 +126,7 @@ class _PlanningGraphViewPageState extends State<PlanningGraphViewPage> {
                   enabled: false,
                   textAlignVertical: TextAlignVertical.top,
                   maxLength: 160,
-                  maxLengthEnforced: true,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   maxLines: 10,
                   controller: planning,
                   decoration: const InputDecoration(

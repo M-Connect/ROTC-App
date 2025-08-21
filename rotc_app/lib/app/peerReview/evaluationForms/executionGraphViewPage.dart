@@ -56,8 +56,8 @@ class _ExecutionGraphViewPageState extends State<ExecutionGraphViewPage> {
         automaticallyImplyLeading: false,
         title: Text('Execution'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: () {
               alertSignOut(context);
             },
@@ -126,7 +126,7 @@ class _ExecutionGraphViewPageState extends State<ExecutionGraphViewPage> {
                   enabled: false,
                   textAlignVertical: TextAlignVertical.top,
                   maxLength: 160,
-                  maxLengthEnforced: true,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   maxLines: 10,
                   controller: execution,
                   decoration: const InputDecoration(

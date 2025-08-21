@@ -19,15 +19,15 @@ class SingleUserToEvaluate extends StatefulWidget {
 }
 
 class SingleUserToEvaluateState extends State<SingleUserToEvaluate> {
-  var userList = new List<String>();
-  var filteredUserList = new List<String>();
-  var selectedUserList = new List<String>();
-  var pagedUserList = new List<String>();
+  var userList = <String>[];
+  var filteredUserList = <String>[];
+  var selectedUserList = <String>[];
+  var pagedUserList = <String>[];
 
   TextEditingController userSearch = TextEditingController();
   ScrollController scrollController;
 
-  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
+  List<ElevatedButton> userButtonList = <ElevatedButton>[];
   String firstName = "";
   String lastName = "";
   int namesPerPage = 12;
@@ -160,7 +160,7 @@ first and last name of the users in the users collection.
     userButtonList.clear();
     for (int i = 0; i < filteredUserList.length; i++) {
       userButtonList.add(
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             selectedUserList.add(filteredUserList[i]);
@@ -171,7 +171,7 @@ first and last name of the users in the users collection.
           child: Container(
               width: 200,
               height: 40,
-              child: new Row(
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[Text(filteredUserList[i])])),
         ),
@@ -236,11 +236,11 @@ first and last name of the users in the users collection.
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return Dialog(
-                  child: new Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       showProgressIndicator(true),
-                      new Text("Loading"),
+                      Text("Loading"),
                     ],
                   ),
                 );
@@ -273,8 +273,8 @@ first and last name of the users in the users collection.
         ),
         title: Text('Evaluation Request'),
         actions: <Widget>[
-          new IconButton(
-              icon: new Icon(Icons.logout),
+          IconButton(
+              icon: Icon(Icons.logout),
               onPressed: () {
                 alertSignOut(context);
               }),

@@ -60,8 +60,8 @@ class CommunicationGraphViewPageState
       appBar: AppBar(
         title: Text('Communication'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: () {
               alertSignOut(context);
             },
@@ -130,7 +130,7 @@ class CommunicationGraphViewPageState
                   enabled: false,
                   textAlignVertical: TextAlignVertical.top,
                   maxLength: 160,
-                  maxLengthEnforced: true,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   maxLines: 10,
                   controller: communication,
                   decoration: const InputDecoration(

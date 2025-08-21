@@ -20,15 +20,15 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
-  var userList = new List<String>();
-  var statusList = new List<String>();
-  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
-  var selectUsersList = new List<String>();
+  var userList = <String>[];
+  var statusList = <String>[];
+  List<ElevatedButton> userButtonList = <ElevatedButton>[];
+  var selectUsersList = <String>[];
 
 String firstName = "";
 String lastName = "";
 String uid = "";
-Map evaluationMap = new Map();
+Map evaluationMap = <dynamic, dynamic>{};
 String status = "";
 String selectedActivityString = "";
 String selectedUserString = "";
@@ -155,7 +155,7 @@ This gets the UID, first name, last name, and activity from Shared Preferences
   List<Widget> makeButtonsList(){
     for (int i = 0; i < userList.length; i++) {
       userButtonList
-          .add(new ElevatedButton(onPressed: () async {
+          .add(ElevatedButton(onPressed: () async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
         var userKey =  uid + userList[i] + i.toString();
@@ -191,8 +191,8 @@ This gets the UID, first name, last name, and activity from Shared Preferences
         backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         title: Text('Evaluation Confirmation'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: () {
               alertSignOut(context);
             },

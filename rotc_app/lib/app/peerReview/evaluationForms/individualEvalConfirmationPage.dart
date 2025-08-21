@@ -25,8 +25,8 @@ class IndividualEvalConfirmationPage extends StatefulWidget {
 
 class _IndividualEvalConfirmationPageState
     extends State<IndividualEvalConfirmationPage> {
-  var selectedUserList = new List<String>();
-  var selectedActivityList = new List<String>();
+  var selectedUserList = <String>[];
+  var selectedActivityList = <String>[];
   String selectedActivityString;
   String selectedUserString;
   String text;
@@ -103,8 +103,8 @@ class _IndividualEvalConfirmationPageState
         ),
         title: Text('Request Confirmation'),
         actions: <Widget>[
-          new IconButton(
-              icon: new Icon(Icons.logout),
+          IconButton(
+              icon: Icon(Icons.logout),
               onPressed: () {
                 alertSignOut(context);
               }),
@@ -290,7 +290,7 @@ class _IndividualEvalConfirmationPageState
 }
 
 Future<void> alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+  Widget button = TextButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pop(context);

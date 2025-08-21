@@ -58,7 +58,7 @@ class LineGraph extends StatefulWidget {
 }
 
 class _LineGraphState extends State<LineGraph> {
-  var evaluationList = new List<Evaluation>();
+  var evaluationList = <Evaluation>[];
 
   SharedPreferences prefs;
   String firstName = "";
@@ -200,8 +200,8 @@ This lists the activity titles along the X axis on the line graph
         ),
         title: Text('Line Graph View'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: () {},
           ),
         ],

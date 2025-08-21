@@ -26,7 +26,7 @@ class _PeerReviewLLAB2FTState extends State<PeerReviewLLAB2FT> {
 
 class PeerReviewLLAB2FT extends StatelessWidget {
 */
-  var selectedActivityList = new List<String>();
+  var selectedActivityList = <String>[];
   String selectedActivityString;
   String evalDate = "";
   @override
@@ -68,8 +68,8 @@ class PeerReviewLLAB2FT extends StatelessWidget {
         ),
         title: Text('Evaluation'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: (){},
           ),
         ],

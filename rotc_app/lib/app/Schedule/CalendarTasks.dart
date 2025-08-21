@@ -425,7 +425,7 @@ class _CalendarTasksState extends State<CalendarTasks> {
           controller: _taskController,
         ),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(
               "ADD",
               style: TextStyle(

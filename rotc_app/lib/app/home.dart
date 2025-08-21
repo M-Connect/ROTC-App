@@ -80,8 +80,8 @@ class _HomeView extends State<HomeView> {
         ),
         automaticallyImplyLeading: false,
         actions: <Widget>[
-          new IconButton(
-              icon: new Icon(Icons.logout),
+          IconButton(
+              icon: Icon(Icons.logout),
               onPressed: () {
                 alertSignOut(context);
               }),

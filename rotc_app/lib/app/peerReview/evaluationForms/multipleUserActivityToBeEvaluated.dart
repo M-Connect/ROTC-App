@@ -21,12 +21,12 @@ class MultipleUserActivityToBeEvaluated extends StatefulWidget {
 }
 
 class MultipleUserActivityToBeEvaluatedState extends State<MultipleUserActivityToBeEvaluated> {
-  var activityList = new List<String>();
-  var filteredActivityList = new List<String>();
-  var selectedActivityList = new List<String>();
-  var tempList = new List<String>();
+  var activityList = <String>[];
+  var filteredActivityList = <String>[];
+  var selectedActivityList = <String>[];
+  var tempList = <String>[];
 
-  var pagedActivityList = new List<String>();
+  var pagedActivityList = <String>[];
 
   bool isListEmpty = true;
   bool isCadre = false;
@@ -34,7 +34,7 @@ class MultipleUserActivityToBeEvaluatedState extends State<MultipleUserActivityT
 
   TextEditingController activitySearch = TextEditingController();
 
-  List<ElevatedButton> activityButtonList = new List<ElevatedButton>();
+  List<ElevatedButton> activityButtonList = <ElevatedButton>[];
   String activity = "";
   int activitesPerPage = 12;
   int page = 1;
@@ -149,7 +149,7 @@ first and last name of the users in the users collection.
     activityButtonList.clear();
     for (int i = 0; i < filteredActivityList.length; i++) {
       activityButtonList.add(
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             selectedActivityList.add(filteredActivityList[i]);
@@ -160,7 +160,7 @@ first and last name of the users in the users collection.
           child: Container(
               width: 200,
               height: 40,
-              child: new Row(
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[Text(filteredActivityList[i])])),
         ),
@@ -226,11 +226,11 @@ first and last name of the users in the users collection.
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return Dialog(
-                  child: new Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       showProgressIndicator(true),
-                      new Text("Loading"),
+                      Text("Loading"),
                     ],
                   ),
                 );
@@ -266,8 +266,8 @@ first and last name of the users in the users collection.
         ),
         title: Text('Evaluation Activity'),
         actions: <Widget>[
-          new IconButton(
-              icon: new Icon(Icons.logout),
+          IconButton(
+              icon: Icon(Icons.logout),
               onPressed: () {
                 alertSignOut(context);
               }),

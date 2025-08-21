@@ -50,7 +50,7 @@ class RegistrationView extends StatelessWidget {
   // Future<void>. Once the user hits close on the alert dialog they will be re-routed to the
   // Sign-In Page.
   Future<void> _verifyEmailAlertDialog(BuildContext context) async {
-    Widget button = FlatButton(
+    Widget button = TextButton(
       child: Text("Close"),
       onPressed: () {
         Navigator.pushNamed(context, '/signIn');
@@ -395,7 +395,7 @@ This method shows an alert dialog to the user if their inputted email address is
 Upon hitting OK they will be routed back to the Registration Page.
  */
 Future<void> alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+  Widget button = TextButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pushNamed(context, '/register');
