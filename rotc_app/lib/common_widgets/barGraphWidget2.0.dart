@@ -128,8 +128,8 @@ This populates the five bars to the apropriate values from the database
         ),
         title: Text('Evaluation Confirmation'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: () {},
           ),
         ],

@@ -191,8 +191,8 @@ This gets the UID, first name, last name, and activity from Shared Preferences
         backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         title: Text('Evaluation Confirmation'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: () {
               alertSignOut(context);
             },

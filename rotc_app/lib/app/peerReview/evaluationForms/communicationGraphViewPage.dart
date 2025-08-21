@@ -60,8 +60,8 @@ class CommunicationGraphViewPageState
       appBar: AppBar(
         title: Text('Communication'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: () {
               alertSignOut(context);
             },

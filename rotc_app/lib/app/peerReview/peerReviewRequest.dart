@@ -112,7 +112,7 @@ inting -SK
           child: Container(
               width: 200,
               height: 40,
-              child: new Row(
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(filteredUserList[i]),
@@ -156,8 +156,8 @@ inting -SK
         ),
         title: Text('Evaluatee Request'),
         actions: <Widget>[
-          new IconButton(
-              icon: new Icon(Icons.logout),
+          IconButton(
+              icon: Icon(Icons.logout),
               onPressed: () {
                 alertSignOut(context);
               }),

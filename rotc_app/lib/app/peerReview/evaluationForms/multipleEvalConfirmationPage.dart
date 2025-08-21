@@ -90,8 +90,8 @@ class _MultipleEvalConfirmationPageState extends State<MultipleEvalConfirmationP
         ),
         title: Text('Request'),
         actions: <Widget>[
-          new IconButton(
-              icon: new Icon(Icons.logout),
+          IconButton(
+              icon: Icon(Icons.logout),
               onPressed: () {
                 alertSignOut(context);
               }),

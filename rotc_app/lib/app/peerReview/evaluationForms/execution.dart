@@ -124,8 +124,8 @@ bool isCadre = false;
         ),
         title: Text('Execution'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: () {
               alertSignOut(context);
             },

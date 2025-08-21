@@ -59,8 +59,8 @@ class DebriefGraphViewPageState extends State<DebriefGraphViewPage> {
         automaticallyImplyLeading: false,
         title: Text('Debrief'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: () {
               alertSignOut(context);
             },

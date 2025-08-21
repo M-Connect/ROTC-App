@@ -68,8 +68,8 @@ class PeerReviewLLAB2FT extends StatelessWidget {
         ),
         title: Text('Evaluation'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: (){},
           ),
         ],

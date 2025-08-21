@@ -141,7 +141,7 @@ class MultipleUsersToEvaluateState extends State<MultipleUsersToEvaluate> {
           child: Container(
               width: 200,
               height: 40,
-              child: new Row(
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(filteredUserList[i]),
@@ -208,11 +208,11 @@ class MultipleUsersToEvaluateState extends State<MultipleUsersToEvaluate> {
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return Dialog(
-                  child: new Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       showProgressIndicator(true),
-                      new Text("Loading"),
+                      Text("Loading"),
                     ],
                   ),
                 );
@@ -247,8 +247,8 @@ class MultipleUsersToEvaluateState extends State<MultipleUsersToEvaluate> {
         ),
         title: Text('Evaluatee Request'),
         actions: <Widget>[
-          new IconButton(
-              icon: new Icon(Icons.logout),
+          IconButton(
+              icon: Icon(Icons.logout),
               onPressed: () {
                 alertSignOut(context);
               }),

@@ -160,7 +160,7 @@ first and last name of the users in the users collection.
           child: Container(
               width: 200,
               height: 40,
-              child: new Row(
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[Text(filteredActivityList[i])])),
         ),
@@ -226,11 +226,11 @@ first and last name of the users in the users collection.
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return Dialog(
-                  child: new Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       showProgressIndicator(true),
-                      new Text("Loading"),
+                      Text("Loading"),
                     ],
                   ),
                 );
@@ -266,8 +266,8 @@ first and last name of the users in the users collection.
         ),
         title: Text('Evaluation Activity'),
         actions: <Widget>[
-          new IconButton(
-              icon: new Icon(Icons.logout),
+          IconButton(
+              icon: Icon(Icons.logout),
               onPressed: () {
                 alertSignOut(context);
               }),

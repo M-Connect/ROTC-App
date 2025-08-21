@@ -258,7 +258,7 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
           child: Container(
               width: 200,
               height: 40,
-              child: new Row(
+              child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:<Widget>[
                     Text(filteredUserList[i]),
@@ -337,11 +337,11 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
               barrierDismissible: false,
               builder: (BuildContext context) {
                 return Dialog(
-                  child: new Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       showProgressIndicator(true),
-                      new Text("Loading"),
+                      Text("Loading"),
                     ],
                   ),
                 );
@@ -369,8 +369,8 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
         backgroundColor: isCadre ? Color(0xFF031f72) : Colors.blue,
         title: Text('Request Evaluator'),
         actions: <Widget>[
-          new IconButton(
-              icon: new Icon(Icons.logout),
+          IconButton(
+              icon: Icon(Icons.logout),
               onPressed: () {
                 alertSignOut(context);
               }),

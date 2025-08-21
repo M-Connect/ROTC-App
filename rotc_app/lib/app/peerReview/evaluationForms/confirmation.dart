@@ -168,8 +168,8 @@ class _ConfirmationState extends State<Confirmation> {
         automaticallyImplyLeading: false,
         title: Text('Evaluation Confirmation'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.logout),
+          IconButton(
+            icon: Icon(Icons.logout),
             onPressed: () {
               alertSignOut(context);
             },

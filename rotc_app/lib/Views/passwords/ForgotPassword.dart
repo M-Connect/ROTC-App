@@ -140,12 +140,12 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
 
 
   _passwordReset() async {
-    if(_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if(_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
     }
 
     try {
-      _formKey.currentState.save();
+      _formKey.currentState!.save();
       //await _auth.sendPasswordResetEmail(email: _email);
 
 
