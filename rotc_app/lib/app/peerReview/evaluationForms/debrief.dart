@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:rotc_app/common_widgets/buttonWidgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -213,7 +214,7 @@ bool isCadre = false;
                 child: TextFormField(
                   textAlignVertical: TextAlignVertical.top,
                   maxLength: 160,
-                  maxLengthEnforced: true,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   maxLines: 10,
                   controller: debrief,
                   decoration: const InputDecoration(
@@ -290,7 +291,7 @@ bool isCadre = false;
 }
 
 Future<void> alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+  Widget button = TextButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pop(context);

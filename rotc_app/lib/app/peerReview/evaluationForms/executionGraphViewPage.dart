@@ -126,7 +126,7 @@ class _ExecutionGraphViewPageState extends State<ExecutionGraphViewPage> {
                   enabled: false,
                   textAlignVertical: TextAlignVertical.top,
                   maxLength: 160,
-                  maxLengthEnforced: true,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   maxLines: 10,
                   controller: execution,
                   decoration: const InputDecoration(

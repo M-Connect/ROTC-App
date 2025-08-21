@@ -19,18 +19,18 @@ class MultipleUsersToEvaluate extends StatefulWidget {
 }
 
 class MultipleUsersToEvaluateState extends State<MultipleUsersToEvaluate> {
-  var userList = new List<String>();
-  var usersToEvaluate = new List<String>();
-  var selectUsersList = new List<String>();
-  var filteredUserList = new List<String>();
-  //var tempList = new List<String>();
-  var usersSelected = new Map<String, bool>();
-  var pagedUserList = new List<String>();
+  var userList = <String>[];
+  var usersToEvaluate = <String>[];
+  var selectUsersList = <String>[];
+  var filteredUserList = <String>[];
+  //var tempList = <String>[];
+  var usersSelected = <String, bool>{};
+  var pagedUserList = <String>[];
 
   TextEditingController userSearch = TextEditingController();
   ScrollController scrollController;
 
-  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
+  List<ElevatedButton> userButtonList = <ElevatedButton>[];
   String firstName = "";
   String lastName = "";
   int namesPerPage = 12;
@@ -126,7 +126,7 @@ class MultipleUsersToEvaluateState extends State<MultipleUsersToEvaluate> {
     userButtonList.clear();
     for (int i = 0; i < filteredUserList.length; i++) {
       userButtonList.add(
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () async {
             setState(() {
               toggleUser(filteredUserList[i]);
@@ -333,7 +333,7 @@ class MultipleUsersToEvaluateState extends State<MultipleUsersToEvaluate> {
 }
 
 Future <void> alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+  Widget button = TextButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pop(context);

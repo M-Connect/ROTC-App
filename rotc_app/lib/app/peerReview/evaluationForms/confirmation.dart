@@ -35,8 +35,8 @@ class _ConfirmationState extends State<Confirmation> {
   String lastName = "";
   String email = "";
   String activity = "";
-  var selectedUserList = new List<String>();
-  var selectedActivityList = new List<String>();
+  var selectedUserList = <String>[];
+  var selectedActivityList = <String>[];
   String selectedActivityString;
   String selectedUserString;
   String evalDate = "";
@@ -407,7 +407,7 @@ class _ConfirmationState extends State<Confirmation> {
 }
 
 Future <void> alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+  Widget button = TextButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pop(context);

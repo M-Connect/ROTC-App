@@ -33,16 +33,16 @@ usersSelected
 -SK
  */
 class PeerReviewRequestState extends State<PeerReviewRequest> {
-  var userList = new List<String>();
-  var usersToEvaluate = new List<String>();
-  var selectUsersList = new List<String>();
-  var filteredUserList = new List<String>();
-  var tempList = new List<String>();
-  var usersSelected = new Map<String, bool>();
+  var userList = <String>[];
+  var usersToEvaluate = <String>[];
+  var selectUsersList = <String>[];
+  var filteredUserList = <String>[];
+  var tempList = <String>[];
+  var usersSelected = <String, bool>{};
 
   TextEditingController userSearch = TextEditingController();
 
-  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
+  List<ElevatedButton> userButtonList = <ElevatedButton>[];
   String firstName = "";
   String lastName = "";
 
@@ -97,7 +97,7 @@ inting -SK
     userButtonList.clear();
     for (int i = 0; i < filteredUserList.length; i++) {
       userButtonList.add(
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () async {
             setState(() {
               toggleUser(filteredUserList[i]);

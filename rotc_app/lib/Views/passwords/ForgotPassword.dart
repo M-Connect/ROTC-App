@@ -40,13 +40,13 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
 
 
 
-  var userList = new List<String>();
-  var usersToEvaluate = new List<String>();
-  var usersToDoEvaluation = new List<String>();
-  var selectUsersList = new List<String>();
-  var filteredUserList = new List<String>();
-  var tempList = new List<String>();
-  var usersSelected = new Map<String, bool>();
+  var userList = <String>[];
+  var usersToEvaluate = <String>[];
+  var usersToDoEvaluation = <String>[];
+  var selectUsersList = <String>[];
+  var filteredUserList = <String>[];
+  var tempList = <String>[];
+  var usersSelected = <String, bool>{};
   var emailCheck;
 
   TextEditingController userSearch = TextEditingController();
@@ -225,7 +225,7 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
                 ],
               ),
               SizedBox(height: 20),
-              RaisedButton(
+              ElevatedButton(
                 child: Text('Send Email'),
                 onPressed: () async {
                   try {
@@ -241,7 +241,7 @@ class _ForgotPasswordState extends State<ForgotPasswordView> {
                   }
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text('Sign In'),
                 onPressed: () {
                   Navigator.pop(context, '/signIn');
@@ -303,7 +303,7 @@ print("$pin");
 }
 
 invalidAlertDialog(BuildContext context) {
-  Widget button = FlatButton(
+  Widget button = TextButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pushNamed(context, '/signIn');

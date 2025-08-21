@@ -130,7 +130,7 @@ class CommunicationGraphViewPageState
                   enabled: false,
                   textAlignVertical: TextAlignVertical.top,
                   maxLength: 160,
-                  maxLengthEnforced: true,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   maxLines: 10,
                   controller: communication,
                   decoration: const InputDecoration(

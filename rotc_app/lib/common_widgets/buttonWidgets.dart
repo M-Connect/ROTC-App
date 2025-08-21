@@ -10,12 +10,12 @@ will direct the user to the sign-in page
 */
 
 alertSignOut(BuildContext context) {
-  Widget button2 = FlatButton(
+  Widget button2 = TextButton(
       child: Text("No"),
       onPressed: () {
         Navigator.of(context, rootNavigator: true).pop();
       });
-  Widget button = FlatButton(
+  Widget button = TextButton(
       child: Text("Yes"),
       onPressed: () async {
         context.read<Auth>().signOut();

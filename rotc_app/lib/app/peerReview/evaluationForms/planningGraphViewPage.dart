@@ -126,7 +126,7 @@ class _PlanningGraphViewPageState extends State<PlanningGraphViewPage> {
                   enabled: false,
                   textAlignVertical: TextAlignVertical.top,
                   maxLength: 160,
-                  maxLengthEnforced: true,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   maxLines: 10,
                   controller: planning,
                   decoration: const InputDecoration(

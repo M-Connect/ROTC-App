@@ -18,15 +18,15 @@ class UsersToDoEvaluation extends StatefulWidget {
 }
 
 class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
-  var userList = new List<String>();
-  var usersToEvaluate = new List<String>();
-  var usersToDoEvaluation = new List<String>();
-  var selectUsersList = new List<String>();
-  var filteredUserList = new List<String>();
-  var tempList = new List<String>();
-  var usersSelected = new Map<String,bool>();
-  var selectedActivityList = new List<String>();
-  var pagedUserList = new List<String>();
+  var userList = <String>[];
+  var usersToEvaluate = <String>[];
+  var usersToDoEvaluation = <String>[];
+  var selectUsersList = <String>[];
+  var filteredUserList = <String>[];
+  var tempList = <String>[];
+  var usersSelected = <String,bool>{};
+  var selectedActivityList = <String>[];
+  var pagedUserList = <String>[];
   String selectedActivityString;
   String evalDate = "";
 
@@ -37,7 +37,7 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
   TextEditingController userSearch = TextEditingController();
   ScrollController scrollController;
 
-  List<ElevatedButton> userButtonList = new List<ElevatedButton>();
+  List<ElevatedButton> userButtonList = <ElevatedButton>[];
   String firstName = "";
   String lastName = "";
 
@@ -51,7 +51,7 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
   This adds the appropriate information to our userEvaluationRequests database.
   */
   Future<void> userEvaluationRequests() {
-    var selectedUsers = new List<String>();
+    var selectedUsers = <String>[];
     usersSelected.entries.forEach((entry) {
       if(entry.value) {
         selectedUsers.add(entry.key);
@@ -247,7 +247,7 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
     userButtonList.clear();
     for (int i = 0; i < filteredUserList.length; i++) {
       userButtonList.add(
-        new ElevatedButton(
+        ElevatedButton(
           onPressed: () async {
             setState(() {
               toggleUser(filteredUserList[i]);
@@ -456,7 +456,7 @@ class _UsersToDoEvaluationState extends State<UsersToDoEvaluation> {
 }
 
 Future <void> alertDialog(BuildContext context) {
-  Widget button = FlatButton(
+  Widget button = TextButton(
     child: Text("OK"),
     onPressed: () {
       Navigator.pop(context);

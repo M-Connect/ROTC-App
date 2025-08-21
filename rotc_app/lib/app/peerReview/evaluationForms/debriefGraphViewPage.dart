@@ -129,7 +129,7 @@ class DebriefGraphViewPageState extends State<DebriefGraphViewPage> {
                   enabled: false,
                   textAlignVertical: TextAlignVertical.top,
                   maxLength: 160,
-                  maxLengthEnforced: true,
+                  maxLengthEnforcement: MaxLengthEnforcement.enforced,
                   maxLines: 10,
                   controller: debrief,
                   decoration: const InputDecoration(
